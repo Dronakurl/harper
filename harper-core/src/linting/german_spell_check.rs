@@ -86,8 +86,17 @@ impl<T: Dictionary> GermanSpellCheck<T> {
                     continue;
                 }
 
+                // In German, compound noun parts are capitalized. Try both the original
+                // and capitalized versions of the next part.
+                let mut capitalized_next_part = next_part.to_vec();
+                if let Some(first_char) = capitalized_next_part.first_mut() {
+                    *first_char = first_char.to_uppercase().next().unwrap_or(*first_char);
+                }
+
                 if self.dictionary.contains_word(next_part)
+                    || self.dictionary.contains_word(&capitalized_next_part)
                     || self.is_valid_compound_segment(next_part, depth + 1, memo)
+                    || self.is_valid_compound_segment(&capitalized_next_part, depth + 1, memo)
                 {
                     valid = true;
                     break;
@@ -250,6 +259,16 @@ mod tests {
             assert!(
                 !recognizes_compound(word),
                 "{word} should not be treated as a valid compound"
+            );
+        }
+    }
+
+    #[test]
+    fn recognizes_simple_compounds() {
+        for word in ["Gartenhaus", "Arbeitsstelle", "Straßenrand"] {
+            assert!(
+                recognizes_compound(word),
+                "{word} should be treated as a valid compound"
             );
         }
     }
