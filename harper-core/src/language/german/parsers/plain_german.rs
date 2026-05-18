@@ -1,6 +1,6 @@
-use super::Parser;
 use crate::Token;
 use crate::lexing::{lex_english_token, lex_with};
+use crate::parsers::Parser;
 
 /// A parser that will attempt to lex as many tokens as possible,
 /// without discrimination and until the end of input.

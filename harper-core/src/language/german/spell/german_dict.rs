@@ -9,11 +9,11 @@ use std::sync::{Arc, LazyLock};
 
 use flate2::read::GzDecoder;
 
-use crate::spell::fst_dictionary::FstDictionary;
+use crate::spell::FstDictionary;
 use crate::{CharString, DictWordMetadata};
 
 static GERMAN_DICT: LazyLock<Arc<FstDictionary>> = LazyLock::new(|| {
-    let compressed = include_bytes!("../../german_dictionary.dict.gz");
+    let compressed = include_bytes!("../german_dictionary.dict.gz");
     let mut decoder = GzDecoder::new(&compressed[..]);
     let mut text = String::new();
     decoder

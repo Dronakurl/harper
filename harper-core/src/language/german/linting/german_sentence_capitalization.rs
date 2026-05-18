@@ -1,8 +1,5 @@
-use super::Suggestion;
-use super::{Lint, LintKind, Linter};
-use crate::TokenStringExt;
-use crate::document::Document;
-use crate::spell::Dictionary;
+use crate::linting::{Lint, LintKind, Linter, Suggestion};
+use crate::{TokenStringExt, document::Document, spell::Dictionary};
 
 /// A linter that checks to make sure the first word of each sentence is
 /// capitalized in German text.

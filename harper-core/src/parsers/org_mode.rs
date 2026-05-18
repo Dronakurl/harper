@@ -1,4 +1,5 @@
-use super::{Parser, PlainEnglish, PlainGerman};
+use super::{Parser, PlainEnglish};
+use crate::language::german::parsers::PlainGerman;
 use crate::{Span, Token, TokenKind};
 
 #[derive(Debug, PartialEq, Copy, Clone)]

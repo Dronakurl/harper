@@ -1,8 +1,5 @@
-use super::Suggestion;
-use super::{Lint, LintKind, Linter};
-use crate::TokenStringExt;
-use crate::document::Document;
-use crate::spell::Dictionary;
+use crate::linting::{Lint, LintKind, Linter, Suggestion};
+use crate::{TokenStringExt, document::Document, spell::Dictionary};
 
 /// A linter that checks to make sure German nouns are capitalized.
 /// In German, all nouns must be capitalized (not just proper nouns like in English).

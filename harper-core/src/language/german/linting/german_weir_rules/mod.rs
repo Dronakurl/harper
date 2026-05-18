@@ -1,4 +1,4 @@
-use super::LintGroup;
+use crate::linting::LintGroup;
 use crate::weir::WeirLinter;
 
 macro_rules! generate_boilerplate {

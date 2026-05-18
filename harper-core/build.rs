@@ -63,7 +63,7 @@ fn main() {
     // Locate source directories for Weir rules
     let manifest_dir = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap());
     let weir_rule_dir = manifest_dir.join("./src/linting/weir_rules");
-    let german_weir_rule_dir = manifest_dir.join("./src/linting/weir_rules/de");
+    let german_weir_rule_dir = manifest_dir.join("./src/language/german/linting/weir_rules/de");
     let out_dir = PathBuf::from(env::var("OUT_DIR").unwrap());
 
     // Generate test lists for both English and German Weir rules

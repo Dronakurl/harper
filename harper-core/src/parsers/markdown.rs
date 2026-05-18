@@ -2,7 +2,8 @@ use std::collections::VecDeque;
 
 use serde::{Deserialize, Serialize};
 
-use super::{Parser, PlainEnglish, PlainGerman};
+use super::{Parser, PlainEnglish};
+use crate::language::german::parsers::PlainGerman;
 use crate::{Span, Token, TokenKind, TokenStringExt, VecExt, offsets::build_byte_to_char_map};
 
 #[derive(Default, Clone, Debug, Copy)]

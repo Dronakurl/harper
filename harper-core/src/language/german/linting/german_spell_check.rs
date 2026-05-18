@@ -1,10 +1,7 @@
 use hashbrown::HashMap;
 
-use super::Suggestion;
-use super::{Lint, LintKind, Linter};
-use crate::TokenStringExt;
-use crate::document::Document;
-use crate::spell::Dictionary;
+use crate::linting::{Lint, LintKind, Linter, Suggestion};
+use crate::{TokenStringExt, document::Document, spell::Dictionary};
 
 const MIN_COMPOUND_PART_LEN: usize = 3;
 const MAX_COMPOUND_PARTS: usize = 5;
@@ -209,9 +206,9 @@ impl<T: Dictionary> Linter for GermanSpellCheck<T> {
 #[cfg(test)]
 mod tests {
     use super::GermanSpellCheck;
+    use crate::language::german::parsers::PlainGerman;
+    use crate::language::german::spell::curated_german_dictionary;
     use crate::linting::{LintGroup, Linter};
-    use crate::parsers::PlainGerman;
-    use crate::spell::curated_german_dictionary;
     use crate::{Dialect, Document};
 
     fn lint_text(text: &str) -> Vec<String> {
