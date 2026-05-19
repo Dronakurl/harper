@@ -1,15 +1,26 @@
 // Comprehensive German compound word edge case tests
 // Tests Fugen-s, Fugen-n, and complex compound word decomposition
 
+use harper_core::linting::german_spell_check::GermanSpellCheck;
 use harper_core::linting::{LintGroup, Linter};
 use harper_core::spell::curated_german_dictionary;
 use harper_core::{Dialect, Document};
 
+fn create_german_lint_group() -> LintGroup {
+    let dict = curated_german_dictionary();
+    let mut linter = LintGroup::new_curated(dict.clone(), Dialect::German);
+    // Add German-specific linters that are not yet in the curated group
+    linter.add("GermanSpellCheck", GermanSpellCheck::new(dict.clone()));
+    linter.config.set_rule_enabled("GermanSpellCheck", true);
+    // Disable the English SpellCheck linter since we're using GermanSpellCheck
+    linter.config.set_rule_enabled("SpellCheck", false);
+    linter
+}
+
 /// Test basic compound word decomposition (no Fugen-s/n)
 #[test]
 fn test_basic_compound_word() {
-    let dict = curated_german_dictionary();
-    let mut linter = LintGroup::new_curated(dict, Dialect::German);
+    let mut linter = create_german_lint_group();
 
     let text = "Das Gartenhaus ist groß.";
     let document = Document::new(
@@ -33,8 +44,7 @@ fn test_basic_compound_word() {
 /// Test Fugen-s compounds (most common type)
 #[test]
 fn test_fugen_s_compounds() {
-    let dict = curated_german_dictionary();
-    let mut linter = LintGroup::new_curated(dict, Dialect::German);
+    let mut linter = create_german_lint_group();
 
     // Test various Fugen-s compounds
     let test_cases = vec![
@@ -65,8 +75,7 @@ fn test_fugen_s_compounds() {
 /// Test Fugen-n compounds (less common but valid)
 #[test]
 fn test_fugen_n_compounds() {
-    let dict = curated_german_dictionary();
-    let mut linter = LintGroup::new_curated(dict, Dialect::German);
+    let mut linter = create_german_lint_group();
 
     // Test Fugen-n compounds
     let test_cases = vec![
@@ -95,8 +104,7 @@ fn test_fugen_n_compounds() {
 /// Test three-part compound words (complex decomposition)
 #[test]
 fn test_three_part_compounds() {
-    let dict = curated_german_dictionary();
-    let mut linter = LintGroup::new_curated(dict, Dialect::German);
+    let mut linter = create_german_lint_group();
 
     // Three-part compounds: Word1 + Fugen + Word2 + Word3
     let test_cases = vec![
@@ -126,8 +134,7 @@ fn test_three_part_compounds() {
 /// Test that misspelled compounds are still caught
 #[test]
 fn test_misspelled_compounds() {
-    let dict = curated_german_dictionary();
-    let mut linter = LintGroup::new_curated(dict, Dialect::German);
+    let mut linter = create_german_lint_group();
 
     // Intentional misspellings
     let test_cases = vec![
@@ -155,8 +162,7 @@ fn test_misspelled_compounds() {
 /// Test edge case: very short compounds shouldn't be decomposed
 #[test]
 fn test_short_word_no_decomposition() {
-    let dict = curated_german_dictionary();
-    let mut linter = LintGroup::new_curated(dict, Dialect::German);
+    let mut linter = create_german_lint_group();
 
     // Short words that aren't compounds
     let text = "Das ist der Haus.";
@@ -175,8 +181,7 @@ fn test_short_word_no_decomposition() {
 /// Test edge case: compounds with umlauts
 #[test]
 fn test_compounds_with_umlauts() {
-    let dict = curated_german_dictionary();
-    let mut linter = LintGroup::new_curated(dict, Dialect::German);
+    let mut linter = create_german_lint_group();
 
     // Compounds with special German characters
     let test_cases = vec![
@@ -208,8 +213,7 @@ fn test_compounds_with_umlauts() {
 /// Test performance: compound decomposition shouldn't be too slow
 #[test]
 fn test_compound_decomposition_performance() {
-    let dict = curated_german_dictionary();
-    let mut linter = LintGroup::new_curated(dict, Dialect::German);
+    let mut linter = create_german_lint_group();
 
     // Text with many compounds
     let text = "Der Gartenhausbesitzer arbeitet im Arbeitszimmer und geht zum Sportplatz. \
@@ -234,8 +238,7 @@ fn test_compound_decomposition_performance() {
 /// Test that compound word detection doesn't cause false positives
 #[test]
 fn test_no_false_positives_on_simples_words() {
-    let dict = curated_german_dictionary();
-    let mut linter = LintGroup::new_curated(dict, Dialect::German);
+    let mut linter = create_german_lint_group();
 
     // Simple, non-compound words
     let text = "Der Hund ist im Garten und die Katze schläft.";

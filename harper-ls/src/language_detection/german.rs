@@ -168,8 +168,8 @@ impl LanguageDetector for GermanDetector {
         };
 
         // High confidence: German special characters present
-        if german_char_ratio >= 0.03 {
-            // 3%+ words have ä, ö, ü, or ß
+        if german_char_ratio >= 0.01 {
+            // 1%+ words have ä, ö, ü, or ß
             return Some(Dialect::German);
         }
 
