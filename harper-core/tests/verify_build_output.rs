@@ -8,8 +8,8 @@ use std::path::Path;
 /// Verify that German Weir rule directory is configured
 #[test]
 fn verify_german_weir_rule_dir_exists() {
-    // Check that the German Weir rule directory exists and contains .weer files
-    let weir_dir = Path::new("src/linting/weir_rules/de");
+    // Check that the German Weir rule directory exists and contains .weir files
+    let weir_dir = Path::new("src/language/german/linting/weir_rules/de");
 
     // Verify directory exists
     assert!(
@@ -92,7 +92,7 @@ fn verify_english_weir_rule_dir_exists() {
 fn verify_german_weir_rules_structure() {
     use std::ffi::OsStr;
 
-    let weir_dir = Path::new("src/linting/weir_rules/de");
+    let weir_dir = Path::new("src/language/german/linting/weir_rules/de");
     let entries = fs::read_dir(weir_dir).unwrap();
 
     for entry in entries.filter_map(Result::ok) {
