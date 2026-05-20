@@ -14,3 +14,4 @@ mariadb_data
 .local-docs/
 harper-core/german_dictionary.dict
 docs/
+# Trigger workflow
