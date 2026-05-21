@@ -4,3 +4,4 @@
 //! to keep the codebase clean and extensible for additional languages.
 
 pub mod german;
+pub mod portuguese;
