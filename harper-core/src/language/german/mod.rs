@@ -6,6 +6,7 @@
 //! - Parser for German text
 //! - German dictionary
 
+pub mod dialects;
 pub mod linting;
 pub mod parsers;
 pub mod spell;

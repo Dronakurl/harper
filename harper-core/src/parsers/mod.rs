@@ -8,6 +8,7 @@ mod oops_all_headings;
 mod org_mode;
 mod plain_english;
 pub use crate::language::german::parsers::PlainGerman;
+pub use crate::language::portuguese::parsers::PlainPortuguese;
 use blanket::blanket;
 pub use collapse_identifiers::CollapseIdentifiers;
 pub use isolate_english::IsolateEnglish;

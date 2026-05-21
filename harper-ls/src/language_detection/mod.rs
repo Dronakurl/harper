@@ -24,6 +24,9 @@ impl LanguageDetectionRegistry {
         };
         registry.register_detector(Box::new(crate::language_detection::german::GermanDetector));
         registry.register_detector(Box::new(
+            crate::language_detection::portuguese::PortugueseDetector,
+        ));
+        registry.register_detector(Box::new(
             crate::language_detection::english::EnglishDetector,
         ));
         registry
@@ -76,3 +79,4 @@ impl Default for LanguageDetectionRegistry {
 // Public modules for each language detector
 pub mod english;
 pub mod german;
+pub mod portuguese;
