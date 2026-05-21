@@ -10,7 +10,7 @@ use crate::{CharString, DictWordMetadata};
 
 static PORTUGUESE_DICT: LazyLock<Arc<FstDictionary>> = LazyLock::new(|| {
     let dictionary_content = include_str!("../dictionary-portuguese.dict");
-    
+
     let words: Vec<(CharString, DictWordMetadata)> = dictionary_content
         .lines()
         .filter(|line| !line.is_empty() && !line.starts_with('#'))
@@ -20,7 +20,7 @@ static PORTUGUESE_DICT: LazyLock<Arc<FstDictionary>> = LazyLock::new(|| {
             (chars, DictWordMetadata::default())
         })
         .collect();
-    
+
     Arc::new(FstDictionary::new(words))
 });
 

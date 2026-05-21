@@ -27,24 +27,92 @@ impl LanguageDetector for PortugueseDetector {
         // High-confidence Portuguese indicators (articles, pronouns, common verbs)
         let portuguese_indicators = [
             // Definite articles
-            "o", "a", "os", "as",
+            "o",
+            "a",
+            "os",
+            "as",
             // Indefinite articles
-            "um", "uma", "uns", "umas",
+            "um",
+            "uma",
+            "uns",
+            "umas",
             // Personal pronouns
-            "eu", "tu", "ele", "ela", "nós", "vós", "eles", "elas",
-            "me", "te", "se", "nos", "vos",
+            "eu",
+            "tu",
+            "ele",
+            "ela",
+            "nós",
+            "vós",
+            "eles",
+            "elas",
+            "me",
+            "te",
+            "se",
+            "nos",
+            "vos",
             // Verb forms (ser, estar, ter, ir)
-            "sou", "és", "é", "somos", "sois", "são",
-            "estou", "estás", "está", "estamos", "estais", "estão",
-            "tenho", "tens", "tem", "temos", "tendes", "têm",
-            "vou", "vais", "vai", "vamos", "ides", "vão",
+            "sou",
+            "és",
+            "é",
+            "somos",
+            "sois",
+            "são",
+            "estou",
+            "estás",
+            "está",
+            "estamos",
+            "estais",
+            "estão",
+            "tenho",
+            "tens",
+            "tem",
+            "temos",
+            "tendes",
+            "têm",
+            "vou",
+            "vais",
+            "vai",
+            "vamos",
+            "ides",
+            "vão",
             // Common words
-            "que", "de", "do", "da", "no", "na", "ao", "aos", "as",
-            "e", "ou", "mas", "por", "para", "com", "sem", "sobre",
-            "não", "sim", "aqui", "ali", "agora", "depois",
+            "que",
+            "de",
+            "do",
+            "da",
+            "no",
+            "na",
+            "ao",
+            "aos",
+            "as",
+            "e",
+            "ou",
+            "mas",
+            "por",
+            "para",
+            "com",
+            "sem",
+            "sobre",
+            "não",
+            "sim",
+            "aqui",
+            "ali",
+            "agora",
+            "depois",
             // Common nouns
-            "pessoa", "coisa", "tempo", "ano", "dia", "noite", "mundo",
-            "casa", "rua", "cidade", "país", "língua", "português",
+            "pessoa",
+            "coisa",
+            "tempo",
+            "ano",
+            "dia",
+            "noite",
+            "mundo",
+            "casa",
+            "rua",
+            "cidade",
+            "país",
+            "língua",
+            "português",
         ];
 
         for token in toks {
@@ -131,10 +199,7 @@ mod tests {
 
     #[test]
     fn detects_portuguese_special_chars() {
-        test_detection(
-            "O João foi à cidade de São Paulo e comprou pão.",
-            true,
-        );
+        test_detection("O João foi à cidade de São Paulo e comprou pão.", true);
     }
 
     #[test]
@@ -147,10 +212,7 @@ mod tests {
 
     #[test]
     fn does_not_detect_english() {
-        test_detection(
-            "The quick brown fox jumps over the lazy dog.",
-            false,
-        );
+        test_detection("The quick brown fox jumps over the lazy dog.", false);
     }
 
     #[test]

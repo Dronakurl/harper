@@ -50,10 +50,22 @@ mod tests {
 
     #[test]
     fn test_dialect_abbreviations() {
-        assert_eq!(GermanDialect::try_from_abbr("DE"), Some(GermanDialect::Standard));
-        assert_eq!(GermanDialect::try_from_abbr("AT"), Some(GermanDialect::Austrian));
-        assert_eq!(GermanDialect::try_from_abbr("CH"), Some(GermanDialect::Swiss));
-        assert_eq!(GermanDialect::try_from_abbr("Standard"), Some(GermanDialect::Standard));
+        assert_eq!(
+            GermanDialect::try_from_abbr("DE"),
+            Some(GermanDialect::Standard)
+        );
+        assert_eq!(
+            GermanDialect::try_from_abbr("AT"),
+            Some(GermanDialect::Austrian)
+        );
+        assert_eq!(
+            GermanDialect::try_from_abbr("CH"),
+            Some(GermanDialect::Swiss)
+        );
+        assert_eq!(
+            GermanDialect::try_from_abbr("Standard"),
+            Some(GermanDialect::Standard)
+        );
         assert_eq!(GermanDialect::try_from_abbr("XY"), None);
     }
 }
