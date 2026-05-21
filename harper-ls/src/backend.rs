@@ -474,12 +474,6 @@ impl Backend {
     async fn publish_diagnostics(&self, uri: &Uri) {
         let diagnostics = self.generate_diagnostics(uri).await;
 
-        warn!(
-            "DEBUG: publish_diagnostics: {} diagnostics for {:?}",
-            diagnostics.len(),
-            uri
-        );
-
         let result = PublishDiagnosticsParams {
             uri: uri.clone(),
             diagnostics,
@@ -489,15 +483,11 @@ impl Backend {
         self.client
             .send_notification::<PublishDiagnostics>(result)
             .await;
-
-        warn!("DEBUG: publish_diagnostics notification sent for {:?}", uri);
     }
 
     /// Publish diagnostics immediately, canceling any pending delayed diagnostics for the document.
     /// This is used for code actions where we want instant feedback.
     async fn publish_diagnostics_immediately(&self, uri: &Uri) {
-        warn!("DEBUG: Publishing diagnostics immediately for {:?}", uri);
-
         // Increment the generation to invalidate any pending delayed diagnostics
         {
             let mut generations = self.last_change_generation.lock().await;
@@ -506,11 +496,7 @@ impl Backend {
 
         // Cancel any pending delayed diagnostics for this document
         let mut pending = self.pending_diagnostics.lock().await;
-        if let Some((handle, old_generation)) = pending.remove(uri) {
-            warn!(
-                "DEBUG: Cancelled pending delayed diagnostics (gen {}) for {:?}",
-                old_generation, uri
-            );
+        if let Some((handle, _old_generation)) = pending.remove(uri) {
             handle.abort();
         }
         drop(pending);
@@ -768,8 +754,6 @@ impl LanguageServer for Backend {
             return Ok(None);
         };
 
-        warn!("DEBUG: Received command: \"{}\"", params.command.as_str());
-
         match params.command.as_str() {
             "HarperRecordLint" => {
                 let Ok(kind) = serde_json::from_str(&first) else {
@@ -806,15 +790,10 @@ impl LanguageServer for Backend {
                 // The suggestion's WorkspaceEdit has already been applied by the client,
                 // but the client might send executeCommand before textDocument/didChange.
                 // We need to wait briefly to ensure the document state is updated.
-                warn!("DEBUG: HarperRecordLintAndUpdate called for {:?}", uri);
 
                 // Wait a short time to allow did_change to arrive
                 tokio::time::sleep(Duration::from_millis(50)).await;
 
-                warn!(
-                    "DEBUG: Publishing diagnostics immediately (after wait) for {:?}",
-                    uri
-                );
                 self.publish_diagnostics_immediately(&uri).await;
             }
             "HarperAddToUserDict" => {
