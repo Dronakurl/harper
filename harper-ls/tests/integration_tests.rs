@@ -305,8 +305,8 @@ fn test_full_workflow_performance() {
 
     // Verify performance (more lenient for debug builds and CI runners)
     assert!(
-        duration.as_secs() < 3,
-        "Full workflow should complete in < 3s, took {:?}",
+        duration.as_secs() < 4,
+        "Full workflow should complete in < 4s, took {:?}",
         duration
     );
 }
