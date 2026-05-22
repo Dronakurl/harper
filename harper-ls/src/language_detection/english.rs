@@ -16,12 +16,13 @@ impl LanguageDetector for EnglishDetector {
         "english"
     }
 
-    fn detect(&self, toks: &[Token], source: &[char], dict: &FstDictionary) -> Option<Dialect> {
+    fn detect(&self, toks: &[Token], source: &[char], dict: &FstDictionary, default_dialect: Dialect) -> Option<Dialect> {
         // Use Harper's built-in English detection
         let is_english = harper_core::language_detection::is_likely_english(toks, source, dict);
 
         if is_english {
-            Some(Dialect::American)
+            // Return the default dialect for English text, so that configured dialect is respected
+            Some(default_dialect)
         } else {
             None
         }
@@ -46,7 +47,7 @@ mod tests {
         let doc = Document::new_plain_english_curated(text);
         let detector = EnglishDetector;
 
-        let result = detector.detect(doc.get_tokens(), doc.get_source(), &dict);
+        let result = detector.detect(doc.get_tokens(), doc.get_source(), &dict, Dialect::American);
         assert_eq!(result, Some(Dialect::American));
     }
 
@@ -57,7 +58,7 @@ mod tests {
         let doc = Document::new_plain_english_curated(text);
         let detector = EnglishDetector;
 
-        let result = detector.detect(doc.get_tokens(), doc.get_source(), &dict);
+        let result = detector.detect(doc.get_tokens(), doc.get_source(), &dict, Dialect::American);
         assert_eq!(result, None);
     }
 
@@ -68,7 +69,7 @@ mod tests {
         let doc = Document::new_plain_english_curated(text);
         let detector = EnglishDetector;
 
-        let result = detector.detect(doc.get_tokens(), doc.get_source(), &dict);
+        let result = detector.detect(doc.get_tokens(), doc.get_source(), &dict, Dialect::American);
         assert_eq!(result, None);
     }
 }

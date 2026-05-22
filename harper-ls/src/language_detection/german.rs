@@ -18,7 +18,7 @@ impl LanguageDetector for GermanDetector {
         "german"
     }
 
-    fn detect(&self, toks: &[Token], source: &[char], dict: &FstDictionary) -> Option<Dialect> {
+    fn detect(&self, toks: &[Token], source: &[char], dict: &FstDictionary, _default_dialect: Dialect) -> Option<Dialect> {
         let mut total_words = 0;
         let mut german_char_count = 0;
         let mut common_german_words = 0;
@@ -209,7 +209,7 @@ mod tests {
         let doc = Document::new_plain_english_curated(text);
         let detector = GermanDetector;
 
-        let result = detector.detect(doc.get_tokens(), doc.get_source(), &dict);
+        let result = detector.detect(doc.get_tokens(), doc.get_source(), &dict, Dialect::American);
         assert_eq!(result.is_some(), expected_german, "Failed for: {}", text);
         if expected_german {
             assert_eq!(result.unwrap(), Dialect::German);

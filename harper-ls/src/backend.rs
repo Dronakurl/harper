@@ -393,6 +393,7 @@ impl Backend {
             is_prose, effective_language_id
         );
 
+        let config = self.config.read().await;
         let detected_dialect: Dialect = if is_prose {
             let word_count = text.split_whitespace().count();
             info!("Word count: {}", word_count);
@@ -408,7 +409,7 @@ impl Backend {
                 let dict = FstDictionary::curated();
                 let detected = self
                     .lang_detect
-                    .detect_language(text, &dict, Dialect::American);
+                    .detect_language(text, &dict, config.dialect);
                 debug!(
                     "harper-ls dialect detect: {:?} for {:?} ({} words)",
                     detected, uri, word_count
@@ -435,14 +436,13 @@ impl Backend {
                 cached
             } else {
                 info!(
-                    "Insufficient content for detection ({} words), using default dialect",
+                    "Insufficient content for detection ({} words), using configured dialect",
                     word_count
                 );
-                Dialect::American
+                config.dialect
             }
         } else {
             // For non-prose files (code, etc.) use the configured dialect.
-            let config = self.config.read().await;
             config.dialect
         };
 
@@ -454,17 +454,14 @@ impl Backend {
             dialect, // Configured dialect (used as fallback)
             max_file_length,
             exclude_patterns,
-        ) = {
-            let config = self.config.read().await;
-            (
-                config.lint_config.clone(),
-                config.markdown_options,
-                config.isolate_english,
-                config.dialect,
-                config.max_file_length,
-                config.exclude_patterns.clone(),
-            )
-        };
+        ) = (
+            config.lint_config.clone(),
+            config.markdown_options,
+            config.isolate_english,
+            config.dialect,
+            config.max_file_length,
+            config.exclude_patterns.clone(),
+        );
 
         let mut doc_lock = self.doc_state.lock().await;
 

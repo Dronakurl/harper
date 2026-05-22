@@ -18,7 +18,7 @@ impl LanguageDetector for PortugueseDetector {
         "portuguese"
     }
 
-    fn detect(&self, toks: &[Token], source: &[char], dict: &FstDictionary) -> Option<Dialect> {
+    fn detect(&self, toks: &[Token], source: &[char], dict: &FstDictionary, _default_dialect: Dialect) -> Option<Dialect> {
         let mut total_words = 0;
         let mut portuguese_char_count = 0;
         let mut common_portuguese_words = 0;
@@ -185,13 +185,14 @@ mod tests {
     use harper_core::Document;
     use harper_core::parsers::PlainEnglish;
     use harper_core::spell::FstDictionary;
+    use harper_core::Dialect;
 
     fn test_detection(text: &str, expected_portuguese: bool) {
         let dict = FstDictionary::curated();
         let doc = Document::new(text, &PlainEnglish, &dict);
         let detector = PortugueseDetector;
 
-        let result = detector.detect(doc.get_tokens(), doc.get_source(), &dict);
+        let result = detector.detect(doc.get_tokens(), doc.get_source(), &dict, Dialect::American);
         // For now, we return Some(Dialect::American) as a placeholder
         // In the future, we should have a Portuguese Dialect variant
         assert_eq!(result.is_some(), expected_portuguese);
