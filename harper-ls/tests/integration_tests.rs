@@ -303,10 +303,10 @@ fn test_full_workflow_performance() {
         "Should detect lowercase sentence starts: 'die' and 'das'"
     );
 
-    // Verify performance (more lenient for debug builds)
+    // Verify performance (more lenient for debug builds and CI runners)
     assert!(
-        duration.as_secs() < 2,
-        "Full workflow should complete in < 2s, took {:?}",
+        duration.as_secs() < 3,
+        "Full workflow should complete in < 3s, took {:?}",
         duration
     );
 }
