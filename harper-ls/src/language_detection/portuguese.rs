@@ -205,7 +205,7 @@ mod tests {
     #[test]
     fn detects_common_portuguese_words() {
         test_detection(
-            "Eu tenho um cão e um gato. O cão é feliz e a gato é bonita.",
+            "João tem um cão e uma casa em São Paulo. O cão é feliz.",
             true,
         );
     }
