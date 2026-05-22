@@ -16,7 +16,13 @@ impl LanguageDetector for EnglishDetector {
         "english"
     }
 
-    fn detect(&self, toks: &[Token], source: &[char], dict: &FstDictionary, default_dialect: Dialect) -> Option<Dialect> {
+    fn detect(
+        &self,
+        toks: &[Token],
+        source: &[char],
+        dict: &FstDictionary,
+        default_dialect: Dialect,
+    ) -> Option<Dialect> {
         // Use Harper's built-in English detection
         let is_english = harper_core::language_detection::is_likely_english(toks, source, dict);
 

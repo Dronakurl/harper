@@ -18,7 +18,13 @@ impl LanguageDetector for PortugueseDetector {
         "portuguese"
     }
 
-    fn detect(&self, toks: &[Token], source: &[char], dict: &FstDictionary, _default_dialect: Dialect) -> Option<Dialect> {
+    fn detect(
+        &self,
+        toks: &[Token],
+        source: &[char],
+        dict: &FstDictionary,
+        _default_dialect: Dialect,
+    ) -> Option<Dialect> {
         let mut total_words = 0;
         let mut portuguese_char_count = 0;
         let mut common_portuguese_words = 0;
@@ -182,10 +188,10 @@ impl LanguageDetector for PortugueseDetector {
 mod tests {
     use super::PortugueseDetector;
     use crate::language_detection::LanguageDetector;
+    use harper_core::Dialect;
     use harper_core::Document;
     use harper_core::parsers::PlainEnglish;
     use harper_core::spell::FstDictionary;
-    use harper_core::Dialect;
 
     fn test_detection(text: &str, expected_portuguese: bool) {
         let dict = FstDictionary::curated();

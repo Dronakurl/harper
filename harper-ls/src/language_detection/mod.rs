@@ -8,7 +8,13 @@ use std::fmt::Debug;
 /// Core trait for language detectors.
 pub trait LanguageDetector: Debug + Send + Sync {
     fn name(&self) -> &str;
-    fn detect(&self, toks: &[Token], source: &[char], dict: &FstDictionary, default_dialect: Dialect) -> Option<Dialect>;
+    fn detect(
+        &self,
+        toks: &[Token],
+        source: &[char],
+        dict: &FstDictionary,
+        default_dialect: Dialect,
+    ) -> Option<Dialect>;
     fn confidence(&self) -> f64;
 }
 
