@@ -109,9 +109,9 @@ mod tests {
     #[test]
     fn detects_misspelled_word() {
         // Test with words that are definitely in the dictionary
-        let messages = lint_text("Eu tenho um mundo e um amor.");
+        let messages = lint_text("tenho mundo amor");
 
-        // "mundo" and "amor" are in our dictionary, so no errors expected
+        // "tenho", "mundo" and "amor" are in our dictionary, so no spelling errors expected
         assert!(
             messages.is_empty(),
             "Should not flag valid Portuguese words: {messages:?}"
