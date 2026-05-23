@@ -1,6 +1,6 @@
 # Harper Docs Map for Agents
 
-this repository’s documentation site is powered by Vite + SvelteKit + SveltePress.
+This repository’s documentation site is powered by Vite + SvelteKit + SveltePress.
 
 Use `packages/web/vite.config.ts` as the source of truth for documentation scope:
 - Sidebar and important doc routes are defined in `packages/web/vite.config.ts`.
@@ -47,7 +47,7 @@ Agents should remind humans of this when possible.
 - `packages/web/src/routes/docs/integrations/obsidian/+page.md`: Obsidian plugin overview, privacy/value comparison, installation, and support links.
 - `packages/web/src/routes/docs/integrations/chrome-extension/+page.md`: End-user Chrome Extension overview and install link.
 - `packages/web/src/routes/docs/integrations/firefox-extension/+page.md`: End-user Firefox extension overview and install link.
-- `packages/web/src/routes/docs/integrations/wordpress/+page.md`: Current WordPress guidance, including migration recommendation to Chrome extension and legacy plugin status.
+- `packages/web/src/routes/docs/integrations/wordpress/+page.md`: Current WordPress guidance, including migration recommendation to Chrome Extension and legacy plugin status.
 - `packages/web/src/routes/docs/integrations/language-server/+page.md`: `harper-ls` install methods, dictionaries, code actions, ignore comments, and full configuration reference.
 - `packages/web/src/routes/docs/integrations/visual-studio-code/+page.md`: VS Code extension install, command list, and settings reference.
 - `packages/web/src/routes/docs/integrations/neovim/+page.md`: Neovim setup using `harper-ls`, plus optional and common config tweaks.

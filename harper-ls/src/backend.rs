@@ -37,11 +37,11 @@ use tower_lsp_server::lsp_types::{
     CodeActionOrCommand, CodeActionParams, CodeActionProviderCapability, CodeActionResponse,
     ConfigurationItem, Diagnostic, DidChangeConfigurationParams, DidChangeTextDocumentParams,
     DidChangeWatchedFilesParams, DidChangeWatchedFilesRegistrationOptions,
-    DidCloseTextDocumentParams, DidOpenTextDocumentParams, ExecuteCommandOptions,
-    ExecuteCommandParams, FileChangeType, FileSystemWatcher, GlobPattern, InitializeParams,
-    InitializeResult, InitializedParams, MessageType, PublishDiagnosticsParams, Range,
-    Registration, ServerCapabilities, ServerInfo, TextDocumentSyncCapability, TextDocumentSyncKind,
-    TextDocumentSyncOptions, TextDocumentSyncSaveOptions, Uri, WatchKind,
+    DidCloseTextDocumentParams, DidOpenTextDocumentParams, DidSaveTextDocumentParams,
+    ExecuteCommandOptions, ExecuteCommandParams, FileChangeType, FileSystemWatcher, GlobPattern,
+    InitializeParams, InitializeResult, InitializedParams, MessageType, PublishDiagnosticsParams,
+    Range, Registration, ServerCapabilities, ServerInfo, TextDocumentSyncCapability,
+    TextDocumentSyncKind, TextDocumentSyncOptions, TextDocumentSyncSaveOptions, Uri, WatchKind,
 };
 use tower_lsp_server::{Client, LanguageServer, UriExt};
 use tracing::{debug, error, info, warn};
@@ -853,6 +853,11 @@ impl LanguageServer for Backend {
         self.publish_diagnostics(&params.text_document.uri).await;
     }
 
+    async fn did_save(&self, _params: DidSaveTextDocumentParams) {
+        // No-op: we handle document updates via did_open and did_change
+        // This prevents the "textDocument/didSave notification not implemented" warning
+    }
+
     async fn did_change(&self, params: DidChangeTextDocumentParams) {
         let Some(last) = params.content_changes.last() else {
             return;
@@ -1125,9 +1130,11 @@ impl LanguageServer for Backend {
                 .await;
         }
 
-        if self.save_stats().await.is_err() {
-            error!("Unable to save stats.")
-        }
+        // Skip saving stats during shutdown to avoid timeout issues with Helix
+        // Stats are for analytics and not critical for shutdown
+        // if self.save_stats().await.is_err() {
+        //     error!("Unable to save stats.")
+        // }
 
         Ok(())
     }
