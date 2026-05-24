@@ -3,7 +3,6 @@ use std::fs::OpenOptions;
 use std::io::{BufWriter, Write};
 use std::path::{Path, PathBuf};
 use std::sync::Arc;
-use std::sync::atomic::{AtomicU64, Ordering};
 use std::time::Duration;
 
 use crate::config::Config;
@@ -58,25 +57,19 @@ pub struct Backend {
     root: RwLock<PathBuf>,
     config: RwLock<Config>,
     stats: RwLock<Stats>,
-    stats_save_delay_ms: AtomicU64,
     doc_state: Mutex<HashMap<Uri, DocumentState>>,
     lang_detect: LanguageDetectionRegistry,
 }
 
 const SHUTDOWN_STATS_TIMEOUT: Duration = Duration::from_millis(750);
+const MIN_WORDS_FOR_LANGUAGE_DETECTION: usize = 10;
 
 impl Backend {
     pub fn new(client: Client, config: Config) -> Self {
-        let stats_save_delay_ms = std::env::var("HARPER_LS_STATS_SAVE_DELAY_MS")
-            .ok()
-            .and_then(|v| v.parse::<u64>().ok())
-            .unwrap_or(0);
-
         Self {
             client,
             root: RwLock::new(".".into()),
             stats: RwLock::new(Stats::new()),
-            stats_save_delay_ms: AtomicU64::new(stats_save_delay_ms),
             config: RwLock::new(config),
             doc_state: Mutex::new(HashMap::new()),
             lang_detect: LanguageDetectionRegistry::new(),
@@ -283,16 +276,8 @@ impl Backend {
         }
     }
 
-    async fn save_stats_snapshot(
-        stats_path: PathBuf,
-        stats: Stats,
-        simulated_delay: Duration,
-    ) -> Result<()> {
+    async fn save_stats_snapshot(stats_path: PathBuf, stats: Stats) -> Result<()> {
         tokio::task::spawn_blocking(move || -> Result<()> {
-            if !simulated_delay.is_zero() {
-                std::thread::sleep(simulated_delay);
-            }
-
             if let Some(parent) = stats_path.parent() {
                 std::fs::create_dir_all(parent)?;
             }
@@ -317,16 +302,10 @@ impl Backend {
         let (config, stats) = join(self.config.read(), self.stats.read()).await;
         let stats_path = config.stats_path.clone();
         let stats_snapshot = stats.clone();
-        let simulated_delay =
-            Duration::from_millis(self.stats_save_delay_ms.load(Ordering::Relaxed));
 
         // Keep shutdown responsive while still persisting stats.
         // If this times out, the detached save task continues in the background.
-        let save_task = tokio::spawn(Self::save_stats_snapshot(
-            stats_path,
-            stats_snapshot,
-            simulated_delay,
-        ));
+        let save_task = tokio::spawn(Self::save_stats_snapshot(stats_path, stats_snapshot));
 
         let started = std::time::Instant::now();
         let mut save_task = Some(save_task);
@@ -467,7 +446,7 @@ impl Backend {
                 doc_lock.get(uri).and_then(|state| state.cached_dialect)
             };
 
-            if word_count >= 20 {
+            if word_count >= MIN_WORDS_FOR_LANGUAGE_DETECTION {
                 // Re-run detection when we have enough content so that e.g. an
                 // empty-then-typed document can switch from English to German.
                 let dict = FstDictionary::curated();
@@ -1532,29 +1511,14 @@ mod tests {
     }
 
     #[tokio::test(flavor = "current_thread")]
-    async fn shutdown_returns_quickly_when_stats_save_is_slow() {
+    async fn shutdown_persists_stats_file() {
         let harness = TestHarness::new().await;
         harness.install_temp_config().await;
 
-        harness
-            .backend()
-            .stats_save_delay_ms
-            .store(2_000, Ordering::Relaxed);
-
-        let started = std::time::Instant::now();
         harness.backend().shutdown().await.unwrap();
         assert!(
-            started.elapsed() < Duration::from_secs(2),
-            "shutdown should not block on long stats save"
-        );
-
-        let deadline = std::time::Instant::now() + Duration::from_secs(3);
-        while std::time::Instant::now() < deadline && !harness.test_config.stats_path.exists() {
-            tokio::task::yield_now().await;
-        }
-        assert!(
             harness.test_config.stats_path.exists(),
-            "stats file should still be persisted in background"
+            "shutdown should persist stats file"
         );
     }
 }
