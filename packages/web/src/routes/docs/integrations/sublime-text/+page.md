@@ -35,10 +35,11 @@ Open `Preferences > Package Settings > LSP > Settings` and add the `harper-ls` c
             "AnA": true,
             "SentenceCapitalization": true,
             "UnclosedQuotes": true,
-            "WrongApostrophe": false,
+            "WrongQuotes": false,
             "LongSentences": true,
             "RepeatedWords": true,
             "Spaces": true,
+            "Matcher": true,
             "CorrectNumberSuffix": true
           },
           "codeActions": {

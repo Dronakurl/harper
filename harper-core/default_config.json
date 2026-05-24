@@ -801,13 +801,6 @@
 						},
 						{
 							"Bool": {
-								"name": "ArgumentToBeMade",
-								"state": true,
-								"label": "Argument To Be Made"
-							}
-						},
-						{
-							"Bool": {
 								"name": "Bollocks",
 								"state": true,
 								"label": "Bollocks"
@@ -1281,48 +1274,6 @@
 								"state": true,
 								"label": "Inflection Point"
 							}
-						},
-						{
-							"Bool": {
-								"name": "FormativeYears",
-								"state": true,
-								"label": "Formative Years"
-							}
-						},
-						{
-							"Bool": {
-								"name": "ExpandAlgorithm",
-								"state": true,
-								"label": "Expand Algorithm"
-							}
-						},
-						{
-							"Bool": {
-								"name": "ExpandCoordinate",
-								"state": true,
-								"label": "Expand Coordinate"
-							}
-						},
-						{
-							"Bool": {
-								"name": "ExpandNotification",
-								"state": true,
-								"label": "Expand Notification"
-							}
-						},
-						{
-							"Bool": {
-								"name": "ExpandVulnerability",
-								"state": true,
-								"label": "Expand Vulnerability"
-							}
-						},
-						{
-							"Bool": {
-								"name": "ConstituteAs",
-								"state": true,
-								"label": "Constitute As"
-							}
 						}
 					]
 				}
@@ -1528,13 +1479,6 @@
 						},
 						{
 							"Bool": {
-								"name": "CantWay",
-								"state": true,
-								"label": "Cant Way"
-							}
-						},
-						{
-							"Bool": {
 								"name": "CaseSensitive",
 								"state": true,
 								"label": "Case Sensitive"
@@ -1601,13 +1545,6 @@
 								"name": "IntroCueCommaBeforeThanks",
 								"state": true,
 								"label": "Intro Cue Comma Before Thanks"
-							}
-						},
-						{
-							"Bool": {
-								"name": "IncludingButNotLimitedToPunctuation",
-								"state": true,
-								"label": "Including But Not Limited To Punctuation"
 							}
 						},
 						{
@@ -2017,13 +1954,6 @@
 						},
 						{
 							"Bool": {
-								"name": "ThereOwn",
-								"state": true,
-								"label": "There Own"
-							}
-						},
-						{
-							"Bool": {
 								"name": "Theres",
 								"state": true,
 								"label": "There's"
@@ -2380,13 +2310,6 @@
 						},
 						{
 							"Bool": {
-								"name": "AtLestToLeast",
-								"state": true,
-								"label": "At Lest To Least"
-							}
-						},
-						{
-							"Bool": {
 								"name": "BeenThere",
 								"state": true,
 								"label": "Been There"
@@ -2733,13 +2656,6 @@
 					"settings": [
 						{
 							"Bool": {
-								"name": "AvoidContractions",
-								"state": false,
-								"label": "Avoid Contractions"
-							}
-						},
-						{
-							"Bool": {
 								"name": "BoringWords",
 								"state": false,
 								"label": "Boring Words"
@@ -3044,20 +2960,6 @@
 								"name": "WasComprisedOf",
 								"state": true,
 								"label": "Was Comprised Of"
-							}
-						},
-						{
-							"Bool": {
-								"name": "SideTangent",
-								"state": true,
-								"label": "Side Tangent"
-							}
-						},
-						{
-							"Bool": {
-								"name": "ForFreeOfCharge",
-								"state": true,
-								"label": "For Free of Charge"
 							}
 						}
 					]
@@ -3692,20 +3594,6 @@
 								"state": true,
 								"label": "Code In Write In"
 							}
-						},
-						{
-							"Bool": {
-								"name": "ThereIsAgreement",
-								"state": true,
-								"label": "There Is Agreement"
-							}
-						},
-						{
-							"Bool": {
-								"name": "ASomeTime",
-								"state": true,
-								"label": "A Some Time"
-							}
 						}
 					]
 				}
@@ -3785,13 +3673,6 @@
 								"name": "Bought",
 								"state": true,
 								"label": "Bought"
-							}
-						},
-						{
-							"Bool": {
-								"name": "CallThem",
-								"state": true,
-								"label": "Call Them"
 							}
 						},
 						{
@@ -4927,34 +4808,6 @@
 								"state": true,
 								"label": "More Than Meets The Eye"
 							}
-						},
-						{
-							"Bool": {
-								"name": "InFavourOfDoing",
-								"state": true,
-								"label": "In Favour Of Doing"
-							}
-						},
-						{
-							"Bool": {
-								"name": "InHindsight",
-								"state": true,
-								"label": "In Hindsight"
-							}
-						},
-						{
-							"Bool": {
-								"name": "LongTimeAgo",
-								"state": true,
-								"label": "Long Time Ago"
-							}
-						},
-						{
-							"Bool": {
-								"name": "CraveFor",
-								"state": true,
-								"label": "Crave For"
-							}
 						}
 					]
 				}
@@ -5317,13 +5170,6 @@
 								"name": "Whereas",
 								"state": true,
 								"label": "Whereas"
-							}
-						},
-						{
-							"Bool": {
-								"name": "FondOn",
-								"state": true,
-								"label": "Fond On"
 							}
 						}
 					]

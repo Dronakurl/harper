@@ -27,7 +27,6 @@ async function seedDomainSettings(
 
 	await background.evaluate(
 		async ({ defaultEnable, storageEntries }) => {
-			await chrome.storage.local.clear();
 			await chrome.storage.local.set({ defaultEnable, ...storageEntries });
 		},
 		{ defaultEnable, storageEntries },
@@ -114,7 +113,6 @@ test.describe('parent-origin inheritance', () => {
 		context,
 		page,
 	}) => {
-		test.slow();
 		await seedDomainSettings(context, {
 			[PARENT_DOMAIN]: true,
 			[CHILD_DOMAIN]: false,
@@ -130,7 +128,6 @@ test.describe('parent-origin inheritance', () => {
 		context,
 		page,
 	}) => {
-		test.slow();
 		await seedDomainSettings(context, { [PARENT_DOMAIN]: false });
 
 		await page.goto(TEST_PAGE_URL);

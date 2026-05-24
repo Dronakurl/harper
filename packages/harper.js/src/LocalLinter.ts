@@ -54,7 +54,6 @@ export default class LocalLinter implements Linter {
 			language,
 			options?.forceAllHeadings ?? false,
 			options?.regex_mask,
-			options?.dedup ?? true,
 		);
 
 		return lints;
@@ -81,7 +80,6 @@ export default class LocalLinter implements Linter {
 			language,
 			options?.forceAllHeadings ?? false,
 			options?.regex_mask,
-			options?.dedup ?? true,
 		);
 
 		const output: Record<string, Lint[]> = {};
@@ -172,17 +170,13 @@ export default class LocalLinter implements Linter {
 	}
 
 	async ignoreLint(source: string, lint: Lint): Promise<void> {
-		return await this.ignoreLints(source, [lint]);
-	}
-
-	async ignoreLints(source: string, lints: Lint[]): Promise<void> {
 		const inner = await this.inner;
-		inner.ignore_lints(source, lints);
+		inner.ignore_lint(source, lint);
 	}
 
 	async ignoreLintHash(hash: bigint): Promise<void> {
 		const inner = await this.inner;
-		inner.ignore_hashes(new BigUint64Array([hash]));
+		inner.ignore_hash(hash);
 	}
 
 	async exportIgnoredLints(): Promise<string> {

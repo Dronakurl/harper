@@ -206,10 +206,11 @@ The list of linters together with their descriptions can be found at our [rules 
 			"AnA": true,
 			"SentenceCapitalization": true,
 			"UnclosedQuotes": true,
-			"WrongApostrophe": false,
+			"WrongQuotes": false,
 			"LongSentences": true,
 			"RepeatedWords": true,
 			"Spaces": true,
+			"Matcher": true,
 			"CorrectNumberSuffix": true
 		}
 	}

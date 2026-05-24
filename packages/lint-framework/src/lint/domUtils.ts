@@ -79,7 +79,6 @@ export function leafNodes(node: Node): Node[] {
 
 /**
  * Given an element and a Span of text inside it, compute the Range that represents the region of the DOM represented.
- * Accounts for `<br>` elements which `innerText` converts to newlines.
  * @param target
  * @param span
  */
@@ -93,12 +92,6 @@ export function getRangeForTextSpan(target: Element, span: Span): Range | null {
 
 	for (let i = 0; i < children.length; i++) {
 		const child = children[i] as HTMLElement;
-
-		if (child.nodeName === 'BR') {
-			traversed += 1;
-			continue;
-		}
-
 		const childText = child.textContent ?? '';
 
 		if (traversed + childText.length > span.start && !startFound) {

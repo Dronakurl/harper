@@ -88,7 +88,7 @@ export default function computeLintBoxes(
 				applySuggestion: (sug: UnpackedSuggestion) => {
 					const current = isFormEl(el)
 						? (el as HTMLInputElement | HTMLTextAreaElement).value
-						: el.innerText;
+						: (el.textContent ?? '');
 					replaceValue(el, lint.span, suggestionToReplacementText(sug, lint.span, current));
 				},
 				ignoreLint: opts.ignoreLint ? () => opts.ignoreLint!(lint.context_hash) : undefined,
@@ -335,7 +335,7 @@ function replaceGenericContentEditable(
 	}
 
 	// Fallback: replace entire content
-	el.textContent = applySuggestion(el.innerText, span, {
+	el.textContent = applySuggestion(el.textContent, span, {
 		kind: SuggestionKind.Replace,
 		replacement_text: replacementText,
 	});

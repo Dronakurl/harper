@@ -1,5 +1,5 @@
 import type { Dialect, Lint, Suggestion } from 'harper-wasm';
-import { type BinaryModule, resolveWasmGlueFlavor } from '../BinaryModule';
+import type { BinaryModule } from '../BinaryModule';
 import type Linter from '../Linter';
 import type { LinterInit, WeirpackTestFailures } from '../Linter';
 import type { LintConfig, LintOptions, StructuredLintConfig } from '../main';
@@ -38,7 +38,7 @@ export default class WorkerLinter implements Linter {
 		this.worker.onmessage = () => {
 			this.setupMainEventListeners();
 
-			this.worker.postMessage([this.binary.url, this.dialect, resolveWasmGlueFlavor(this.binary)]);
+			this.worker.postMessage([this.binary.url, this.dialect]);
 
 			this.working = false;
 			this.submitRemainingRequests();
@@ -155,11 +155,7 @@ export default class WorkerLinter implements Linter {
 	}
 
 	ignoreLint(source: string, lint: Lint): Promise<void> {
-		return this.ignoreLints(source, [lint]);
-	}
-
-	ignoreLints(source: string, lints: Lint[]): Promise<void> {
-		return this.rpc('ignoreLints', [source, lints]);
+		return this.rpc('ignoreLint', [source, lint]);
 	}
 
 	ignoreLintHash(hash: bigint): Promise<void> {

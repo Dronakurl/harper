@@ -146,7 +146,7 @@ export default class LintFramework {
 					text =
 						target instanceof HTMLTextAreaElement || target instanceof HTMLInputElement
 							? target.value
-							: (target as HTMLElement).innerText;
+							: target.textContent;
 				}
 
 				const newLineIndices = [];

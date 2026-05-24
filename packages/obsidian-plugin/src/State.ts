@@ -4,7 +4,13 @@ import { type Dialect, LocalLinter, SuggestionKind, WorkerLinter } from 'harper.
 import { slimBinaryInlined } from 'harper.js/slimBinaryInlined';
 import { minimatch } from 'minimatch';
 import type { MarkdownFileInfo, Workspace } from 'obsidian';
-import { linter } from './lint';
+import {
+	type CustomReplacements,
+	cloneCustomReplacements,
+	getCustomSuggestions,
+	normalizeCustomReplacements,
+} from './customSuggestions';
+import { type Action, linter } from './lint';
 import { lintKindClass } from './lintKindColor';
 
 export type Settings = {
