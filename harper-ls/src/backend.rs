@@ -3,6 +3,8 @@ use std::fs::OpenOptions;
 use std::io::{BufWriter, Write};
 use std::path::{Path, PathBuf};
 use std::sync::Arc;
+use std::sync::atomic::{AtomicU64, Ordering};
+use std::time::Duration;
 
 use crate::config::Config;
 use crate::document_state::DocumentState;
@@ -37,11 +39,11 @@ use tower_lsp_server::lsp_types::{
     CodeActionOrCommand, CodeActionParams, CodeActionProviderCapability, CodeActionResponse,
     ConfigurationItem, Diagnostic, DidChangeConfigurationParams, DidChangeTextDocumentParams,
     DidChangeWatchedFilesParams, DidChangeWatchedFilesRegistrationOptions,
-    DidCloseTextDocumentParams, DidOpenTextDocumentParams, ExecuteCommandOptions,
-    ExecuteCommandParams, FileChangeType, FileSystemWatcher, GlobPattern, InitializeParams,
-    InitializeResult, InitializedParams, MessageType, PublishDiagnosticsParams, Range,
-    Registration, ServerCapabilities, ServerInfo, TextDocumentSyncCapability, TextDocumentSyncKind,
-    TextDocumentSyncOptions, TextDocumentSyncSaveOptions, Uri, WatchKind,
+    DidCloseTextDocumentParams, DidOpenTextDocumentParams, DidSaveTextDocumentParams,
+    ExecuteCommandOptions, ExecuteCommandParams, FileChangeType, FileSystemWatcher, GlobPattern,
+    InitializeParams, InitializeResult, InitializedParams, MessageType, PublishDiagnosticsParams,
+    Range, Registration, ServerCapabilities, ServerInfo, TextDocumentSyncCapability,
+    TextDocumentSyncKind, TextDocumentSyncOptions, TextDocumentSyncSaveOptions, Uri, WatchKind,
 };
 use tower_lsp_server::{Client, LanguageServer, UriExt};
 use tracing::{debug, error, info, warn};
@@ -56,16 +58,25 @@ pub struct Backend {
     root: RwLock<PathBuf>,
     config: RwLock<Config>,
     stats: RwLock<Stats>,
+    stats_save_delay_ms: AtomicU64,
     doc_state: Mutex<HashMap<Uri, DocumentState>>,
     lang_detect: LanguageDetectionRegistry,
 }
 
+const SHUTDOWN_STATS_TIMEOUT: Duration = Duration::from_millis(750);
+
 impl Backend {
     pub fn new(client: Client, config: Config) -> Self {
+        let stats_save_delay_ms = std::env::var("HARPER_LS_STATS_SAVE_DELAY_MS")
+            .ok()
+            .and_then(|v| v.parse::<u64>().ok())
+            .unwrap_or(0);
+
         Self {
             client,
             root: RwLock::new(".".into()),
             stats: RwLock::new(Stats::new()),
+            stats_save_delay_ms: AtomicU64::new(stats_save_delay_ms),
             config: RwLock::new(config),
             doc_state: Mutex::new(HashMap::new()),
             lang_detect: LanguageDetectionRegistry::new(),
@@ -274,20 +285,85 @@ impl Backend {
 
     async fn save_stats(&self) -> Result<()> {
         let (config, stats) = join(self.config.read(), self.stats.read()).await;
+        let stats_path = config.stats_path.clone();
+        let stats_snapshot = stats.clone();
+        let simulated_delay =
+            Duration::from_millis(self.stats_save_delay_ms.load(Ordering::Relaxed));
 
-        if let Some(parent) = config.stats_path.parent() {
-            tokio::fs::create_dir_all(parent).await?;
+        Self::save_stats_snapshot(stats_path, stats_snapshot, simulated_delay).await
+    }
+
+    async fn save_stats_snapshot(
+        stats_path: PathBuf,
+        stats: Stats,
+        simulated_delay: Duration,
+    ) -> Result<()> {
+        tokio::task::spawn_blocking(move || -> Result<()> {
+            if !simulated_delay.is_zero() {
+                std::thread::sleep(simulated_delay);
+            }
+
+            if let Some(parent) = stats_path.parent() {
+                std::fs::create_dir_all(parent)?;
+            }
+
+            let mut writer = BufWriter::new(
+                OpenOptions::new()
+                    .read(true)
+                    .append(true)
+                    .create(true)
+                    .open(&stats_path)?,
+            );
+            stats.write(&mut writer)?;
+            writer.flush()?;
+
+            Ok(())
+        })
+        .await
+        .context("Stats save task join failure")?
+    }
+
+    async fn save_stats_for_shutdown(&self) -> Result<()> {
+        let (config, stats) = join(self.config.read(), self.stats.read()).await;
+        let stats_path = config.stats_path.clone();
+        let stats_snapshot = stats.clone();
+        let simulated_delay =
+            Duration::from_millis(self.stats_save_delay_ms.load(Ordering::Relaxed));
+
+        // Keep shutdown responsive while still persisting stats.
+        // If this times out, the detached save task continues in the background.
+        let save_task = tokio::spawn(Self::save_stats_snapshot(
+            stats_path,
+            stats_snapshot,
+            simulated_delay,
+        ));
+
+        let started = std::time::Instant::now();
+        let mut save_task = Some(save_task);
+
+        loop {
+            if save_task
+                .as_ref()
+                .is_some_and(tokio::task::JoinHandle::is_finished)
+            {
+                save_task
+                    .take()
+                    .expect("save_task must be present")
+                    .await
+                    .context("Stats save task failed during shutdown")??;
+                break;
+            }
+
+            if started.elapsed() >= SHUTDOWN_STATS_TIMEOUT {
+                warn!(
+                    "Stats save exceeded shutdown timeout ({:?}); continuing shutdown",
+                    SHUTDOWN_STATS_TIMEOUT
+                );
+                break;
+            }
+
+            tokio::task::yield_now().await;
         }
-
-        let mut writer = BufWriter::new(
-            OpenOptions::new()
-                .read(true)
-                .append(true)
-                .create(true)
-                .open(&config.stats_path)?,
-        );
-        stats.write(&mut writer)?;
-        writer.flush()?;
 
         Ok(())
     }
@@ -1097,6 +1173,14 @@ impl LanguageServer for Backend {
         }
     }
 
+    async fn did_save(&self, _params: DidSaveTextDocumentParams) {
+        // Persist stats opportunistically on save and avoid client warnings for
+        // unhandled didSave notifications.
+        if self.save_stats().await.is_err() {
+            warn!("Unable to persist stats on didSave")
+        }
+    }
+
     async fn code_action(
         &self,
         params: CodeActionParams,
@@ -1125,7 +1209,7 @@ impl LanguageServer for Backend {
                 .await;
         }
 
-        if self.save_stats().await.is_err() {
+        if self.save_stats_for_shutdown().await.is_err() {
             error!("Unable to save stats.")
         }
 
@@ -1163,12 +1247,14 @@ mod tests {
             let file_dict_path = root.join("file_dictionaries");
             let workspace_dict_path = root.join(".harper-dictionary.txt");
             let ignored_lints_path = root.join("ignored_lints");
+            let stats_path = root.join("stats.txt");
 
             let config = Config {
                 user_dict_path: user_dict_path.clone(),
                 file_dict_path: file_dict_path.clone(),
                 workspace_dict_path: workspace_dict_path.clone(),
                 ignored_lints_path: ignored_lints_path.clone(),
+                stats_path: stats_path.clone(),
                 ..Config::default()
             };
 
@@ -1178,6 +1264,7 @@ mod tests {
                     "fileDictPath": file_dict_path.to_string_lossy(),
                     "workspaceDictPath": workspace_dict_path.to_string_lossy(),
                     "ignoredLintsPath": ignored_lints_path.to_string_lossy(),
+                    "statsPath": stats_path.to_string_lossy(),
                 }
             });
 
@@ -1444,5 +1531,32 @@ mod tests {
                     .contains("HarperWord")
             );
         }
+    }
+
+    #[tokio::test(flavor = "current_thread")]
+    async fn shutdown_returns_quickly_when_stats_save_is_slow() {
+        let harness = TestHarness::new().await;
+        harness.install_temp_config().await;
+
+        harness
+            .backend()
+            .stats_save_delay_ms
+            .store(2_000, Ordering::Relaxed);
+
+        let started = std::time::Instant::now();
+        harness.backend().shutdown().await.unwrap();
+        assert!(
+            started.elapsed() < Duration::from_secs(2),
+            "shutdown should not block on long stats save"
+        );
+
+        let deadline = std::time::Instant::now() + Duration::from_secs(3);
+        while std::time::Instant::now() < deadline && !harness.test_config.stats_path.exists() {
+            tokio::task::yield_now().await;
+        }
+        assert!(
+            harness.test_config.stats_path.exists(),
+            "stats file should still be persisted in background"
+        );
     }
 }
