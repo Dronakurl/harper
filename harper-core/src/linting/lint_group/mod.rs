@@ -10,267 +10,272 @@ use foldhash::quality::RandomState;
 use hashbrown::HashMap;
 use lru::LruCache;
 
-use super::ExprLinter;
-
-use super::Lint;
-use super::english::a_part::APart;
-use super::english::a_while::AWhile;
-use super::english::addicting::Addicting;
-use super::english::adjective_double_degree::AdjectiveDoubleDegree;
-use super::english::adjective_of_a::AdjectiveOfA;
-use super::english::after_later::AfterLater;
-use super::english::all_hell_break_loose::AllHellBreakLoose;
-use super::english::all_intents_and_purposes::AllIntentsAndPurposes;
-use super::english::allow_to::AllowTo;
-use super::english::am_in_the_morning::AmInTheMorning;
-use super::english::amounts_for::AmountsFor;
-use super::english::an_a::AnA;
-use super::english::and_the_like::AndTheLike;
-use super::english::another_thing_coming::AnotherThingComing;
-use super::english::another_think_coming::AnotherThinkComing;
-use super::english::apart_from::ApartFrom;
-use super::english::arrive_to::ArriveTo;
-use super::english::ask_no_preposition::AskNoPreposition;
-use super::english::aspire_to::AspireTo;
-use super::english::avoid_curses::AvoidCurses;
-use super::english::back_in_the_day::BackInTheDay;
-use super::english::be_allowed::BeAllowed;
-use super::english::behind_the_scenes::BehindTheScenes;
-use super::english::best_of_all_time::BestOfAllTime;
-use super::english::boring_words::BoringWords;
-use super::english::bought::Bought;
-use super::english::brand_brandish::BrandBrandish;
-use super::english::by_accident::ByAccident;
-use super::english::cant::Cant;
-use super::english::capitalize_personal_pronouns::CapitalizePersonalPronouns;
-use super::english::cautionary_tale::CautionaryTale;
-use super::english::change_tack::ChangeTack;
-use super::english::chock_full::ChockFull;
-use super::english::close_tight_knit::CloseTightKnit;
-use super::english::code_in_write_in::CodeInWriteIn;
-use super::english::comma_fixes::CommaFixes;
-use super::english::compound_nouns::CompoundNouns;
-use super::english::compound_subject_i::CompoundSubjectI;
-use super::english::confident::Confident;
-use super::english::correct_number_suffix::CorrectNumberSuffix;
-use super::english::criteria_phenomena::CriteriaPhenomena;
-use super::english::cure_for::CureFor;
-use super::english::currency_placement::CurrencyPlacement;
-use super::english::damages::Damages;
-use super::english::day_and_age::DayAndAge;
-use super::english::despite_it_is::DespiteItIs;
-use super::english::despite_of::DespiteOf;
-use super::english::did_past::DidPast;
-use super::english::didnt::Didnt;
-use super::english::discourse_markers::DiscourseMarkers;
-use super::english::disjoint_prefixes::DisjointPrefixes;
-use super::english::do_mistake::DoMistake;
-use super::english::dot_initialisms::DotInitialisms;
-use super::english::double_click::DoubleClick;
-use super::english::double_modal::DoubleModal;
-use super::english::ellipsis_length::EllipsisLength;
-use super::english::else_possessive::ElsePossessive;
-use super::english::ever_every::EverEvery;
-use super::english::everyday::Everyday;
-use super::english::except_of::ExceptOf;
-use super::english::expand_memory_shorthands::ExpandMemoryShorthands;
-use super::english::expand_people::ExpandPeople;
-use super::english::expand_time_shorthands::ExpandTimeShorthands;
-use super::english::far_be_it::FarBeIt;
-use super::english::fascinated_by::FascinatedBy;
-use super::english::fed_up_with::FedUpWith;
-use super::english::feel_fell::FeelFell;
-use super::english::few_units_of_time_ago::FewUnitsOfTimeAgo;
-use super::english::filler_words::FillerWords;
-use super::english::find_fine::FindFine;
-use super::english::first_aid_kit::FirstAidKit;
-use super::english::flesh_out_vs_full_fledged::FleshOutVsFullFledged;
-use super::english::for_noun::ForNoun;
-use super::english::free_predicate::FreePredicate;
-use super::english::friend_of_me::FriendOfMe;
-use super::english::go_so_far_as_to::GoSoFarAsTo;
-use super::english::go_to_war::GoToWar;
-use super::english::good_at::GoodAt;
-use super::english::handful::Handful;
-use super::english::have_pronoun::HavePronoun;
-use super::english::have_take_a_look::HaveTakeALook;
-use super::english::hedging::Hedging;
-use super::english::hello_greeting::HelloGreeting;
-use super::english::hereby::Hereby;
-use super::english::hop_hope::HopHope;
-use super::english::how_to::HowTo;
-use super::english::hyphenate_number_day::HyphenateNumberDay;
-use super::english::i_am_agreement::IAmAgreement;
-use super::english::if_wouldve::IfWouldve;
-use super::english::in_on_the_cards::InOnTheCards;
-use super::english::in_time_from_now::InTimeFromNow;
-use super::english::inflected_verb_after_to::InflectedVerbAfterTo;
-use super::english::interested_in::InterestedIn;
-use super::english::it_looks_like_that::ItLooksLikeThat;
-use super::english::its_contraction::ItsContraction;
-use super::english::its_possessive::ItsPossessive;
-use super::english::jealous_of::JealousOf;
-use super::english::johns_hopkins::JohnsHopkins;
-use super::english::lead_rise_to::LeadRiseTo;
-use super::english::left_right_hand::LeftRightHand;
-use super::english::less_worse::LessWorse;
-use super::english::let_to_do::LetToDo;
-use super::english::lets_confusion::LetsConfusion;
-use super::english::likewise::Likewise;
-use super::english::long_sentences::LongSentences;
-use super::english::look_down_ones_nose::LookDownOnesNose;
-use super::english::looking_forward_to::LookingForwardTo;
-use super::english::mass_nouns::MassNouns;
-use super::english::means_a_lot_to::MeansALotTo;
-use super::english::merge_words::MergeWords;
-use super::english::missing_preposition::MissingPreposition;
-use super::english::missing_to::MissingTo;
-use super::english::misspell::Misspell;
-use super::english::mixed_bag::MixedBag;
-use super::english::modal_be_adjective::ModalBeAdjective;
-use super::english::modal_of::ModalOf;
-use super::english::modal_seem::ModalSeem;
-use super::english::months::Months;
-use super::english::more_adjective::MoreAdjective;
-use super::english::more_better::MoreBetter;
-use super::english::most_number::MostNumber;
-use super::english::most_of_the_times::MostOfTheTimes;
-use super::english::multiple_frequency_adverbs::MultipleFrequencyAdverbs;
-use super::english::multiple_sequential_pronouns::MultipleSequentialPronouns;
-use super::english::nail_on_the_head::NailOnTheHead;
-use super::english::need_to_noun::NeedToNoun;
-use super::english::no_french_spaces::NoFrenchSpaces;
-use super::english::no_longer::NoLonger;
-use super::english::no_match_for::NoMatchFor;
-use super::english::no_oxford_comma::NoOxfordComma;
-use super::english::nobody::Nobody;
-use super::english::nominal_wants::NominalWants;
-use super::english::nor_modal_pronoun::NorModalPronoun;
-use super::english::not_only_inversion::NotOnlyInversion;
-use super::english::noun_verb_confusion::NounVerbConfusion;
-use super::english::number_suffix_capitalization::NumberSuffixCapitalization;
-use super::english::numeric_range_en_dash::NumericRangeEnDash;
-use super::english::obsess_preposition::ObsessPreposition;
-use super::english::of_course::OfCourse;
-use super::english::oldest_in_the_book::OldestInTheBook;
-use super::english::on_floor::OnFloor;
-use super::english::once_or_twice::OnceOrTwice;
-use super::english::one_and_the_same::OneAndTheSame;
-use super::english::one_of_the_singular::OneOfTheSingular;
-use super::english::open_the_light::OpenTheLight;
-use super::english::orthographic_consistency::OrthographicConsistency;
-use super::english::ought_to_be::OughtToBe;
-use super::english::out_of_date::OutOfDate;
-use super::english::oxford_comma::OxfordComma;
-use super::english::oxymorons::Oxymorons;
-use super::english::phrasal_verb_as_compound_noun::PhrasalVerbAsCompoundNoun;
-use super::english::pique_interest::PiqueInterest;
-use super::english::plural_decades::PluralDecades;
-use super::english::plural_wrong_word_of_phrase::PluralWrongWordOfPhrase;
-use super::english::possessive_noun::PossessiveNoun;
-use super::english::possessive_your::PossessiveYour;
-use super::english::progressive_needs_be::ProgressiveNeedsBe;
-use super::english::pronoun_are::PronounAre;
-use super::english::pronoun_contraction::PronounContraction;
-use super::english::pronoun_inflection_be::PronounInflectionBe;
-use super::english::pronoun_knew::PronounKnew;
-use super::english::pronoun_verb_agreement::PronounVerbAgreement;
-use super::english::proper_noun_capitalization_linters;
-use super::english::quantifier_needs_of::QuantifierNeedsOf;
-use super::english::quantifier_numeral_conflict::QuantifierNumeralConflict;
-use super::english::quite_quiet::QuiteQuiet;
-use super::english::quote_spacing::QuoteSpacing;
-use super::english::reason_for_doing::ReasonForDoing;
-use super::english::redundant_acronyms::RedundantAcronyms;
-use super::english::redundant_additive_adverbs::RedundantAdditiveAdverbs;
-use super::english::redundant_progressive_comparative::RedundantProgressiveComparative;
-use super::english::regionalisms::Regionalisms;
-use super::english::regular_irregulars::RegularIrregulars;
-use super::english::repeated_words::RepeatedWords;
-use super::english::respond::Respond;
-use super::english::right_click::RightClick;
-use super::english::rise_the_ranks::RiseTheRanks;
-use super::english::roller_skated::RollerSkated;
-use super::english::safe_to_save::SafeToSave;
-use super::english::save_to_safe::SaveToSafe;
-use super::english::sentence_capitalization::SentenceCapitalization;
-use super::english::shoot_oneself_in_the_foot::ShootOneselfInTheFoot;
-use super::english::simple_past_to_past_participle::SimplePastToPastParticiple;
-use super::english::since_duration::SinceDuration;
-use super::english::single_be::SingleBe;
-use super::english::sneaked_snuck::SneakedSnuck;
-use super::english::some_without_article::SomeWithoutArticle;
-use super::english::something_is::SomethingIs;
-use super::english::somewhat_something::SomewhatSomething;
-use super::english::soon_to_be::SoonToBe;
-use super::english::sought_after::SoughtAfter;
-use super::english::spaces::Spaces;
-use super::english::spell_check::SpellCheck;
-use super::english::spelled_numbers::SpelledNumbers;
-use super::english::split_words::SplitWords;
-use super::english::subject_pronoun::SubjectPronoun;
-use super::english::take_a_look_to::TakeALookTo;
-use super::english::take_medicine::TakeMedicine;
-use super::english::that_than::ThatThan;
-use super::english::that_which::ThatWhich;
-use super::english::the_how_why::TheHowWhy;
-use super::english::the_my::TheMy;
-use super::english::the_point_for::ThePointFor;
-use super::english::the_proper_noun_possessive::TheProperNounPossessive;
-use super::english::then_than::ThenThan;
-use super::english::theres::Theres;
-use super::english::theses_these::ThesesThese;
-use super::english::theyre_confusions::TheyreConfusions;
-use super::english::thing_think::ThingThink;
-use super::english::this_type_of_thing::ThisTypeOfThing;
-use super::english::though_thought::ThoughThought;
-use super::english::thrive_on::ThriveOn;
-use super::english::throw_away::ThrowAway;
-use super::english::throw_rubbish::ThrowRubbish;
-use super::english::to_adverb::ToAdverb;
-use super::english::to_two_too::ToTwoToo;
-use super::english::touristic::Touristic;
-use super::english::transposed_space::TransposedSpace;
-use super::english::try_ones_hand_at::TryOnesHandAt;
-use super::english::try_ones_luck::TryOnesLuck;
-use super::english::unclosed_quotes::UnclosedQuotes;
-use super::english::update_place_names::UpdatePlaceNames;
-use super::english::use_ellipsis_character::UseEllipsisCharacter;
-use super::english::use_title_case::UseTitleCase;
-use super::english::verb_to_adjective::VerbToAdjective;
-use super::english::very_unique::VeryUnique;
-use super::english::vice_versa::ViceVersa;
-use super::english::vicious_loop::ViciousCircle;
-use super::english::vicious_loop::ViciousCircleOrCycle;
-use super::english::vicious_loop::ViciousCycle;
-use super::english::was_aloud::WasAloud;
-use super::english::way_too_adjective::WayTooAdjective;
-use super::english::well_educated::WellEducated;
-use super::english::were_where::WereWhere;
-use super::english::whereas::Whereas;
-use super::english::whom_subject_of_verb::WhomSubjectOfVerb;
-use super::english::widely_accepted::WidelyAccepted;
-use super::english::will_non_lemma::WillNonLemma;
-use super::english::win_prize::WinPrize;
-use super::english::wish_could::WishCould;
-use super::english::wordpress_dotcom::WordPressDotcom;
-use super::english::worth_to_do::WorthToDo;
-use super::english::would_never_have::WouldNeverHave;
-use super::english::wrong_apostrophe::WrongApostrophe;
+use super::a_part::APart;
+use super::a_some_time::ASomeTime;
+use super::a_while::AWhile;
+use super::addicting::Addicting;
+use super::adjective_double_degree::AdjectiveDoubleDegree;
+use super::adjective_of_a::AdjectiveOfA;
+use super::after_later::AfterLater;
+use super::all_hell_break_loose::AllHellBreakLoose;
+use super::all_intents_and_purposes::AllIntentsAndPurposes;
+use super::allow_to::AllowTo;
+use super::am_in_the_morning::AmInTheMorning;
+use super::amounts_for::AmountsFor;
+use super::an_a::AnA;
+use super::and_the_like::AndTheLike;
+use super::another_thing_coming::AnotherThingComing;
+use super::another_think_coming::AnotherThinkComing;
+use super::apart_from::ApartFrom;
+use super::arrive_to::ArriveTo;
+use super::ask_no_preposition::AskNoPreposition;
+use super::aspire_to::AspireTo;
+use super::avoid_contractions::AvoidContractions;
+use super::avoid_curses::AvoidCurses;
+use super::back_in_the_day::BackInTheDay;
+use super::be_allowed::BeAllowed;
+use super::behind_the_scenes::BehindTheScenes;
+use super::best_of_all_time::BestOfAllTime;
+use super::boring_words::BoringWords;
+use super::bought::Bought;
+use super::brand_brandish::BrandBrandish;
+use super::by_accident::ByAccident;
+use super::call_them::CallThem;
+use super::cant::Cant;
+use super::capitalize_personal_pronouns::CapitalizePersonalPronouns;
+use super::cautionary_tale::CautionaryTale;
+use super::change_tack::ChangeTack;
+use super::chock_full::ChockFull;
+use super::close_tight_knit::CloseTightKnit;
+use super::code_in_write_in::CodeInWriteIn;
+use super::comma_fixes::CommaFixes;
+use super::compound_nouns::CompoundNouns;
+use super::compound_subject_i::CompoundSubjectI;
+use super::confident::Confident;
+use super::correct_number_suffix::CorrectNumberSuffix;
+use super::crave_for::CraveFor;
+use super::criteria_phenomena::CriteriaPhenomena;
+use super::cure_for::CureFor;
+use super::currency_placement::CurrencyPlacement;
+use super::damages::Damages;
+use super::day_and_age::DayAndAge;
+use super::despite_it_is::DespiteItIs;
+use super::despite_of::DespiteOf;
+use super::did_past::DidPast;
+use super::didnt::Didnt;
+use super::discourse_markers::DiscourseMarkers;
+use super::disjoint_prefixes::DisjointPrefixes;
+use super::do_mistake::DoMistake;
+use super::dot_initialisms::DotInitialisms;
+use super::double_click::DoubleClick;
+use super::double_modal::DoubleModal;
+use super::ellipsis_length::EllipsisLength;
+use super::else_possessive::ElsePossessive;
+use super::ever_every::EverEvery;
+use super::everyday::Everyday;
+use super::except_of::ExceptOf;
+use super::expand_memory_shorthands::ExpandMemoryShorthands;
+use super::expand_people::ExpandPeople;
+use super::expand_time_shorthands::ExpandTimeShorthands;
 use super::expr_linter::run_on_chunk;
+use super::far_be_it::FarBeIt;
+use super::fascinated_by::FascinatedBy;
+use super::fed_up_with::FedUpWith;
+use super::feel_fell::FeelFell;
+use super::few_units_of_time_ago::FewUnitsOfTimeAgo;
+use super::filler_words::FillerWords;
+use super::find_fine::FindFine;
+use super::first_aid_kit::FirstAidKit;
+use super::flesh_out_vs_full_fledged::FleshOutVsFullFledged;
+use super::for_free_of_charge::ForFreeOfCharge;
+use super::for_noun::ForNoun;
+use super::free_predicate::FreePredicate;
+use super::friend_of_me::FriendOfMe;
+use super::go_so_far_as_to::GoSoFarAsTo;
+use super::go_to_war::GoToWar;
+use super::good_at::GoodAt;
+use super::handful::Handful;
+use super::have_pronoun::HavePronoun;
+use super::have_take_a_look::HaveTakeALook;
+use super::hedging::Hedging;
+use super::hello_greeting::HelloGreeting;
+use super::hereby::Hereby;
+use super::hop_hope::HopHope;
+use super::how_to::HowTo;
+use super::hyphenate_number_day::HyphenateNumberDay;
+use super::i_am_agreement::IAmAgreement;
+use super::if_wouldve::IfWouldve;
+use super::in_favour_of_doing::InFavourOfDoing;
+use super::in_on_the_cards::InOnTheCards;
+use super::in_time_from_now::InTimeFromNow;
+use super::inflected_verb_after_to::InflectedVerbAfterTo;
+use super::interested_in::InterestedIn;
+use super::it_looks_like_that::ItLooksLikeThat;
+use super::its_contraction::ItsContraction;
+use super::its_possessive::ItsPossessive;
+use super::jealous_of::JealousOf;
+use super::johns_hopkins::JohnsHopkins;
+use super::lead_rise_to::LeadRiseTo;
+use super::left_right_hand::LeftRightHand;
+use super::less_worse::LessWorse;
+use super::let_to_do::LetToDo;
+use super::lets_confusion::LetsConfusion;
+use super::likewise::Likewise;
+use super::long_sentences::LongSentences;
+use super::long_time_ago::LongTimeAgo;
+use super::look_down_ones_nose::LookDownOnesNose;
+use super::looking_forward_to::LookingForwardTo;
+use super::mass_nouns::MassNouns;
+use super::means_a_lot_to::MeansALotTo;
+use super::merge_words::MergeWords;
+use super::missing_preposition::MissingPreposition;
+use super::missing_to::MissingTo;
+use super::misspell::Misspell;
+use super::mixed_bag::MixedBag;
+use super::modal_be_adjective::ModalBeAdjective;
+use super::modal_of::ModalOf;
+use super::modal_seem::ModalSeem;
+use super::months::Months;
+use super::more_adjective::MoreAdjective;
+use super::more_better::MoreBetter;
+use super::most_number::MostNumber;
+use super::most_of_the_times::MostOfTheTimes;
+use super::multiple_frequency_adverbs::MultipleFrequencyAdverbs;
+use super::multiple_sequential_pronouns::MultipleSequentialPronouns;
+use super::nail_on_the_head::NailOnTheHead;
+use super::need_to_noun::NeedToNoun;
+use super::no_french_spaces::NoFrenchSpaces;
+use super::no_longer::NoLonger;
+use super::no_match_for::NoMatchFor;
+use super::no_oxford_comma::NoOxfordComma;
+use super::nobody::Nobody;
+use super::nominal_wants::NominalWants;
+use super::nor_modal_pronoun::NorModalPronoun;
+use super::not_only_inversion::NotOnlyInversion;
+use super::noun_verb_confusion::NounVerbConfusion;
+use super::number_suffix_capitalization::NumberSuffixCapitalization;
+use super::numeric_range_en_dash::NumericRangeEnDash;
+use super::obsess_preposition::ObsessPreposition;
+use super::of_course::OfCourse;
+use super::oldest_in_the_book::OldestInTheBook;
+use super::on_floor::OnFloor;
+use super::once_or_twice::OnceOrTwice;
+use super::one_and_the_same::OneAndTheSame;
+use super::one_of_the_singular::OneOfTheSingular;
+use super::open_the_light::OpenTheLight;
+use super::orthographic_consistency::OrthographicConsistency;
+use super::ought_to_be::OughtToBe;
+use super::out_of_date::OutOfDate;
+use super::oxford_comma::OxfordComma;
+use super::oxymorons::Oxymorons;
+use super::phrasal_verb_as_compound_noun::PhrasalVerbAsCompoundNoun;
+use super::pique_interest::PiqueInterest;
+use super::plural_decades::PluralDecades;
+use super::plural_wrong_word_of_phrase::PluralWrongWordOfPhrase;
+use super::possessive_noun::PossessiveNoun;
+use super::possessive_your::PossessiveYour;
+use super::progressive_needs_be::ProgressiveNeedsBe;
+use super::pronoun_are::PronounAre;
+use super::pronoun_contraction::PronounContraction;
+use super::pronoun_inflection_be::PronounInflectionBe;
+use super::pronoun_knew::PronounKnew;
+use super::pronoun_verb_agreement::PronounVerbAgreement;
+use super::proper_noun_capitalization_linters;
+use super::quantifier_needs_of::QuantifierNeedsOf;
+use super::quantifier_numeral_conflict::QuantifierNumeralConflict;
+use super::quite_quiet::QuiteQuiet;
+use super::quote_spacing::QuoteSpacing;
+use super::reason_for_doing::ReasonForDoing;
+use super::redundant_acronyms::RedundantAcronyms;
+use super::redundant_additive_adverbs::RedundantAdditiveAdverbs;
+use super::redundant_progressive_comparative::RedundantProgressiveComparative;
+use super::regionalisms::Regionalisms;
+use super::regular_irregulars::RegularIrregulars;
+use super::repeated_words::RepeatedWords;
+use super::respond::Respond;
+use super::right_click::RightClick;
+use super::rise_the_ranks::RiseTheRanks;
+use super::roller_skated::RollerSkated;
+use super::safe_to_save::SafeToSave;
+use super::save_to_safe::SaveToSafe;
+use super::sentence_capitalization::SentenceCapitalization;
+use super::shoot_oneself_in_the_foot::ShootOneselfInTheFoot;
+use super::simple_past_to_past_participle::SimplePastToPastParticiple;
+use super::since_duration::SinceDuration;
+use super::single_be::SingleBe;
+use super::sneaked_snuck::SneakedSnuck;
+use super::some_without_article::SomeWithoutArticle;
+use super::something_is::SomethingIs;
+use super::somewhat_something::SomewhatSomething;
+use super::soon_to_be::SoonToBe;
+use super::sought_after::SoughtAfter;
+use super::spaces::Spaces;
+use super::spell_check::SpellCheck;
+use super::spelled_numbers::SpelledNumbers;
+use super::split_words::SplitWords;
+use super::subject_pronoun::SubjectPronoun;
+use super::take_a_look_to::TakeALookTo;
+use super::take_medicine::TakeMedicine;
+use super::that_than::ThatThan;
+use super::that_which::ThatWhich;
+use super::the_how_why::TheHowWhy;
+use super::the_my::TheMy;
+use super::the_point_for::ThePointFor;
+use super::the_proper_noun_possessive::TheProperNounPossessive;
+use super::then_than::ThenThan;
+use super::there_is_agreement::ThereIsAgreement;
+use super::there_own::ThereOwn;
+use super::theres::Theres;
+use super::theses_these::ThesesThese;
+use super::theyre_confusions::TheyreConfusions;
+use super::thing_think::ThingThink;
+use super::this_type_of_thing::ThisTypeOfThing;
+use super::though_thought::ThoughThought;
+use super::thrive_on::ThriveOn;
+use super::throw_away::ThrowAway;
+use super::throw_rubbish::ThrowRubbish;
+use super::to_adverb::ToAdverb;
+use super::to_two_too::ToTwoToo;
+use super::touristic::Touristic;
+use super::transposed_space::TransposedSpace;
+use super::try_ones_hand_at::TryOnesHandAt;
+use super::try_ones_luck::TryOnesLuck;
+use super::unclosed_quotes::UnclosedQuotes;
+use super::update_place_names::UpdatePlaceNames;
+use super::use_ellipsis_character::UseEllipsisCharacter;
+use super::use_title_case::UseTitleCase;
+use super::verb_to_adjective::VerbToAdjective;
+use super::very_unique::VeryUnique;
+use super::vice_versa::ViceVersa;
+use super::vicious_loop::ViciousCircle;
+use super::vicious_loop::ViciousCircleOrCycle;
+use super::vicious_loop::ViciousCycle;
+use super::was_aloud::WasAloud;
+use super::way_too_adjective::WayTooAdjective;
+use super::web_scraping::WebScraping;
+use super::well_educated::WellEducated;
+use super::were_where::WereWhere;
+use super::whereas::Whereas;
+use super::whom_subject_of_verb::WhomSubjectOfVerb;
+use super::widely_accepted::WidelyAccepted;
+use super::will_non_lemma::WillNonLemma;
+use super::win_prize::WinPrize;
+use super::wish_could::WishCould;
+use super::wordpress_dotcom::WordPressDotcom;
+use super::worth_to_do::WorthToDo;
+use super::would_never_have::WouldNeverHave;
+use super::wrong_apostrophe::WrongApostrophe;
+
+use super::{ExprLinter, Lint};
 use super::{HtmlDescriptionLinter, Linter};
-use crate::EnglishDialect;
-use crate::PortugueseDialect;
-use crate::languages::Language;
-use crate::linting::english::dashes::Dashes;
-use crate::linting::english::open_compounds::OpenCompounds;
-use crate::linting::english::web_scraping::WebScraping;
-use crate::linting::english::{
+use crate::linting::dashes::Dashes;
+use crate::linting::expr_linter::{Chunk, Sentence};
+use crate::linting::open_compounds::OpenCompounds;
+use crate::linting::{
     be_adjective_confusions, closed_compounds, initialisms, phrase_set_corrections, weir_rules,
 };
-use crate::linting::expr_linter::Chunk;
 use crate::spell::Dictionary;
-use crate::{Document, Lrc, TokenStringExt};
+use crate::{Dialect, Document, Lrc, TokenStringExt};
 
 pub use flat_config::FlatConfig;
 pub use structured_config::{
@@ -285,6 +290,8 @@ pub struct LintGroup {
     linters: BTreeMap<String, Box<dyn Linter>>,
     /// We use a binary map here so the ordering is stable.
     chunk_expr_linters: BTreeMap<String, Box<dyn ExprLinter<Unit = Chunk>>>,
+    /// We use a binary map here so the ordering is stable.
+    sentence_expr_linters: BTreeMap<String, Box<dyn ExprLinter<Unit = Sentence>>>,
     /// Since [`ExprLinter`]s operate on a chunk-basis, we can store a
     /// mapping of `Chunk -> Lint` and only rerun the expr linters
     /// when a chunk changes.
@@ -293,6 +300,8 @@ pub struct LintGroup {
     /// of the key.
     #[expect(clippy::complexity)]
     chunk_expr_cache: LruCache<(u64, u64), Lrc<BTreeMap<String, Vec<Lint>>>>,
+    #[expect(clippy::complexity)]
+    sentence_expr_cache: LruCache<(u64, u64), Lrc<BTreeMap<String, Vec<Lint>>>>,
     hasher_builder: RandomState,
     clashing_linter_names: Option<Vec<String>>,
 }
@@ -305,7 +314,9 @@ impl LintGroup {
             config: FlatConfig::default(),
             linters: BTreeMap::new(),
             chunk_expr_linters: BTreeMap::new(),
+            sentence_expr_linters: BTreeMap::new(),
             chunk_expr_cache: LruCache::new(NonZero::new(1000).unwrap()),
+            sentence_expr_cache: LruCache::new(NonZero::new(1000).unwrap()),
             hasher_builder: RandomState::default(),
             clashing_linter_names: None,
         }
@@ -315,6 +326,7 @@ impl LintGroup {
     pub fn contains_key(&self, name: impl AsRef<str>) -> bool {
         self.linters.contains_key(name.as_ref())
             || self.chunk_expr_linters.contains_key(name.as_ref())
+            || self.sentence_expr_linters.contains_key(name.as_ref())
     }
 
     /// Add a [`Linter`] to the group, returning whether the operation was successful.
@@ -358,6 +370,27 @@ impl LintGroup {
         }
     }
 
+    /// Add a sentence-based [`ExprLinter`] to the group, returning whether the operation was successful.
+    /// If it returns `false`, it is because a linter with that key already existed in the group.
+    pub fn add_sentence_expr_linter(
+        &mut self,
+        name: impl AsRef<str>,
+        linter: impl ExprLinter<Unit = Sentence> + 'static,
+    ) -> bool {
+        if self.contains_key(&name) {
+            if self.clashing_linter_names.is_none() {
+                self.clashing_linter_names = Some(vec![name.as_ref().to_string()]);
+            } else if let Some(clashing_names) = &mut self.clashing_linter_names {
+                clashing_names.push(name.as_ref().to_string());
+            }
+            false
+        } else {
+            self.sentence_expr_linters
+                .insert(name.as_ref().to_string(), Box::new(linter) as _);
+            true
+        }
+    }
+
     /// Merge the contents of another [`LintGroup`] into this one.
     pub fn merge_from(&mut self, other: LintGroup) {
         self.config.merge_from(other.config);
@@ -384,12 +417,27 @@ impl LintGroup {
             }
         }
         self.chunk_expr_linters.extend(other.chunk_expr_linters);
+
+        if let Some((conflicting_key, _)) = other
+            .sentence_expr_linters
+            .iter()
+            .find(|(k, _)| self.contains_key(k))
+        {
+            if self.clashing_linter_names.is_none() {
+                self.clashing_linter_names = Some(vec![conflicting_key.clone()]);
+            } else if let Some(clashing_names) = &mut self.clashing_linter_names {
+                clashing_names.push(conflicting_key.clone());
+            }
+        }
+        self.sentence_expr_linters
+            .extend(other.sentence_expr_linters);
     }
 
     pub fn iter_keys(&self) -> impl Iterator<Item = &str> {
         self.linters
             .keys()
             .chain(self.chunk_expr_linters.keys())
+            .chain(self.sentence_expr_linters.keys())
             .map(|v| v.as_str())
     }
 
@@ -416,6 +464,11 @@ impl LintGroup {
                     .iter()
                     .map(|(key, value)| (key.as_str(), ExprLinter::description(value))),
             )
+            .chain(
+                self.sentence_expr_linters
+                    .iter()
+                    .map(|(key, value)| (key.as_str(), ExprLinter::description(value))),
+            )
             .collect()
     }
 
@@ -429,6 +482,11 @@ impl LintGroup {
                     .iter()
                     .map(|(key, value)| (key.as_str(), value.description_html())),
             )
+            .chain(
+                self.sentence_expr_linters
+                    .iter()
+                    .map(|(key, value)| (key.as_str(), value.description_html())),
+            )
             .collect()
     }
 
@@ -438,21 +496,7 @@ impl LintGroup {
         self
     }
 
-    pub fn new_curated(dictionary: Arc<impl Dictionary + 'static>, language: Language) -> Self {
-        match language {
-            Language::English(english_dialect) => {
-                Self::new_curated_english(dictionary, english_dialect)
-            }
-            Language::Portuguese(portuguese_dialect) => {
-                Self::new_curated_portuguese(dictionary, portuguese_dialect)
-            }
-        }
-    }
-
-    pub fn new_curated_english(
-        dictionary: Arc<impl Dictionary + 'static>,
-        dialect: EnglishDialect,
-    ) -> Self {
+    pub fn new_curated(dictionary: Arc<impl Dictionary + 'static>, dialect: Dialect) -> Self {
         let mut out = Self::empty();
 
         /// Add a `Linter` to the group, setting it to be enabled or disabled.
@@ -517,11 +561,39 @@ impl LintGroup {
         out.merge_from(closed_compounds::lint_group());
         out.merge_from(initialisms::lint_group());
         out.merge_from(be_adjective_confusions::lint_group());
+        out.merge_from(crate::language::german::linting::german_weir_rules::lint_group());
+
+        // Add German linters when dialect is German
+        if dialect == Dialect::German {
+            use crate::language::german::spell::curated_german_dictionary;
+            use crate::linting::german_noun_capitalization::GermanNounCapitalization;
+            use crate::linting::german_sentence_capitalization::GermanSentenceCapitalization;
+            use crate::linting::german_spell_check::GermanSpellCheck;
+            let german_dict = curated_german_dictionary();
+            out.add(
+                "GermanSpellCheck",
+                GermanSpellCheck::new(german_dict.clone()),
+            );
+            out.config.set_rule_enabled("GermanSpellCheck", true);
+            out.add(
+                "GermanNounCapitalization",
+                GermanNounCapitalization::new(german_dict.clone()),
+            );
+            out.config
+                .set_rule_enabled("GermanNounCapitalization", true);
+            out.add(
+                "GermanSentenceCapitalization",
+                GermanSentenceCapitalization::new(german_dict),
+            );
+            out.config
+                .set_rule_enabled("GermanSentenceCapitalization", true);
+        }
 
         // Add all the more complex rules to the group.
         // Please maintain alphabetical order.
         // On *nix you can maintain sort order with `sort -t'(' -k2`
         insert_expr_rule!(APart, true);
+        insert_expr_rule!(ASomeTime, true);
         insert_expr_rule!(AWhile, true);
         insert_expr_rule!(Addicting, true);
         insert_expr_rule!(AdjectiveDoubleDegree, true);
@@ -539,6 +611,7 @@ impl LintGroup {
         insert_expr_rule!(ApartFrom, true);
         insert_expr_rule!(ArriveTo, true);
         insert_expr_rule!(AskNoPreposition, true);
+        insert_expr_rule!(AvoidContractions, false);
         insert_expr_rule!(AvoidCurses, true);
         insert_expr_rule!(BackInTheDay, true);
         insert_expr_rule!(BeAllowed, true);
@@ -548,6 +621,7 @@ impl LintGroup {
         insert_expr_rule!(Bought, true);
         insert_expr_rule!(BrandBrandish, true);
         insert_expr_rule!(ByAccident, true);
+        insert_expr_rule!(CallThem, true);
         insert_expr_rule!(Cant, true);
         insert_struct_rule!(CapitalizePersonalPronouns, true);
         insert_expr_rule!(CautionaryTale, true);
@@ -560,6 +634,7 @@ impl LintGroup {
         insert_expr_rule!(CompoundSubjectI, true);
         insert_expr_rule!(Confident, true);
         insert_struct_rule!(CorrectNumberSuffix, true);
+        insert_expr_rule!(CraveFor, true);
         insert_expr_rule!(CriteriaPhenomena, true);
         insert_expr_rule!(CureFor, true);
         insert_struct_rule!(CurrencyPlacement, true);
@@ -576,7 +651,6 @@ impl LintGroup {
         insert_expr_rule!(DoubleClick, true);
         insert_expr_rule!(DoubleModal, true);
         insert_struct_rule!(EllipsisLength, true);
-        insert_struct_rule!(UseEllipsisCharacter, true);
         insert_expr_rule!(ElsePossessive, true);
         insert_expr_rule!(EverEvery, true);
         insert_expr_rule!(Everyday, true);
@@ -593,6 +667,7 @@ impl LintGroup {
         insert_struct_rule!(FindFine, true);
         insert_expr_rule!(FirstAidKit, true);
         insert_expr_rule!(FleshOutVsFullFledged, true);
+        insert_expr_rule!(ForFreeOfCharge, true);
         insert_expr_rule!(ForNoun, true);
         insert_expr_rule!(FreePredicate, true);
         insert_expr_rule!(FriendOfMe, true);
@@ -610,6 +685,7 @@ impl LintGroup {
         insert_expr_rule!(HyphenateNumberDay, true);
         insert_expr_rule!(IAmAgreement, true);
         insert_expr_rule!(IfWouldve, true);
+        insert_expr_rule!(InFavourOfDoing, true);
         insert_struct_rule_with_dialect!(InOnTheCards, true);
         insert_expr_rule!(InTimeFromNow, true);
         insert_struct_rule_with_dict!(InflectedVerbAfterTo, true);
@@ -626,6 +702,7 @@ impl LintGroup {
         insert_struct_rule!(LetsConfusion, true);
         insert_expr_rule!(Likewise, true);
         insert_struct_rule!(LongSentences, true);
+        insert_expr_rule!(LongTimeAgo, true);
         insert_expr_rule!(LookDownOnesNose, true);
         insert_expr_rule!(LookingForwardTo, true);
         insert_struct_rule_with_dict!(MassNouns, true);
@@ -723,6 +800,7 @@ impl LintGroup {
         insert_expr_rule!(ThePointFor, true);
         insert_expr_rule!(TheProperNounPossessive, true);
         insert_expr_rule!(ThenThan, true);
+        insert_expr_rule!(ThereOwn, true);
         insert_expr_rule!(Theres, true);
         insert_expr_rule!(ThesesThese, true);
         insert_struct_rule!(TheyreConfusions, true);
@@ -740,6 +818,7 @@ impl LintGroup {
         insert_expr_rule!(TryOnesLuck, true);
         insert_struct_rule!(UnclosedQuotes, true);
         insert_expr_rule!(UpdatePlaceNames, true);
+        insert_struct_rule!(UseEllipsisCharacter, true);
         insert_struct_rule_with_dict!(UseTitleCase, true);
         insert_expr_rule!(VerbToAdjective, true);
         insert_expr_rule!(VeryUnique, true);
@@ -789,46 +868,16 @@ impl LintGroup {
         out.add("SpellCheck", SpellCheck::new(dictionary.clone(), dialect));
         out.config.set_rule_enabled("SpellCheck", true);
 
+        // Uses Dictionary, and Sentence rather than Chunk
+        out.add(
+            "ThereIsAgreement",
+            ThereIsAgreement::new(dictionary.clone()),
+        );
+        out.config.set_rule_enabled("ThereIsAgreement", true);
+
         // Uses Sentence rather than Chunk
         out.add("WebScraping", WebScraping::default());
         out.config.set_rule_enabled("WebScraping", true);
-
-        out
-    }
-    fn new_curated_portuguese(
-        #[allow(unused_variables)] dictionary: Arc<impl Dictionary + 'static>,
-        #[allow(unused_variables)] dialect: PortugueseDialect,
-    ) -> Self {
-        todo!();
-        #[allow(unreachable_code)]
-        let out = Self::empty();
-
-        // /// Add a `Linter` to the group, setting it to be enabled by default.
-        // macro_rules! insert_struct_rule {
-        //     ($rule:ident, $default_config:expr) => {
-        //         out.add(stringify!($rule), $rule::default());
-        //         out.config
-        //             .set_rule_enabled(stringify!($rule), $default_config);
-        //     };
-        // }
-        //
-        // /// Add an `ExprLinter` to the group, setting it to be enabled by default.
-        // /// While you _can_ pass an `ExprLinter` to `insert_struct_rule`, using this macro instead
-        // /// will allow it to use more aggressive caching strategies.
-        // macro_rules! insert_expr_rule {
-        //     ($rule:ident, $default_config:expr) => {
-        //         out.add_expr_linter(stringify!($rule), $rule::default());
-        //         out.config
-        //             .set_rule_enabled(stringify!($rule), $default_config);
-        //     };
-        // }
-
-        // out.merge_from(&mut phrase_set_corrections::lint_group());
-        // out.merge_from(&mut proper_noun_capitalization_linters::lint_group(
-        //     dictionary.clone(),
-        // ));
-        // out.merge_from(&mut closed_compounds::lint_group());
-        // out.merge_from(&mut initialisms::lint_group());
 
         out
     }
@@ -836,9 +885,9 @@ impl LintGroup {
     /// Create a new curated group with all config values cleared out.
     pub fn new_curated_empty_config(
         dictionary: Arc<impl Dictionary + 'static>,
-        language: Language,
+        dialect: Dialect,
     ) -> Self {
-        let mut group = Self::new_curated(dictionary, language);
+        let mut group = Self::new_curated(dictionary, dialect);
         group.config.clear();
         group
     }
@@ -899,6 +948,53 @@ impl LintGroup {
             }
         }
 
+        // Sentence Expr linters
+        for sentence in document.iter_sentences() {
+            let Some(sentence_span) = sentence.span() else {
+                continue;
+            };
+
+            let sentence_chars = document.get_span_content(&sentence_span);
+            let config_hash = self.hasher_builder.hash_one(&self.config);
+            let char_hash = self.hasher_builder.hash_one(sentence_chars);
+            let cache_key = (char_hash, config_hash);
+
+            let sentence_results = if let Some(hit) = self.sentence_expr_cache.get(&cache_key) {
+                hit.clone()
+            } else {
+                let mut pattern_lints = BTreeMap::new();
+
+                for (key, linter) in &mut self.sentence_expr_linters {
+                    if self.config.is_rule_enabled(key) {
+                        let lints =
+                            run_on_chunk(linter, sentence, document.get_source()).map(|mut l| {
+                                l.span.pull_by(sentence_span.start);
+                                l
+                            });
+
+                        pattern_lints.insert(key.clone(), lints.collect());
+                    }
+                }
+
+                let pattern_lints = Lrc::new(pattern_lints);
+
+                self.sentence_expr_cache
+                    .put(cache_key, pattern_lints.clone());
+                pattern_lints
+            };
+
+            for (key, vec) in sentence_results.iter() {
+                results
+                    .entry(key.to_owned())
+                    .or_default()
+                    .extend(vec.iter().cloned().map(|mut lint| {
+                        // Bring the spans back into document-space
+                        lint.span.push_by(sentence_span.start);
+                        lint
+                    }));
+            }
+        }
+
         results
     }
 }
@@ -927,17 +1023,14 @@ mod tests {
     use std::sync::Arc;
 
     use super::{FlatConfig, LintGroup};
-    use crate::languages::{Language, LanguageFamily};
     use crate::linting::LintKind;
     use crate::linting::tests::{assert_no_lints, assert_suggestion_result};
     use crate::spell::{FstDictionary, MutableDictionary};
-    use crate::{Document, EnglishDialect, linting::Linter};
+    use crate::weir::WeirLinter;
+    use crate::{Dialect, Document, linting::Linter};
 
     fn test_group() -> LintGroup {
-        LintGroup::new_curated_english(
-            Arc::new(MutableDictionary::curated()),
-            EnglishDialect::American,
-        )
+        LintGroup::new_curated(Arc::new(MutableDictionary::curated()), Dialect::American)
     }
 
     #[test]
@@ -945,17 +1038,12 @@ mod tests {
         assert_no_lints(
             "Although I only saw the need to interject once, I still saw it.",
             test_group(),
-            LanguageFamily::English,
         );
     }
 
     #[test]
     fn clean_consensus() {
-        assert_no_lints(
-            "But there is less consensus on this.",
-            test_group(),
-            LanguageFamily::English,
-        );
+        assert_no_lints("But there is less consensus on this.", test_group());
     }
 
     #[test]
@@ -964,23 +1052,17 @@ mod tests {
             "ive never seen that before",
             test_group(),
             "I've never seen that before",
-            LanguageFamily::English,
         );
     }
 
     #[test]
     fn worthchecking_is_split() {
-        assert_suggestion_result(
-            "It is worthchecking",
-            test_group(),
-            "It is worth checking",
-            LanguageFamily::English,
-        );
+        assert_suggestion_result("It is worthchecking", test_group(), "It is worth checking");
     }
 
     #[test]
     fn its_not_perfect_keeps_apostrophe() {
-        assert_no_lints("It's not perfect", test_group(), LanguageFamily::English);
+        assert_no_lints("It's not perfect", test_group());
     }
 
     #[test]
@@ -1009,29 +1091,45 @@ mod tests {
 
     #[test]
     fn ok_becomes_okay() {
-        assert_suggestion_result(
-            "This is ok.",
-            test_group(),
-            "This is okay.",
-            LanguageFamily::English,
+        assert_suggestion_result("This is ok.", test_group(), "This is okay.");
+    }
+
+    #[test]
+    fn weir_linter_uses_configured_sentence_scope() {
+        let source = r#"
+            expr main one**two
+            let message "Use three."
+            let description "Test sentence-scoped Weir."
+            let kind "Miscellaneous"
+            let becomes "three"
+            let strategy "Exact"
+            let scope "Sentence"
+        "#;
+
+        let mut group = LintGroup::empty();
+        group.add_sentence_expr_linter(
+            "TestSentenceWeir",
+            WeirLinter::new(source)
+                .unwrap()
+                .into_sentence_linter()
+                .unwrap_or_else(|_| unreachable!()),
         );
+        group.config.set_rule_enabled("TestSentenceWeir", true);
+
+        assert_suggestion_result("one, two.", group, "three.");
     }
 
     #[test]
     fn can_get_all_descriptions() {
-        let group = LintGroup::new_curated(
-            Arc::new(MutableDictionary::default()),
-            Language::English(EnglishDialect::American),
-        );
+        let group =
+            LintGroup::new_curated(Arc::new(MutableDictionary::default()), Dialect::American);
         group.all_descriptions();
     }
 
     #[test]
     fn can_get_all_descriptions_as_html() {
-        let group = LintGroup::new_curated(
-            Arc::new(MutableDictionary::default()),
-            Language::English(EnglishDialect::American),
-        );
+        let group =
+            LintGroup::new_curated(Arc::new(MutableDictionary::default()), Dialect::American);
         group.all_descriptions_html();
     }
 
@@ -1040,7 +1138,6 @@ mod tests {
         assert_no_lints(
             "The standard form is low-hanging fruit with a hyphen and singular form.",
             test_group(),
-            LanguageFamily::English,
         );
     }
 
@@ -1049,7 +1146,6 @@ mod tests {
         assert_no_lints(
             "Corrects nonstandard variants of low-hanging fruit.",
             test_group(),
-            LanguageFamily::English,
         );
     }
 
@@ -1068,17 +1164,12 @@ mod tests {
     ///    in the context of another linter's description.
     #[test]
     fn lint_descriptions_are_clean() {
-        let lints_to_check = LintGroup::new_curated(
-            FstDictionary::curated(LanguageFamily::English),
-            Language::English(EnglishDialect::American),
-        );
+        let lints_to_check = LintGroup::new_curated(FstDictionary::curated(), Dialect::American);
 
         let enforcer_config = FlatConfig::new_curated();
-        let mut lints_to_enforce = LintGroup::new_curated(
-            FstDictionary::curated(LanguageFamily::English),
-            Language::English(EnglishDialect::American),
-        )
-        .with_lint_config(enforcer_config);
+        let mut lints_to_enforce =
+            LintGroup::new_curated(FstDictionary::curated(), Dialect::American)
+                .with_lint_config(enforcer_config);
 
         let name_description_pairs: Vec<_> = lints_to_check
             .all_descriptions()
@@ -1104,10 +1195,8 @@ mod tests {
 
     #[test]
     fn no_linter_names_clash() {
-        let group = LintGroup::new_curated(
-            Arc::new(MutableDictionary::default()),
-            Language::English(EnglishDialect::American),
-        );
+        let group =
+            LintGroup::new_curated(Arc::new(MutableDictionary::default()), Dialect::American);
 
         if let Some(names) = &group.clashing_linter_names {
             if !names.is_empty() {
