@@ -283,16 +283,6 @@ impl Backend {
         }
     }
 
-    async fn save_stats(&self) -> Result<()> {
-        let (config, stats) = join(self.config.read(), self.stats.read()).await;
-        let stats_path = config.stats_path.clone();
-        let stats_snapshot = stats.clone();
-        let simulated_delay =
-            Duration::from_millis(self.stats_save_delay_ms.load(Ordering::Relaxed));
-
-        Self::save_stats_snapshot(stats_path, stats_snapshot, simulated_delay).await
-    }
-
     async fn save_stats_snapshot(
         stats_path: PathBuf,
         stats: Stats,
@@ -1174,11 +1164,8 @@ impl LanguageServer for Backend {
     }
 
     async fn did_save(&self, _params: DidSaveTextDocumentParams) {
-        // Persist stats opportunistically on save and avoid client warnings for
-        // unhandled didSave notifications.
-        if self.save_stats().await.is_err() {
-            warn!("Unable to persist stats on didSave")
-        }
+        // Explicitly implemented so clients like Helix don't log
+        // "textDocument/didSave notification not implemented".
     }
 
     async fn code_action(
@@ -1424,6 +1411,19 @@ mod tests {
         assert!(
             !diagnostics.is_empty(),
             "expected diagnostics after switching to German text"
+        );
+        assert!(
+            diagnostics.iter().any(|d| {
+                d.code.as_ref().is_some_and(|code| {
+                    matches!(
+                        code,
+                        tower_lsp_server::lsp_types::NumberOrString::String(tag)
+                            if tag.contains("GermanSpellCheck")
+                    )
+                })
+            }),
+            "expected German spellcheck diagnostics after language switch: {:?}",
+            diagnostics
         );
     }
 
