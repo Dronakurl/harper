@@ -663,7 +663,7 @@ impl LintGroup {
         insert_expr_rule_with_dialect!(FedUpWith, true);
         insert_expr_rule!(FeelFell, true);
         insert_expr_rule!(FewUnitsOfTimeAgo, true);
-        insert_expr_rule!(FillerWords, true);
+        insert_expr_rule!(FillerWords, dialect.is_english());
         insert_struct_rule!(FindFine, true);
         insert_expr_rule!(FirstAidKit, true);
         insert_expr_rule!(FleshOutVsFullFledged, true);
@@ -1207,5 +1207,21 @@ mod tests {
                 );
             }
         }
+    }
+
+    #[test]
+    fn german_dialect_disables_english_filler_words_rule() {
+        let mut group =
+            LintGroup::new_curated(Arc::new(MutableDictionary::default()), Dialect::German);
+        let doc = Document::new_markdown_default_curated(
+            "Es ist nicht gut, dass ich mir immer die Nächste um die Ohren schlage.",
+        );
+
+        let organized = group.organized_lints(&doc);
+        assert!(
+            organized.get("FillerWords").is_none_or(Vec::is_empty),
+            "FillerWords must not run for German dialect: {:?}",
+            organized.get("FillerWords")
+        );
     }
 }

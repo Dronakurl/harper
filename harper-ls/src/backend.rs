@@ -416,8 +416,6 @@ impl Backend {
         text: &str,
         language_id: Option<&str>,
     ) -> Result<()> {
-        self.pull_config().await;
-
         info!(
             "Opening document: {:?} with language_id: {:?}",
             uri, language_id
