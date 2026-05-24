@@ -8,7 +8,13 @@ use std::fmt::Debug;
 /// Core trait for language detectors.
 pub trait LanguageDetector: Debug + Send + Sync {
     fn name(&self) -> &str;
-    fn detect(&self, toks: &[Token], source: &[char], dict: &FstDictionary) -> Option<Dialect>;
+    fn detect(
+        &self,
+        toks: &[Token],
+        source: &[char],
+        dict: &FstDictionary,
+        default_dialect: Dialect,
+    ) -> Option<Dialect>;
     fn confidence(&self) -> f64;
 }
 
@@ -55,7 +61,7 @@ impl LanguageDetectionRegistry {
         }
 
         for detector in &self.detectors {
-            if let Some(dialect) = detector.detect(&tokens, &source_chars, dict) {
+            if let Some(dialect) = detector.detect(&tokens, &source_chars, dict, default_dialect) {
                 tracing::debug!(
                     "Detected language: {} using {} detector",
                     detector.name(),

@@ -50,10 +50,22 @@ mod tests {
 
     #[test]
     fn test_dialect_abbreviations() {
-        assert_eq!(PortugueseDialect::try_from_abbr("PT"), Some(PortugueseDialect::European));
-        assert_eq!(PortugueseDialect::try_from_abbr("BR"), Some(PortugueseDialect::Brazilian));
-        assert_eq!(PortugueseDialect::try_from_abbr("AF"), Some(PortugueseDialect::African));
-        assert_eq!(PortugueseDialect::try_from_abbr("European"), Some(PortugueseDialect::European));
+        assert_eq!(
+            PortugueseDialect::try_from_abbr("PT"),
+            Some(PortugueseDialect::European)
+        );
+        assert_eq!(
+            PortugueseDialect::try_from_abbr("BR"),
+            Some(PortugueseDialect::Brazilian)
+        );
+        assert_eq!(
+            PortugueseDialect::try_from_abbr("AF"),
+            Some(PortugueseDialect::African)
+        );
+        assert_eq!(
+            PortugueseDialect::try_from_abbr("European"),
+            Some(PortugueseDialect::European)
+        );
         assert_eq!(PortugueseDialect::try_from_abbr("XY"), None);
     }
 

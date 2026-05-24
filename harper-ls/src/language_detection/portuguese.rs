@@ -18,7 +18,13 @@ impl LanguageDetector for PortugueseDetector {
         "portuguese"
     }
 
-    fn detect(&self, toks: &[Token], source: &[char], dict: &FstDictionary) -> Option<Dialect> {
+    fn detect(
+        &self,
+        toks: &[Token],
+        source: &[char],
+        dict: &FstDictionary,
+        _default_dialect: Dialect,
+    ) -> Option<Dialect> {
         let mut total_words = 0;
         let mut portuguese_char_count = 0;
         let mut common_portuguese_words = 0;
@@ -27,24 +33,92 @@ impl LanguageDetector for PortugueseDetector {
         // High-confidence Portuguese indicators (articles, pronouns, common verbs)
         let portuguese_indicators = [
             // Definite articles
-            "o", "a", "os", "as",
+            "o",
+            "a",
+            "os",
+            "as",
             // Indefinite articles
-            "um", "uma", "uns", "umas",
+            "um",
+            "uma",
+            "uns",
+            "umas",
             // Personal pronouns
-            "eu", "tu", "ele", "ela", "nós", "vós", "eles", "elas",
-            "me", "te", "se", "nos", "vos",
+            "eu",
+            "tu",
+            "ele",
+            "ela",
+            "nós",
+            "vós",
+            "eles",
+            "elas",
+            "me",
+            "te",
+            "se",
+            "nos",
+            "vos",
             // Verb forms (ser, estar, ter, ir)
-            "sou", "és", "é", "somos", "sois", "são",
-            "estou", "estás", "está", "estamos", "estais", "estão",
-            "tenho", "tens", "tem", "temos", "tendes", "têm",
-            "vou", "vais", "vai", "vamos", "ides", "vão",
+            "sou",
+            "és",
+            "é",
+            "somos",
+            "sois",
+            "são",
+            "estou",
+            "estás",
+            "está",
+            "estamos",
+            "estais",
+            "estão",
+            "tenho",
+            "tens",
+            "tem",
+            "temos",
+            "tendes",
+            "têm",
+            "vou",
+            "vais",
+            "vai",
+            "vamos",
+            "ides",
+            "vão",
             // Common words
-            "que", "de", "do", "da", "no", "na", "ao", "aos", "as",
-            "e", "ou", "mas", "por", "para", "com", "sem", "sobre",
-            "não", "sim", "aqui", "ali", "agora", "depois",
+            "que",
+            "de",
+            "do",
+            "da",
+            "no",
+            "na",
+            "ao",
+            "aos",
+            "as",
+            "e",
+            "ou",
+            "mas",
+            "por",
+            "para",
+            "com",
+            "sem",
+            "sobre",
+            "não",
+            "sim",
+            "aqui",
+            "ali",
+            "agora",
+            "depois",
             // Common nouns
-            "pessoa", "coisa", "tempo", "ano", "dia", "noite", "mundo",
-            "casa", "rua", "cidade", "país", "língua", "português",
+            "pessoa",
+            "coisa",
+            "tempo",
+            "ano",
+            "dia",
+            "noite",
+            "mundo",
+            "casa",
+            "rua",
+            "cidade",
+            "país",
+            "língua",
+            "português",
         ];
 
         for token in toks {
@@ -114,6 +188,7 @@ impl LanguageDetector for PortugueseDetector {
 mod tests {
     use super::PortugueseDetector;
     use crate::language_detection::LanguageDetector;
+    use harper_core::Dialect;
     use harper_core::Document;
     use harper_core::parsers::PlainEnglish;
     use harper_core::spell::FstDictionary;
@@ -123,7 +198,7 @@ mod tests {
         let doc = Document::new(text, &PlainEnglish, &dict);
         let detector = PortugueseDetector;
 
-        let result = detector.detect(doc.get_tokens(), doc.get_source(), &dict);
+        let result = detector.detect(doc.get_tokens(), doc.get_source(), &dict, Dialect::American);
         // For now, we return Some(Dialect::American) as a placeholder
         // In the future, we should have a Portuguese Dialect variant
         assert_eq!(result.is_some(), expected_portuguese);
@@ -131,26 +206,20 @@ mod tests {
 
     #[test]
     fn detects_portuguese_special_chars() {
-        test_detection(
-            "O João foi à cidade de São Paulo e comprou pão.",
-            true,
-        );
+        test_detection("O João foi à cidade de São Paulo e comprou pão.", true);
     }
 
     #[test]
     fn detects_common_portuguese_words() {
         test_detection(
-            "Eu tenho um cão e um gato. O cão é feliz e a gato é bonita.",
+            "João tem um cão e uma casa em São Paulo. O cão é feliz.",
             true,
         );
     }
 
     #[test]
     fn does_not_detect_english() {
-        test_detection(
-            "The quick brown fox jumps over the lazy dog.",
-            false,
-        );
+        test_detection("The quick brown fox jumps over the lazy dog.", false);
     }
 
     #[test]

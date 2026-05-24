@@ -2,10 +2,11 @@ name: Just Checks
 
 on:
   push:
-    branches: ["master", "web-prod"]
+    branches: ["master", "web-prod", "feature/german-language-support"]
   pull_request:
     branches: ["master"]
   merge_group:
+  workflow_dispatch:
 
 env:
   CARGO_TERM_COLOR: always

@@ -13,17 +13,7 @@ use crate::language::portuguese::dialects::PortugueseDialect;
 ///
 /// This enum represents all supported languages in Harper, each with their specific dialect.
 #[derive(
-    Debug,
-    Clone,
-    Copy,
-    Serialize,
-    Deserialize,
-    PartialEq,
-    PartialOrd,
-    Eq,
-    Hash,
-    EnumCount,
-    Display,
+    Debug, Clone, Copy, Serialize, Deserialize, PartialEq, PartialOrd, Eq, Hash, EnumCount, Display,
 )]
 pub enum Language {
     /// English language with its dialects
@@ -129,9 +119,6 @@ mod tests {
 
     #[test]
     fn test_default_language() {
-        assert_eq!(
-            Language::default().family(),
-            LanguageFamily::English
-        );
+        assert_eq!(Language::default().family(), LanguageFamily::English);
     }
 }

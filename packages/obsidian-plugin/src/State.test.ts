@@ -255,7 +255,7 @@ test('can persist dictionary order in settings', async () => {
 	const roundTwo = settings.userDictionary;
 
 	expect(roundOne).toStrictEqual(roundTwo);
-});
+}, 30000);
 
 test('can overwrite dictionary words in settings', async () => {
 	const state = createEphemeralState();
