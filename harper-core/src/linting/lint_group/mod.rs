@@ -564,7 +564,8 @@ impl LintGroup {
         out.merge_from(crate::language::german::linting::german_weir_rules::lint_group());
 
         // Add German linters when dialect is German
-        if dialect == Dialect::German {
+        if dialect.is_german() {
+            use crate::language::german::linting::german_filler_words::GermanFillerWords;
             use crate::language::german::spell::curated_german_dictionary;
             use crate::linting::german_noun_capitalization::GermanNounCapitalization;
             use crate::linting::german_sentence_capitalization::GermanSentenceCapitalization;
@@ -587,6 +588,8 @@ impl LintGroup {
             );
             out.config
                 .set_rule_enabled("GermanSentenceCapitalization", true);
+            out.add_chunk_expr_linter("GermanFillerWords", GermanFillerWords::default());
+            out.config.set_rule_enabled("GermanFillerWords", true);
         }
 
         // Add all the more complex rules to the group.
