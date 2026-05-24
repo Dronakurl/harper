@@ -89,6 +89,9 @@ impl Backend {
         }
     }
 
+    const SHUTDOWN_STATS_TIMEOUT: Duration = Duration::from_millis(750);
+    const MIN_WORDS_FOR_LANGUAGE_DETECTION: usize = 10;
+
     /// Load a specific file's dictionary, using the given dialect to determine
     /// the dictionary path suffix.
     fn parser_for_prose(
@@ -289,22 +292,60 @@ impl Backend {
         }
     }
 
-    async fn save_stats(&self) -> Result<()> {
+    async fn save_stats_snapshot(stats_path: PathBuf, stats: Stats) -> Result<()> {
+        tokio::task::spawn_blocking(move || -> Result<()> {
+            if let Some(parent) = stats_path.parent() {
+                std::fs::create_dir_all(parent)?;
+            }
+
+            let mut writer = BufWriter::new(
+                OpenOptions::new()
+                    .read(true)
+                    .append(true)
+                    .create(true)
+                    .open(&stats_path)?,
+            );
+            stats.write(&mut writer)?;
+            writer.flush()?;
+
+            Ok(())
+        })
+        .await
+        .context("Stats save task join failure")?
+    }
+
+    async fn save_stats_for_shutdown(&self) -> Result<()> {
         let (config, stats) = join(self.config.read(), self.stats.read()).await;
+        let stats_path = config.stats_path.clone();
+        let stats_snapshot = stats.clone();
 
-        if let Some(parent) = config.stats_path.parent() {
-            tokio::fs::create_dir_all(parent).await?;
+        let save_task = tokio::spawn(Self::save_stats_snapshot(stats_path, stats_snapshot));
+        let started = std::time::Instant::now();
+        let mut save_task = Some(save_task);
+
+        loop {
+            if save_task
+                .as_ref()
+                .is_some_and(tokio::task::JoinHandle::is_finished)
+            {
+                save_task
+                    .take()
+                    .expect("save_task must be present")
+                    .await
+                    .context("Stats save task failed during shutdown")??;
+                break;
+            }
+
+            if started.elapsed() >= Self::SHUTDOWN_STATS_TIMEOUT {
+                warn!(
+                    "Stats save exceeded shutdown timeout ({:?}); continuing shutdown",
+                    Self::SHUTDOWN_STATS_TIMEOUT
+                );
+                break;
+            }
+
+            tokio::task::yield_now().await;
         }
-
-        let mut writer = BufWriter::new(
-            OpenOptions::new()
-                .read(true)
-                .append(true)
-                .create(true)
-                .open(&config.stats_path)?,
-        );
-        stats.write(&mut writer)?;
-        writer.flush()?;
 
         Ok(())
     }
@@ -367,8 +408,6 @@ impl Backend {
         text: &str,
         language_id: Option<&str>,
     ) -> Result<()> {
-        self.pull_config().await;
-
         info!(
             "Opening document: {:?} with language_id: {:?}",
             uri, language_id
@@ -420,7 +459,7 @@ impl Backend {
                 doc_lock.get(uri).and_then(|state| state.cached_dialect)
             };
 
-            if word_count >= 20 {
+            if word_count >= Self::MIN_WORDS_FOR_LANGUAGE_DETECTION {
                 // Re-run detection when we have enough content so that e.g. an
                 // empty-then-typed document can switch from English to German.
                 let dict = FstDictionary::curated();
@@ -725,7 +764,6 @@ impl Backend {
     /// This is used for code actions where we want instant feedback.
     async fn publish_diagnostics_immediately(&self, uri: &Uri) {
         debug!("Publishing diagnostics immediately for {:?}", uri);
-
         // Increment the generation to invalidate any pending delayed diagnostics
         {
             let mut generations = self.last_change_generation.lock().await;
@@ -1023,8 +1061,6 @@ impl LanguageServer for Backend {
             return Ok(None);
         };
 
-        info!("Received command: \"{}\"", params.command.as_str());
-
         match params.command.as_str() {
             "HarperRecordLint" => {
                 let Ok(kind) = serde_json::from_str(&first) else {
@@ -1254,11 +1290,9 @@ impl LanguageServer for Backend {
                 .await;
         }
 
-        // Skip saving stats during shutdown to avoid timeout issues with Helix
-        // Stats are for analytics and not critical for shutdown
-        // if self.save_stats().await.is_err() {
-        //     error!("Unable to save stats.")
-        // }
+        if self.save_stats_for_shutdown().await.is_err() {
+            error!("Unable to save stats.")
+        }
 
         Ok(())
     }
