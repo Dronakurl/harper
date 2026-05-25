@@ -293,4 +293,25 @@ mod tests {
             "Misspelled compound should still be flagged: {messages:?}"
         );
     }
+
+    #[test]
+    fn lint_allows_common_technical_compounds() {
+        let messages = lint_text(
+            "Die Systemvoraussetzungen sind dokumentiert. \
+             Das Betriebssystem nutzt eine Konfigurationsdatei im Texteditor zur Fehlerbehebung.",
+        );
+
+        for word in [
+            "Systemvoraussetzungen",
+            "Betriebssystem",
+            "Konfigurationsdatei",
+            "Texteditor",
+            "Fehlerbehebung",
+        ] {
+            assert!(
+                messages.iter().all(|message| !message.contains(word)),
+                "{word} should not be flagged: {messages:?}"
+            );
+        }
+    }
 }
