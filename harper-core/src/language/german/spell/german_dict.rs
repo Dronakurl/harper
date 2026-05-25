@@ -12,6 +12,19 @@ use flate2::read::GzDecoder;
 use crate::spell::FstDictionary;
 use crate::{CharString, DictWordMetadata};
 
+const CURATED_GERMAN_ADDITIONS: &[&str] = &[
+    "Betriebssystem",
+    "Betriebssysteme",
+    "Fehlerbehebung",
+    "Konfigurationsdatei",
+    "System",
+    "Systemvoraussetzung",
+    "Systemvoraussetzungen",
+    "Texteditor",
+    "Voraussetzung",
+    "Voraussetzungen",
+];
+
 static GERMAN_DICT: LazyLock<Arc<FstDictionary>> = LazyLock::new(|| {
     let compressed = include_bytes!("../german_dictionary.dict.gz");
     let mut decoder = GzDecoder::new(&compressed[..]);
@@ -22,6 +35,7 @@ static GERMAN_DICT: LazyLock<Arc<FstDictionary>> = LazyLock::new(|| {
 
     let words: Vec<(CharString, DictWordMetadata)> = text
         .lines()
+        .chain(CURATED_GERMAN_ADDITIONS.iter().copied())
         .filter(|line| !line.is_empty())
         .map(|word| {
             let chars: CharString = word.chars().collect();

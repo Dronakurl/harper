@@ -50,10 +50,10 @@ use tower_lsp_server::lsp_types::{
 use tower_lsp_server::{Client, LanguageServer, UriExt};
 use tracing::{debug, error, info, warn};
 
-/// Type alias for pending diagnostic task with its generation
+/// Type alias for pending diagnostic task with its generation and progress token
 /// The generation is used to ensure delayed diagnostics don't overwrite
 /// immediate ones when code actions trigger instant feedback.
-type PendingDiagnosticTask = (tokio::task::JoinHandle<()>, u64);
+type PendingDiagnosticTask = (tokio::task::JoinHandle<()>, u64, Option<NumberOrString>);
 
 /// Return harper-ls version
 pub fn ls_version() -> &'static str {
@@ -847,11 +847,18 @@ impl Backend {
         }
 
         // Cancel any pending delayed diagnostics for this document
-        let mut pending = self.pending_diagnostics.lock().await;
-        if let Some((handle, _old_generation)) = pending.remove(uri) {
-            handle.abort();
+        let old_progress = {
+            let mut pending = self.pending_diagnostics.lock().await;
+            pending
+                .remove(uri)
+                .map(|(handle, _old_generation, old_progress)| {
+                    handle.abort();
+                    old_progress
+                })
         }
-        drop(pending);
+        .flatten();
+        self.end_progress(old_progress, "Diagnostics canceled")
+            .await;
 
         // Update last change time to now
         let mut last_changes = self.last_change_time.lock().await;
@@ -1016,10 +1023,18 @@ impl LanguageServer for Backend {
             };
 
             // Cancel any pending diagnostic publication for this document
-            let mut pending = self.pending_diagnostics.lock().await;
-            if let Some((handle, _old_generation)) = pending.remove(&uri) {
-                handle.abort();
+            let old_progress = {
+                let mut pending = self.pending_diagnostics.lock().await;
+                pending
+                    .remove(&uri)
+                    .map(|(handle, _old_generation, old_progress)| {
+                        handle.abort();
+                        old_progress
+                    })
             }
+            .flatten();
+            self.end_progress(old_progress, "Diagnostics superseded")
+                .await;
 
             // Update last change time
             let mut last_changes = self.last_change_time.lock().await;
@@ -1031,7 +1046,7 @@ impl LanguageServer for Backend {
             let last_change_generation = self.last_change_generation.clone();
             let backend = self.clone();
             let scheduled_generation = current_generation;
-            let progress = progress.clone();
+            let progress_for_task = progress.clone();
 
             let handle = tokio::spawn(async move {
                 tokio::time::sleep(Duration::from_millis(delay_ms)).await;
@@ -1043,16 +1058,19 @@ impl LanguageServer for Backend {
                 if current_gen == scheduled_generation {
                     // This is still the most recent change, publish diagnostics
                     backend.publish_diagnostics(&uri_clone).await;
-                    backend.end_progress(progress, "Diagnostics updated").await;
+                    backend
+                        .end_progress(progress_for_task, "Diagnostics updated")
+                        .await;
                 } else {
                     backend
-                        .end_progress(progress, "Diagnostics superseded")
+                        .end_progress(progress_for_task, "Diagnostics superseded")
                         .await;
                 }
                 // Otherwise, a newer change has occurred and will handle diagnostics
             });
 
-            pending.insert(uri, (handle, scheduled_generation));
+            let mut pending = self.pending_diagnostics.lock().await;
+            pending.insert(uri, (handle, scheduled_generation, progress));
         } else {
             // No delay configured, publish immediately
             self.publish_diagnostics(&uri).await;
@@ -1062,6 +1080,18 @@ impl LanguageServer for Backend {
 
     async fn did_close(&self, _params: DidCloseTextDocumentParams) {
         let uri = _params.text_document.uri;
+        let old_progress = {
+            let mut pending = self.pending_diagnostics.lock().await;
+            pending
+                .remove(&uri)
+                .map(|(handle, _old_generation, old_progress)| {
+                    handle.abort();
+                    old_progress
+                })
+        }
+        .flatten();
+        self.end_progress(old_progress, "Document closed").await;
+
         let mut doc_lock = self.doc_state.lock().await;
         doc_lock.remove(&uri);
 
