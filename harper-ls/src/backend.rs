@@ -3,7 +3,7 @@ use std::fs::OpenOptions;
 use std::io::{BufWriter, Write};
 use std::path::{Path, PathBuf};
 use std::sync::Arc;
-use std::time::Duration;
+use std::sync::atomic::{AtomicU64, Ordering};
 
 use crate::config::Config;
 use crate::document_state::DocumentState;
@@ -12,7 +12,6 @@ use crate::ignored_lints_io::{load_ignored_lints, save_ignored_lints};
 use crate::io_utils::fileify_path;
 use crate::language_detection::LanguageDetectionRegistry;
 use anyhow::{Context, Result, anyhow};
-use futures::future::join;
 use harper_asciidoc::AsciidocParser;
 use harper_comments::CommentParser;
 use harper_core::linting::{FlatConfig, LintGroup};
@@ -33,16 +32,18 @@ use harper_typst::Typst;
 use serde_json::{Value, json};
 use tokio::sync::{Mutex, RwLock};
 use tower_lsp_server::jsonrpc::Result as JsonResult;
-use tower_lsp_server::lsp_types::notification::PublishDiagnostics;
+use tower_lsp_server::lsp_types::notification::{Progress, PublishDiagnostics};
+use tower_lsp_server::lsp_types::request::WorkDoneProgressCreate;
 use tower_lsp_server::lsp_types::{
     CodeActionOrCommand, CodeActionParams, CodeActionProviderCapability, CodeActionResponse,
-    ConfigurationItem, Diagnostic, DidChangeConfigurationParams, DidChangeTextDocumentParams,
-    DidChangeWatchedFilesParams, DidChangeWatchedFilesRegistrationOptions,
-    DidCloseTextDocumentParams, DidOpenTextDocumentParams, DidSaveTextDocumentParams,
-    ExecuteCommandOptions, ExecuteCommandParams, FileChangeType, FileSystemWatcher, GlobPattern,
-    InitializeParams, InitializeResult, InitializedParams, MessageType, PublishDiagnosticsParams,
-    Range, Registration, ServerCapabilities, ServerInfo, TextDocumentSyncCapability,
-    TextDocumentSyncKind, TextDocumentSyncOptions, TextDocumentSyncSaveOptions, Uri, WatchKind,
+    Diagnostic, DidChangeConfigurationParams, DidChangeTextDocumentParams,
+    DidChangeWatchedFilesParams, DidCloseTextDocumentParams, DidOpenTextDocumentParams,
+    DidSaveTextDocumentParams, ExecuteCommandOptions, ExecuteCommandParams, FileChangeType,
+    InitializeParams, InitializeResult, InitializedParams, MessageType, NumberOrString,
+    ProgressParams, ProgressParamsValue, PublishDiagnosticsParams, Range, ServerCapabilities,
+    ServerInfo, TextDocumentSyncCapability, TextDocumentSyncKind, TextDocumentSyncOptions,
+    TextDocumentSyncSaveOptions, Uri, WorkDoneProgress, WorkDoneProgressBegin,
+    WorkDoneProgressCreateParams, WorkDoneProgressEnd,
 };
 use tower_lsp_server::{Client, LanguageServer, UriExt};
 use tracing::{debug, error, info, warn};
@@ -58,10 +59,10 @@ pub struct Backend {
     config: RwLock<Config>,
     stats: RwLock<Stats>,
     doc_state: Mutex<HashMap<Uri, DocumentState>>,
+    progress_counter: AtomicU64,
     lang_detect: LanguageDetectionRegistry,
 }
 
-const SHUTDOWN_STATS_TIMEOUT: Duration = Duration::from_millis(750);
 const MIN_WORDS_FOR_LANGUAGE_DETECTION: usize = 10;
 
 impl Backend {
@@ -72,8 +73,58 @@ impl Backend {
             stats: RwLock::new(Stats::new()),
             config: RwLock::new(config),
             doc_state: Mutex::new(HashMap::new()),
+            progress_counter: AtomicU64::new(1),
             lang_detect: LanguageDetectionRegistry::new(),
         }
+    }
+
+    async fn begin_progress(&self, title: &str, message: &str) -> Option<NumberOrString> {
+        let token = NumberOrString::String(format!(
+            "harper-progress-{}",
+            self.progress_counter.fetch_add(1, Ordering::Relaxed)
+        ));
+
+        if self
+            .client
+            .send_request::<WorkDoneProgressCreate>(WorkDoneProgressCreateParams {
+                token: token.clone(),
+            })
+            .await
+            .is_err()
+        {
+            return None;
+        }
+
+        self.client
+            .send_notification::<Progress>(ProgressParams {
+                token: token.clone(),
+                value: ProgressParamsValue::WorkDone(WorkDoneProgress::Begin(
+                    WorkDoneProgressBegin {
+                        title: title.to_string(),
+                        cancellable: Some(false),
+                        message: Some(message.to_string()),
+                        percentage: None,
+                    },
+                )),
+            })
+            .await;
+
+        Some(token)
+    }
+
+    async fn end_progress(&self, token: Option<NumberOrString>, message: &str) {
+        let Some(token) = token else {
+            return;
+        };
+
+        self.client
+            .send_notification::<Progress>(ProgressParams {
+                token,
+                value: ProgressParamsValue::WorkDone(WorkDoneProgress::End(WorkDoneProgressEnd {
+                    message: Some(message.to_string()),
+                })),
+            })
+            .await;
     }
 
     /// Load a specific file's dictionary, using the given dialect to determine
@@ -276,65 +327,43 @@ impl Backend {
         }
     }
 
-    async fn save_stats_snapshot(stats_path: PathBuf, stats: Stats) -> Result<()> {
-        tokio::task::spawn_blocking(move || -> Result<()> {
-            if let Some(parent) = stats_path.parent() {
-                std::fs::create_dir_all(parent)?;
-            }
-
-            let mut writer = BufWriter::new(
-                OpenOptions::new()
-                    .read(true)
-                    .append(true)
-                    .create(true)
-                    .open(&stats_path)?,
-            );
-            stats.write(&mut writer)?;
-            writer.flush()?;
-
-            Ok(())
-        })
-        .await
-        .context("Stats save task join failure")?
-    }
-
-    async fn save_stats_for_shutdown(&self) -> Result<()> {
-        let (config, stats) = join(self.config.read(), self.stats.read()).await;
-        let stats_path = config.stats_path.clone();
-        let stats_snapshot = stats.clone();
-
-        // Keep shutdown responsive while still persisting stats.
-        // If this times out, the detached save task continues in the background.
-        let save_task = tokio::spawn(Self::save_stats_snapshot(stats_path, stats_snapshot));
-
-        let started = std::time::Instant::now();
-        let mut save_task = Some(save_task);
-
-        loop {
-            if save_task
-                .as_ref()
-                .is_some_and(tokio::task::JoinHandle::is_finished)
-            {
-                save_task
-                    .take()
-                    .expect("save_task must be present")
-                    .await
-                    .context("Stats save task failed during shutdown")??;
-                break;
-            }
-
-            if started.elapsed() >= SHUTDOWN_STATS_TIMEOUT {
-                warn!(
-                    "Stats save exceeded shutdown timeout ({:?}); continuing shutdown",
-                    SHUTDOWN_STATS_TIMEOUT
-                );
-                break;
-            }
-
-            tokio::task::yield_now().await;
+    fn save_stats_snapshot(stats_path: PathBuf, stats: Stats) -> Result<()> {
+        if let Some(parent) = stats_path.parent() {
+            std::fs::create_dir_all(parent)?;
         }
 
+        let mut writer = BufWriter::new(
+            OpenOptions::new()
+                .read(true)
+                .append(true)
+                .create(true)
+                .open(&stats_path)?,
+        );
+        stats.write(&mut writer)?;
+        writer.flush()?;
+
         Ok(())
+    }
+
+    fn queue_stats_save_for_shutdown(&self) {
+        let (stats_path, stats_snapshot) = match (self.config.try_read(), self.stats.try_read()) {
+            (Ok(config), Ok(stats)) => (config.stats_path.clone(), stats.clone()),
+            _ => {
+                warn!("Skipping stats save during shutdown because state is busy");
+                return;
+            }
+        };
+
+        if let Err(err) = std::thread::Builder::new()
+            .name("harper-ls-shutdown-stats".to_owned())
+            .spawn(move || {
+                if let Err(err) = Self::save_stats_snapshot(stats_path, stats_snapshot) {
+                    error!("Unable to save stats during shutdown: {err}");
+                }
+            })
+        {
+            error!("Unable to spawn shutdown stats save thread: {err}");
+        }
     }
 
     async fn generate_global_dictionary(&self, dialect: Dialect) -> Result<MergedDictionary> {
@@ -506,14 +535,13 @@ impl Backend {
             config.exclude_patterns.clone(),
         );
 
-        let mut doc_lock = self.doc_state.lock().await;
-
         if !exclude_patterns.is_empty()
             && exclude_patterns.is_match(
                 uri.to_file_path()
                     .ok_or_else(|| anyhow!("Unable to convert URI to file path."))?,
             )
         {
+            let mut doc_lock = self.doc_state.lock().await;
             doc_lock.remove(uri);
             return Ok(());
         }
@@ -525,6 +553,8 @@ impl Backend {
                 .await
                 .context("Unable to generate the file dictionary.")?,
         );
+
+        let mut doc_lock = self.doc_state.lock().await;
 
         let doc_state = doc_lock.entry(uri.clone()).or_insert_with(|| {
             info!("Constructing new LintGroup for new document.");
@@ -745,6 +775,18 @@ impl Backend {
             .await;
     }
 
+    fn shutdown_uris(&self) -> Vec<Uri> {
+        match self.doc_state.try_lock() {
+            Ok(doc_state) => doc_state.keys().cloned().collect(),
+            Err(_) => {
+                warn!(
+                    "Skipping diagnostic clearing during shutdown because document state is busy"
+                );
+                Vec::new()
+            }
+        }
+    }
+
     /// Update the configuration of the server and publish document updates that
     /// match it.
     async fn update_config_from_obj(&self, json_obj: Value) {
@@ -779,21 +821,6 @@ impl Backend {
         {
             let mut config = self.config.write().await;
             *config = new_config;
-        }
-    }
-
-    async fn pull_config(&self) {
-        let mut new_config = self
-            .client
-            .configuration(vec![ConfigurationItem {
-                scope_uri: None,
-                section: None,
-            }])
-            .await
-            .unwrap_or(vec![json!({ "harper-ls": {} })]);
-
-        if let Some(first) = new_config.pop() {
-            self.update_config_from_obj(first).await;
         }
     }
 }
@@ -858,48 +885,36 @@ impl LanguageServer for Backend {
         self.client
             .log_message(MessageType::INFO, "Server initialized!")
             .await;
-
-        self.pull_config().await;
-
-        let did_change_watched_files = Registration {
-            id: "workspace/didChangeWatchedFiles".to_owned(),
-            method: "workspace/didChangeWatchedFiles".to_owned(),
-            register_options: Some(
-                serde_json::to_value(DidChangeWatchedFilesRegistrationOptions {
-                    watchers: vec![FileSystemWatcher {
-                        glob_pattern: GlobPattern::String("**/*".to_owned()),
-                        kind: Some(WatchKind::Delete),
-                    }],
-                })
-                .unwrap(),
-            ),
-        };
-        if let Err(err) = self
-            .client
-            .register_capability(vec![did_change_watched_files])
-            .await
-        {
-            warn!("Unable to register watch file capability: {}", err);
-        }
     }
 
     async fn did_open(&self, params: DidOpenTextDocumentParams) {
-        self.update_document(
-            &params.text_document.uri,
-            &params.text_document.text,
-            Some(&params.text_document.language_id),
-        )
-        .await
-        .map_err(|err| error!("{err}"))
-        .err();
+        let progress = self
+            .begin_progress("Harper diagnostics", "Analyzing document")
+            .await;
+
+        if let Err(err) = self
+            .update_document(
+                &params.text_document.uri,
+                &params.text_document.text,
+                Some(&params.text_document.language_id),
+            )
+            .await
+        {
+            error!("{err}");
+        }
 
         self.publish_diagnostics(&params.text_document.uri).await;
+        self.end_progress(progress, "Analysis complete").await;
     }
 
     async fn did_change(&self, params: DidChangeTextDocumentParams) {
         let Some(last) = params.content_changes.last() else {
             return;
         };
+
+        let progress = self
+            .begin_progress("Harper diagnostics", "Updating diagnostics")
+            .await;
 
         if let Err(err) = self
             .update_document(&params.text_document.uri, &last.text, None)
@@ -909,6 +924,7 @@ impl LanguageServer for Backend {
         }
 
         self.publish_diagnostics(&params.text_document.uri).await;
+        self.end_progress(progress, "Diagnostics updated").await;
     }
 
     async fn did_close(&self, _params: DidCloseTextDocumentParams) {
@@ -1116,15 +1132,19 @@ impl LanguageServer for Backend {
     async fn did_change_configuration(&self, params: DidChangeConfigurationParams) {
         self.update_config_from_obj(params.settings).await;
 
+        let (lint_config, default_dialect) = {
+            let config_lock = self.config.read().await;
+            (config_lock.lint_config.clone(), config_lock.dialect)
+        };
+
         let uris: Vec<Uri> = {
             let mut doc_lock = self.doc_state.lock().await;
-            let config_lock = self.config.read().await;
 
             for doc in doc_lock.values_mut() {
                 info!("Constructing new LintGroup for updated configuration.");
-                let doc_dialect = doc.cached_dialect.unwrap_or(config_lock.dialect);
+                let doc_dialect = doc.cached_dialect.unwrap_or(default_dialect);
                 let mut l = LintGroup::new_curated(doc.dict.clone(), doc_dialect);
-                l.config.merge_from(config_lock.lint_config.clone());
+                l.config.merge_from(lint_config.clone());
                 doc.linter = l;
             }
 
@@ -1157,8 +1177,9 @@ impl LanguageServer for Backend {
     }
 
     async fn shutdown(&self) -> JsonResult<()> {
-        // Collect URIs while holding the lock, then drop it
-        let uris: Vec<Uri> = self.doc_state.lock().await.keys().cloned().collect();
+        // Avoid blocking shutdown on long-running document updates.
+        // If the lock is contended, skip diagnostic clearing and continue shutdown.
+        let uris = self.shutdown_uris();
 
         // Clears the diagnostics for open buffers (without holding lock)
         for uri in &uris {
@@ -1173,9 +1194,7 @@ impl LanguageServer for Backend {
                 .await;
         }
 
-        if self.save_stats_for_shutdown().await.is_err() {
-            error!("Unable to save stats.")
-        }
+        self.queue_stats_save_for_shutdown();
 
         Ok(())
     }
@@ -1516,9 +1535,26 @@ mod tests {
         harness.install_temp_config().await;
 
         harness.backend().shutdown().await.unwrap();
+        for _ in 0..20 {
+            if harness.test_config.stats_path.exists() {
+                break;
+            }
+            std::thread::sleep(std::time::Duration::from_millis(25));
+        }
         assert!(
             harness.test_config.stats_path.exists(),
             "shutdown should persist stats file"
+        );
+    }
+
+    #[tokio::test(flavor = "current_thread")]
+    async fn shutdown_uris_returns_empty_when_doc_state_lock_is_busy() {
+        let harness = TestHarness::new().await;
+        let _doc_state_guard = harness.backend().doc_state.lock().await;
+
+        assert!(
+            harness.backend().shutdown_uris().is_empty(),
+            "shutdown should skip URI collection when doc_state is contended"
         );
     }
 }
