@@ -1053,6 +1053,7 @@ pub enum Dialect {
     German = 1 << 5,
     GermanAustrian = 1 << 6,
     GermanSwiss = 1 << 7,
+    Portuguese = 1 << 8,
 }
 impl Dialect {
     /// Tries to guess the dialect used in the document by finding which dialect is used the most.
@@ -1071,11 +1072,24 @@ impl Dialect {
         )
     }
 
+    /// Returns `true` if this dialect is Portuguese.
+    #[must_use]
+    pub fn is_portuguese(self) -> bool {
+        matches!(self, Self::Portuguese)
+    }
+
     /// Returns a suffix to append to dictionary file paths for this dialect.
     /// English dialects return `""` (default). German dialects return `"-de"`.
+    /// Portuguese returns `"-pt"`.
     #[must_use]
     pub fn dict_suffix(self) -> &'static str {
-        if self.is_german() { "-de" } else { "" }
+        if self.is_german() {
+            "-de"
+        } else if self.is_portuguese() {
+            "-pt"
+        } else {
+            ""
+        }
     }
 
     /// Returns `true` if this dialect is an English variant.
@@ -1085,6 +1099,17 @@ impl Dialect {
             self,
             Self::American | Self::Canadian | Self::Australian | Self::British | Self::Indian
         )
+    }
+
+    #[must_use]
+    pub fn language_family(self) -> crate::languages::LanguageFamily {
+        if self.is_german() {
+            crate::languages::LanguageFamily::German
+        } else if self.is_portuguese() {
+            crate::languages::LanguageFamily::Portuguese
+        } else {
+            crate::languages::LanguageFamily::English
+        }
     }
 
     /// Tries to get a dialect from its abbreviation. Returns `None` if the abbreviation is not
@@ -1115,6 +1140,7 @@ impl Dialect {
             "DE" => Some(Self::German),
             "AT" => Some(Self::GermanAustrian),
             "CH" => Some(Self::GermanSwiss),
+            "PT" => Some(Self::Portuguese),
             _ => None,
         }
     }
@@ -1144,6 +1170,7 @@ impl TryFrom<DialectFlags> for Dialect {
                 df if df.is_dialect_enabled_strict(Dialect::GermanSwiss) => {
                     Ok(Dialect::GermanSwiss)
                 }
+                df if df.is_dialect_enabled_strict(Dialect::Portuguese) => Ok(Dialect::Portuguese),
                 _ => Err(()),
             }
         } else {
@@ -1190,6 +1217,17 @@ impl<'de> Deserialize<'de> for Dialect {
                         Ok(Dialect::GermanAustrian)
                     }
                     "ch" | "switzerland" | "swiss" | "de-ch" | "de_ch" => Ok(Dialect::GermanSwiss),
+                    "pt"
+                    | "pt-pt"
+                    | "pt_pt"
+                    | "portuguese"
+                    | "português"
+                    | "br"
+                    | "brazil"
+                    | "portuguese-brazilian"
+                    | "portuguese_brazilian"
+                    | "pt-br"
+                    | "pt_br" => Ok(Dialect::Portuguese),
                     _ => Err(Error::custom(format!("Unknown dialect: {}", value))),
                 }
             }
@@ -1208,6 +1246,7 @@ impl<'de> Deserialize<'de> for Dialect {
                     32 => Ok(Dialect::German),
                     64 => Ok(Dialect::GermanAustrian),
                     128 => Ok(Dialect::GermanSwiss),
+                    256 => Ok(Dialect::Portuguese),
                     _ => Err(Error::custom(format!("Unknown dialect value: {}", value))),
                 }
             }
@@ -1218,9 +1257,8 @@ impl<'de> Deserialize<'de> for Dialect {
 }
 
 // The underlying type used for DialectFlags.
-// At the time of writing, this is currently a `u8`. If we want to define more than 8 dialects in
-// the future, we will need to switch this to a larger type.
-type DialectFlagsUnderlyingType = u8;
+// This is `u16` to support the full set of currently defined dialects.
+type DialectFlagsUnderlyingType = u16;
 
 bitflags::bitflags! {
     /// A collection of bit flags used to represent enabled dialects.
@@ -1237,6 +1275,7 @@ bitflags::bitflags! {
         const GERMAN = Dialect::German as DialectFlagsUnderlyingType;
         const GERMAN_AUSTRIAN = Dialect::GermanAustrian as DialectFlagsUnderlyingType;
         const GERMAN_SWISS = Dialect::GermanSwiss as DialectFlagsUnderlyingType;
+        const PORTUGUESE = Dialect::Portuguese as DialectFlagsUnderlyingType;
     }
 }
 impl DialectFlags {

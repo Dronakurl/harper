@@ -563,34 +563,7 @@ impl LintGroup {
         out.merge_from(be_adjective_confusions::lint_group());
         out.merge_from(crate::language::german::linting::german_weir_rules::lint_group());
 
-        // Add German linters when dialect is German
-        if dialect.is_german() {
-            use crate::language::german::linting::german_filler_words::GermanFillerWords;
-            use crate::language::german::spell::curated_german_dictionary;
-            use crate::linting::german_noun_capitalization::GermanNounCapitalization;
-            use crate::linting::german_sentence_capitalization::GermanSentenceCapitalization;
-            use crate::linting::german_spell_check::GermanSpellCheck;
-            let german_dict = curated_german_dictionary();
-            out.add(
-                "GermanSpellCheck",
-                GermanSpellCheck::new(german_dict.clone()),
-            );
-            out.config.set_rule_enabled("GermanSpellCheck", true);
-            out.add(
-                "GermanNounCapitalization",
-                GermanNounCapitalization::new(german_dict.clone()),
-            );
-            out.config
-                .set_rule_enabled("GermanNounCapitalization", true);
-            out.add(
-                "GermanSentenceCapitalization",
-                GermanSentenceCapitalization::new(german_dict),
-            );
-            out.config
-                .set_rule_enabled("GermanSentenceCapitalization", true);
-            out.add_chunk_expr_linter("GermanFillerWords", GermanFillerWords::default());
-            out.config.set_rule_enabled("GermanFillerWords", true);
-        }
+        crate::language::registry::add_language_specific_linters(&mut out, dialect);
 
         // Add all the more complex rules to the group.
         // Please maintain alphabetical order.
@@ -666,7 +639,10 @@ impl LintGroup {
         insert_expr_rule_with_dialect!(FedUpWith, true);
         insert_expr_rule!(FeelFell, true);
         insert_expr_rule!(FewUnitsOfTimeAgo, true);
-        insert_expr_rule!(FillerWords, dialect.is_english());
+        insert_expr_rule!(
+            FillerWords,
+            crate::language::registry::rule_default_enabled("FillerWords", dialect, true)
+        );
         insert_struct_rule!(FindFine, true);
         insert_expr_rule!(FirstAidKit, true);
         insert_expr_rule!(FleshOutVsFullFledged, true);
