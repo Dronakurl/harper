@@ -65,7 +65,6 @@ pub fn parser_for_prose(
 
 pub fn add_language_specific_linters(out: &mut LintGroup, dialect: Dialect) {
     if dialect.is_german() {
-        use crate::language::german::linting::german_filler_words::GermanFillerWords;
         use crate::linting::german_noun_capitalization::GermanNounCapitalization;
         use crate::linting::german_sentence_capitalization::GermanSentenceCapitalization;
         use crate::linting::german_spell_check::GermanSpellCheck;
@@ -88,8 +87,6 @@ pub fn add_language_specific_linters(out: &mut LintGroup, dialect: Dialect) {
         );
         out.config
             .set_rule_enabled("GermanSentenceCapitalization", true);
-        out.add_chunk_expr_linter("GermanFillerWords", GermanFillerWords::default());
-        out.config.set_rule_enabled("GermanFillerWords", true);
     }
 
     if dialect.is_portuguese() {
