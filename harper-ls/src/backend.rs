@@ -3,6 +3,7 @@ use std::fs::OpenOptions;
 use std::io::{BufWriter, Write};
 use std::path::{Path, PathBuf};
 use std::sync::Arc;
+use std::sync::atomic::{AtomicU64, Ordering};
 use std::time::{Duration, Instant};
 
 use crate::config::Config;
@@ -33,16 +34,18 @@ use harper_typst::Typst;
 use serde_json::{Value, json};
 use tokio::sync::{Mutex, RwLock};
 use tower_lsp_server::jsonrpc::Result as JsonResult;
-use tower_lsp_server::lsp_types::notification::PublishDiagnostics;
+use tower_lsp_server::lsp_types::notification::{Progress, PublishDiagnostics};
+use tower_lsp_server::lsp_types::request::WorkDoneProgressCreate;
 use tower_lsp_server::lsp_types::{
     CodeActionOrCommand, CodeActionParams, CodeActionProviderCapability, CodeActionResponse,
-    ConfigurationItem, Diagnostic, DidChangeConfigurationParams, DidChangeTextDocumentParams,
-    DidChangeWatchedFilesParams, DidChangeWatchedFilesRegistrationOptions,
-    DidCloseTextDocumentParams, DidOpenTextDocumentParams, DidSaveTextDocumentParams,
-    ExecuteCommandOptions, ExecuteCommandParams, FileChangeType, FileSystemWatcher, GlobPattern,
-    InitializeParams, InitializeResult, InitializedParams, MessageType, PublishDiagnosticsParams,
-    Range, Registration, ServerCapabilities, ServerInfo, TextDocumentSyncCapability,
-    TextDocumentSyncKind, TextDocumentSyncOptions, TextDocumentSyncSaveOptions, Uri, WatchKind,
+    Diagnostic, DidChangeConfigurationParams, DidChangeTextDocumentParams,
+    DidChangeWatchedFilesParams, DidCloseTextDocumentParams, DidOpenTextDocumentParams,
+    DidSaveTextDocumentParams, ExecuteCommandOptions, ExecuteCommandParams, FileChangeType,
+    InitializeParams, InitializeResult, InitializedParams, MessageType, NumberOrString,
+    ProgressParams, ProgressParamsValue, PublishDiagnosticsParams, Range, ServerCapabilities,
+    ServerInfo, TextDocumentSyncCapability, TextDocumentSyncKind, TextDocumentSyncOptions,
+    TextDocumentSyncSaveOptions, Uri, WorkDoneProgress, WorkDoneProgressBegin,
+    WorkDoneProgressCreateParams, WorkDoneProgressEnd,
 };
 use tower_lsp_server::{Client, LanguageServer, UriExt};
 use tracing::{debug, error, info, warn};
@@ -72,6 +75,7 @@ pub struct Backend {
     last_change_generation: Arc<Mutex<HashMap<Uri, u64>>>,
     /// Tracks pending diagnostic publications that are waiting for the delay
     pending_diagnostics: Arc<Mutex<HashMap<Uri, PendingDiagnosticTask>>>,
+    progress_counter: Arc<AtomicU64>,
 }
 
 impl Backend {
@@ -86,11 +90,61 @@ impl Backend {
             last_change_time: Arc::new(Mutex::new(HashMap::new())),
             last_change_generation: Arc::new(Mutex::new(HashMap::new())),
             pending_diagnostics: Arc::new(Mutex::new(HashMap::new())),
+            progress_counter: Arc::new(AtomicU64::new(1)),
         }
     }
 
     const SHUTDOWN_STATS_TIMEOUT: Duration = Duration::from_millis(750);
     const MIN_WORDS_FOR_LANGUAGE_DETECTION: usize = 10;
+
+    async fn begin_progress(&self, title: &str, message: &str) -> Option<NumberOrString> {
+        let token = NumberOrString::String(format!(
+            "harper-progress-{}",
+            self.progress_counter.fetch_add(1, Ordering::Relaxed)
+        ));
+
+        if self
+            .client
+            .send_request::<WorkDoneProgressCreate>(WorkDoneProgressCreateParams {
+                token: token.clone(),
+            })
+            .await
+            .is_err()
+        {
+            return None;
+        }
+
+        self.client
+            .send_notification::<Progress>(ProgressParams {
+                token: token.clone(),
+                value: ProgressParamsValue::WorkDone(WorkDoneProgress::Begin(
+                    WorkDoneProgressBegin {
+                        title: title.to_string(),
+                        cancellable: Some(false),
+                        message: Some(message.to_string()),
+                        percentage: None,
+                    },
+                )),
+            })
+            .await;
+
+        Some(token)
+    }
+
+    async fn end_progress(&self, token: Option<NumberOrString>, message: &str) {
+        let Some(token) = token else {
+            return;
+        };
+
+        self.client
+            .send_notification::<Progress>(ProgressParams {
+                token,
+                value: ProgressParamsValue::WorkDone(WorkDoneProgress::End(WorkDoneProgressEnd {
+                    message: Some(message.to_string()),
+                })),
+            })
+            .await;
+    }
 
     /// Load a specific file's dictionary, using the given dialect to determine
     /// the dictionary path suffix.
@@ -519,14 +573,13 @@ impl Backend {
             config.exclude_patterns.clone(),
         );
 
-        let mut doc_lock = self.doc_state.lock().await;
-
         if !exclude_patterns.is_empty()
             && exclude_patterns.is_match(
                 uri.to_file_path()
                     .ok_or_else(|| anyhow!("Unable to convert URI to file path."))?,
             )
         {
+            let mut doc_lock = self.doc_state.lock().await;
             doc_lock.remove(uri);
             return Ok(());
         }
@@ -538,6 +591,8 @@ impl Backend {
                 .await
                 .context("Unable to generate the file dictionary.")?,
         );
+
+        let mut doc_lock = self.doc_state.lock().await;
 
         let doc_state = doc_lock.entry(uri.clone()).or_insert_with(|| {
             info!("Constructing new LintGroup for new document.");
@@ -760,6 +815,27 @@ impl Backend {
             .await;
     }
 
+    fn shutdown_uris(&self) -> Vec<Uri> {
+        match self.doc_state.try_lock() {
+            Ok(doc_state) => doc_state.keys().cloned().collect(),
+            Err(_) => {
+                warn!(
+                    "Skipping diagnostic clearing during shutdown because document state is busy"
+                );
+                Vec::new()
+            }
+        }
+    }
+
+    fn queue_stats_save_for_shutdown(&self) {
+        let backend = self.clone();
+        tokio::spawn(async move {
+            if backend.save_stats_for_shutdown().await.is_err() {
+                error!("Unable to save stats.");
+            }
+        });
+    }
+
     /// Publish diagnostics immediately, canceling any pending delayed diagnostics for the document.
     /// This is used for code actions where we want instant feedback.
     async fn publish_diagnostics_immediately(&self, uri: &Uri) {
@@ -820,21 +896,6 @@ impl Backend {
         {
             let mut config = self.config.write().await;
             *config = new_config;
-        }
-    }
-
-    async fn pull_config(&self) {
-        let mut new_config = self
-            .client
-            .configuration(vec![ConfigurationItem {
-                scope_uri: None,
-                section: None,
-            }])
-            .await
-            .unwrap_or(vec![json!({ "harper-ls": {} })]);
-
-        if let Some(first) = new_config.pop() {
-            self.update_config_from_obj(first).await;
         }
     }
 }
@@ -900,42 +961,26 @@ impl LanguageServer for Backend {
         self.client
             .log_message(MessageType::INFO, "Server initialized!")
             .await;
-
-        self.pull_config().await;
-
-        let did_change_watched_files = Registration {
-            id: "workspace/didChangeWatchedFiles".to_owned(),
-            method: "workspace/didChangeWatchedFiles".to_owned(),
-            register_options: Some(
-                serde_json::to_value(DidChangeWatchedFilesRegistrationOptions {
-                    watchers: vec![FileSystemWatcher {
-                        glob_pattern: GlobPattern::String("**/*".to_owned()),
-                        kind: Some(WatchKind::Delete),
-                    }],
-                })
-                .unwrap(),
-            ),
-        };
-        if let Err(err) = self
-            .client
-            .register_capability(vec![did_change_watched_files])
-            .await
-        {
-            warn!("Unable to register watch file capability: {}", err);
-        }
     }
 
     async fn did_open(&self, params: DidOpenTextDocumentParams) {
-        self.update_document(
-            &params.text_document.uri,
-            &params.text_document.text,
-            Some(&params.text_document.language_id),
-        )
-        .await
-        .map_err(|err| error!("{err}"))
-        .err();
+        let progress = self
+            .begin_progress("Harper diagnostics", "Analyzing document")
+            .await;
+
+        if let Err(err) = self
+            .update_document(
+                &params.text_document.uri,
+                &params.text_document.text,
+                Some(&params.text_document.language_id),
+            )
+            .await
+        {
+            error!("{err}");
+        }
 
         self.publish_diagnostics(&params.text_document.uri).await;
+        self.end_progress(progress, "Analysis complete").await;
     }
 
     async fn did_save(&self, _params: DidSaveTextDocumentParams) {
@@ -949,6 +994,9 @@ impl LanguageServer for Backend {
         };
 
         let uri = params.text_document.uri.clone();
+        let progress = self
+            .begin_progress("Harper diagnostics", "Updating diagnostics")
+            .await;
 
         if let Err(err) = self.update_document(&uri, &last.text, None).await {
             error!("{err}")
@@ -983,6 +1031,7 @@ impl LanguageServer for Backend {
             let last_change_generation = self.last_change_generation.clone();
             let backend = self.clone();
             let scheduled_generation = current_generation;
+            let progress = progress.clone();
 
             let handle = tokio::spawn(async move {
                 tokio::time::sleep(Duration::from_millis(delay_ms)).await;
@@ -994,6 +1043,11 @@ impl LanguageServer for Backend {
                 if current_gen == scheduled_generation {
                     // This is still the most recent change, publish diagnostics
                     backend.publish_diagnostics(&uri_clone).await;
+                    backend.end_progress(progress, "Diagnostics updated").await;
+                } else {
+                    backend
+                        .end_progress(progress, "Diagnostics superseded")
+                        .await;
                 }
                 // Otherwise, a newer change has occurred and will handle diagnostics
             });
@@ -1002,6 +1056,7 @@ impl LanguageServer for Backend {
         } else {
             // No delay configured, publish immediately
             self.publish_diagnostics(&uri).await;
+            self.end_progress(progress, "Diagnostics updated").await;
         }
     }
 
@@ -1238,15 +1293,19 @@ impl LanguageServer for Backend {
     async fn did_change_configuration(&self, params: DidChangeConfigurationParams) {
         self.update_config_from_obj(params.settings).await;
 
+        let (lint_config, default_dialect) = {
+            let config_lock = self.config.read().await;
+            (config_lock.lint_config.clone(), config_lock.dialect)
+        };
+
         let uris: Vec<Uri> = {
             let mut doc_lock = self.doc_state.lock().await;
-            let config_lock = self.config.read().await;
 
             for doc in doc_lock.values_mut() {
                 info!("Constructing new LintGroup for updated configuration.");
-                let doc_dialect = doc.cached_dialect.unwrap_or(config_lock.dialect);
+                let doc_dialect = doc.cached_dialect.unwrap_or(default_dialect);
                 let mut l = LintGroup::new_curated(doc.dict.clone(), doc_dialect);
-                l.config.merge_from(config_lock.lint_config.clone());
+                l.config.merge_from(lint_config.clone());
                 doc.linter = l;
             }
 
@@ -1274,8 +1333,9 @@ impl LanguageServer for Backend {
     }
 
     async fn shutdown(&self) -> JsonResult<()> {
-        // Collect URIs while holding the lock, then drop it
-        let uris: Vec<Uri> = self.doc_state.lock().await.keys().cloned().collect();
+        // Avoid blocking shutdown on long-running document updates.
+        // If the lock is contended, skip diagnostic clearing and continue shutdown.
+        let uris = self.shutdown_uris();
 
         // Clears the diagnostics for open buffers (without holding lock)
         for uri in &uris {
@@ -1290,9 +1350,7 @@ impl LanguageServer for Backend {
                 .await;
         }
 
-        if self.save_stats_for_shutdown().await.is_err() {
-            error!("Unable to save stats.")
-        }
+        self.queue_stats_save_for_shutdown();
 
         Ok(())
     }
@@ -1609,5 +1667,34 @@ mod tests {
                     .contains("HarperWord")
             );
         }
+    }
+
+    #[tokio::test(flavor = "current_thread")]
+    async fn shutdown_persists_stats_file() {
+        let harness = TestHarness::new().await;
+        harness.install_temp_config().await;
+
+        harness.backend().shutdown().await.unwrap();
+        for _ in 0..20 {
+            if harness.test_config.stats_path.exists() {
+                break;
+            }
+            std::thread::sleep(std::time::Duration::from_millis(25));
+        }
+        assert!(
+            harness.test_config.stats_path.exists(),
+            "shutdown should persist stats file"
+        );
+    }
+
+    #[tokio::test(flavor = "current_thread")]
+    async fn shutdown_uris_returns_empty_when_doc_state_lock_is_busy() {
+        let harness = TestHarness::new().await;
+        let _doc_state_guard = harness.backend().doc_state.lock().await;
+
+        assert!(
+            harness.backend().shutdown_uris().is_empty(),
+            "shutdown should skip URI collection when doc_state is contended"
+        );
     }
 }
