@@ -16,10 +16,9 @@ use anyhow::{Context, Result, anyhow};
 use futures::future::join;
 use harper_asciidoc::AsciidocParser;
 use harper_comments::CommentParser;
+use harper_core::language::registry;
 use harper_core::linting::{FlatConfig, LintGroup};
-use harper_core::parsers::{
-    CollapseIdentifiers, IsolateEnglish, Markdown, OrgMode, Parser, PlainEnglish, PlainGerman,
-};
+use harper_core::parsers::{CollapseIdentifiers, IsolateEnglish, Parser};
 use harper_core::spell::{Dictionary, FstDictionary, MergedDictionary, MutableDictionary};
 use harper_core::{Dialect, DictWordMetadata, Document, IgnoredLints};
 use harper_dictionary_wordlist::{load_dict, save_dict};
@@ -144,38 +143,6 @@ impl Backend {
                 })),
             })
             .await;
-    }
-
-    /// Load a specific file's dictionary, using the given dialect to determine
-    /// the dictionary path suffix.
-    fn parser_for_prose(
-        language_id: &str,
-        dialect: Dialect,
-        markdown_options: harper_core::parsers::MarkdownOptions,
-    ) -> Option<Box<dyn Parser>> {
-        match language_id {
-            "mail" => Some(if dialect.is_german() {
-                Box::new(PlainGerman)
-            } else {
-                Box::new(PlainEnglish)
-            }),
-            "markdown" | "quarto" => Some(if dialect.is_german() {
-                Box::new(Markdown::new_german(markdown_options))
-            } else {
-                Box::new(Markdown::new(markdown_options))
-            }),
-            "org" => Some(if dialect.is_german() {
-                Box::new(OrgMode::new_german())
-            } else {
-                Box::new(OrgMode::default())
-            }),
-            "plaintext" | "text" => Some(if dialect.is_german() {
-                Box::new(PlainGerman)
-            } else {
-                Box::new(PlainEnglish)
-            }),
-            _ => None,
-        }
     }
 
     async fn load_file_dictionary(
@@ -407,17 +374,12 @@ impl Backend {
     async fn generate_global_dictionary(&self, dialect: Dialect) -> Result<MergedDictionary> {
         let mut dict = MergedDictionary::new();
 
-        // Load appropriate dictionary based on dialect
-        match dialect {
-            d if d.is_german() => {
-                dict.add_dictionary(harper_core::spell::curated_german_dictionary());
-                info!("Loaded German dictionary for dialect: {:?}", dialect);
-            }
-            _ => {
-                dict.add_dictionary(FstDictionary::curated());
-                info!("Loaded English dictionary for dialect: {:?}", dialect);
-            }
-        }
+        dict.add_dictionary(registry::dictionary_for_dialect(dialect));
+        info!(
+            "Loaded {:?} dictionary for dialect: {:?}",
+            dialect.language_family(),
+            dialect
+        );
 
         let user_dict = self.load_user_dictionary(dialect).await;
         dict.add_dictionary(Arc::new(user_dict));
@@ -724,7 +686,7 @@ impl Backend {
                 }
             }
             "mail" | "markdown" | "quarto" | "org" | "plaintext" | "text" => {
-                Self::parser_for_prose(language_id, detected_dialect, markdown_options)
+                registry::parser_for_prose(language_id, detected_dialect, markdown_options)
             }
             "python" => Some(Box::new(PythonParser::default())),
             "typst" => Some(Box::new(Typst)),

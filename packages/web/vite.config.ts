@@ -176,6 +176,10 @@ export default defineConfig(async () => {
 											to: '/docs/contributors/architecture',
 										},
 										{
+											title: 'Language/LSP Separation',
+											to: '/docs/contributors/language-runtime-separation',
+										},
+										{
 											title: 'Dictionary',
 											to: '/docs/contributors/dictionary',
 										},

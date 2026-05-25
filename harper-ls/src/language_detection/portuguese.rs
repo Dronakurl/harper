@@ -163,7 +163,7 @@ impl LanguageDetector for PortugueseDetector {
 
         // High confidence if we find Portuguese special characters
         if portuguese_char_count > 0 && (portuguese_char_count as f64 / total_words as f64) > 0.3 {
-            return Some(Dialect::American); // TODO: Return Portuguese dialect when available
+            return Some(Dialect::Portuguese);
         }
 
         // Medium confidence if we find multiple common Portuguese words
@@ -172,7 +172,7 @@ impl LanguageDetector for PortugueseDetector {
         let english_match_ratio = english_matches as f64 / total_words as f64;
 
         if common_word_ratio > 0.4 && english_match_ratio < 0.5 {
-            return Some(Dialect::American); // TODO: Return Portuguese dialect when available
+            return Some(Dialect::Portuguese);
         }
 
         None
@@ -199,9 +199,10 @@ mod tests {
         let detector = PortugueseDetector;
 
         let result = detector.detect(doc.get_tokens(), doc.get_source(), &dict, Dialect::American);
-        // For now, we return Some(Dialect::American) as a placeholder
-        // In the future, we should have a Portuguese Dialect variant
         assert_eq!(result.is_some(), expected_portuguese);
+        if expected_portuguese {
+            assert_eq!(result.unwrap(), Dialect::Portuguese);
+        }
     }
 
     #[test]

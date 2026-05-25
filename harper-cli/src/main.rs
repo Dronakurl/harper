@@ -1,8 +1,7 @@
 #![doc = include_str!("../README.md")]
 
-use harper_core::spell::{
-    Dictionary, FstDictionary, MutableDictionary, WordId, curated_german_dictionary,
-};
+use harper_core::language::registry::dictionary_for_dialect;
+use harper_core::spell::{Dictionary, FstDictionary, MutableDictionary, WordId};
 use hashbrown::HashMap;
 use std::collections::BTreeMap;
 use std::fs::File;
@@ -257,10 +256,10 @@ fn main() -> anyhow::Result<()> {
             let dialect = parse_dialect(&dialect_str)
                 .map_err(|e| anyhow!("Invalid dialect '{}': {}", dialect_str, e))?;
 
-            let dict: Arc<dyn Dictionary> = if dialect.is_german() {
-                curated_german_dictionary()
-            } else {
+            let dict: Arc<dyn Dictionary> = if dialect.is_english() {
                 curated_dictionary.clone()
+            } else {
+                dictionary_for_dialect(dialect)
             };
 
             lint(
@@ -1019,6 +1018,8 @@ fn parse_dialect(dialect: &str) -> anyhow::Result<Dialect> {
         "de" | "german" | "deutsch" | "de-de" | "de_de" => Ok(Dialect::German),
         "at" | "austria" | "austrian" | "de-at" | "de_at" => Ok(Dialect::GermanAustrian),
         "ch" | "switzerland" | "swiss" | "de-ch" | "de_ch" => Ok(Dialect::GermanSwiss),
+        "pt" | "pt-pt" | "pt_pt" | "portuguese" | "português" | "br" | "brazil" | "pt-br"
+        | "pt_br" => Ok(Dialect::Portuguese),
         _ => Err(anyhow!("Unknown dialect: {}", dialect)),
     }
 }

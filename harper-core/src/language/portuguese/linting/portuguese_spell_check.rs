@@ -90,7 +90,7 @@ mod tests {
 
     fn lint_text(text: &str) -> Vec<String> {
         let dict = curated_portuguese_dictionary();
-        let mut linter = LintGroup::new_curated(dict.clone(), Dialect::American);
+        let mut linter = LintGroup::new_curated(dict.clone(), Dialect::Portuguese);
         // Add Portuguese spell check linter explicitly
         linter.add(
             "PortugueseSpellCheck",

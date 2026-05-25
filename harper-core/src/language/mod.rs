@@ -5,3 +5,4 @@
 
 pub mod german;
 pub mod portuguese;
+pub mod registry;
