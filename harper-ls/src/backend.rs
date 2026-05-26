@@ -418,6 +418,21 @@ impl Backend {
         self.update_document(uri, &content, language_id).await
     }
 
+    async fn refresh_open_document(&self, uri: &Uri) -> Result<()> {
+        let text = {
+            let doc_lock = self.doc_state.lock().await;
+            doc_lock
+                .get(uri)
+                .map(|state| state.document.get_full_content().iter().collect::<String>())
+        };
+
+        if let Some(text) = text {
+            self.update_document(uri, &text, None).await
+        } else {
+            self.update_document_from_file(uri, None).await
+        }
+    }
+
     async fn update_document(
         &self,
         uri: &Uri,
@@ -571,21 +586,15 @@ impl Backend {
                 language_id: effective_language_id.map(|v| v.to_string()),
                 dict: dict.clone(),
                 uri: uri.clone(),
-                // Store the detected dialect so did_change can use it via stored_language_id
-                // and so future cache lookups find the right value.
-                cached_dialect: if is_prose {
-                    Some(detected_dialect)
-                } else {
-                    None
-                },
+                // Store the active dialect for both prose and non-prose documents so later
+                // diagnostics and dictionary code actions stay dialect-aware.
+                cached_dialect: Some(detected_dialect),
                 ..Default::default()
             }
         });
 
-        // On subsequent updates, also keep cached_dialect in sync.
-        if is_prose {
-            doc_state.cached_dialect = Some(detected_dialect);
-        }
+        // On subsequent updates, also keep the active dialect in sync.
+        doc_state.cached_dialect = Some(detected_dialect);
 
         if doc_state.dict != dict {
             doc_state.dict = dict.clone();
@@ -1166,7 +1175,7 @@ impl LanguageServer for Backend {
                     .await
                     .map_err(|err| error!("{err}"))
                     .err();
-                self.update_document_from_file(&file_uri, None)
+                self.refresh_open_document(&file_uri)
                     .await
                     .map_err(|err| error!("{err}"))
                     .err();
@@ -1188,7 +1197,7 @@ impl LanguageServer for Backend {
                     .await
                     .map_err(|err| error!("{err}"))
                     .err();
-                self.update_document_from_file(&file_uri, None)
+                self.refresh_open_document(&file_uri)
                     .await
                     .map_err(|err| error!("{err}"))
                     .err();
@@ -1220,7 +1229,7 @@ impl LanguageServer for Backend {
                     .await
                     .map_err(|err| error!("{err}"))
                     .err();
-                self.update_document_from_file(&file_uri, None)
+                self.refresh_open_document(&file_uri)
                     .await
                     .map_err(|err| error!("{err}"))
                     .err();
@@ -1502,6 +1511,14 @@ mod tests {
         "This is an English sample sentence with enough words for detection to stay on the default dialect. this sentence starts with a lowercase word."
     }
 
+    fn german_text_with_workspace_word() -> &'static str {
+        "Das ist ein deutscher Beispielsatz mit ausreichend vielen Wörtern, damit die Sprache erkannt wird. Dieses Zqxjwort steht nur im Editorpuffer."
+    }
+
+    fn german_text_on_disk_after_unsaved_edit() -> &'static str {
+        "Das ist weiterhin ein deutscher Beispielsatz mit ausreichend vielen Wörtern, aber ohne das neue Token im gespeicherten Zustand."
+    }
+
     #[tokio::test(flavor = "current_thread")]
     async fn german_markdown_open_uses_german_dialect_and_emits_diagnostics() {
         let harness = TestHarness::new().await;
@@ -1624,6 +1641,68 @@ mod tests {
                     .contains("Werkstattwort")
             );
         }
+    }
+
+    #[tokio::test(flavor = "current_thread")]
+    async fn workspace_dictionary_command_uses_open_buffer_text_for_refresh() {
+        let harness = TestHarness::new().await;
+        let uri = harness.file_uri("german-unsaved-buffer.md");
+
+        harness
+            .open_document(&uri, "markdown", german_text_with_workspace_word())
+            .await;
+        assert_eq!(
+            harness.backend().get_document_dialect(&uri).await,
+            Dialect::German
+        );
+        harness.install_temp_config().await;
+
+        let before = harness.backend().generate_diagnostics(&uri).await;
+        assert!(
+            before
+                .iter()
+                .any(|diagnostic| diagnostic.message.contains("Zqxjwort")),
+            "expected an initial spelling diagnostic for the unsaved buffer word: {before:?}"
+        );
+
+        harness
+            .write_document(&uri, german_text_on_disk_after_unsaved_edit())
+            .await;
+
+        harness
+            .execute_command("HarperAddToWSDict", "Zqxjwort", &uri)
+            .await;
+
+        let current_text = {
+            let doc_lock = harness.backend().doc_state.lock().await;
+            let state = doc_lock.get(&uri).expect("document should stay open");
+            state.document.get_full_content().iter().collect::<String>()
+        };
+        assert!(
+            current_text.contains("Zqxjwort"),
+            "refresh should preserve the in-memory editor buffer, got: {current_text}"
+        );
+
+        let after = harness.backend().generate_diagnostics(&uri).await;
+        assert!(
+            after
+                .iter()
+                .all(|diagnostic| !diagnostic.message.contains("Zqxjwort")),
+            "workspace dictionary addition should clear the buffer spelling lint: {after:?}"
+        );
+
+        harness
+            .backend()
+            .update_document(&uri, german_text_with_workspace_word(), None)
+            .await
+            .unwrap();
+        let reopened = harness.backend().generate_diagnostics(&uri).await;
+        assert!(
+            reopened
+                .iter()
+                .all(|diagnostic| !diagnostic.message.contains("Zqxjwort")),
+            "workspace dictionary addition should persist across a reopen-like update: {reopened:?}"
+        );
     }
 
     #[tokio::test(flavor = "current_thread")]

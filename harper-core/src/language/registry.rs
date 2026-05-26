@@ -6,8 +6,38 @@ use crate::language::portuguese::parsers::PlainPortuguese;
 use crate::language::portuguese::spell::portuguese_dictionary;
 use crate::linting::LintGroup;
 use crate::parsers::{Markdown, MarkdownOptions, OrgMode, Parser, PlainEnglish};
-use crate::spell::FstDictionary;
+use crate::spell::{Dictionary, FstDictionary};
 use crate::{Dialect, languages::LanguageFamily};
+
+const LANGUAGE_NEUTRAL_RULES: &[&str] = &[
+    "CommaFixes",
+    "CorrectNumberSuffix",
+    "CurrencyPlacement",
+    "Dashes",
+    "DotInitialisms",
+    "EllipsisLength",
+    "ExpandMemoryShorthands",
+    "ExpandTimeShorthands",
+    "LongSentences",
+    "NoFrenchSpaces",
+    "NumberSuffixCapitalization",
+    "NumericRangeEnDash",
+    "QuoteSpacing",
+    "RepeatedWords",
+    "SentenceCapitalization",
+    "Spaces",
+    "UnclosedQuotes",
+    "UseEllipsisCharacter",
+];
+
+const GERMAN_RULES: &[&str] = &[
+    "GermanFillerWords",
+    "GermanNounCapitalization",
+    "GermanSentenceCapitalization",
+    "GermanSpellCheck",
+];
+
+const PORTUGUESE_RULES: &[&str] = &["PortugueseSpellCheck"];
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum ProseLanguage {
@@ -63,27 +93,30 @@ pub fn parser_for_prose(
     }
 }
 
-pub fn add_language_specific_linters(out: &mut LintGroup, dialect: Dialect) {
+pub fn add_language_specific_linters(
+    out: &mut LintGroup,
+    dialect: Dialect,
+    dictionary: Arc<impl Dictionary + 'static>,
+) {
     if dialect.is_german() {
         use crate::linting::german_noun_capitalization::GermanNounCapitalization;
         use crate::linting::german_sentence_capitalization::GermanSentenceCapitalization;
         use crate::linting::german_spell_check::GermanSpellCheck;
 
-        let german_dict = german_dictionary();
         out.add(
             "GermanSpellCheck",
-            GermanSpellCheck::new(german_dict.clone()),
+            GermanSpellCheck::new(dictionary.clone()),
         );
         out.config.set_rule_enabled("GermanSpellCheck", true);
         out.add(
             "GermanNounCapitalization",
-            GermanNounCapitalization::new(german_dict.clone()),
+            GermanNounCapitalization::new(dictionary.clone()),
         );
         out.config
             .set_rule_enabled("GermanNounCapitalization", true);
         out.add(
             "GermanSentenceCapitalization",
-            GermanSentenceCapitalization::new(german_dict),
+            GermanSentenceCapitalization::new(dictionary.clone()),
         );
         out.config
             .set_rule_enabled("GermanSentenceCapitalization", true);
@@ -92,18 +125,34 @@ pub fn add_language_specific_linters(out: &mut LintGroup, dialect: Dialect) {
     if dialect.is_portuguese() {
         use crate::language::portuguese::linting::portuguese_spell_check::PortugueseSpellCheck;
 
-        let portuguese_dict = portuguese_dictionary();
         out.add(
             "PortugueseSpellCheck",
-            PortugueseSpellCheck::new(portuguese_dict),
+            PortugueseSpellCheck::new(dictionary.clone()),
         );
         out.config.set_rule_enabled("PortugueseSpellCheck", true);
     }
 }
 
 pub fn rule_default_enabled(rule_name: &str, dialect: Dialect, default: bool) -> bool {
-    match rule_name {
-        "FillerWords" => dialect.is_english(),
-        _ => default,
+    if !default {
+        return false;
     }
+
+    if dialect.is_english() {
+        return true;
+    }
+
+    if LANGUAGE_NEUTRAL_RULES.contains(&rule_name) {
+        return true;
+    }
+
+    if dialect.is_german() {
+        return GERMAN_RULES.contains(&rule_name);
+    }
+
+    if dialect.is_portuguese() {
+        return PORTUGUESE_RULES.contains(&rule_name);
+    }
+
+    false
 }

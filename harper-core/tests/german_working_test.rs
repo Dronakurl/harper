@@ -121,7 +121,7 @@ fn test_german_ls_simulation() {
 
     // Simulate what document_state::generate_diagnostics does
     let temp = linter.config.clone();
-    linter.config.fill_with_curated();
+    linter.config.fill_with_curated_for(Dialect::German);
     let lints_map = linter.organized_lints(&doc);
     linter.config = temp;
 
@@ -138,6 +138,29 @@ fn test_german_ls_simulation() {
         "Should find at least 3 issues (1 cap + 2 spelling), got {}",
         total
     );
+}
+
+#[test]
+fn test_german_curated_config_disables_english_indefinite_article_rule() {
+    let dict = curated_german_dictionary();
+    let mut linter = LintGroup::new_curated(dict.clone(), Dialect::German);
+    let text = "Die Übergabe hat unmittelbar an die neue Verwaltung zu erfolgen.";
+    let document = Document::new(text, &PlainGerman, &dict);
+
+    let temp = linter.config.clone();
+    linter.config.fill_with_curated_for(Dialect::German);
+    let lints_map = linter.organized_lints(&document);
+    linter.config = temp;
+
+    let all_lints: Vec<_> = lints_map.values().flat_map(|lints| lints.iter()).collect();
+
+    assert!(
+        all_lints
+            .iter()
+            .all(|lint| lint.message != "Incorrect indefinite article."),
+        "German text should not trigger the English indefinite article rule: {all_lints:?}"
+    );
+    assert!(!linter.config.is_rule_enabled("AnA"));
 }
 
 fn lint_markdown_fixture(path: &str) -> Vec<String> {

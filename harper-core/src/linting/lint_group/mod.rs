@@ -499,12 +499,27 @@ impl LintGroup {
     pub fn new_curated(dictionary: Arc<impl Dictionary + 'static>, dialect: Dialect) -> Self {
         let mut out = Self::empty();
 
+        let mut disable_for_non_english = Vec::new();
+
+        let mut merge_english_rule_group = |group: LintGroup| {
+            if !dialect.is_english() {
+                disable_for_non_english.extend(group.iter_keys().map(str::to_string));
+            }
+            out.merge_from(group);
+        };
+
         /// Add a `Linter` to the group, setting it to be enabled or disabled.
         macro_rules! insert_struct_rule {
             ($rule:ident, $default_config:expr) => {
                 out.add(stringify!($rule), $rule::default());
-                out.config
-                    .set_rule_enabled(stringify!($rule), $default_config);
+                out.config.set_rule_enabled(
+                    stringify!($rule),
+                    crate::language::registry::rule_default_enabled(
+                        stringify!($rule),
+                        dialect,
+                        $default_config,
+                    ),
+                );
             };
         }
 
@@ -512,8 +527,14 @@ impl LintGroup {
         macro_rules! insert_struct_rule_with_dict {
             ($rule:ident, $default_config:expr) => {
                 out.add(stringify!($rule), $rule::new(dictionary.clone()));
-                out.config
-                    .set_rule_enabled(stringify!($rule), $default_config);
+                out.config.set_rule_enabled(
+                    stringify!($rule),
+                    crate::language::registry::rule_default_enabled(
+                        stringify!($rule),
+                        dialect,
+                        $default_config,
+                    ),
+                );
             };
         }
 
@@ -521,8 +542,14 @@ impl LintGroup {
         macro_rules! insert_struct_rule_with_dialect {
             ($rule:ident, $default_config:expr) => {
                 out.add(stringify!($rule), $rule::new(dialect));
-                out.config
-                    .set_rule_enabled(stringify!($rule), $default_config);
+                out.config.set_rule_enabled(
+                    stringify!($rule),
+                    crate::language::registry::rule_default_enabled(
+                        stringify!($rule),
+                        dialect,
+                        $default_config,
+                    ),
+                );
             };
         }
 
@@ -532,8 +559,14 @@ impl LintGroup {
         macro_rules! insert_expr_rule {
             ($rule:ident, $default_config:expr) => {
                 out.add_chunk_expr_linter(stringify!($rule), $rule::default());
-                out.config
-                    .set_rule_enabled(stringify!($rule), $default_config);
+                out.config.set_rule_enabled(
+                    stringify!($rule),
+                    crate::language::registry::rule_default_enabled(
+                        stringify!($rule),
+                        dialect,
+                        $default_config,
+                    ),
+                );
             };
         }
 
@@ -541,8 +574,14 @@ impl LintGroup {
         macro_rules! insert_expr_rule_with_dict {
             ($rule:ident, $default_config:expr) => {
                 out.add_chunk_expr_linter(stringify!($rule), $rule::new(dictionary.clone()));
-                out.config
-                    .set_rule_enabled(stringify!($rule), $default_config);
+                out.config.set_rule_enabled(
+                    stringify!($rule),
+                    crate::language::registry::rule_default_enabled(
+                        stringify!($rule),
+                        dialect,
+                        $default_config,
+                    ),
+                );
             };
         }
 
@@ -550,20 +589,30 @@ impl LintGroup {
         macro_rules! insert_expr_rule_with_dialect {
             ($rule:ident, $default_config:expr) => {
                 out.add_chunk_expr_linter(stringify!($rule), $rule::new(dialect));
-                out.config
-                    .set_rule_enabled(stringify!($rule), $default_config);
+                out.config.set_rule_enabled(
+                    stringify!($rule),
+                    crate::language::registry::rule_default_enabled(
+                        stringify!($rule),
+                        dialect,
+                        $default_config,
+                    ),
+                );
             };
         }
 
-        out.merge_from(weir_rules::lint_group());
-        out.merge_from(phrase_set_corrections::lint_group());
-        out.merge_from(proper_noun_capitalization_linters::lint_group());
-        out.merge_from(closed_compounds::lint_group());
-        out.merge_from(initialisms::lint_group());
-        out.merge_from(be_adjective_confusions::lint_group());
+        merge_english_rule_group(weir_rules::lint_group());
+        merge_english_rule_group(phrase_set_corrections::lint_group());
+        merge_english_rule_group(proper_noun_capitalization_linters::lint_group());
+        merge_english_rule_group(closed_compounds::lint_group());
+        merge_english_rule_group(initialisms::lint_group());
+        merge_english_rule_group(be_adjective_confusions::lint_group());
         out.merge_from(crate::language::german::linting::german_weir_rules::lint_group());
 
-        crate::language::registry::add_language_specific_linters(&mut out, dialect);
+        crate::language::registry::add_language_specific_linters(
+            &mut out,
+            dialect,
+            dictionary.clone(),
+        );
 
         // Add all the more complex rules to the group.
         // Please maintain alphabetical order.
@@ -821,27 +870,45 @@ impl LintGroup {
 
         // Uses Sentence rather than Chunk
         out.add("AspireTo", AspireTo::default());
-        out.config.set_rule_enabled("AspireTo", true);
+        out.config.set_rule_enabled(
+            "AspireTo",
+            crate::language::registry::rule_default_enabled("AspireTo", dialect, true),
+        );
 
         // Uses Sentence rather than Chunk
         out.add("Damages", Damages::default());
-        out.config.set_rule_enabled("Damages", true);
+        out.config.set_rule_enabled(
+            "Damages",
+            crate::language::registry::rule_default_enabled("Damages", dialect, true),
+        );
 
         // Uses Sentence rather than Chunk
         out.add(
             "MultipleFrequencyAdverbs",
             MultipleFrequencyAdverbs::default(),
         );
-        out.config
-            .set_rule_enabled("MultipleFrequencyAdverbs", true);
+        out.config.set_rule_enabled(
+            "MultipleFrequencyAdverbs",
+            crate::language::registry::rule_default_enabled(
+                "MultipleFrequencyAdverbs",
+                dialect,
+                true,
+            ),
+        );
 
         // Uses Sentence rather than Chunk
         out.add("PluralDecades", PluralDecades::default());
-        out.config.set_rule_enabled("PluralDecades", true);
+        out.config.set_rule_enabled(
+            "PluralDecades",
+            crate::language::registry::rule_default_enabled("PluralDecades", dialect, true),
+        );
 
         // Uses Sentence rather than Chunk
         out.add("WereWhere", WereWhere::default());
-        out.config.set_rule_enabled("WereWhere", true);
+        out.config.set_rule_enabled(
+            "WereWhere",
+            crate::language::registry::rule_default_enabled("WereWhere", dialect, true),
+        );
 
         // Uses Dictionary and Dialect
         out.add("SpellCheck", SpellCheck::new(dictionary.clone(), dialect));
@@ -852,11 +919,23 @@ impl LintGroup {
             "ThereIsAgreement",
             ThereIsAgreement::new(dictionary.clone()),
         );
-        out.config.set_rule_enabled("ThereIsAgreement", true);
+        out.config.set_rule_enabled(
+            "ThereIsAgreement",
+            crate::language::registry::rule_default_enabled("ThereIsAgreement", dialect, true),
+        );
 
         // Uses Sentence rather than Chunk
         out.add("WebScraping", WebScraping::default());
-        out.config.set_rule_enabled("WebScraping", true);
+        out.config.set_rule_enabled(
+            "WebScraping",
+            crate::language::registry::rule_default_enabled("WebScraping", dialect, true),
+        );
+
+        if !dialect.is_english() {
+            for rule_name in disable_for_non_english {
+                out.config.set_rule_enabled(rule_name, false);
+            }
+        }
 
         out
     }

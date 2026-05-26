@@ -25,7 +25,9 @@ impl DocumentState {
 
     pub fn generate_diagnostics(&mut self, severity: DiagnosticSeverity) -> Vec<Diagnostic> {
         let temp = self.linter.config.clone();
-        self.linter.config.fill_with_curated();
+        self.linter
+            .config
+            .fill_with_curated_for(self.cached_dialect.unwrap_or(Dialect::American));
 
         let mut lints = self.linter.organized_lints(&self.document);
 
@@ -53,7 +55,9 @@ impl DocumentState {
         code_action_config: &CodeActionConfig,
     ) -> Vec<CodeActionOrCommand> {
         let temp = self.linter.config.clone();
-        self.linter.config.fill_with_curated();
+        self.linter
+            .config
+            .fill_with_curated_for(self.cached_dialect.unwrap_or(Dialect::American));
 
         let mut lints = self.linter.lint(&self.document);
 
