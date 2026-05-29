@@ -3,6 +3,7 @@ use std::fs::OpenOptions;
 use std::io::{BufWriter, Write};
 use std::path::PathBuf;
 use std::sync::Arc;
+use std::time::Duration;
 
 use crate::config::Config;
 use crate::document_state::DocumentState;
@@ -45,28 +46,94 @@ use tower_lsp_server::lsp_types::{
 use tower_lsp_server::{Client, LanguageServer, UriExt};
 use tracing::{error, info, warn};
 
+type PendingDiagnosticTask = (tokio::task::JoinHandle<()>, u64);
+
 /// Return harper-ls version
 pub fn ls_version() -> &'static str {
     env!("CARGO_PKG_VERSION")
 }
 
+#[derive(Clone)]
 pub struct Backend {
     client: Client,
-    root: RwLock<PathBuf>,
-    config: RwLock<Config>,
-    stats: RwLock<Stats>,
-    doc_state: Mutex<HashMap<Uri, DocumentState>>,
+    root: Arc<RwLock<PathBuf>>,
+    config: Arc<RwLock<Config>>,
+    stats: Arc<RwLock<Stats>>,
+    doc_state: Arc<Mutex<HashMap<Uri, DocumentState>>>,
+    pending_diagnostics: Arc<Mutex<HashMap<Uri, PendingDiagnosticTask>>>,
+    last_change_generation: Arc<Mutex<HashMap<Uri, u64>>>,
 }
 
 impl Backend {
     pub fn new(client: Client, config: Config) -> Self {
         Self {
             client,
-            root: RwLock::new(".".into()),
-            stats: RwLock::new(Stats::new()),
-            config: RwLock::new(config),
-            doc_state: Mutex::new(HashMap::new()),
+            root: Arc::new(RwLock::new(".".into())),
+            stats: Arc::new(RwLock::new(Stats::new())),
+            config: Arc::new(RwLock::new(config)),
+            doc_state: Arc::new(Mutex::new(HashMap::new())),
+            pending_diagnostics: Arc::new(Mutex::new(HashMap::new())),
+            last_change_generation: Arc::new(Mutex::new(HashMap::new())),
         }
+    }
+
+    async fn bump_diagnostic_generation(&self, uri: &Uri) -> u64 {
+        let mut generations = self.last_change_generation.lock().await;
+        let generation = generations.entry(uri.clone()).or_insert(0);
+        *generation += 1;
+        *generation
+    }
+
+    async fn abort_pending_diagnostics(&self, uri: &Uri) {
+        let mut pending = self.pending_diagnostics.lock().await;
+        if let Some((handle, _)) = pending.remove(uri) {
+            handle.abort();
+        }
+    }
+
+    async fn clear_delayed_diagnostics_state(&self, uri: &Uri) {
+        self.abort_pending_diagnostics(uri).await;
+        self.last_change_generation.lock().await.remove(uri);
+    }
+
+    async fn publish_diagnostics_immediately(&self, uri: &Uri) {
+        self.bump_diagnostic_generation(uri).await;
+        self.abort_pending_diagnostics(uri).await;
+        self.publish_diagnostics(uri).await;
+    }
+
+    async fn schedule_diagnostics(&self, uri: &Uri, delay_ms: u64) {
+        let generation = self.bump_diagnostic_generation(uri).await;
+        self.abort_pending_diagnostics(uri).await;
+
+        let uri = uri.clone();
+        let task_uri = uri.clone();
+        let backend = self.clone();
+        let handle = tokio::spawn(async move {
+            tokio::time::sleep(Duration::from_millis(delay_ms)).await;
+
+            let should_publish = {
+                let generations = backend.last_change_generation.lock().await;
+                generations.get(&task_uri).copied() == Some(generation)
+            };
+
+            if should_publish {
+                backend.publish_diagnostics(&task_uri).await;
+            }
+
+            let mut pending = backend.pending_diagnostics.lock().await;
+            if pending
+                .get(&task_uri)
+                .is_some_and(|(_, pending_generation)| *pending_generation == generation)
+            {
+                pending.remove(&task_uri);
+            }
+        });
+
+        self.pending_diagnostics
+            .lock()
+            .await
+            .insert(uri, (handle, generation));
     }
 
     /// Load a specific file's dictionary
@@ -598,20 +665,28 @@ impl LanguageServer for Backend {
             return;
         };
 
-        if let Err(err) = self
-            .update_document(&params.text_document.uri, &last.text, None)
-            .await
-        {
+        let uri = params.text_document.uri.clone();
+
+        if let Err(err) = self.update_document(&uri, &last.text, None).await {
             error!("{err}")
         }
 
-        self.publish_diagnostics(&params.text_document.uri).await;
+        let delay_ms = self.config.read().await.diagnostic_delay_ms;
+
+        if delay_ms == 0 {
+            self.publish_diagnostics_immediately(&uri).await;
+        } else {
+            self.schedule_diagnostics(&uri, delay_ms).await;
+        }
     }
 
     async fn did_close(&self, _params: DidCloseTextDocumentParams) {
         let uri = _params.text_document.uri;
         let mut doc_lock = self.doc_state.lock().await;
         doc_lock.remove(&uri);
+        drop(doc_lock);
+
+        self.clear_delayed_diagnostics_state(&uri).await;
 
         self.client
             .send_notification::<PublishDiagnostics>(PublishDiagnosticsParams {
@@ -644,6 +719,7 @@ impl LanguageServer for Backend {
         }
 
         for uri in &uris_to_clear {
+            self.clear_delayed_diagnostics_state(uri).await;
             self.client
                 .send_notification::<PublishDiagnostics>(PublishDiagnosticsParams {
                     uri: uri.clone(),
@@ -663,8 +739,6 @@ impl LanguageServer for Backend {
         let Some(first) = string_args.next() else {
             return Ok(None);
         };
-
-        info!("Received command: \"{}\"", params.command.as_str());
 
         match params.command.as_str() {
             "HarperRecordLint" => {
@@ -697,7 +771,7 @@ impl LanguageServer for Backend {
                     .await
                     .map_err(|err| error!("{err}"))
                     .err();
-                self.publish_diagnostics(&file_uri).await;
+                self.publish_diagnostics_immediately(&file_uri).await;
             }
             "HarperAddToWSDict" => {
                 let word = &first.chars().collect::<Vec<_>>();
@@ -718,7 +792,7 @@ impl LanguageServer for Backend {
                     .await
                     .map_err(|err| error!("{err}"))
                     .err();
-                self.publish_diagnostics(&file_uri).await;
+                self.publish_diagnostics_immediately(&file_uri).await;
             }
             "HarperAddToFileDict" => {
                 let word = &first.chars().collect::<Vec<_>>();
@@ -749,7 +823,7 @@ impl LanguageServer for Backend {
                     .await
                     .map_err(|err| error!("{err}"))
                     .err();
-                self.publish_diagnostics(&file_uri).await;
+                self.publish_diagnostics_immediately(&file_uri).await;
             }
             "HarperOpen" => match open::that(&first) {
                 Ok(()) => {
@@ -799,7 +873,7 @@ impl LanguageServer for Backend {
 
                 drop(doc_lock);
 
-                self.publish_diagnostics(&uri).await;
+                self.publish_diagnostics_immediately(&uri).await;
             }
             _ => (),
         }
@@ -828,7 +902,7 @@ impl LanguageServer for Backend {
                 .await
                 .map_err(|err| error!("{err}"))
                 .err();
-            self.publish_diagnostics(&uri).await;
+            self.publish_diagnostics_immediately(&uri).await;
         }
     }
 
@@ -844,6 +918,14 @@ impl LanguageServer for Backend {
     }
 
     async fn shutdown(&self) -> JsonResult<()> {
+        let uris_with_pending_diagnostics: Vec<Uri> = {
+            let pending = self.pending_diagnostics.lock().await;
+            pending.keys().cloned().collect()
+        };
+        for uri in uris_with_pending_diagnostics {
+            self.clear_delayed_diagnostics_state(&uri).await;
+        }
+
         let doc_states = self.doc_state.lock().await;
 
         // Clears the diagnostics for open buffers.
@@ -864,5 +946,104 @@ impl LanguageServer for Backend {
         }
 
         Ok(())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use std::collections::HashMap;
+    use std::time::Duration;
+
+    use tokio::sync::Mutex;
+    use tower_lsp_server::lsp_types::Uri;
+
+    use super::PendingDiagnosticTask;
+
+    async fn abort_pending_diagnostics(
+        pending_diagnostics: &Mutex<HashMap<Uri, PendingDiagnosticTask>>,
+        uri: &Uri,
+    ) {
+        let mut pending = pending_diagnostics.lock().await;
+        if let Some((handle, _)) = pending.remove(uri) {
+            handle.abort();
+        }
+    }
+
+    async fn clear_delayed_diagnostics_state(
+        pending_diagnostics: &Mutex<HashMap<Uri, PendingDiagnosticTask>>,
+        last_change_generation: &Mutex<HashMap<Uri, u64>>,
+        uri: &Uri,
+    ) {
+        abort_pending_diagnostics(pending_diagnostics, uri).await;
+        last_change_generation.lock().await.remove(uri);
+    }
+
+    async fn bump_diagnostic_generation(
+        last_change_generation: &Mutex<HashMap<Uri, u64>>,
+        uri: &Uri,
+    ) -> u64 {
+        let mut generations = last_change_generation.lock().await;
+        let generation = generations.entry(uri.clone()).or_insert(0);
+        *generation += 1;
+        *generation
+    }
+
+    #[tokio::test]
+    async fn abort_pending_diagnostics_removes_only_target_uri() {
+        let pending_diagnostics = Mutex::new(HashMap::new());
+        let uri_a: Uri = "file:///a.txt".parse().unwrap();
+        let uri_b: Uri = "file:///b.txt".parse().unwrap();
+
+        let handle_a = tokio::spawn(async { tokio::time::sleep(Duration::from_secs(10)).await });
+        let handle_b = tokio::spawn(async { tokio::time::sleep(Duration::from_secs(10)).await });
+
+        pending_diagnostics
+            .lock()
+            .await
+            .insert(uri_a.clone(), (handle_a, 1));
+        pending_diagnostics
+            .lock()
+            .await
+            .insert(uri_b.clone(), (handle_b, 2));
+
+        abort_pending_diagnostics(&pending_diagnostics, &uri_a).await;
+
+        let pending = pending_diagnostics.lock().await;
+        assert!(!pending.contains_key(&uri_a));
+        assert!(pending.contains_key(&uri_b));
+    }
+
+    #[tokio::test]
+    async fn clear_delayed_diagnostics_state_removes_generation_and_pending_task() {
+        let pending_diagnostics = Mutex::new(HashMap::new());
+        let last_change_generation = Mutex::new(HashMap::new());
+        let uri: Uri = "file:///test.txt".parse().unwrap();
+
+        let handle = tokio::spawn(async { tokio::time::sleep(Duration::from_secs(10)).await });
+        pending_diagnostics
+            .lock()
+            .await
+            .insert(uri.clone(), (handle, 3));
+        last_change_generation.lock().await.insert(uri.clone(), 3);
+
+        clear_delayed_diagnostics_state(&pending_diagnostics, &last_change_generation, &uri).await;
+
+        assert!(!pending_diagnostics.lock().await.contains_key(&uri));
+        assert!(!last_change_generation.lock().await.contains_key(&uri));
+    }
+
+    #[tokio::test]
+    async fn bump_diagnostic_generation_is_monotonic() {
+        let last_change_generation = Mutex::new(HashMap::new());
+        let uri: Uri = "file:///test.txt".parse().unwrap();
+
+        assert_eq!(
+            bump_diagnostic_generation(&last_change_generation, &uri).await,
+            1
+        );
+        assert_eq!(
+            bump_diagnostic_generation(&last_change_generation, &uri).await,
+            2
+        );
     }
 }

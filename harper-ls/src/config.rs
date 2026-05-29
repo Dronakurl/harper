@@ -79,6 +79,9 @@ pub struct Config {
     /// Above this limit, the file will not be linted.
     pub max_file_length: usize,
     pub exclude_patterns: GlobSet,
+    /// Delay in milliseconds after typing stops before diagnostics are published.
+    /// Set to 0 to publish diagnostics immediately.
+    pub diagnostic_delay_ms: u64,
 }
 
 impl Config {
@@ -204,6 +207,10 @@ impl Config {
             }
         }
 
+        if let Some(v) = value.get("diagnosticDelayMs") {
+            base.diagnostic_delay_ms = serde_json::from_value(v.clone())?;
+        }
+
         Ok(base)
     }
 }
@@ -226,6 +233,36 @@ impl Default for Config {
             dialect: Dialect::American,
             max_file_length: 120_000,
             exclude_patterns: GlobSet::empty(),
+            diagnostic_delay_ms: 0,
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use serde_json::json;
+
+    use super::Config;
+
+    #[test]
+    fn parses_diagnostic_delay() {
+        let config = Config::from_lsp_config(
+            std::path::Path::new("."),
+            json!({
+                "harper-ls": {
+                    "diagnosticDelayMs": 750
+                }
+            }),
+        )
+        .unwrap();
+
+        assert_eq!(config.diagnostic_delay_ms, 750);
+    }
+
+    #[test]
+    fn defaults_diagnostic_delay_to_zero() {
+        let config = Config::default();
+
+        assert_eq!(config.diagnostic_delay_ms, 0);
     }
 }
