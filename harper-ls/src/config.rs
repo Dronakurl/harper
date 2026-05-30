@@ -150,9 +150,9 @@ impl Config {
 
         if let Some(v) = value.get("statsPath") {
             if let Value::String(path) = v {
-                base.file_dict_path = path.try_resolve_in(workspace_root)?.to_path_buf();
+                base.stats_path = path.try_resolve_in(workspace_root)?.to_path_buf();
             } else {
-                bail!("fileDict path must be a string.");
+                bail!("statsPath must be a string.");
             }
         }
 
@@ -264,5 +264,26 @@ mod tests {
         let config = Config::default();
 
         assert_eq!(config.diagnostic_delay_ms, 0);
+    }
+
+    #[test]
+    fn parses_stats_path_without_touching_file_dict_path() {
+        let config = Config::from_lsp_config(
+            std::path::Path::new("."),
+            json!({
+                "harper-ls": {
+                    "statsPath": ".harper-stats.txt"
+                }
+            }),
+        )
+        .unwrap();
+
+        assert!(config.stats_path.ends_with(".harper-stats.txt"));
+        assert!(
+            config
+                .file_dict_path
+                .ends_with("harper-ls/file_dictionaries/"),
+            "file dictionary path should keep its default value"
+        );
     }
 }

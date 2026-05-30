@@ -4362,6 +4362,7 @@ dependencies = [
  "serde",
  "serde_json",
  "tokio",
+ "tower",
  "tower-lsp-server",
  "tracing",
  "tracing-subscriber",

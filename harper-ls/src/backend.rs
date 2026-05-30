@@ -96,38 +96,61 @@ impl Backend {
         self.last_change_generation.lock().await.remove(uri);
     }
 
+    async fn current_diagnostic_generation(&self, uri: &Uri) -> Option<u64> {
+        self.last_change_generation.lock().await.get(uri).copied()
+    }
+
     async fn publish_diagnostics_immediately(&self, uri: &Uri) {
-        self.bump_diagnostic_generation(uri).await;
-        self.abort_pending_diagnostics(uri).await;
+        self.clear_delayed_diagnostics_state(uri).await;
         self.publish_diagnostics(uri).await;
     }
 
-    async fn schedule_diagnostics(&self, uri: &Uri, delay_ms: u64) {
-        let generation = self.bump_diagnostic_generation(uri).await;
-        self.abort_pending_diagnostics(uri).await;
+    async fn publish_diagnostics_for_generation(&self, uri: &Uri, generation: u64) {
+        if self.current_diagnostic_generation(uri).await != Some(generation) {
+            return;
+        }
 
+        let diagnostics = self.generate_diagnostics(uri).await;
+
+        if self.current_diagnostic_generation(uri).await == Some(generation) {
+            self.client
+                .send_notification::<PublishDiagnostics>(PublishDiagnosticsParams {
+                    uri: uri.clone(),
+                    diagnostics,
+                    version: None,
+                })
+                .await;
+        }
+    }
+
+    async fn finish_pending_diagnostics(&self, uri: &Uri, generation: u64) {
+        let mut pending = self.pending_diagnostics.lock().await;
+        if pending
+            .get(uri)
+            .is_some_and(|(_, pending_generation)| *pending_generation == generation)
+        {
+            pending.remove(uri);
+        }
+        drop(pending);
+
+        let mut generations = self.last_change_generation.lock().await;
+        if generations.get(uri).copied() == Some(generation) {
+            generations.remove(uri);
+        }
+    }
+
+    async fn schedule_diagnostics(&self, uri: &Uri, generation: u64, delay_ms: u64) {
         let uri = uri.clone();
         let task_uri = uri.clone();
         let backend = self.clone();
         let handle = tokio::spawn(async move {
             tokio::time::sleep(Duration::from_millis(delay_ms)).await;
-
-            let should_publish = {
-                let generations = backend.last_change_generation.lock().await;
-                generations.get(&task_uri).copied() == Some(generation)
-            };
-
-            if should_publish {
-                backend.publish_diagnostics(&task_uri).await;
-            }
-
-            let mut pending = backend.pending_diagnostics.lock().await;
-            if pending
-                .get(&task_uri)
-                .is_some_and(|(_, pending_generation)| *pending_generation == generation)
-            {
-                pending.remove(&task_uri);
-            }
+            backend
+                .publish_diagnostics_for_generation(&task_uri, generation)
+                .await;
+            backend
+                .finish_pending_diagnostics(&task_uri, generation)
+                .await;
         });
 
         self.pending_diagnostics
@@ -666,17 +689,22 @@ impl LanguageServer for Backend {
         };
 
         let uri = params.text_document.uri.clone();
+        let generation = self.bump_diagnostic_generation(&uri).await;
+
+        self.abort_pending_diagnostics(&uri).await;
 
         if let Err(err) = self.update_document(&uri, &last.text, None).await {
-            error!("{err}")
+            error!("{err}");
+            self.clear_delayed_diagnostics_state(&uri).await;
+            return;
         }
 
         let delay_ms = self.config.read().await.diagnostic_delay_ms;
 
-        if delay_ms == 0 {
-            self.publish_diagnostics_immediately(&uri).await;
+        if delay_ms > 0 {
+            self.schedule_diagnostics(&uri, generation, delay_ms).await;
         } else {
-            self.schedule_diagnostics(&uri, delay_ms).await;
+            self.publish_diagnostics_immediately(&uri).await;
         }
     }
 
@@ -717,6 +745,8 @@ impl LanguageServer for Backend {
                 !to_remove
             });
         }
+
+        drop(doc_lock);
 
         for uri in &uris_to_clear {
             self.clear_delayed_diagnostics_state(uri).await;
@@ -951,99 +981,212 @@ impl LanguageServer for Backend {
 
 #[cfg(test)]
 mod tests {
-    use std::collections::HashMap;
     use std::time::Duration;
 
-    use tokio::sync::Mutex;
-    use tower_lsp_server::lsp_types::Uri;
+    use futures::{SinkExt, StreamExt};
+    use serde_json::json;
+    use tokio::sync::mpsc::{UnboundedReceiver, unbounded_channel};
+    use tower::{Service, ServiceExt};
+    use tower_lsp_server::jsonrpc::{Request, Response};
+    use tower_lsp_server::lsp_types::{
+        DidChangeTextDocumentParams, DidCloseTextDocumentParams, DidOpenTextDocumentParams,
+        PublishDiagnosticsParams, TextDocumentContentChangeEvent, TextDocumentIdentifier,
+        TextDocumentItem, Uri, VersionedTextDocumentIdentifier,
+    };
+    use tower_lsp_server::{LanguageServer, LspService};
 
-    use super::PendingDiagnosticTask;
+    use super::{Backend, Config};
 
-    async fn abort_pending_diagnostics(
-        pending_diagnostics: &Mutex<HashMap<Uri, PendingDiagnosticTask>>,
-        uri: &Uri,
-    ) {
-        let mut pending = pending_diagnostics.lock().await;
-        if let Some((handle, _)) = pending.remove(uri) {
-            handle.abort();
+    struct TestHarness {
+        service: LspService<Backend>,
+        diagnostics: UnboundedReceiver<PublishDiagnosticsParams>,
+        _client_task: tokio::task::JoinHandle<()>,
+        uri: Uri,
+    }
+
+    impl TestHarness {
+        async fn new(diagnostic_delay_ms: u64) -> Self {
+            let mut config = Config::default();
+            config.diagnostic_delay_ms = diagnostic_delay_ms;
+
+            let config_response = json!([{
+                "harper-ls": {
+                    "diagnosticDelayMs": diagnostic_delay_ms
+                }
+            }]);
+
+            let (service, socket) = LspService::new(move |client| Backend::new(client, config));
+            let (mut requests, mut responses) = socket.split();
+            let (diagnostics_tx, diagnostics) = unbounded_channel();
+
+            let client_task = tokio::spawn(async move {
+                while let Some(request) = requests.next().await {
+                    match request.method() {
+                        "workspace/configuration" => {
+                            let response = Response::from_ok(
+                                request.id().cloned().expect("configuration request id"),
+                                config_response.clone(),
+                            );
+                            responses
+                                .send(response)
+                                .await
+                                .expect("configuration response should send");
+                        }
+                        "textDocument/publishDiagnostics" => {
+                            let params: PublishDiagnosticsParams =
+                                serde_json::from_value(request.params().cloned().unwrap())
+                                    .expect("publish diagnostics params");
+                            diagnostics_tx
+                                .send(params)
+                                .expect("diagnostics receiver should be alive");
+                        }
+                        _ => {}
+                    }
+                }
+            });
+
+            let mut harness = Self {
+                service,
+                diagnostics,
+                _client_task: client_task,
+                uri: "file:///test.md".parse().unwrap(),
+            };
+            harness.initialize().await;
+            harness
+        }
+
+        async fn initialize(&mut self) {
+            let response = self
+                .service
+                .ready()
+                .await
+                .expect("service ready")
+                .call(
+                    Request::build("initialize")
+                        .id(1)
+                        .params(json!({ "capabilities": {} }))
+                        .finish(),
+                )
+                .await
+                .expect("initialize call")
+                .expect("initialize response");
+
+            assert!(response.is_ok(), "{response:?}");
+        }
+
+        async fn did_open(&self, text: &str) {
+            self.service
+                .inner()
+                .did_open(DidOpenTextDocumentParams {
+                    text_document: TextDocumentItem {
+                        uri: self.uri.clone(),
+                        language_id: "markdown".to_owned(),
+                        version: 1,
+                        text: text.to_owned(),
+                    },
+                })
+                .await;
+        }
+
+        async fn did_change(&self, version: i32, text: &str) {
+            self.service
+                .inner()
+                .did_change(DidChangeTextDocumentParams {
+                    text_document: VersionedTextDocumentIdentifier {
+                        uri: self.uri.clone(),
+                        version,
+                    },
+                    content_changes: vec![TextDocumentContentChangeEvent {
+                        range: None,
+                        range_length: None,
+                        text: text.to_owned(),
+                    }],
+                })
+                .await;
+        }
+
+        async fn did_close(&self) {
+            self.service
+                .inner()
+                .did_close(DidCloseTextDocumentParams {
+                    text_document: TextDocumentIdentifier {
+                        uri: self.uri.clone(),
+                    },
+                })
+                .await;
+        }
+
+        async fn next_diagnostics(&mut self) -> PublishDiagnosticsParams {
+            self.diagnostics
+                .recv()
+                .await
+                .expect("expected diagnostics notification")
+        }
+
+        fn assert_no_diagnostics(&mut self) {
+            assert!(self.diagnostics.try_recv().is_err());
         }
     }
 
-    async fn clear_delayed_diagnostics_state(
-        pending_diagnostics: &Mutex<HashMap<Uri, PendingDiagnosticTask>>,
-        last_change_generation: &Mutex<HashMap<Uri, u64>>,
-        uri: &Uri,
-    ) {
-        abort_pending_diagnostics(pending_diagnostics, uri).await;
-        last_change_generation.lock().await.remove(uri);
+    #[tokio::test(flavor = "current_thread", start_paused = true)]
+    async fn did_change_waits_for_the_configured_delay() {
+        let mut harness = TestHarness::new(100).await;
+
+        harness.did_open("Ths is a test.").await;
+        harness.next_diagnostics().await;
+
+        harness.did_change(2, "Ths is still a test.").await;
+        harness.assert_no_diagnostics();
+
+        tokio::time::advance(Duration::from_millis(50)).await;
+        harness.did_change(3, "This is a test.").await;
+        harness.assert_no_diagnostics();
+
+        tokio::time::advance(Duration::from_millis(99)).await;
+        tokio::task::yield_now().await;
+        harness.assert_no_diagnostics();
+
+        tokio::time::advance(Duration::from_millis(1)).await;
+        tokio::task::yield_now().await;
+
+        let diagnostics = harness.next_diagnostics().await;
+        assert_eq!(diagnostics.uri, harness.uri);
+        assert!(diagnostics.diagnostics.is_empty());
+        harness.assert_no_diagnostics();
     }
 
-    async fn bump_diagnostic_generation(
-        last_change_generation: &Mutex<HashMap<Uri, u64>>,
-        uri: &Uri,
-    ) -> u64 {
-        let mut generations = last_change_generation.lock().await;
-        let generation = generations.entry(uri.clone()).or_insert(0);
-        *generation += 1;
-        *generation
+    #[tokio::test(flavor = "current_thread")]
+    async fn did_change_publishes_immediately_when_delay_is_disabled() {
+        let mut harness = TestHarness::new(0).await;
+
+        harness.did_open("Ths is a test.").await;
+        harness.next_diagnostics().await;
+
+        harness.did_change(2, "This is a test.").await;
+
+        let diagnostics = harness.next_diagnostics().await;
+        assert_eq!(diagnostics.uri, harness.uri);
+        assert!(diagnostics.diagnostics.is_empty());
     }
 
-    #[tokio::test]
-    async fn abort_pending_diagnostics_removes_only_target_uri() {
-        let pending_diagnostics = Mutex::new(HashMap::new());
-        let uri_a: Uri = "file:///a.txt".parse().unwrap();
-        let uri_b: Uri = "file:///b.txt".parse().unwrap();
+    #[tokio::test(flavor = "current_thread", start_paused = true)]
+    async fn did_close_cancels_pending_delayed_diagnostics() {
+        let mut harness = TestHarness::new(100).await;
 
-        let handle_a = tokio::spawn(async { tokio::time::sleep(Duration::from_secs(10)).await });
-        let handle_b = tokio::spawn(async { tokio::time::sleep(Duration::from_secs(10)).await });
+        harness.did_open("Ths is a test.").await;
+        harness.next_diagnostics().await;
 
-        pending_diagnostics
-            .lock()
-            .await
-            .insert(uri_a.clone(), (handle_a, 1));
-        pending_diagnostics
-            .lock()
-            .await
-            .insert(uri_b.clone(), (handle_b, 2));
+        harness.did_change(2, "This is a test.").await;
+        harness.assert_no_diagnostics();
 
-        abort_pending_diagnostics(&pending_diagnostics, &uri_a).await;
+        harness.did_close().await;
 
-        let pending = pending_diagnostics.lock().await;
-        assert!(!pending.contains_key(&uri_a));
-        assert!(pending.contains_key(&uri_b));
-    }
+        let diagnostics = harness.next_diagnostics().await;
+        assert_eq!(diagnostics.uri, harness.uri);
+        assert!(diagnostics.diagnostics.is_empty());
 
-    #[tokio::test]
-    async fn clear_delayed_diagnostics_state_removes_generation_and_pending_task() {
-        let pending_diagnostics = Mutex::new(HashMap::new());
-        let last_change_generation = Mutex::new(HashMap::new());
-        let uri: Uri = "file:///test.txt".parse().unwrap();
-
-        let handle = tokio::spawn(async { tokio::time::sleep(Duration::from_secs(10)).await });
-        pending_diagnostics
-            .lock()
-            .await
-            .insert(uri.clone(), (handle, 3));
-        last_change_generation.lock().await.insert(uri.clone(), 3);
-
-        clear_delayed_diagnostics_state(&pending_diagnostics, &last_change_generation, &uri).await;
-
-        assert!(!pending_diagnostics.lock().await.contains_key(&uri));
-        assert!(!last_change_generation.lock().await.contains_key(&uri));
-    }
-
-    #[tokio::test]
-    async fn bump_diagnostic_generation_is_monotonic() {
-        let last_change_generation = Mutex::new(HashMap::new());
-        let uri: Uri = "file:///test.txt".parse().unwrap();
-
-        assert_eq!(
-            bump_diagnostic_generation(&last_change_generation, &uri).await,
-            1
-        );
-        assert_eq!(
-            bump_diagnostic_generation(&last_change_generation, &uri).await,
-            2
-        );
+        tokio::time::advance(Duration::from_millis(100)).await;
+        tokio::task::yield_now().await;
+        harness.assert_no_diagnostics();
     }
 }
