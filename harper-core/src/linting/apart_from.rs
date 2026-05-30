@@ -10,9 +10,11 @@ pub struct ApartFrom {
 
 impl Default for ApartFrom {
     fn default() -> Self {
-        Self {
-            expr: SequenceExpr::word_seq(&["apart", "form"]),
-        }
+        let expr = SequenceExpr::any_capitalization_of("apart")
+            .t_ws()
+            .then_any_capitalization_of("form");
+
+        Self { expr }
     }
 }
 
