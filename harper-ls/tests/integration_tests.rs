@@ -2,9 +2,9 @@
 // These cover detection + parsing + linting combinations, while backend-level
 // LSP open/change/command flows are tested in backend.rs.
 
+use harper_core::language_detection::LanguageDetectionRegistry;
 use harper_core::spell::{FstDictionary, curated_german_dictionary};
 use harper_core::{Dialect, Document};
-use harper_ls::language_detection::LanguageDetectionRegistry;
 
 /// Test full workflow: open German file → auto-detect → lint → suggest corrections
 #[test]
@@ -14,7 +14,7 @@ fn test_full_workflow_german_document() {
 
     // Step 1: Auto-detect language
     let german_text = "der Hund spielt im Garten. das Auto ist schnell.";
-    let detected = registry.detect_language(german_text, &dict, Dialect::American);
+    let detected = registry.detect_language(german_text, Dialect::American);
 
     assert_eq!(detected, Dialect::German, "Should auto-detect German text");
 
@@ -67,7 +67,7 @@ fn test_full_workflow_german_spelling_errors() {
     let text = "Der Hunte ist im Gartens. dieser Satz ist klein.";
 
     // Auto-detect
-    let detected = registry.detect_language(text, &dict, Dialect::American);
+    let detected = registry.detect_language(text, Dialect::American);
     assert_eq!(detected, Dialect::German, "Should detect German");
 
     // Parse and lint
@@ -110,7 +110,7 @@ fn test_mixed_language_german_english_quotes() {
     let text = "Der Autor sagt: \"The quick brown fox jumps over the lazy dog.\"";
 
     // Should detect one language (both are acceptable for mixed content)
-    let detected = registry.detect_language(text, &dict, Dialect::American);
+    let detected = registry.detect_language(text, Dialect::American);
     assert!(
         detected == Dialect::German || detected == Dialect::American,
         "Should detect a language for mixed content, got {:?}",
@@ -145,7 +145,7 @@ fn test_mixed_language_english_german_terms() {
     let text = "The Kindergarten is in Germany. The Doppelgänger effect is strange.";
 
     // Should detect one language (both are acceptable for mixed content)
-    let detected = registry.detect_language(text, &dict, Dialect::American);
+    let detected = registry.detect_language(text, Dialect::American);
     assert!(
         detected == Dialect::German || detected == Dialect::American,
         "Should detect a language for mixed content, got {:?}",
@@ -169,13 +169,12 @@ fn test_mixed_language_english_german_terms() {
 #[test]
 fn test_code_switching_mid_sentence() {
     let registry = LanguageDetectionRegistry::new();
-    let dict = FstDictionary::curated(); // English dictionary for detection
 
     // Sentence starts in German, switches to English
     let text = "Das Auto ist fast wie the car in the movie.";
 
     // Detect primary language
-    let detected = registry.detect_language(text, &dict, Dialect::American);
+    let detected = registry.detect_language(text, Dialect::American);
 
     // Should pick one (either is acceptable for mixed content)
     assert!(
@@ -220,7 +219,7 @@ fn test_empty_document_workflow() {
     let text = "";
 
     // Should default to provided default dialect
-    let detected = registry.detect_language(text, &dict, Dialect::American);
+    let detected = registry.detect_language(text, Dialect::American);
     assert_eq!(
         detected,
         Dialect::American,
@@ -247,7 +246,7 @@ fn test_very_short_text_workflow() {
     let text = "Hund";
 
     // Should default for very short text
-    let detected = registry.detect_language(text, &dict, Dialect::American);
+    let detected = registry.detect_language(text, Dialect::American);
     assert_eq!(
         detected,
         Dialect::American,
@@ -280,7 +279,7 @@ fn test_full_workflow_performance() {
     let start = std::time::Instant::now();
 
     // Step 1: Detect
-    let detected = registry.detect_language(text, &dict, Dialect::American);
+    let detected = registry.detect_language(text, Dialect::American);
 
     // Step 2: Parse
     let document = Document::new(

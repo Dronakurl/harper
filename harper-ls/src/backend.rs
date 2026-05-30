@@ -10,14 +10,14 @@ use crate::document_state::DocumentState;
 use crate::git_commit_parser::GitCommitParser;
 use crate::ignored_lints_io::{load_ignored_lints, save_ignored_lints};
 use crate::io_utils::fileify_path;
-use crate::language_detection::LanguageDetectionRegistry;
 use anyhow::{Context, Result, anyhow};
 use harper_asciidoc::AsciidocParser;
 use harper_comments::CommentParser;
 use harper_core::language::registry;
+use harper_core::language_detection::LanguageDetectionRegistry;
 use harper_core::linting::{FlatConfig, LintGroup};
 use harper_core::parsers::{CollapseIdentifiers, IsolateEnglish, Parser};
-use harper_core::spell::{Dictionary, FstDictionary, MergedDictionary, MutableDictionary};
+use harper_core::spell::{Dictionary, MergedDictionary, MutableDictionary};
 use harper_core::{Dialect, DictWordMetadata, Document, IgnoredLints};
 use harper_dictionary_wordlist::{load_dict, save_dict};
 use harper_html::HtmlParser;
@@ -455,10 +455,7 @@ impl Backend {
             if word_count >= MIN_WORDS_FOR_LANGUAGE_DETECTION {
                 // Re-run detection when we have enough content so that e.g. an
                 // empty-then-typed document can switch from English to German.
-                let dict = FstDictionary::curated();
-                let detected = self
-                    .lang_detect
-                    .detect_language(text, &dict, config.dialect);
+                let detected = self.lang_detect.detect_language(text, config.dialect);
                 debug!(
                     "harper-ls dialect detect: {:?} for {:?} ({} words)",
                     detected, uri, word_count

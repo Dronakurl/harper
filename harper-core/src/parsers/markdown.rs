@@ -2,16 +2,9 @@ use std::collections::VecDeque;
 
 use serde::{Deserialize, Serialize};
 
-use super::{Parser, PlainEnglish};
-use crate::language::german::parsers::PlainGerman;
+use super::{Parser, parse_inline_prose};
+use crate::languages::LanguageFamily;
 use crate::{Span, Token, TokenKind, TokenStringExt, VecExt, offsets::build_byte_to_char_map};
-
-#[derive(Default, Clone, Debug, Copy)]
-enum InlineParser {
-    #[default]
-    English,
-    German,
-}
 
 /// A parser that wraps a plain-text parser and allows one to parse
 /// CommonMark files.
@@ -20,7 +13,7 @@ enum InlineParser {
 #[derive(Clone, Debug, Copy, Default)]
 pub struct Markdown {
     options: MarkdownOptions,
-    inline_parser: InlineParser,
+    inline_language: LanguageFamily,
 }
 
 #[derive(Copy, Clone, Debug, Serialize, Deserialize)]
@@ -41,17 +34,22 @@ impl Default for MarkdownOptions {
 
 impl Markdown {
     pub fn new(options: MarkdownOptions) -> Self {
+        Self::new_with_language(options, LanguageFamily::English)
+    }
+
+    pub fn new_with_language(options: MarkdownOptions, inline_language: LanguageFamily) -> Self {
         Self {
             options,
-            inline_parser: InlineParser::English,
+            inline_language,
         }
     }
 
     pub fn new_german(options: MarkdownOptions) -> Self {
-        Self {
-            options,
-            inline_parser: InlineParser::German,
-        }
+        Self::new_with_language(options, LanguageFamily::German)
+    }
+
+    pub fn new_portuguese(options: MarkdownOptions) -> Self {
+        Self::new_with_language(options, LanguageFamily::Portuguese)
     }
 
     /// Remove hidden Wikilink target text.
@@ -153,10 +151,7 @@ impl Markdown {
     }
 
     fn parse_inline_text(&self, source: &[char]) -> Vec<Token> {
-        match self.inline_parser {
-            InlineParser::English => PlainEnglish.parse(source),
-            InlineParser::German => PlainGerman.parse(source),
-        }
+        parse_inline_prose(self.inline_language, source)
     }
 }
 
@@ -318,9 +313,13 @@ impl Parser for Markdown {
 
 #[cfg(test)]
 mod tests {
-    use super::super::StrParser;
+    use super::super::{PlainEnglish, PlainPortuguese, StrParser};
     use super::Markdown;
     use crate::{Punctuation, TokenKind, TokenStringExt, parsers::markdown::MarkdownOptions};
+
+    fn token_kinds(tokens: Vec<crate::Token>) -> Vec<TokenKind> {
+        tokens.into_iter().map(|token| token.kind).collect()
+    }
 
     #[test]
     fn survives_emojis() {
@@ -377,7 +376,37 @@ mod tests {
                 TokenKind::Space(1),
                 TokenKind::Word(_),
             ]
-        ))
+        ));
+    }
+
+    #[test]
+    fn portuguese_constructor_uses_portuguese_inline_parser() {
+        let source = "Os anos 1980s mudaram.";
+
+        let markdown_tokens =
+            token_kinds(Markdown::new_portuguese(MarkdownOptions::default()).parse_str(source));
+        let plain_portuguese_tokens = token_kinds(PlainPortuguese.parse_str(source));
+        let plain_english_tokens = token_kinds(PlainEnglish.parse_str(source));
+
+        assert_eq!(markdown_tokens, plain_portuguese_tokens);
+        assert_ne!(markdown_tokens, plain_english_tokens);
+    }
+
+    #[test]
+    fn language_aware_constructor_preserves_german_wrapper() {
+        let source = "Straße und Übermut.";
+
+        let language_aware_tokens = token_kinds(
+            Markdown::new_with_language(
+                MarkdownOptions::default(),
+                crate::languages::LanguageFamily::German,
+            )
+            .parse_str(source),
+        );
+        let german_wrapper_tokens =
+            token_kinds(Markdown::new_german(MarkdownOptions::default()).parse_str(source));
+
+        assert_eq!(language_aware_tokens, german_wrapper_tokens);
     }
 
     #[test]

@@ -1,5 +1,5 @@
-use super::{Parser, PlainEnglish};
-use crate::language::german::parsers::PlainGerman;
+use super::{Parser, parse_inline_prose};
+use crate::languages::LanguageFamily;
 use crate::{Span, Token, TokenKind};
 
 #[derive(Debug, PartialEq, Copy, Clone)]
@@ -119,13 +119,6 @@ fn find_line_start(chars: &[char], pos: usize) -> usize {
     start
 }
 
-#[derive(Default, Clone, Debug, Copy)]
-enum InlineParser {
-    #[default]
-    English,
-    German,
-}
-
 /// A parser that wraps a plain-text parser and allows one to parse
 /// Org-mode files.
 ///
@@ -133,21 +126,24 @@ enum InlineParser {
 /// that should not be linted for prose.
 #[derive(Clone, Debug, Copy, Default)]
 pub struct OrgMode {
-    inline_parser: InlineParser,
+    inline_language: LanguageFamily,
 }
 
 impl OrgMode {
+    pub fn new_with_language(inline_language: LanguageFamily) -> Self {
+        Self { inline_language }
+    }
+
     pub fn new_german() -> Self {
-        Self {
-            inline_parser: InlineParser::German,
-        }
+        Self::new_with_language(LanguageFamily::German)
+    }
+
+    pub fn new_portuguese() -> Self {
+        Self::new_with_language(LanguageFamily::Portuguese)
     }
 
     fn parse_inline_text(&self, source: &[char]) -> Vec<Token> {
-        match self.inline_parser {
-            InlineParser::English => PlainEnglish.parse(source),
-            InlineParser::German => PlainGerman.parse(source),
-        }
+        parse_inline_prose(self.inline_language, source)
     }
 }
 
@@ -267,9 +263,13 @@ impl Parser for OrgMode {
 
 #[cfg(test)]
 mod tests {
-    use super::super::StrParser;
+    use super::super::{PlainEnglish, PlainPortuguese, StrParser};
     use super::OrgMode;
     use crate::TokenKind;
+
+    fn token_kinds(tokens: Vec<crate::Token>) -> Vec<TokenKind> {
+        tokens.into_iter().map(|token| token.kind).collect()
+    }
 
     #[test]
     fn simple_text() {
@@ -414,5 +414,29 @@ print("hello")
             .count();
 
         assert!(word_count == 8, "{:?}", tokens); // "Bullet", "item", "Numbered", "item", "Plus", "item", "Parenthesis", "numbered"
+    }
+
+    #[test]
+    fn portuguese_constructor_uses_portuguese_inline_parser() {
+        let source = "Os anos 1980s mudaram.";
+
+        let org_tokens = token_kinds(OrgMode::new_portuguese().parse_str(source));
+        let plain_portuguese_tokens = token_kinds(PlainPortuguese.parse_str(source));
+        let plain_english_tokens = token_kinds(PlainEnglish.parse_str(source));
+
+        assert_eq!(org_tokens, plain_portuguese_tokens);
+        assert_ne!(org_tokens, plain_english_tokens);
+    }
+
+    #[test]
+    fn language_aware_constructor_preserves_german_wrapper() {
+        let source = "Straße und Übermut.";
+
+        let language_aware_tokens = token_kinds(
+            OrgMode::new_with_language(crate::languages::LanguageFamily::German).parse_str(source),
+        );
+        let german_wrapper_tokens = token_kinds(OrgMode::new_german().parse_str(source));
+
+        assert_eq!(language_aware_tokens, german_wrapper_tokens);
     }
 }

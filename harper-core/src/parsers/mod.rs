@@ -18,12 +18,21 @@ pub use oops_all_headings::OopsAllHeadings;
 pub use org_mode::OrgMode;
 pub use plain_english::PlainEnglish;
 
+use crate::languages::LanguageFamily;
 use crate::{LSend, Token, TokenStringExt};
 
 #[cfg_attr(feature = "concurrent", blanket(derive(Ref, Box, Arc)))]
 #[cfg_attr(not(feature = "concurrent"), blanket(derive(Ref, Box, Rc)))]
 pub trait Parser: LSend {
     fn parse(&self, source: &[char]) -> Vec<Token>;
+}
+
+pub(crate) fn parse_inline_prose(language: LanguageFamily, source: &[char]) -> Vec<Token> {
+    match language {
+        LanguageFamily::English => PlainEnglish.parse(source),
+        LanguageFamily::German => PlainGerman.parse(source),
+        LanguageFamily::Portuguese => PlainPortuguese.parse(source),
+    }
 }
 
 pub trait StrParser {

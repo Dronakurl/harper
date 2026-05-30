@@ -1056,6 +1056,28 @@ pub enum Dialect {
     Portuguese = 1 << 8,
 }
 impl Dialect {
+    fn try_from_name(value: &str) -> Option<Self> {
+        match value.trim().to_ascii_lowercase().replace('_', "-").as_str() {
+            "us" | "usa" | "america" | "american" | "en" | "en-us" => Some(Dialect::American),
+            "uk" | "gb" | "british" | "britain" | "en-gb" => Some(Dialect::British),
+            "au" | "aus" | "australia" | "australian" | "en-au" => Some(Dialect::Australian),
+            "in" | "india" | "indian" | "bharat" | "en-in" => Some(Dialect::Indian),
+            "ca" | "canada" | "canadian" | "en-ca" => Some(Dialect::Canadian),
+            "de" | "german" | "deutsch" | "de-de" => Some(Dialect::German),
+            "at" | "austria" | "austrian" | "de-at" => Some(Dialect::GermanAustrian),
+            "ch" | "switzerland" | "swiss" | "de-ch" => Some(Dialect::GermanSwiss),
+            "pt"
+            | "pt-pt"
+            | "portuguese"
+            | "português"
+            | "br"
+            | "brazil"
+            | "portuguese-brazilian"
+            | "pt-br" => Some(Dialect::Portuguese),
+            _ => None,
+        }
+    }
+
     /// Tries to guess the dialect used in the document by finding which dialect is used the most.
     /// Returns `None` if it fails to find a single dialect that is used the most.
     #[must_use]
@@ -1112,6 +1134,36 @@ impl Dialect {
         }
     }
 
+    #[must_use]
+    pub fn resolve_detected_language_family(
+        self,
+        language: crate::languages::LanguageFamily,
+    ) -> Self {
+        match language {
+            crate::languages::LanguageFamily::English => {
+                if self.is_english() {
+                    self
+                } else {
+                    Self::American
+                }
+            }
+            crate::languages::LanguageFamily::German => {
+                if self.is_german() {
+                    self
+                } else {
+                    Self::German
+                }
+            }
+            crate::languages::LanguageFamily::Portuguese => {
+                if self.is_portuguese() {
+                    self
+                } else {
+                    Self::Portuguese
+                }
+            }
+        }
+    }
+
     /// Tries to get a dialect from its abbreviation. Returns `None` if the abbreviation is not
     /// recognized.
     ///
@@ -1143,6 +1195,27 @@ impl Dialect {
             "PT" => Some(Self::Portuguese),
             _ => None,
         }
+    }
+
+    /// Tries to parse a dialect from a BCP47 locale tag such as `en-US` or `de-AT`.
+    #[must_use]
+    pub fn try_from_bcp47(tag: &str) -> Option<Self> {
+        if let Some(dialect) = Self::try_from_name(tag) {
+            return Some(dialect);
+        }
+
+        let normalized = tag.trim().to_ascii_lowercase().replace('_', "-");
+        let mut parts = normalized.split('-');
+        let language = parts.next()?;
+
+        if let Some(region) = parts.next() {
+            let lang_region = format!("{language}-{region}");
+            if let Some(dialect) = Self::try_from_name(&lang_region) {
+                return Some(dialect);
+            }
+        }
+
+        Self::try_from_name(language)
     }
 }
 impl TryFrom<DialectFlags> for Dialect {
@@ -1202,34 +1275,8 @@ impl<'de> Deserialize<'de> for Dialect {
             where
                 E: Error,
             {
-                match value.to_lowercase().as_str() {
-                    "us" | "usa" | "america" | "american" | "en-us" | "en_us" => {
-                        Ok(Dialect::American)
-                    }
-                    "uk" | "gb" | "british" | "britain" | "en-gb" | "en_gb" => Ok(Dialect::British),
-                    "au" | "aus" | "australia" | "australian" | "en-au" | "en_au" => {
-                        Ok(Dialect::Australian)
-                    }
-                    "in" | "india" | "indian" | "bharat" | "en-in" | "en_in" => Ok(Dialect::Indian),
-                    "ca" | "canada" | "canadian" | "en-ca" | "en_ca" => Ok(Dialect::Canadian),
-                    "de" | "german" | "deutsch" | "de-de" | "de_de" => Ok(Dialect::German),
-                    "at" | "austria" | "austrian" | "de-at" | "de_at" => {
-                        Ok(Dialect::GermanAustrian)
-                    }
-                    "ch" | "switzerland" | "swiss" | "de-ch" | "de_ch" => Ok(Dialect::GermanSwiss),
-                    "pt"
-                    | "pt-pt"
-                    | "pt_pt"
-                    | "portuguese"
-                    | "português"
-                    | "br"
-                    | "brazil"
-                    | "portuguese-brazilian"
-                    | "portuguese_brazilian"
-                    | "pt-br"
-                    | "pt_br" => Ok(Dialect::Portuguese),
-                    _ => Err(Error::custom(format!("Unknown dialect: {}", value))),
-                }
+                Dialect::try_from_name(value)
+                    .ok_or_else(|| Error::custom(format!("Unknown dialect: {}", value)))
             }
 
             fn visit_u64<E>(self, value: u64) -> Result<Self::Value, E>
@@ -1395,6 +1442,47 @@ pub mod tests {
             assert!(
                 df.is_dialect_enabled_strict(Dialect::American)
                     && !df.is_dialect_enabled_strict(Dialect::British)
+            );
+        }
+
+        #[test]
+        fn parses_bcp47_dialects() {
+            assert_eq!(Dialect::try_from_bcp47("en-US"), Some(Dialect::American));
+            assert_eq!(
+                Dialect::try_from_bcp47("de-AT"),
+                Some(Dialect::GermanAustrian)
+            );
+            assert_eq!(Dialect::try_from_bcp47("pt_BR"), Some(Dialect::Portuguese));
+        }
+
+        #[test]
+        fn parses_extended_bcp47_dialects() {
+            assert_eq!(
+                Dialect::try_from_bcp47("en-US-u-hc-h12"),
+                Some(Dialect::American)
+            );
+            assert_eq!(
+                Dialect::try_from_bcp47("de-CH-x-phonebk"),
+                Some(Dialect::GermanSwiss)
+            );
+        }
+
+        #[test]
+        fn resolves_detected_language_family_to_preferred_variant() {
+            assert_eq!(
+                Dialect::British
+                    .resolve_detected_language_family(crate::languages::LanguageFamily::English,),
+                Dialect::British
+            );
+            assert_eq!(
+                Dialect::GermanSwiss
+                    .resolve_detected_language_family(crate::languages::LanguageFamily::German,),
+                Dialect::GermanSwiss
+            );
+            assert_eq!(
+                Dialect::American
+                    .resolve_detected_language_family(crate::languages::LanguageFamily::German,),
+                Dialect::German
             );
         }
     }
