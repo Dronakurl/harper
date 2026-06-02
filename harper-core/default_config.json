@@ -808,13 +808,6 @@
 						},
 						{
 							"Bool": {
-								"name": "ArgumentToBeMade",
-								"state": true,
-								"label": "Argument To Be Made"
-							}
-						},
-						{
-							"Bool": {
 								"name": "Bollocks",
 								"state": true,
 								"label": "Bollocks"
@@ -1563,13 +1556,6 @@
 						},
 						{
 							"Bool": {
-								"name": "CantWay",
-								"state": true,
-								"label": "Cant Way"
-							}
-						},
-						{
-							"Bool": {
 								"name": "CaseSensitive",
 								"state": true,
 								"label": "Case Sensitive"
@@ -1636,13 +1622,6 @@
 								"name": "IntroCueCommaBeforeThanks",
 								"state": true,
 								"label": "Intro Cue Comma Before Thanks"
-							}
-						},
-						{
-							"Bool": {
-								"name": "IncludingButNotLimitedToPunctuation",
-								"state": true,
-								"label": "Including But Not Limited To Punctuation"
 							}
 						},
 						{
@@ -2066,13 +2045,6 @@
 						},
 						{
 							"Bool": {
-								"name": "ThereOwn",
-								"state": true,
-								"label": "There Own"
-							}
-						},
-						{
-							"Bool": {
 								"name": "Theres",
 								"state": true,
 								"label": "There's"
@@ -2432,13 +2404,6 @@
 								"name": "AtLeasToLeast",
 								"state": true,
 								"label": "At Leas To Least"
-							}
-						},
-						{
-							"Bool": {
-								"name": "AtLestToLeast",
-								"state": true,
-								"label": "At Lest To Least"
 							}
 						},
 						{
@@ -2808,13 +2773,6 @@
 				"description": "Highlights wordy, repetitive, or overly weak phrasing that can usually be tightened up.",
 				"child": {
 					"settings": [
-						{
-							"Bool": {
-								"name": "AvoidContractions",
-								"state": false,
-								"label": "Avoid Contractions"
-							}
-						},
 						{
 							"Bool": {
 								"name": "BoringWords",
@@ -3911,13 +3869,6 @@
 								"name": "Bought",
 								"state": true,
 								"label": "Bought"
-							}
-						},
-						{
-							"Bool": {
-								"name": "CallThem",
-								"state": true,
-								"label": "Call Them"
 							}
 						},
 						{
