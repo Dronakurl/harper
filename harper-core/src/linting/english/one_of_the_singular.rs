@@ -156,7 +156,7 @@ mod tests {
     fn fix_one_of_the_noun() {
         assert_suggestion_result(
             "one of the noun",
-            OneOfTheSingular::new(FstDictionary::curated(LanguageFamily::English)),
+            OneOfTheSingular::new(FstDictionary::curated_for_language(LanguageFamily::English)),
             "one of the nouns",
             crate::languages::LanguageFamily::English,
         );
@@ -166,7 +166,7 @@ mod tests {
     fn fix_one_of_the_noun_noun() {
         assert_suggestion_result(
             "one of the car park",
-            OneOfTheSingular::new(FstDictionary::curated(LanguageFamily::English)),
+            OneOfTheSingular::new(FstDictionary::curated_for_language(LanguageFamily::English)),
             "one of the car parks",
             crate::languages::LanguageFamily::English,
         );
@@ -176,7 +176,7 @@ mod tests {
     fn fix_one_of_the_adj_noun() {
         assert_suggestion_result(
             "one of the best noun",
-            OneOfTheSingular::new(FstDictionary::curated(LanguageFamily::English)),
+            OneOfTheSingular::new(FstDictionary::curated_for_language(LanguageFamily::English)),
             "one of the best nouns",
             crate::languages::LanguageFamily::English,
         );
@@ -186,7 +186,7 @@ mod tests {
     fn fix_one_of_the_adv_adv_adj_adj_noun_noun() {
         assert_suggestion_result(
             "one of the really incredibly big red rubber ball",
-            OneOfTheSingular::new(FstDictionary::curated(LanguageFamily::English)),
+            OneOfTheSingular::new(FstDictionary::curated_for_language(LanguageFamily::English)),
             "one of the really incredibly big red rubber balls",
             crate::languages::LanguageFamily::English,
         );
@@ -196,7 +196,7 @@ mod tests {
     fn fix_one_of_the_best_tutorial() {
         assert_suggestion_result(
             "Bro casually dropped one of the best graphics tutorial I've ever seen and thought we wouldn't notice",
-            OneOfTheSingular::new(FstDictionary::curated(LanguageFamily::English)),
+            OneOfTheSingular::new(FstDictionary::curated_for_language(LanguageFamily::English)),
             "Bro casually dropped one of the best graphics tutorials I've ever seen and thought we wouldn't notice",
             crate::languages::LanguageFamily::English,
         );
@@ -206,7 +206,7 @@ mod tests {
     fn fix_one_of_the_neat_trick() {
         assert_suggestion_result(
             "One of the neat trick with AVX-512 is that given a mask",
-            OneOfTheSingular::new(FstDictionary::curated(LanguageFamily::English)),
+            OneOfTheSingular::new(FstDictionary::curated_for_language(LanguageFamily::English)),
             "One of the neat tricks with AVX-512 is that given a mask",
             crate::languages::LanguageFamily::English,
         );
@@ -216,7 +216,7 @@ mod tests {
     fn fix_one_of_the_latest_version() {
         assert_suggestion_result(
             "Footer line shown since one of the latest version",
-            OneOfTheSingular::new(FstDictionary::curated(LanguageFamily::English)),
+            OneOfTheSingular::new(FstDictionary::curated_for_language(LanguageFamily::English)),
             "Footer line shown since one of the latest versions",
             crate::languages::LanguageFamily::English,
         );
@@ -226,7 +226,7 @@ mod tests {
     fn fix_one_of_the_node() {
         assert_suggestion_result(
             "... noticed occasional production issue when one of the node loses connection",
-            OneOfTheSingular::new(FstDictionary::curated(LanguageFamily::English)),
+            OneOfTheSingular::new(FstDictionary::curated_for_language(LanguageFamily::English)),
             "... noticed occasional production issue when one of the nodes loses connection",
             crate::languages::LanguageFamily::English,
         );
@@ -236,7 +236,7 @@ mod tests {
     fn fix_one_of_the_unstaged_file() {
         assert_suggestion_result(
             "Sublime Merge hangs if one of the unstaged file is a pretty ...",
-            OneOfTheSingular::new(FstDictionary::curated(LanguageFamily::English)),
+            OneOfTheSingular::new(FstDictionary::curated_for_language(LanguageFamily::English)),
             "Sublime Merge hangs if one of the unstaged files is a pretty ...",
             crate::languages::LanguageFamily::English,
         );
@@ -246,7 +246,7 @@ mod tests {
     fn fix_one_of_the_tedious_things() {
         assert_suggestion_result(
             "One of the tedious thing in Stack Overflow is to grab example data provided by users",
-            OneOfTheSingular::new(FstDictionary::curated(LanguageFamily::English)),
+            OneOfTheSingular::new(FstDictionary::curated_for_language(LanguageFamily::English)),
             "One of the tedious things in Stack Overflow is to grab example data provided by users",
             crate::languages::LanguageFamily::English,
         );
@@ -256,7 +256,7 @@ mod tests {
     fn fix_one_of_the_brave_process() {
         assert_suggestion_result(
             "One of the Brave Process is consuming almost 170%",
-            OneOfTheSingular::new(FstDictionary::curated(LanguageFamily::English)),
+            OneOfTheSingular::new(FstDictionary::curated_for_language(LanguageFamily::English)),
             "One of the Brave Processes is consuming almost 170%",
             crate::languages::LanguageFamily::English,
         );
@@ -266,7 +266,7 @@ mod tests {
     fn fix_one_of_the_most_cumbersome_thing() {
         assert_suggestion_result(
             "One of the most cumbersome thing to create in markdown is a table.",
-            OneOfTheSingular::new(FstDictionary::curated(LanguageFamily::English)),
+            OneOfTheSingular::new(FstDictionary::curated_for_language(LanguageFamily::English)),
             "One of the most cumbersome things to create in markdown is a table.",
             crate::languages::LanguageFamily::English,
         );
@@ -276,7 +276,7 @@ mod tests {
     fn fix_one_of_the_test() {
         assert_suggestion_result(
             "Not passing one of the test",
-            OneOfTheSingular::new(FstDictionary::curated(LanguageFamily::English)),
+            OneOfTheSingular::new(FstDictionary::curated_for_language(LanguageFamily::English)),
             "Not passing one of the tests",
             crate::languages::LanguageFamily::English,
         );
@@ -286,7 +286,7 @@ mod tests {
     fn fix_one_of_the_process_main_thread() {
         assert_suggestion_result(
             "And those threads life cycle is very long, sometimes, it will be one of the process main thread",
-            OneOfTheSingular::new(FstDictionary::curated(LanguageFamily::English)),
+            OneOfTheSingular::new(FstDictionary::curated_for_language(LanguageFamily::English)),
             "And those threads life cycle is very long, sometimes, it will be one of the process main threads",
             crate::languages::LanguageFamily::English,
         );
@@ -296,7 +296,7 @@ mod tests {
     fn dont_flag_being() {
         assert_no_lints(
             "HMMs underlie the functioning of stochastic taggers and are used in various algorithms one of the most widely used being the bi-directional inference algorithm.",
-            OneOfTheSingular::new(FstDictionary::curated(LanguageFamily::English)),
+            OneOfTheSingular::new(FstDictionary::curated_for_language(LanguageFamily::English)),
             crate::languages::LanguageFamily::English,
         );
     }
@@ -305,7 +305,7 @@ mod tests {
     fn dont_flag_one_of_the_rabbits_gloves() {
         assert_no_lints(
             "As she said this she looked down at her hands, and was surprised to see that she had put on one of the Rabbit’s little white kid gloves while she was talking.",
-            OneOfTheSingular::new(FstDictionary::curated(LanguageFamily::English)),
+            OneOfTheSingular::new(FstDictionary::curated_for_language(LanguageFamily::English)),
             crate::languages::LanguageFamily::English,
         );
     }
