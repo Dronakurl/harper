@@ -207,8 +207,8 @@ mod the_the_to_that_the;
 mod then_than;
 mod there_is_agreement;
 
-pub use expr_linter::{Chunk, ExprLinter, Sentence};
 pub use english::initialism_linter::InitialismLinter;
+pub use expr_linter::{Chunk, ExprLinter, Sentence};
 pub use lint::Lint;
 pub use lint_group::FlatConfig;
 pub use lint_group::LintGroup;

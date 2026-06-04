@@ -814,8 +814,12 @@ impl LintGroup {
         out.add("NoFrenchSpaces", NoFrenchSpaces::default());
         out.config.set_rule_enabled("NoFrenchSpaces", true);
 
-        out.add("NumberSuffixCapitalization", NumberSuffixCapitalization::default());
-        out.config.set_rule_enabled("NumberSuffixCapitalization", true);
+        out.add(
+            "NumberSuffixCapitalization",
+            NumberSuffixCapitalization::default(),
+        );
+        out.config
+            .set_rule_enabled("NumberSuffixCapitalization", true);
 
         out.add("NumericRangeEnDash", NumericRangeEnDash::default());
         out.config.set_rule_enabled("NumericRangeEnDash", true);
@@ -1216,8 +1220,7 @@ impl LintGroup {
             "PortugueseSpellCheck",
             PortugueseSpellCheck::new(dictionary.clone()),
         );
-        out.config
-            .set_rule_enabled("PortugueseSpellCheck", true);
+        out.config.set_rule_enabled("PortugueseSpellCheck", true);
 
         // Add language-neutral rules
         out.merge_from(Self::language_neutral_rules());
@@ -1229,14 +1232,17 @@ impl LintGroup {
         dictionary: Arc<impl Dictionary + 'static>,
         _dialect: GermanDialect,
     ) -> Self {
-        use crate::language::german::linting::german_spell_check::GermanSpellCheck;
         use crate::language::german::linting::german_noun_capitalization::GermanNounCapitalization;
         use crate::language::german::linting::german_sentence_capitalization::GermanSentenceCapitalization;
+        use crate::language::german::linting::german_spell_check::GermanSpellCheck;
 
         let mut out = Self::empty();
 
         // Add German spell checker
-        out.add("GermanSpellCheck", GermanSpellCheck::new(dictionary.clone()));
+        out.add(
+            "GermanSpellCheck",
+            GermanSpellCheck::new(dictionary.clone()),
+        );
         out.config.set_rule_enabled("GermanSpellCheck", true);
 
         // Add German-specific linters
@@ -1262,8 +1268,7 @@ impl LintGroup {
             "GermanFillerWords",
             crate::language::german::linting::german_filler_words::GermanFillerWords::default(),
         );
-        out.config
-            .set_rule_enabled("GermanFillerWords", true);
+        out.config.set_rule_enabled("GermanFillerWords", true);
 
         // Add language-neutral rules
         out.merge_from(Self::language_neutral_rules());
