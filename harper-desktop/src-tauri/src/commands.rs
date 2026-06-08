@@ -9,7 +9,7 @@ use crate::{
 };
 use base64::{Engine as _, engine::general_purpose};
 use harper_core::{
-    Dialect, DictWordMetadata, IgnoredLints,
+    DictWordMetadata, IgnoredLints, Language,
     linting::FlatConfig,
     spell::{Dictionary, MutableDictionary},
 };
@@ -58,7 +58,7 @@ async fn get_lint_config(config: State<'_, Arc<Mutex<Config>>>) -> Result<FlatCo
 }
 
 #[tauri::command]
-async fn get_dialect(config: State<'_, Arc<Mutex<Config>>>) -> Result<Dialect, String> {
+async fn get_dialect(config: State<'_, Arc<Mutex<Config>>>) -> Result<Language, String> {
     Ok(config.lock().await.dialect)
 }
 
@@ -126,7 +126,7 @@ async fn set_last_update_check(
 
 #[tauri::command]
 async fn set_dialect(
-    dialect: Dialect,
+    dialect: Language,
     config: State<'_, Arc<Mutex<Config>>>,
 ) -> Result<(), String> {
     let mut config = config.lock().await;
