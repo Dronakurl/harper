@@ -2,7 +2,13 @@
 //!
 //! See the [`Linter`] trait and the [documentation for authoring a rule](https://writewithharper.com/docs/contributors/author-a-rule) for more information.
 
-mod a_part;
+pub mod english;
+pub mod expr_linter;
+pub mod lint;
+pub mod lint_group;
+pub mod lint_kind;
+pub mod suggestion;
+
 mod a_some_time;
 mod a_while;
 mod addicting;
@@ -54,36 +60,6 @@ mod confident;
 mod convenient_store;
 mod correct_number_suffix;
 mod crave_for;
-mod criteria_phenomena;
-mod cure_for;
-mod currency_placement;
-mod damages;
-mod dashes;
-mod day_and_age;
-mod despite_it_is;
-mod despite_of;
-mod determiner_without_noun;
-mod did_past;
-mod didnt;
-mod discourse_markers;
-mod disjoint_prefixes;
-mod do_mistake;
-mod dot_initialisms;
-mod double_click;
-mod double_modal;
-mod ellipsis_length;
-mod else_possessive;
-mod ever_every;
-mod everyday;
-mod except_of;
-mod expand_memory_shorthands;
-mod expand_people;
-mod expand_time_shorthands;
-mod expr_linter;
-mod far_be_it;
-mod fascinated_by;
-mod fed_up_with;
-mod feel_fell;
 mod fellow_co_redundancy;
 mod few_units_of_time_ago;
 mod filler_words;
@@ -139,30 +115,6 @@ mod lint_group;
 mod lint_kind;
 mod long_sentences;
 mod long_time_ago;
-mod look_down_ones_nose;
-mod looking_forward_to;
-mod map_phrase_linter;
-mod map_phrase_set_linter;
-mod mass_nouns;
-mod means_a_lot_to;
-mod merge_linters;
-mod merge_words;
-mod missing_preposition;
-mod missing_space;
-mod missing_to;
-mod misspell;
-mod mixed_bag;
-mod modal_be_adjective;
-mod modal_of;
-mod modal_seem;
-mod months;
-mod more_adjective;
-mod more_better;
-mod most_number;
-mod most_of_the_times;
-mod multiple_frequency_adverbs;
-mod multiple_sequential_pronouns;
-mod nail_on_the_head;
 mod naked_eye;
 mod need_to_noun;
 mod no_french_spaces;
@@ -254,59 +206,16 @@ mod the_proper_noun_possessive;
 mod the_the_to_that_the;
 mod then_than;
 mod there_is_agreement;
-mod there_own;
-mod theres;
-mod theses_these;
-mod theyre_confusions;
-mod thing_think;
-mod this_type_of_thing;
-mod though_thought;
-mod thrive_on;
-mod throw_away;
-mod throw_rubbish;
-mod to_adverb;
-mod to_two_too;
-mod touristic;
-mod transposed_space;
-mod try_ones_hand_at;
-mod try_ones_luck;
-mod unclosed_quotes;
-mod update_place_names;
-mod use_ellipsis_character;
-mod use_title_case;
-mod verb_to_adjective;
-mod very_unique;
-mod vice_versa;
-mod vicious_loop;
-mod was_aloud;
-mod way_too_adjective;
-mod web_scraping;
-mod weir_rules;
-mod well_educated;
-mod were_where;
-mod whereas;
-mod whom_subject_of_verb;
-mod widely_accepted;
-mod will_non_lemma;
-mod win_prize;
-mod wish_could;
-mod wordpress_dotcom;
-mod worth_to_do;
-mod would_never_have;
-mod wrong_apostrophe;
 
 pub use expr_linter::{Chunk, ExprLinter, Sentence};
-pub use initialism_linter::InitialismLinter;
+pub use english::initialism_linter::InitialismLinter;
 pub use lint::Lint;
-pub use lint_group::{
-    FlatConfig, HumanReadableSetting, HumanReadableStructuredConfig, LintGroup, StructuredConfig,
-};
+pub use lint_group::FlatConfig;
+pub use lint_group::LintGroup;
 pub use lint_kind::LintKind;
-pub use map_phrase_linter::MapPhraseLinter;
-pub use map_phrase_set_linter::MapPhraseSetLinter;
 pub use suggestion::{Suggestion, SuggestionCollectionExt};
 
-use crate::{Document, LSend, render_markdown};
+use crate::{Document, LSend, render_markdown::render_markdown};
 
 /// A __stateless__ rule that searches documents for grammatical errors.
 ///
@@ -363,7 +272,7 @@ pub mod debug {
             tokens
                 .iter()
                 .filter(|t| !t.kind.is_unlintable())
-                .map(|t| t.get_str(src))
+                .map(|t| t.span.get_content_string(src))
                 .collect::<String>()
         };
 
@@ -380,10 +289,10 @@ pub mod debug {
     }
 }
 
-#[cfg(test)]
 pub mod tests {
-    use crate::{Document, Span, Token, linting::Linter};
     use hashbrown::HashSet;
+
+    use crate::{Document, Linter, Span, Token, languages::LanguageFamily};
 
     /// Extension trait for converting spans of tokens back to their original text
     pub trait SpanVecExt {
@@ -498,17 +407,7 @@ pub mod tests {
     }
 
     #[track_caller]
-    pub fn assert_no_lints(text: &str, linter: impl Linter) {
-        assert_lint_count(text, linter, 0);
-    }
-
-    #[test]
-    fn verify_no_lints() {
-        assert_no_lints("hello world", TestLinter::new(&[]));
-    }
-
-    #[track_caller]
-    pub fn assert_lint_count(text: &str, mut linter: impl Linter, count: usize) {
+    pub fn assert_lint_count_plain_english(text: &str, mut linter: impl Linter, count: usize) {
         let test = Document::new_plain_english_curated(text);
         let lints = linter.lint(&test);
         // dbg!(&lints);
@@ -520,236 +419,33 @@ pub mod tests {
         }
     }
 
-    #[test]
-    fn verify_1_lint() {
-        assert_lint_count(
-            "heloo world",
-            TestLinter::new(&[(&["heloo"], &["hello"])]),
-            1,
-        );
-    }
-
-    #[test]
-    fn verify_2_lints() {
-        assert_lint_count(
-            "heloo wolrd",
-            TestLinter::new(&[(&["heloo"], &["hello"]), (&["wolrd"], &["world"])]),
-            2,
-        );
-    }
-
-    /// Assert the total number of suggestions produced by a [`Linter`], spread across all produced
-    /// [`Lint`]s.
     #[track_caller]
-    pub fn assert_suggestion_count(text: &str, mut linter: impl Linter, count: usize) {
-        let test = Document::new_plain_english_curated(text);
-        let lints = linter.lint(&test);
-        eprintln!(
-            "{}",
-            lints
-                .iter()
-                .map(|l| l
-                    .suggestions
-                    .iter()
-                    .map(|s| s.to_string())
-                    .collect::<Vec<_>>()
-                    .join(", "))
-                .collect::<Vec<_>>()
-                .join("\n")
-        );
-        assert_eq!(
-            lints.iter().map(|l| l.suggestions.len()).sum::<usize>(),
-            count
-        );
-    }
-
-    #[test]
-    fn verify_no_suggestions() {
-        assert_suggestion_count("afjehwkf", TestLinter::new(&[]), 0);
-    }
-
-    #[test]
-    fn verify_1_suggestion() {
-        assert_suggestion_count(
-            "dictionery",
-            TestLinter::new(&[(&["dictionery"], &["dictionary"])]),
-            1,
-        );
-    }
-
-    /// Document types for suggestion search testing
-    #[derive(Debug, Clone, Copy)]
-    enum DocumentType {
-        PlainEnglish,
-        Markdown,
-    }
-
-    /// Creates a document of the specified type from character data
-    fn create_document(chars: &[char], doc_type: DocumentType) -> Document {
-        match doc_type {
-            DocumentType::PlainEnglish => Document::new_plain_english_curated_chars(chars),
-            DocumentType::Markdown => Document::new_markdown_default_curated_chars(chars),
-        }
-    }
-
-    /// Applies suggestions iteratively until any combination produces the expected result.
-    ///
-    /// Explores all possible suggestion branches (depth-first search) until finding a path
-    /// that produces the expected result. Stops after 100 iterations to prevent infinite loops.
-    ///
-    /// Use this when you want to verify that *some* suggestion sequence produces the
-    /// expected result, without caring which specific suggestions are used.
-    ///
-    /// See issue #950: https://github.com/Automattic/harper/issues/950
-    #[track_caller]
-    pub fn assert_suggestion_result(text: &str, mut linter: impl Linter, needle: &str) {
-        if search_for_suggestion(DocumentType::PlainEnglish, text, &mut linter, needle, 0) {
-            return;
-        }
-
-        panic!(
-            "No suggestion sequence produced the expected result.\n\
-            Expected: \"{needle}\""
-        );
-    }
-
-    /// DFS implementation using markdown instead of plain English
-    #[track_caller]
-    pub fn assert_markdown_suggestion_result(text: &str, mut linter: impl Linter, needle: &str) {
-        if !search_for_suggestion(DocumentType::Markdown, text, &mut linter, needle, 0) {
-            panic!("No suggestion sequence produced the expected result.\nExpected: {needle}");
-        }
-    }
-
-    /// Recursively searches all suggestion combinations using depth-first search.
-    /// Returns true if any path reaches the expected result, false otherwise.
-    fn search_for_suggestion(
-        doc_type: DocumentType,
-        text: &str,
-        linter: &mut impl Linter,
-        needle: &str,
-        depth: usize,
-    ) -> bool {
-        // Prevent infinite recursion (e.g. cycles in suggestions)
-        if depth > 100 {
-            eprintln!("⚠️  Reached depth limit (100)");
-            return false;
-        }
-
-        // Check if we've reached the expected result
-        if text == needle {
-            return true;
-        }
-
-        // Lint current text and try each suggestion branch
-        let chars: Vec<char> = text.chars().collect();
-        let document = create_document(&chars, doc_type);
-        let mut lints = linter.lint(&document);
-        lints.sort_by_key(|l| l.priority);
-
-        if let Some(lint) = lints.first() {
-            for sug in lint.suggestions.iter() {
-                let mut chars_copy = chars.clone();
-                sug.apply(lint.span, &mut chars_copy);
-                let next: String = chars_copy.iter().collect();
-
-                // Recursively search this branch
-                if search_for_suggestion(doc_type, &next, linter, needle, depth + 1) {
-                    return true;
-                }
-            }
-        }
-
-        false
-    }
-
-    #[test]
-    fn verify_fix_one_lint() {
-        assert_suggestion_result(
-            "find the misstake and fix it",
-            TestLinter::new(&[(&["misstake"], &["mistake"])]),
-            "find the mistake and fix it",
-        );
-    }
-
-    #[test]
-    #[should_panic]
-    fn verify_unable_to_fix_one_spanish_lint() {
-        assert_suggestion_result("Hay una orrrer", TestLinter::new(&[]), "Hay una error");
-    }
-
-    #[test]
-    fn verify_fix_two_lints() {
-        assert_suggestion_result(
-            "find two misstakes and fix theem",
-            TestLinter::new(&[(&["misstakes"], &["mistakes"]), (&["theem"], &["them"])]),
-            "find two mistakes and fix them",
-        );
-    }
-
-    // Stress test: multiple errors in one sentence, DFS must find correct suggestion path
-    // Note: This test is known to be brittle - it depends on SpellCheck dictionary and
-    // suggestion ranking. If it fails after a dictionary update, try different word combinations.
-    // Uses common misspellings that have unambiguous correct suggestions in the top 3.
-    #[test]
-    fn verify_fix_five_typos() {
-        assert_suggestion_result(
-            "Please recieve teh payment untill thier authorization occured",
-            TestLinter::new(&[
-                (&["recieve"], &["receive"]),
-                (&["teh"], &["the"]),
-                (&["untill"], &["until"]),
-                (&["thier"], &["their"]),
-                (&["occured"], &["occurred"]),
-            ]),
-            "Please receive the payment until their authorization occurred",
-        );
-    }
-
-    /// Asserts that none of the suggestions from the linter match the given text.
-    #[track_caller]
-    pub fn assert_not_in_suggestion_result(
+    pub fn assert_lint_count(
         text: &str,
         mut linter: impl Linter,
-        bad_suggestion: &str,
+        count: usize,
+        language: LanguageFamily,
     ) {
-        if !search_for_suggestion(
-            DocumentType::PlainEnglish,
-            text,
-            &mut linter,
-            bad_suggestion,
-            0,
-        ) {
-            return;
+        let test = match language {
+            LanguageFamily::English => Document::new_plain_english_curated(text),
+            _ => unimplemented!(),
+        };
+        let lints = linter.lint(&test);
+        // dbg!(&lints);
+        if lints.len() != count {
+            panic!(
+                "Expected \"{text}\" to create {count} lints, but it created {}.",
+                lints.len()
+            );
         }
-
-        panic!(
-            "A suggestion sequence produced the undesired result.\n\
-            Undesired: \"{bad_suggestion}\""
-        );
     }
 
-    #[test]
-    fn verify_sole_suggestion_is_the_one_we_wanted() {
-        assert_not_in_suggestion_result(
-            "Baby cats are called kitens",
-            TestLinter::new(&[]),
-            "Baby cats are called puppies",
-        );
-    }
+    // TODO verify many suggestions including the one we want succeeds
+    // TODO verify many suggestions but not the one we want fails
 
-    // TODO verify sole suggestion is not the one we wanted fails
-
-    #[test]
-    #[should_panic]
-    fn verify_sole_suggestion_not_in_result_fails() {
-        assert_not_in_suggestion_result(
-            "heloo",
-            TestLinter::new(&[(&["heloo"], &["hello"])]),
-            "hello",
-        );
-    }
-
+    /// Asserts both that the given text matches the expected good suggestions and that none of the
+    /// suggestions are in the bad suggestions list.
+    /// TODO: Reimplement similar to `search_suggestion_tree`
     // TODO verify many suggestions including the one we want succeeds
     // TODO verify many suggestions but not the one we want fails
 
@@ -798,6 +494,7 @@ pub mod tests {
         if !found_bad.is_empty() || !unseen_good.is_empty() {
             eprintln!("\n=== Test Summary ===");
 
+            // In the summary section, change these loops:
             if !found_bad.is_empty() {
                 eprintln!("\n❌ Found {} bad suggestions:", found_bad.len());
                 for (i, j, text) in &found_bad {
@@ -805,6 +502,7 @@ pub mod tests {
                 }
             }
 
+            // And for the good suggestions:
             if !unseen_good.is_empty() {
                 eprintln!(
                     "\n❌ Missing {} expected good suggestions:",
@@ -829,18 +527,12 @@ pub mod tests {
         }
     }
 
-    // TODO test that having all the good and none of the bad succeeds
-    // TODO test that missing one of the good fails
-    // TODO test that having one of the bads fails
-
-    #[test]
-    #[should_panic]
-    fn verify_mutal_corrections_cause_failure() {
-        assert_suggestion_result(
-            "gooder",
-            TestLinter::new(&[(&["gooder"], &["more good"])]),
-            "better",
-        );
+    #[track_caller]
+    pub fn assert_no_lints(text: &str, linter: impl Linter, language: LanguageFamily) {
+        match language {
+            LanguageFamily::English => assert_lint_count_plain_english(text, linter, 0),
+            _ => {}
+        }
     }
 
     /// Asserts that the lint's message matches the expected message.
@@ -858,5 +550,126 @@ pub mod tests {
                 lint.message
             );
         }
+    }
+
+    /// Document types for suggestion search testing
+    #[derive(Debug, Clone, Copy)]
+    pub enum DocumentType {
+        PlainEnglish,
+        Markdown,
+    }
+
+    /// Creates a document of the specified type from character data
+    fn create_english_document(chars: &[char], doc_type: DocumentType) -> Document {
+        match doc_type {
+            DocumentType::PlainEnglish => Document::new_plain_english_curated_chars(chars),
+            DocumentType::Markdown => Document::new_markdown_default_curated_chars(chars),
+        }
+    }
+
+    /// Assert the total number of suggestions produced by a [`Linter`], spread across all produced
+    /// [`Lint`]s.
+    #[track_caller]
+    pub fn assert_suggestion_count(
+        text: &str,
+        mut linter: impl Linter,
+        count: usize,
+        language: LanguageFamily,
+    ) {
+        match language {
+            LanguageFamily::English => {
+                let test = Document::new_plain_english_curated(text);
+                let lints = linter.lint(&test);
+                eprintln!(
+                    "{}",
+                    lints
+                        .iter()
+                        .map(|l| l
+                            .suggestions
+                            .iter()
+                            .map(|s| s.to_string())
+                            .collect::<Vec<_>>()
+                            .join(", "))
+                        .collect::<Vec<_>>()
+                        .join("\n")
+                );
+                assert_eq!(
+                    lints.iter().map(|l| l.suggestions.len()).sum::<usize>(),
+                    count
+                );
+            }
+            _ => {}
+        }
+    }
+
+    /// Applies suggestions iteratively until any combination produces the expected result.
+    ///
+    /// Explores all possible suggestion branches (depth-first search) until finding a path
+    /// that produces the expected result. Stops after 100 iterations to prevent infinite loops.
+    ///
+    /// Use this when you want to verify that *some* suggestion sequence produces the
+    /// expected result, without caring which specific suggestions are used.
+    ///
+    /// See issue #950: https://github.com/Automattic/harper/issues/950
+    #[track_caller]
+    pub fn assert_suggestion_result(text: &str, mut linter: impl Linter, needle: &str) {
+        let doctype = DocumentType::PlainEnglish;
+        if search_for_suggestion(doctype, text, &mut linter, needle, 0) {
+            return;
+        }
+
+        panic!(
+            "No suggestion sequence produced the expected result.\n\
+            Expected: \"{needle}\""
+        );
+    }
+
+    /// DFS implementation using markdown instead of plain English
+    #[track_caller]
+    pub fn assert_markdown_suggestion_result(text: &str, mut linter: impl Linter, needle: &str) {
+        if !search_for_suggestion(DocumentType::Markdown, text, &mut linter, needle, 0) {
+            panic!("No suggestion sequence produced the expected result.\nExpected: {needle}");
+        }
+    }
+
+    /// Recursively searches all suggestion combinations using depth-first search.
+    /// Returns true if any path reaches the expected result, false otherwise.
+    pub fn search_for_suggestion(
+        doc_type: DocumentType,
+        text: &str,
+        linter: &mut impl Linter,
+        needle: &str,
+        depth: usize,
+    ) -> bool {
+        // Prevent infinite recursion (e.g. cycles in suggestions)
+        if depth > 100 {
+            eprintln!("⚠️  Reached depth limit (100)");
+            return false;
+        }
+
+        // Check if we've reached the expected result
+        if text == needle {
+            return true;
+        }
+
+        // Lint current text and try each suggestion branch
+        let chars: Vec<char> = text.chars().collect();
+        let document = create_english_document(&chars, doc_type);
+        let lints = linter.lint(&document);
+
+        if let Some(lint) = lints.first() {
+            for sug in lint.suggestions.iter() {
+                let mut chars_copy = chars.clone();
+                sug.apply(lint.span, &mut chars_copy);
+                let next: String = chars_copy.iter().collect();
+
+                // Recursively search this branch
+                if search_for_suggestion(doc_type, &next, linter, needle, depth + 1) {
+                    return true;
+                }
+            }
+        }
+
+        false
     }
 }
