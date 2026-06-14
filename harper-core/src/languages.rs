@@ -7,7 +7,7 @@ use serde::{Deserialize, Serialize};
 use strum_macros::{Display, EnumCount, EnumIter, EnumString};
 
 use crate::dialects::english::EnglishDialect;
-use crate::dialects::portuguese::PortugueseDialect;
+use crate::language::portuguese::dialects::PortugueseDialect;
 use crate::language::german::dialects::GermanDialect;
 
 /// A specific language with its dialects.

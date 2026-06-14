@@ -1003,6 +1003,8 @@ impl LintGroup {
         out
     }
 
+
+
     pub fn new_curated_german(
         dictionary: Arc<impl Dictionary + 'static>,
         _dialect: GermanDialect,

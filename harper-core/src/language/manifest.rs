@@ -27,6 +27,7 @@ use crate::{
 // ========== IMPORTS - Add new language imports here ==========
 
 // German
+use crate::language::german::language_detection::GermanDetector;
 use crate::language::german::linting::{
     german_filler_words::GermanFillerWords, german_noun_capitalization::GermanNounCapitalization,
     german_sentence_capitalization::GermanSentenceCapitalization,
@@ -34,13 +35,12 @@ use crate::language::german::linting::{
 };
 use crate::language::german::parsers::PlainGerman;
 use crate::language::german::spell::german_dictionary;
-use crate::language_detection::german::GermanDetector;
 
 // Portuguese
+use crate::language::portuguese::language_detection::PortugueseDetector;
 use crate::language::portuguese::linting::portuguese_spell_check::PortugueseSpellCheck;
 use crate::language::portuguese::parsers::PlainPortuguese;
 use crate::language::portuguese::spell::portuguese_dictionary;
-use crate::language_detection::portuguese::PortugueseDetector;
 
 // English (built-in)
 use crate::language_detection::english::EnglishDetector;

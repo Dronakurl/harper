@@ -17,8 +17,8 @@ use crate::{Document, TokenKind, TokenStringExt};
 
 // Import all dialect types from central re-exports
 use crate::dialects::english::{EnglishDialect, EnglishDialectFlags};
-use crate::dialects::german::{GermanDialect, GermanDialectFlags};
-use crate::dialects::portuguese::{PortugueseDialect, PortugueseDialectFlags};
+use crate::language::german::dialects::{GermanDialect, GermanDialectFlags};
+use crate::language::portuguese::dialects::{PortugueseDialect, PortugueseDialectFlags};
 
 // =============================================================================
 // DIALECT FLAGS CODE GENERATION

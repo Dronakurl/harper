@@ -2,9 +2,9 @@
 // via the public LintGroup API.
 
 use harper_core::language::german::dialects::GermanDialect;
+use harper_core::language::german::spell::curated_german_dictionary;
 use harper_core::linting::{LintGroup, Linter};
 use harper_core::parsers::{Markdown, MarkdownOptions, Parser, PlainGerman};
-use harper_core::spell::curated_german_dictionary;
 use harper_core::{Document, Language};
 
 /// German parser handles special characters (umlauts and ß)

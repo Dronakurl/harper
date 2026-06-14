@@ -84,7 +84,7 @@ impl<T: Dictionary> Linter for PortugueseSpellCheck<T> {
 mod tests {
     use super::PortugueseSpellCheck;
     use crate::Document;
-    use crate::dialects::portuguese::PortugueseDialect;
+    use crate::language::portuguese::dialects::PortugueseDialect;
     use crate::language::portuguese::parsers::PlainPortuguese;
     use crate::language::portuguese::spell::curated_portuguese_dictionary;
     use crate::languages::Language;
@@ -112,9 +112,9 @@ mod tests {
     #[test]
     fn detects_misspelled_word() {
         // Test with words that are definitely in the dictionary
-        let messages = lint_text("tenho mundo amor");
+        let messages = lint_text("eu sou feliz");
 
-        // "tenho", "mundo" and "amor" are in our dictionary, so no spelling errors expected
+        // "eu", "sou" and "feliz" are in our dictionary, so no spelling errors expected
         assert!(
             messages.is_empty(),
             "Should not flag valid Portuguese words: {messages:?}"

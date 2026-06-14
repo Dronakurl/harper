@@ -48,8 +48,8 @@ pub use char_string::{CharString, CharStringExt};
 pub use currency::Currency;
 pub use dialects::dialect_enum::{DialectFlagsEnum, DialectsEnum};
 pub use dialects::english::{EnglishDialect, EnglishDialectFlags};
-pub use dialects::german::{GermanDialect, GermanDialectFlags};
-pub use dialects::portuguese::{PortugueseDialect, PortugueseDialectFlags};
+pub use language::german::dialects::{GermanDialect, GermanDialectFlags};
+pub use language::portuguese::dialects::{PortugueseDialect, PortugueseDialectFlags};
 pub use dict_word_metadata::{
     AdverbData, ConjunctionData, Degree, DeterminerData, DialectFlags, DictWordMetadata, NounData,
     PronounData, VerbData, VerbForm, VerbFormFlags,

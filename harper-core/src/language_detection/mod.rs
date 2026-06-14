@@ -48,10 +48,8 @@ impl Default for LanguageDetectionRegistry {
     }
 }
 
-// Public modules for each language detector
+// Public modules for each language detector (only English remains here for backward compatibility)
 pub mod english;
-pub mod german;
-pub mod portuguese;
 
 /// Check if the contents of the document are likely intended to represent English.
 pub fn is_doc_likely_english(doc: &crate::Document, dict: &impl crate::spell::Dictionary) -> bool {

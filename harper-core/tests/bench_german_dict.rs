@@ -1,4 +1,5 @@
-use harper_core::spell::{Dictionary, curated_german_dictionary};
+use harper_core::language::german::spell::curated_german_dictionary;
+use harper_core::spell::Dictionary;
 
 #[test]
 fn bench_german_dict() {
