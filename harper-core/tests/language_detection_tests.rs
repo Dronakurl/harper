@@ -4,23 +4,20 @@
 //! for various real-world scenarios.
 
 use harper_core::GermanDialect;
-use harper_core::language_detection::LanguageDetectionRegistry;
+use harper_core::language::manifest::detect_language;
 use harper_core::spell::FstDictionary;
 use harper_core::{EnglishDialect, Language};
 
 fn test_detection(text: &str, expected_language: Language) {
-    let registry = LanguageDetectionRegistry::new();
     let dict = FstDictionary::curated();
-    let detected =
-        registry.detect_language(text, &dict, Language::English(EnglishDialect::American));
+    let detected = detect_language(text, &dict, Language::English(EnglishDialect::American));
     assert_eq!(detected, expected_language, "Failed for text: {}", text);
 }
 
 #[test]
 fn test_empty_file_defaults_to_english() {
-    let registry = LanguageDetectionRegistry::new();
     let dict = FstDictionary::curated();
-    let detected = registry.detect_language("", &dict, Language::English(EnglishDialect::American));
+    let detected = detect_language("", &dict, Language::English(EnglishDialect::American));
     assert_eq!(detected, Language::English(EnglishDialect::American));
 }
 
@@ -279,11 +276,10 @@ funktioniert gut. Vielen Dank für Ihre Aufmerksamkeit.
 fn test_performance_long_document() {
     // Test with a longer document to ensure performance is acceptable
     let long_german = "Der Hund spielt im Garten. ".repeat(100);
-    let registry = LanguageDetectionRegistry::new();
     let dict = FstDictionary::curated();
 
     let start = std::time::Instant::now();
-    let detected = registry.detect_language(
+    let detected = detect_language(
         &long_german,
         &dict,
         Language::English(EnglishDialect::American),

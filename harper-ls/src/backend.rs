@@ -3,7 +3,6 @@ use std::fs::OpenOptions;
 use std::io::{BufWriter, Write};
 use std::path::{Path, PathBuf};
 use std::sync::Arc;
-use std::sync::atomic::{AtomicU64, Ordering};
 
 use crate::config::Config;
 use crate::document_state::DocumentState;
@@ -12,8 +11,8 @@ use crate::io_utils::fileify_path;
 use anyhow::{Context, Result, anyhow};
 use harper_asciidoc::AsciidocParser;
 use harper_comments::CommentParser;
+use harper_core::language::manifest::detect_language;
 use harper_core::language::registry;
-use harper_core::language_detection::LanguageDetectionRegistry;
 use harper_core::languages::Language;
 use harper_core::linting::{FlatConfig, LintGroup};
 use harper_core::parsers::{CollapseIdentifiers, IsolateEnglish, Parser};
@@ -33,18 +32,15 @@ use harper_typst::Typst;
 use serde_json::{Value, json};
 use tokio::sync::{Mutex, RwLock};
 use tower_lsp_server::jsonrpc::Result as JsonResult;
-use tower_lsp_server::lsp_types::notification::{Progress, PublishDiagnostics};
-use tower_lsp_server::lsp_types::request::WorkDoneProgressCreate;
+use tower_lsp_server::lsp_types::notification::PublishDiagnostics;
 use tower_lsp_server::lsp_types::{
     CodeActionOrCommand, CodeActionParams, CodeActionProviderCapability, CodeActionResponse,
     Diagnostic, DidChangeConfigurationParams, DidChangeTextDocumentParams,
     DidChangeWatchedFilesParams, DidCloseTextDocumentParams, DidOpenTextDocumentParams,
     DidSaveTextDocumentParams, ExecuteCommandOptions, ExecuteCommandParams, FileChangeType,
-    InitializeParams, InitializeResult, InitializedParams, MessageType, NumberOrString,
-    ProgressParams, ProgressParamsValue, PublishDiagnosticsParams, Range, ServerCapabilities,
-    ServerInfo, TextDocumentSyncCapability, TextDocumentSyncKind, TextDocumentSyncOptions,
-    TextDocumentSyncSaveOptions, Uri, WorkDoneProgress, WorkDoneProgressBegin,
-    WorkDoneProgressCreateParams, WorkDoneProgressEnd,
+    InitializeParams, InitializeResult, InitializedParams, MessageType, PublishDiagnosticsParams,
+    Range, ServerCapabilities, ServerInfo, TextDocumentSyncCapability, TextDocumentSyncKind,
+    TextDocumentSyncOptions, TextDocumentSyncSaveOptions, Uri,
 };
 use tower_lsp_server::{Client, LanguageServer, UriExt};
 use tracing::{debug, error, info, warn};
@@ -60,8 +56,6 @@ pub struct Backend {
     config: RwLock<Config>,
     stats: RwLock<Stats>,
     doc_state: Mutex<HashMap<Uri, DocumentState>>,
-    progress_counter: AtomicU64,
-    lang_detect: LanguageDetectionRegistry,
 }
 
 const MIN_WORDS_FOR_LANGUAGE_DETECTION: usize = 10;
@@ -74,58 +68,7 @@ impl Backend {
             stats: RwLock::new(Stats::new()),
             config: RwLock::new(config),
             doc_state: Mutex::new(HashMap::new()),
-            progress_counter: AtomicU64::new(1),
-            lang_detect: LanguageDetectionRegistry::new(),
         }
-    }
-
-    async fn begin_progress(&self, title: &str, message: &str) -> Option<NumberOrString> {
-        let token = NumberOrString::String(format!(
-            "harper-progress-{}",
-            self.progress_counter.fetch_add(1, Ordering::Relaxed)
-        ));
-
-        if self
-            .client
-            .send_request::<WorkDoneProgressCreate>(WorkDoneProgressCreateParams {
-                token: token.clone(),
-            })
-            .await
-            .is_err()
-        {
-            return None;
-        }
-
-        self.client
-            .send_notification::<Progress>(ProgressParams {
-                token: token.clone(),
-                value: ProgressParamsValue::WorkDone(WorkDoneProgress::Begin(
-                    WorkDoneProgressBegin {
-                        title: title.to_string(),
-                        cancellable: Some(false),
-                        message: Some(message.to_string()),
-                        percentage: None,
-                    },
-                )),
-            })
-            .await;
-
-        Some(token)
-    }
-
-    async fn end_progress(&self, token: Option<NumberOrString>, message: &str) {
-        let Some(token) = token else {
-            return;
-        };
-
-        self.client
-            .send_notification::<Progress>(ProgressParams {
-                token,
-                value: ProgressParamsValue::WorkDone(WorkDoneProgress::End(WorkDoneProgressEnd {
-                    message: Some(message.to_string()),
-                })),
-            })
-            .await;
     }
 
     async fn load_file_dictionary(
@@ -458,9 +401,7 @@ impl Backend {
                 // Re-run detection when we have enough content so that e.g. an
                 // empty-then-typed document can switch from English to German.
                 let dict = FstDictionary::curated();
-                let detected = self
-                    .lang_detect
-                    .detect_language(text, &dict, config.language);
+                let detected = detect_language(text, &dict, config.language);
                 debug!(
                     "harper-ls language detect: {:?} for {:?} ({} words)",
                     detected, uri, word_count
@@ -859,10 +800,6 @@ impl LanguageServer for Backend {
     }
 
     async fn did_open(&self, params: DidOpenTextDocumentParams) {
-        let progress = self
-            .begin_progress("Harper diagnostics", "Analyzing document")
-            .await;
-
         if let Err(err) = self
             .update_document(
                 &params.text_document.uri,
@@ -875,17 +812,12 @@ impl LanguageServer for Backend {
         }
 
         self.publish_diagnostics(&params.text_document.uri).await;
-        self.end_progress(progress, "Analysis complete").await;
     }
 
     async fn did_change(&self, params: DidChangeTextDocumentParams) {
         let Some(last) = params.content_changes.last() else {
             return;
         };
-
-        let progress = self
-            .begin_progress("Harper diagnostics", "Updating diagnostics")
-            .await;
 
         if let Err(err) = self
             .update_document(&params.text_document.uri, &last.text, None)
@@ -895,7 +827,6 @@ impl LanguageServer for Backend {
         }
 
         self.publish_diagnostics(&params.text_document.uri).await;
-        self.end_progress(progress, "Diagnostics updated").await;
     }
 
     async fn did_close(&self, _params: DidCloseTextDocumentParams) {

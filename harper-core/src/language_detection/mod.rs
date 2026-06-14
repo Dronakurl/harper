@@ -21,33 +21,6 @@ pub trait LanguageDetector: Debug + Send + Sync {
     fn confidence(&self) -> f64;
 }
 
-/// Registry of all available language detectors.
-///
-/// This is a zero-sized type that delegates to the language manifest
-/// (`crate::language::manifest::detect_language`).
-pub struct LanguageDetectionRegistry;
-
-impl LanguageDetectionRegistry {
-    pub fn new() -> Self {
-        Self
-    }
-
-    pub fn detect_language(
-        &self,
-        source: &str,
-        dict: &FstDictionary,
-        default_language: Language,
-    ) -> Language {
-        crate::language::manifest::detect_language(source, dict, default_language)
-    }
-}
-
-impl Default for LanguageDetectionRegistry {
-    fn default() -> Self {
-        Self
-    }
-}
-
 // Public modules for each language detector (only English remains here for backward compatibility)
 pub mod english;
 
@@ -82,7 +55,7 @@ pub fn is_likely_english(
             TokenKind::Punctuation(_) => punctuation += 1,
             TokenKind::Unlintable => unlintable += 1,
             _ => (),
-        }
+        };
     }
 
     if total_words <= 7 && total_words - valid_words > 0 {

@@ -627,7 +627,7 @@ pub mod tests {
     /// Assert the total number of suggestions produced by a [`Linter`], spread across all produced
     /// [`Lint`]s.
     #[track_caller]
-    pub fn assert_suggestion_count(text: &str, mut linter: impl Linter, count: usize) {
+    pub fn assert_suggestion_count(text: &str, linter: impl Linter, count: usize) {
         assert_suggestion_count_with_language(text, linter, count, LanguageFamily::English)
     }
 

@@ -289,9 +289,7 @@ impl_from_x_for_dialect_enum!(PortugueseDialect, PortugueseDialectFlags, Portugu
 #[cfg(test)]
 mod tests {
     use crate::dialects::dialect_trait::DialectFlags as _;
-    use crate::{
-        DialectFlags, DialectFlagsEnum, DialectsEnum, EnglishDialect, EnglishDialectFlags,
-    };
+    use crate::{DialectFlagsEnum, DialectsEnum, EnglishDialect, EnglishDialectFlags};
 
     #[test]
     fn test_bit_or_assign_dialect_flags() {

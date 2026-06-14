@@ -48,8 +48,6 @@ pub use char_string::{CharString, CharStringExt};
 pub use currency::Currency;
 pub use dialects::dialect_enum::{DialectFlagsEnum, DialectsEnum};
 pub use dialects::english::{EnglishDialect, EnglishDialectFlags};
-pub use language::german::dialects::{GermanDialect, GermanDialectFlags};
-pub use language::portuguese::dialects::{PortugueseDialect, PortugueseDialectFlags};
 pub use dict_word_metadata::{
     AdverbData, ConjunctionData, Degree, DeterminerData, DialectFlags, DictWordMetadata, NounData,
     PronounData, VerbData, VerbForm, VerbFormFlags,
@@ -61,7 +59,9 @@ pub use ignored_lints::{IgnoredLints, LintContext};
 pub use indefinite_article::{InitialSound, starts_with_vowel};
 pub use irregular_nouns::IrregularNouns;
 pub use irregular_verbs::IrregularVerbs;
+pub use language::german::dialects::{GermanDialect, GermanDialectFlags};
 pub use language::german::spell::{curated_german_dictionary, german_dictionary};
+pub use language::portuguese::dialects::{PortugueseDialect, PortugueseDialectFlags};
 pub use language::portuguese::spell::{curated_portuguese_dictionary, portuguese_dictionary};
 pub use languages::{Language, LanguageFamily};
 pub use linting::{Lint, LintGroup, LintKind, Linter, Suggestion};
