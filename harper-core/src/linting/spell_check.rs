@@ -146,7 +146,7 @@ mod tests {
 
     use super::SpellCheck;
     use crate::dialects::english::EnglishDialect as Dialect;
-    use crate::dict_word_metadata::DialectFlags;
+    use crate::dialects::dialect_flags::DialectFlags;
     use crate::linting::Linter;
     use crate::linting::tests::{assert_good_and_bad_suggestions, assert_no_lints};
     use crate::linting::tests::{assert_lint_count, assert_suggestion_result};

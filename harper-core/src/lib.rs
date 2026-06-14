@@ -49,9 +49,10 @@ pub use currency::Currency;
 pub use dialects::dialect_enum::{DialectFlagsEnum, DialectsEnum};
 pub use dialects::english::{EnglishDialect, EnglishDialectFlags};
 pub use dict_word_metadata::{
-    AdverbData, ConjunctionData, Degree, DeterminerData, DialectFlags, DictWordMetadata, NounData,
+    AdverbData, ConjunctionData, Degree, DeterminerData, DictWordMetadata, NounData,
     PronounData, VerbData, VerbForm, VerbFormFlags,
 };
+pub use dialects::dialect_flags::DialectFlags;
 pub use dict_word_metadata_orthography::{OrthFlags, Orthography};
 pub use document::Document;
 pub use fat_token::{FatStringToken, FatToken};
