@@ -1,14 +1,14 @@
 use serde::ser::SerializeStruct;
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
 // Import dialect types from the central dialects module for modularity.
+use crate::TokenStringExt;
 use crate::dialects::dialect_enum::DialectsEnum;
 use crate::dialects::dialect_trait::DialectFlags as _;
 use crate::dialects::english::{EnglishDialect, EnglishDialectFlags};
 use crate::language::german::dialects::{GermanDialect, GermanDialectFlags};
 use crate::language::portuguese::dialects::{PortugueseDialect, PortugueseDialectFlags};
-use crate::{Document, TokenStringExt};
 
 /// This represents a collection of dialect flags for all supported languages.
 /// Each language has its own set of dialect flags.
@@ -418,7 +418,10 @@ impl<'de> Deserialize<'de> for ScopedDialectFlagsSerde {
                             }
                         },
                         _ => {
-                            return Err(Error::unknown_field(&key, &["english", "german", "portuguese"]));
+                            return Err(Error::unknown_field(
+                                &key,
+                                &["english", "german", "portuguese"],
+                            ));
                         }
                     }
                 }
@@ -487,14 +490,10 @@ impl<'de> Deserialize<'de> for ScopedDialectFlagsSerde {
                         german: GermanDialectFlags::default(),
                         portuguese: PortugueseDialectFlags::AFRICAN,
                     }),
-                    _ => Err(Error::custom(format!(
-                        "Unknown dialect string: {s}"
-                    ))),
+                    _ => Err(Error::custom(format!("Unknown dialect string: {s}"))),
                 }
             }
-            _ => Err(Error::custom(
-                "Expected object or string for dialect flags"
-            )),
+            _ => Err(Error::custom("Expected object or string for dialect flags")),
         }
     }
 }

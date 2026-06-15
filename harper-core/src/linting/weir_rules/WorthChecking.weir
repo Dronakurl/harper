@@ -1,0 +1,9 @@
+expr main (worthchecking)
+
+let message "Did you mean `worth checking`?"
+let description "Corrects `worthchecking` to `worth checking`."
+let kind "Usage"
+let becomes "worth checking"
+
+test "It is worthchecking" "It is worth checking"
+test "This is worthchecking out" "This is worth checking out"

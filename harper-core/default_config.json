@@ -997,6 +997,13 @@
 						},
 						{
 							"Bool": {
+								"name": "InHindsight",
+								"state": true,
+								"label": "In Hindsight"
+							}
+						},
+						{
+							"Bool": {
 								"name": "InvestIn",
 								"state": true,
 								"label": "Invest In"
@@ -1326,13 +1333,6 @@
 						},
 						{
 							"Bool": {
-								"name": "ExpandDirectory",
-								"state": true,
-								"label": "Expand Directory"
-							}
-						},
-						{
-							"Bool": {
 								"name": "ExpandNotification",
 								"state": true,
 								"label": "Expand Notification"
@@ -1343,13 +1343,6 @@
 								"name": "ExpandVulnerability",
 								"state": true,
 								"label": "Expand Vulnerability"
-							}
-						},
-						{
-							"Bool": {
-								"name": "Nowadays",
-								"state": true,
-								"label": "Nowadays"
 							}
 						},
 						{
@@ -4368,6 +4361,13 @@
 								"label": "Worth To Do"
 							}
 						},
+                        {
+                            "Bool": {
+                                "name": "WorthChecking",
+                                "state": true,
+                                "label": "Worth Checking"
+                            }
+                        },
 						{
 							"Bool": {
 								"name": "AheadAnd",
@@ -5094,13 +5094,6 @@
 								"name": "InFavourOfDoing",
 								"state": true,
 								"label": "In Favour Of Doing"
-							}
-						},
-						{
-							"Bool": {
-								"name": "InHindsight",
-								"state": true,
-								"label": "In Hindsight"
 							}
 						},
 						{

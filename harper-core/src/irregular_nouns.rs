@@ -1,3 +1,4 @@
+use crate::CharStringExt;
 use serde::Deserialize;
 use std::sync::{Arc, LazyLock};
 
@@ -52,26 +53,30 @@ impl IrregularNouns {
     }
 
     pub fn get_plural_for_singular_chars(&self, singular: &[char]) -> Option<&str> {
-        let singular_str: String = singular.iter().collect();
         self.nouns
             .iter()
-            .find(|(sg, _)| sg.eq_ignore_ascii_case(&singular_str))
+            .find(|(sg, _)| singular.eq_str(sg))
             .map(|(_, pl)| pl.as_str())
     }
 
     pub fn get_plural_for_singular(&self, singular: &str) -> Option<&str> {
-        self.get_plural_for_singular_chars(&singular.chars().collect::<Vec<_>>())
+        self.nouns
+            .iter()
+            .find(|(sg, _)| sg.eq_ignore_ascii_case(singular))
+            .map(|(_, pl)| pl.as_str())
     }
 
     pub fn get_singular_for_plural(&self, plural: &str) -> Option<&str> {
-        self.get_singular_for_plural_chars(&plural.chars().collect::<Vec<_>>())
+        self.nouns
+            .iter()
+            .find(|(_, pl)| pl.eq_ignore_ascii_case(plural))
+            .map(|(sg, _)| sg.as_str())
     }
 
     pub fn get_singular_for_plural_chars(&self, plural: &[char]) -> Option<&str> {
-        let plural_str: String = plural.iter().collect();
         self.nouns
             .iter()
-            .find(|(_, pl)| pl.eq_ignore_ascii_case(&plural_str))
+            .find(|(_, pl)| plural.eq_str(pl))
             .map(|(sg, _)| sg.as_str())
     }
 }

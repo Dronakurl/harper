@@ -47,12 +47,12 @@ pub use case::{Case, CaseIterExt};
 pub use char_string::{CharString, CharStringExt};
 pub use currency::Currency;
 pub use dialects::dialect_enum::{DialectFlagsEnum, DialectsEnum};
+pub use dialects::dialect_flags::DialectFlags;
 pub use dialects::english::{EnglishDialect, EnglishDialectFlags};
 pub use dict_word_metadata::{
-    AdverbData, ConjunctionData, Degree, DeterminerData, DictWordMetadata, NounData,
-    PronounData, VerbData, VerbForm, VerbFormFlags,
+    AdverbData, ConjunctionData, Degree, DeterminerData, DictWordMetadata, NounData, PronounData,
+    VerbData, VerbForm, VerbFormFlags,
 };
-pub use dialects::dialect_flags::DialectFlags;
 pub use dict_word_metadata_orthography::{OrthFlags, Orthography};
 pub use document::Document;
 pub use fat_token::{FatStringToken, FatToken};
@@ -107,6 +107,40 @@ pub fn remove_overlaps(lints: &mut Vec<Lint>) {
     }
 
     lints.remove_indices(remove_indices);
+}
+
+pub fn remove_lints_overlapping_expr<E: expr::Expr + ?Sized>(
+    expr: &E,
+    document: &Document,
+    lints: &mut Vec<Lint>,
+) {
+    if lints.is_empty() {
+        return;
+    }
+
+    let tokens = document.get_tokens();
+    let source = document.get_source();
+    let matched_spans: Vec<Span<char>> = (0..tokens.len())
+        .filter_map(|cursor| {
+            let token_span = expr.run(cursor, tokens, source)?;
+
+            if token_span.is_empty() {
+                None
+            } else {
+                Some(token_span.to_char_span(tokens))
+            }
+        })
+        .collect();
+
+    if matched_spans.is_empty() {
+        return;
+    }
+
+    lints.retain(|lint| {
+        !matched_spans
+            .iter()
+            .any(|matched_span| lint.span.overlaps_with(*matched_span))
+    });
 }
 
 /// Remove overlapping lints from a map keyed by rule name, similar to [`remove_overlaps`].

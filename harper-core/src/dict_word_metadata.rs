@@ -3,19 +3,22 @@ use is_macro::Is;
 use itertools::Itertools;
 use paste::paste;
 use serde::{Deserialize, Serialize};
-use serde_json::json;
 use smallvec::SmallVec;
 
 // Import dialect types from the central dialects module for modularity.
 use crate::dialects::dialect_flags::DialectFlags;
 use crate::dict_word_metadata_orthography::OrthFlags;
 use crate::spell::WordId;
-use crate::TokenKind;
+
+// Import types needed for tests
+#[cfg(test)]
+use crate::dialects::dialect_enum::DialectsEnum;
+#[cfg(test)]
+use crate::dialects::english::EnglishDialect;
+#[cfg(test)]
+use serde_json::json;
 
 // Import all dialect types from central re-exports
-use crate::dialects::english::EnglishDialect;
-use crate::language::german::dialects::GermanDialect;
-use crate::language::portuguese::dialects::PortugueseDialect;
 
 // =============================================================================
 // DIALECT FLAGS CODE GENERATION
@@ -26,14 +29,6 @@ use crate::language::portuguese::dialects::PortugueseDialect;
 /// Define all languages with dialect support.
 /// Format: (RustName, snake_case, DialectType, FlagsType)
 /// This is the ONLY place that needs updating for new languages.
-macro_rules! LANGUAGES {
-    () => {
-        (English, english, EnglishDialect, EnglishDialectFlags),
-        (German, german, GermanDialect, GermanDialectFlags),
-        (Portuguese, portuguese, PortugueseDialect, PortugueseDialectFlags),
-    };
-}
-
 // =============================================================================
 // LANGUAGES MACRO
 // This is the central list of all languages with dialect support.
@@ -47,14 +42,6 @@ macro_rules! LANGUAGES {
 // - The serialization/deserialization logic
 // - All methods that reference specific languages
 // =============================================================================
-macro_rules! LANGUAGES {
-    () => {
-        (English, english, EnglishDialect, EnglishDialectFlags),
-        (German, german, GermanDialect, GermanDialectFlags),
-        (Portuguese, portuguese, PortugueseDialect, PortugueseDialectFlags),
-    };
-}
-
 /// This represents a "lexeme" or "headword" which is case-folded but affix-expanded.
 /// So not only lemmata but also inflected forms are stored here, with "horn" and "horns" each
 /// having their own lexeme, but "Ivy" and "ivy" sharing the same lexeme.
@@ -1093,9 +1080,9 @@ fn deserializes_new_language_scoped_dialect_flags() {
 
 #[test]
 fn serializes_dialect_flags_to_language_scoped_format() {
-    let metadata = crate::DictWordMetadata {
+    let metadata = DictWordMetadata {
         dialects: DialectFlags::from_dialect(DialectsEnum::English(EnglishDialect::American)),
-        ..crate::DictWordMetadata::default()
+        ..DictWordMetadata::default()
     };
 
     let value = serde_json::to_value(metadata).unwrap();
@@ -1276,7 +1263,7 @@ mod pronoun {
 
     mod i_me_myself {
         #[cfg(test)]
-    use crate::dict_word_metadata::tests::md;
+        use crate::dict_word_metadata::tests::md;
 
         #[test]
         fn i_is_pronoun() {
@@ -1332,7 +1319,7 @@ mod pronoun {
 
     mod we_us_ourselves {
         #[cfg(test)]
-    use crate::dict_word_metadata::tests::md;
+        use crate::dict_word_metadata::tests::md;
 
         #[test]
         fn we_is_pronoun() {
@@ -1388,7 +1375,7 @@ mod pronoun {
 
     mod you_yourself {
         #[cfg(test)]
-    use crate::dict_word_metadata::tests::md;
+        use crate::dict_word_metadata::tests::md;
 
         #[test]
         fn you_is_pronoun() {
@@ -1434,7 +1421,7 @@ mod pronoun {
 
     mod he_him_himself {
         #[cfg(test)]
-    use crate::dict_word_metadata::tests::md;
+        use crate::dict_word_metadata::tests::md;
 
         #[test]
         fn he_is_pronoun() {
@@ -1490,7 +1477,7 @@ mod pronoun {
 
     mod she_her_herself {
         #[cfg(test)]
-    use crate::dict_word_metadata::tests::md;
+        use crate::dict_word_metadata::tests::md;
 
         #[test]
         fn she_is_pronoun() {
@@ -1546,7 +1533,7 @@ mod pronoun {
 
     mod it_itself {
         #[cfg(test)]
-    use crate::dict_word_metadata::tests::md;
+        use crate::dict_word_metadata::tests::md;
 
         #[test]
         fn it_is_pronoun() {
@@ -1589,7 +1576,7 @@ mod pronoun {
 
     mod they_them_themselves {
         #[cfg(test)]
-    use crate::dict_word_metadata::tests::md;
+        use crate::dict_word_metadata::tests::md;
 
         #[test]
         fn they_is_pronoun() {
@@ -1744,9 +1731,10 @@ mod nominal {
 }
 
 mod adjective {
-    use crate::Degree;
     #[cfg(test)]
     use crate::dict_word_metadata::tests::md;
+    #[cfg(test)]
+    use super::Degree;
 
     // Getting degrees
 
@@ -1787,14 +1775,13 @@ mod adjective {
     }
 }
 
-
-
-
 pub mod tests {
-    use crate::DictWordMetadata;
-    use crate::spell::{Dictionary, FstDictionary};
-
     // Helper function to get metadata from the curated dictionary
+    #[cfg(test)]
+    use crate::DictWordMetadata;
+    #[cfg(test)]
+    use crate::spell::{Dictionary, FstDictionary};
+    
     #[cfg(test)]
     pub fn md(word: &str) -> DictWordMetadata {
         FstDictionary::curated()
@@ -1805,17 +1792,20 @@ pub mod tests {
 
     #[cfg(test)]
     mod dialect {
-        use super::md;
+
+        use crate::DictWordMetadata;
+        use crate::dialects::dialect_flags::DialectFlags;
         use crate::dialects::dialect_enum::DialectsEnum;
         use crate::dialects::english::EnglishDialect;
+        use serde_json::json;
 
         #[test]
         fn serializes_dialect_flags_to_language_scoped_format() {
-            let metadata = crate::DictWordMetadata {
-                dialects: crate::dialects::dialect_flags::DialectFlags::from_dialect(DialectsEnum::English(
-                    EnglishDialect::American,
-                )),
-                ..crate::DictWordMetadata::default()
+            let metadata = DictWordMetadata {
+                dialects: DialectFlags::from_dialect(
+                    DialectsEnum::English(EnglishDialect::American),
+                ),
+                ..DictWordMetadata::default()
             };
 
             let value = serde_json::to_value(metadata).unwrap();
@@ -1834,11 +1824,20 @@ pub mod tests {
                     "german": "STANDARD",
                     "portuguese": "EUROPEAN"
                 }
-            })).unwrap();
+            }))
+            .unwrap();
 
-            assert!(metadata.dialects.is_english_dialect_enabled(EnglishDialect::American));
-            assert!(metadata.dialects.is_german_dialect_enabled(crate::language::german::dialects::GermanDialect::Standard));
-            assert!(metadata.dialects.is_portuguese_dialect_enabled(crate::language::portuguese::dialects::PortugueseDialect::European));
+            assert!(
+                metadata
+                    .dialects
+                    .is_english_dialect_enabled(EnglishDialect::American)
+            );
+            assert!(metadata.dialects.is_german_dialect_enabled(
+                crate::language::german::dialects::GermanDialect::Standard
+            ));
+            assert!(metadata.dialects.is_portuguese_dialect_enabled(
+                crate::language::portuguese::dialects::PortugueseDialect::European
+            ));
         }
     }
 }
