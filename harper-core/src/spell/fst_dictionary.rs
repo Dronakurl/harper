@@ -57,7 +57,7 @@ impl FstDictionary {
     /// Create a dictionary from a language family.
     /// Currently supports English, German, and Portuguese.
     pub fn curated_for_language(language_family: crate::languages::LanguageFamily) -> Arc<Self> {
-        crate::language::registry::dictionary_for_language(language_family)
+        crate::language::manifest::dictionary_for_language(language_family)
     }
 
     /// Construct a new [`FstDictionary`] using a wordlist as a source.

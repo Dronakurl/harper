@@ -4,8 +4,7 @@
 //! to keep the codebase clean and extensible for additional languages.
 //!
 //! The `manifest` module is the central integration point for all language features.
+pub mod manifest;
 
 pub mod german;
-pub mod manifest;
 pub mod portuguese;
-pub mod registry;

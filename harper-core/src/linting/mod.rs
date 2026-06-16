@@ -306,7 +306,7 @@ pub use map_phrase_linter::MapPhraseLinter;
 pub use map_phrase_set_linter::MapPhraseSetLinter;
 pub use suggestion::{Suggestion, SuggestionCollectionExt};
 
-use crate::{Document, LSend, render_markdown::render_markdown};
+use crate::{Document, LSend, render_markdown};
 
 /// A __stateless__ rule that searches documents for grammatical errors.
 ///
@@ -382,9 +382,8 @@ pub mod debug {
 
 #[cfg(test)]
 pub mod tests {
-    use hashbrown::HashSet;
-
     use crate::{Document, Linter, Span, Token, languages::LanguageFamily};
+    use hashbrown::HashSet;
 
     /// Extension trait for converting spans of tokens back to their original text
     pub trait SpanVecExt {

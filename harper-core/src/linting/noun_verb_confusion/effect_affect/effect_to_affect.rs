@@ -4,8 +4,7 @@ use crate::linting::expr_linter::Chunk;
 use crate::{
     CharStringExt, Token, TokenKind,
     expr::{Expr, ExprMap, SequenceExpr},
-    linting::english::{ExprLinter, Lint, LintKind, Suggestion},
-    patterns::WhitespacePattern,
+    linting::{ExprLinter, Lint, LintKind, Suggestion},
 };
 
 pub(super) struct EffectToAffect {
