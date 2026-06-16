@@ -43,7 +43,7 @@ use crate::language::portuguese::parsers::PlainPortuguese;
 use crate::language::portuguese::spell::portuguese_dictionary;
 
 // English (built-in)
-use crate::language_detection::english::EnglishDetector;
+use crate::language_detection::EnglishDetector;
 
 // ========== DETECTION ==========
 

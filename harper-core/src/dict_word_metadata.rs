@@ -1732,9 +1732,9 @@ mod nominal {
 
 mod adjective {
     #[cfg(test)]
-    use crate::dict_word_metadata::tests::md;
-    #[cfg(test)]
     use super::Degree;
+    #[cfg(test)]
+    use crate::dict_word_metadata::tests::md;
 
     // Getting degrees
 
@@ -1781,7 +1781,7 @@ pub mod tests {
     use crate::DictWordMetadata;
     #[cfg(test)]
     use crate::spell::{Dictionary, FstDictionary};
-    
+
     #[cfg(test)]
     pub fn md(word: &str) -> DictWordMetadata {
         FstDictionary::curated()
@@ -1794,17 +1794,17 @@ pub mod tests {
     mod dialect {
 
         use crate::DictWordMetadata;
-        use crate::dialects::dialect_flags::DialectFlags;
         use crate::dialects::dialect_enum::DialectsEnum;
+        use crate::dialects::dialect_flags::DialectFlags;
         use crate::dialects::english::EnglishDialect;
         use serde_json::json;
 
         #[test]
         fn serializes_dialect_flags_to_language_scoped_format() {
             let metadata = DictWordMetadata {
-                dialects: DialectFlags::from_dialect(
-                    DialectsEnum::English(EnglishDialect::American),
-                ),
+                dialects: DialectFlags::from_dialect(DialectsEnum::English(
+                    EnglishDialect::American,
+                )),
                 ..DictWordMetadata::default()
             };
 
