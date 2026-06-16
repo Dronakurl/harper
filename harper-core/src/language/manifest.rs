@@ -15,8 +15,10 @@
 //! 2. Add imports for the new language below
 //! 3. Add entries to the appropriate sections (DETECTORS, DICTIONARIES, etc.)
 
+use std::fmt::Debug;
 use std::sync::Arc;
 
+use crate::Token;
 use crate::languages::{Language, LanguageFamily};
 use crate::spell::{Dictionary, FstDictionary};
 use crate::{
@@ -47,7 +49,18 @@ use crate::language_detection::EnglishDetector;
 
 // ========== DETECTION ==========
 
-use crate::language_detection::LanguageDetector;
+/// Core trait for language detectors.
+pub trait LanguageDetector: Debug + Send + Sync {
+    fn name(&self) -> &str;
+    fn detect(
+        &self,
+        toks: &[Token],
+        source: &[char],
+        dict: &FstDictionary,
+        default_language: Language,
+    ) -> Option<Language>;
+    fn confidence(&self) -> f64;
+}
 
 /// All language detectors, sorted by confidence (highest to lowest).
 ///

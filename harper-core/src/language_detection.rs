@@ -1,9 +1,9 @@
 //! This module implements rudimentary, dictionary-based English language detection.
 
+use crate::language::manifest::LanguageDetector;
 use crate::languages::Language;
 use crate::spell::{Dictionary, FstDictionary};
 use crate::{Document, Token, TokenKind};
-use std::fmt::Debug;
 
 /// Check if the contents of the document are likely intended to represent
 /// English.
@@ -51,19 +51,6 @@ pub fn is_likely_english(toks: &[Token], source: &[char], dict: &impl Dictionary
     }
 
     true
-}
-
-/// Core trait for language detectors.
-pub trait LanguageDetector: Debug + Send + Sync {
-    fn name(&self) -> &str;
-    fn detect(
-        &self,
-        toks: &[Token],
-        source: &[char],
-        dict: &FstDictionary,
-        default_language: Language,
-    ) -> Option<Language>;
-    fn confidence(&self) -> f64;
 }
 
 /// English language detector (fallback).

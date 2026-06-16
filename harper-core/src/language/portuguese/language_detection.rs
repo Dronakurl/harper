@@ -5,8 +5,8 @@
 //! - Common Portuguese words and articles
 //! - Low English word match rate
 
+use crate::language::manifest::LanguageDetector;
 use crate::language::portuguese::dialects::PortugueseDialect;
-use crate::language_detection::LanguageDetector;
 use crate::languages::Language;
 use crate::spell::{Dictionary, FstDictionary};
 use crate::{Token, TokenKind};
@@ -194,7 +194,6 @@ mod tests {
     use crate::Document;
     use crate::dialects::english::EnglishDialect;
     use crate::language::portuguese::dialects::PortugueseDialect;
-    use crate::language_detection::LanguageDetector;
     use crate::languages::Language;
     use crate::parsers::PlainEnglish;
     use crate::spell::FstDictionary;

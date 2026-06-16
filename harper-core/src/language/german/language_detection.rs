@@ -6,7 +6,7 @@
 //! - Low English word match rate
 
 use crate::language::german::dialects::GermanDialect;
-use crate::language_detection::LanguageDetector;
+use crate::language::manifest::LanguageDetector;
 use crate::languages::Language;
 use crate::spell::{Dictionary, FstDictionary};
 use crate::{Token, TokenKind};
