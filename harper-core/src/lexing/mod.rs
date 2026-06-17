@@ -1,6 +1,6 @@
-mod email_address;
-mod hostname;
-mod url;
+pub(crate) mod email_address;
+pub(crate) mod hostname;
+pub(crate) mod url;
 
 use hostname::lex_hostname_token;
 use ordered_float::OrderedFloat;
@@ -83,28 +83,7 @@ pub fn lex_english_token(source: &[char]) -> FoundToken {
     .unwrap_or_else(lex_catch)
 }
 
-pub fn lex_portuguese_token(source: &[char]) -> FoundToken {
-    [
-        lex_regexish,
-        lex_punctuation,
-        lex_tabs,
-        lex_spaces,
-        lex_newlines,
-        // lex_plural_digit, // The Portuguese language doesn't have this feature
-        lex_hex_number, // Before lex_number, which would match the initial 0
-        // lex_long_decade,  // This works in other ways in Portuguese
-        lex_number,
-        lex_url,
-        lex_email_address,
-        lex_hostname_token,
-        lex_word,
-    ]
-    .into_iter()
-    .find_map(|lexer| lexer(source))
-    .unwrap_or_else(lex_catch)
-}
-
-fn lex_word(source: &[char]) -> Option<FoundToken> {
+pub(crate) fn lex_word(source: &[char]) -> Option<FoundToken> {
     let is_apostrophe = |c: char| lex_punctuation(&[c]).is_some_and(|t| t.token.is_apostrophe());
 
     let mut end = source
@@ -126,7 +105,7 @@ fn lex_word(source: &[char]) -> Option<FoundToken> {
     }
 }
 
-fn lex_number(source: &[char]) -> Option<FoundToken> {
+pub(crate) fn lex_number(source: &[char]) -> Option<FoundToken> {
     if source.is_empty() {
         return None;
     }
@@ -169,7 +148,7 @@ fn lex_number(source: &[char]) -> Option<FoundToken> {
 
 // Often in comments we mention partial- or pseudo- regexes. Here's an example from Ghidra:
 // ([a-z0-9]+ only) - We previously flagged just the z0 in the middle of it.
-fn lex_regexish(src: &[char]) -> Option<FoundToken> {
+pub(crate) fn lex_regexish(src: &[char]) -> Option<FoundToken> {
     let l = src.len();
     let mut i = 0;
 
@@ -203,7 +182,7 @@ fn lex_regexish(src: &[char]) -> Option<FoundToken> {
     })
 }
 
-fn lex_hex_number(source: &[char]) -> Option<FoundToken> {
+pub(crate) fn lex_hex_number(source: &[char]) -> Option<FoundToken> {
     // < 3 to avoid accepting 0x alone
     if source.len() < 3 || source[0] != '0' || source[1] != 'x' || !source[2].is_ascii_hexdigit() {
         return None;
@@ -298,7 +277,7 @@ fn lex_plural_digit(src: &[char]) -> Option<FoundToken> {
     None
 }
 
-fn lex_newlines(source: &[char]) -> Option<FoundToken> {
+pub(crate) fn lex_newlines(source: &[char]) -> Option<FoundToken> {
     let count = source.iter().take_while(|c| **c == '\n').count();
 
     if count > 0 {
@@ -311,7 +290,7 @@ fn lex_newlines(source: &[char]) -> Option<FoundToken> {
     }
 }
 
-fn lex_tabs(source: &[char]) -> Option<FoundToken> {
+pub(crate) fn lex_tabs(source: &[char]) -> Option<FoundToken> {
     let count = source.iter().take_while(|c| **c == '\t').count();
 
     if count > 0 {
@@ -324,7 +303,7 @@ fn lex_tabs(source: &[char]) -> Option<FoundToken> {
     }
 }
 
-fn lex_spaces(source: &[char]) -> Option<FoundToken> {
+pub(crate) fn lex_spaces(source: &[char]) -> Option<FoundToken> {
     let count = source.iter().take_while(|c| **c == ' ').count();
 
     if count > 0 {
@@ -337,7 +316,7 @@ fn lex_spaces(source: &[char]) -> Option<FoundToken> {
     }
 }
 
-fn lex_punctuation(source: &[char]) -> Option<FoundToken> {
+pub(crate) fn lex_punctuation(source: &[char]) -> Option<FoundToken> {
     if let Some(found) = lex_quote(source) {
         return Some(found);
     }
@@ -366,7 +345,7 @@ fn lex_quote(source: &[char]) -> Option<FoundToken> {
 }
 
 /// Covers cases not covered by the other lints.
-fn lex_catch() -> FoundToken {
+pub(crate) fn lex_catch() -> FoundToken {
     FoundToken {
         next_index: 1,
         token: TokenKind::Unlintable,
