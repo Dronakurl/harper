@@ -63,7 +63,7 @@ mod tests {
     use super::IgnoredLints;
     use crate::spell::FstDictionary;
     use crate::{
-        Document, EnglishDialect, Language,
+        Dialect, Document, EnglishDialect, Language,
         linting::{LintGroup, Linter},
     };
 
@@ -73,7 +73,7 @@ mod tests {
 
         let mut lints = LintGroup::new_curated(
             FstDictionary::curated(),
-            Language::English(EnglishDialect::American),
+            Dialect::American,
         )
         .lint(&document);
 
@@ -93,7 +93,7 @@ mod tests {
 
         let mut lints = LintGroup::new_curated(
             FstDictionary::curated(),
-            Language::English(EnglishDialect::American),
+            Dialect::American,
         )
         .lint(&document);
 
@@ -115,7 +115,7 @@ mod tests {
 
         let mut lints = LintGroup::new_curated(
             FstDictionary::curated(),
-            Language::English(EnglishDialect::American),
+            Dialect::American,
         )
         .lint(&document);
 

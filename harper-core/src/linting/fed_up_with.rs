@@ -1,5 +1,5 @@
 use crate::{
-    EnglishDialect as Dialect, Token,
+    Dialect, Token,
     expr::{Expr, SequenceExpr},
     linting::{ExprLinter, Lint, LintKind, Suggestion, expr_linter::Chunk},
 };
@@ -52,7 +52,7 @@ impl ExprLinter for FedUpWith {
 #[cfg(test)]
 mod tests {
     use super::FedUpWith;
-    use crate::EnglishDialect as Dialect;
+    use crate::Dialect;
     use crate::linting::tests::{assert_no_lints, assert_suggestion_result};
 
     #[test]

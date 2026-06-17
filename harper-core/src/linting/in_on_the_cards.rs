@@ -1,5 +1,5 @@
 use crate::{
-    CharStringExt, EnglishDialect as Dialect, Token,
+    CharStringExt, Dialect, Token,
     expr::{Expr, FirstMatchOf, SequenceExpr},
     linting::{LintKind, Suggestion},
     patterns::{InflectionOfBe, WordSet},
@@ -86,7 +86,7 @@ impl ExprLinter for InOnTheCards {
 mod tests {
     use super::InOnTheCards;
     use crate::{
-        EnglishDialect as Dialect,
+        Dialect,
         linting::tests::{assert_lint_count, assert_suggestion_result},
     };
 

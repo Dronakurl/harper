@@ -50,6 +50,12 @@ pub use currency::Currency;
 pub use dialects::dialect_enum::{DialectFlagsEnum, DialectsEnum};
 pub use dialects::dialect_flags::DialectFlags;
 pub use dialects::english::{EnglishDialect, EnglishDialectFlags};
+
+// Type alias for master branch compatibility during feature development.
+// This allows linting modules to use `Dialect` (matching master) while preserving
+// `EnglishDialect` for backward compatibility and to avoid massive refactoring.
+// When this feature branch is merged, the actual enum can be renamed from EnglishDialect to Dialect.
+pub type Dialect = EnglishDialect;
 pub use dict_word_metadata::{
     AdverbData, ConjunctionData, Degree, DeterminerData, DictWordMetadata, NounData, PronounData,
     VerbData, VerbForm, VerbFormFlags,

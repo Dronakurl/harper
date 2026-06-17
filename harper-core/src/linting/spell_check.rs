@@ -8,10 +8,7 @@ use super::{Suggestion, informal_laughter::is_informal_laughter};
 use crate::document::Document;
 use crate::expr::{Filter, SequenceExpr};
 use crate::spell::{Dictionary, suggest_correct_spelling};
-use crate::{
-    CharString, CharStringExt, EnglishDialect as Dialect, TokenStringExt,
-    remove_lints_overlapping_expr,
-};
+use crate::{CharString, CharStringExt, Dialect, TokenStringExt, remove_lints_overlapping_expr};
 
 pub struct SpellCheck<T>
 where
@@ -169,15 +166,15 @@ mod tests {
     use strum::IntoEnumIterator;
 
     use super::SpellCheck;
-    use crate::DialectFlags;
+    use crate::dialects::dialect_flags::DialectFlags;
     use crate::linting::Linter;
     use crate::linting::tests::{assert_good_and_bad_suggestions, assert_no_lints};
     use crate::spell::{Dictionary, FstDictionary, MergedDictionary, MutableDictionary};
-    use crate::{DictWordMetadata, Document};
     use crate::{
-        EnglishDialect as Dialect,
+        Dialect,
         linting::tests::{assert_lint_count, assert_suggestion_result},
     };
+    use crate::{DictWordMetadata, Document};
 
     // Capitalization tests
 
