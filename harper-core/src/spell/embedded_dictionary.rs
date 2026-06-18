@@ -13,26 +13,26 @@ fn parse_word_line(line: &str) -> Option<&str> {
     Some(trimmed.split('/').next().unwrap_or(trimmed))
 }
 
-pub fn fst_dictionary_from_word_list(content: &str, additions: &[&str]) -> FstDictionary {
+/// Parse a string to a dictionary
+fn fst_dictionary_from_word_list(content: &str) -> FstDictionary {
     let words: Vec<(CharString, DictWordMetadata)> = content
         .lines()
-        .chain(additions.iter().copied())
         .filter_map(parse_word_line)
         .map(|word| {
             let chars: CharString = word.chars().collect();
             (chars, DictWordMetadata::default())
         })
         .collect();
-
     FstDictionary::new(words)
 }
 
-pub fn fst_dictionary_from_gzip_bytes(compressed: &[u8], additions: &[&str]) -> FstDictionary {
+/// Extract the dictionary from a gzipped data
+pub fn fst_dictionary_from_gzip_bytes(compressed: &[u8]) -> FstDictionary {
     let mut decoder = GzDecoder::new(compressed);
     let mut text = String::new();
     decoder
         .read_to_string(&mut text)
         .expect("Failed to decompress embedded dictionary");
 
-    fst_dictionary_from_word_list(&text, additions)
+    fst_dictionary_from_word_list(&text)
 }

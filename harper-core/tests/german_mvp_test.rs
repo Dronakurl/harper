@@ -14,8 +14,9 @@ impl Dialect {
 }
 
 fn german_lint_group() -> LintGroup {
-    let dict = curated_german_dictionary();
-    LintGroup::new_curated(dict, Language::German(GermanDialect::Standard))
+    use harper_core::language::german::linting::new_curated_german;
+    use harper_core::language::german::dialects::GermanDialect;
+    new_curated_german(GermanDialect::Standard)
 }
 
 /// Test 1: German parser functionality

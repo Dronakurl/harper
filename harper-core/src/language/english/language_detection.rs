@@ -1,13 +1,16 @@
-//! This module implements rudimentary, dictionary-based English language detection.
+//! English language detector.
+//!
+//! This is a wrapper around the core English detection functionality
+//! to maintain consistency with the language module structure.
 
 use crate::language::manifest::LanguageDetector;
 use crate::languages::Language;
 use crate::spell::{Dictionary, FstDictionary};
-use crate::{Document, Token, TokenKind};
+use crate::{Token, TokenKind};
 
 /// Check if the contents of the document are likely intended to represent
 /// English.
-pub fn is_doc_likely_english(doc: &Document, dict: &impl Dictionary) -> bool {
+pub fn is_doc_likely_english(doc: &crate::Document, dict: &impl Dictionary) -> bool {
     is_likely_english(doc.get_tokens(), doc.get_source(), dict)
 }
 
@@ -133,12 +136,12 @@ mod tests {
 
     #[test]
     fn detects_english() {
-        assert_english("This is perfectly valid English, evn if it has a cople typos.")
+        assert_english("This is perfectly valid English, evn if it has a cople typos.");
     }
 
     #[test]
     fn detects_expressive_english() {
-        assert_english("Look above! That is real English! So is this: bippity bop!")
+        assert_english("Look above! That is real English! So is this: bippity bop!");
     }
 
     /// Useful for detecting commented-out code.
@@ -146,7 +149,7 @@ mod tests {
     fn detects_python_fib() {
         assert_not_english(
             r"
-def fibIter(n):
+ndef fibIter(n):
     if n < 2:
         return n
     fibPrev = 1

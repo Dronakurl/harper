@@ -87,19 +87,13 @@ mod tests {
     use crate::language::portuguese::dialects::PortugueseDialect;
     use crate::language::portuguese::parsers::PlainPortuguese;
     use crate::language::portuguese::spell::curated_portuguese_dictionary;
-    use crate::languages::Language;
     use crate::linting::{LintGroup, Linter};
 
     fn lint_text(text: &str) -> Vec<String> {
+        use crate::language::portuguese::linting::new_curated_portuguese;
+        use crate::language::portuguese::dialects::PortugueseDialect;
         let dict = curated_portuguese_dictionary();
-        let language = Language::Portuguese(PortugueseDialect::Brazilian);
-        let mut linter = LintGroup::new_curated(dict.clone(), language);
-        // Add Portuguese spell check linter explicitly
-        linter.add(
-            "PortugueseSpellCheck",
-            PortugueseSpellCheck::new(dict.clone()),
-        );
-        linter.config.set_rule_enabled("PortugueseSpellCheck", true);
+        let mut linter = new_curated_portuguese(PortugueseDialect::Brazilian);
         let document = Document::new(text, &PlainPortuguese, &dict);
 
         linter

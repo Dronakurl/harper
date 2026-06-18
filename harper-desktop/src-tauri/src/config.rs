@@ -3,6 +3,7 @@ use harper_core::{
     linting::{FlatConfig, LintGroup},
     spell::{FstDictionary, MergedDictionary, MutableDictionary},
 };
+use harper_core::language::manifest::new_curated_for_language;
 use harper_dictionary_wordlist::{load_dict, save_dict};
 use serde::{
     Deserialize, Serialize,
@@ -169,7 +170,7 @@ impl Config {
     }
 
     pub fn create_linter(&self) -> LintGroup {
-        LintGroup::new_curated(self.create_dictionary(), self.dialect)
+        new_curated_for_language(self.create_dictionary(), self.dialect)
             .with_lint_config(self.lint_config.clone())
     }
 

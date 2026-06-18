@@ -2,6 +2,7 @@
 // via the public LintGroup API.
 
 use harper_core::language::german::dialects::GermanDialect;
+use harper_core::language::german::linting::new_curated_german;
 use harper_core::language::german::spell::curated_german_dictionary;
 use harper_core::linting::{LintGroup, Linter};
 use harper_core::parsers::{Markdown, MarkdownOptions, Parser, PlainGerman};
@@ -77,7 +78,7 @@ fn test_german_real_world() {
 fn test_german_lint_correct_text() {
     let dict = curated_german_dictionary();
     let mut linter =
-        LintGroup::new_curated(dict.clone(), Language::German(GermanDialect::Standard));
+        new_curated_german(GermanDialect::Standard);
 
     let text = "Der Hund ist im Garten. Die Katze schläft auf dem Sofa.";
     let document = Document::new(text, &PlainGerman, &dict);
@@ -95,7 +96,7 @@ fn test_german_lint_correct_text() {
 fn test_german_lint_errors() {
     let dict = curated_german_dictionary();
     let mut linter =
-        LintGroup::new_curated(dict.clone(), Language::German(GermanDialect::Standard));
+        new_curated_german(GermanDialect::Standard);
 
     // lowercase sentence start + two misspellings
     let text = "Der Hund ist da. dieser Satz ist klein. Worrt und flasch.";
@@ -116,7 +117,7 @@ fn test_german_ls_simulation() {
 
     let dict = Arc::new(curated_german_dictionary());
     let mut linter =
-        LintGroup::new_curated(dict.clone(), Language::German(GermanDialect::Standard));
+        new_curated_german(GermanDialect::Standard);
 
     let text =
         std::fs::read_to_string("tests/test_sources/german_basic.md").expect("test file missing");
@@ -150,7 +151,7 @@ fn test_german_ls_simulation() {
 fn test_german_curated_config_disables_english_indefinite_article_rule() {
     let dict = curated_german_dictionary();
     let mut linter =
-        LintGroup::new_curated(dict.clone(), Language::German(GermanDialect::Standard));
+        new_curated_german(GermanDialect::Standard);
     let text = "Die Übergabe hat unmittelbar an die neue Verwaltung zu erfolgen.";
     let document = Document::new(text, &PlainGerman, &dict);
 
@@ -175,7 +176,7 @@ fn test_german_curated_config_disables_english_indefinite_article_rule() {
 fn lint_markdown_fixture(path: &str) -> Vec<String> {
     let dict = curated_german_dictionary();
     let mut linter =
-        LintGroup::new_curated(dict.clone(), Language::German(GermanDialect::Standard));
+        new_curated_german(GermanDialect::Standard);
     let text = std::fs::read_to_string(path).expect("test file missing");
     let parser = Markdown::new(MarkdownOptions::default());
     let document = Document::new(&text, &parser, &dict);

@@ -2,24 +2,15 @@
 // Tests Fugen-s, Fugen-n, and complex compound word decomposition
 
 use harper_core::language::german::dialects::GermanDialect;
-use harper_core::language::german::linting::german_spell_check::GermanSpellCheck;
+use harper_core::language::german::linting::{german_spell_check::GermanSpellCheck, new_curated_german};
 use harper_core::language::german::spell::curated_german_dictionary;
 use harper_core::linting::{LintGroup, Linter};
 use harper_core::{Document, Language};
 
-struct Dialect;
-impl Dialect {
-    const German: Language = Language::German(GermanDialect::Standard);
-}
-
 fn create_german_lint_group() -> LintGroup {
     let dict = curated_german_dictionary();
-    let mut linter = LintGroup::new_curated(dict.clone(), Language::German(GermanDialect::Standard));
-    // Add German-specific linters that are not yet in the curated group
-    linter.add("GermanSpellCheck", GermanSpellCheck::new(dict.clone()));
-    linter.config.set_rule_enabled("GermanSpellCheck", true);
-    // Disable the English SpellCheck linter since we're using GermanSpellCheck
-    linter.config.set_rule_enabled("SpellCheck", false);
+    let mut linter = new_curated_german(GermanDialect::Standard);
+    // The new_curated_german already includes GermanSpellCheck, so we don't need to add it manually
     linter
 }
 

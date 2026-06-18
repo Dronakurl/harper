@@ -45,7 +45,7 @@ use crate::language::portuguese::parsers::PlainPortuguese;
 use crate::language::portuguese::spell::portuguese_dictionary;
 
 // English (built-in)
-use crate::language_detection::EnglishDetector;
+use crate::language::english::language_detection::EnglishDetector;
 
 // ========== DETECTION ==========
 
@@ -228,6 +228,34 @@ pub fn weir_rules_lint_group(language: Language) -> LintGroup {
         Language::Portuguese(_) => {
             // Portuguese currently has no Weir rules
             LintGroup::default()
+        }
+    }
+}
+
+// ========== CURATED LINT GROUPS ==========
+
+/// Create a new curated lint group for a specific language.
+///
+/// For English, this delegates to `LintGroup::new_curated` which includes all English-specific rules.
+/// For German and Portuguese, this creates a language-specific lint group with their respective rules.
+pub fn new_curated_for_language(
+    dictionary: Arc<impl Dictionary + 'static>,
+    language: Language,
+) -> LintGroup {
+    match language {
+        Language::English(dialect) => {
+            // Use the English-specific new_curated function
+            crate::linting::LintGroup::new_curated(dictionary, dialect)
+        }
+        Language::German(dialect) => {
+            // Use German-specific curated lint group
+            use crate::language::german::linting::new_curated_german;
+            new_curated_german(dialect)
+        }
+        Language::Portuguese(dialect) => {
+            // Use Portuguese-specific curated lint group
+            use crate::language::portuguese::linting::new_curated_portuguese;
+            new_curated_portuguese(dialect)
         }
     }
 }

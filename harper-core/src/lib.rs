@@ -17,7 +17,7 @@ mod indefinite_article;
 mod irregular_nouns;
 mod irregular_verbs;
 pub mod language;
-pub mod language_detection;
+
 pub mod languages;
 mod lexing;
 pub mod linting;
@@ -235,7 +235,7 @@ mod tests {
 
         let mut linter = LintGroup::new_curated(
             FstDictionary::curated(),
-            crate::Language::English(EnglishDialect::American),
+            EnglishDialect::American,
         );
 
         let mut lints = linter.lint(&doc);
@@ -252,7 +252,7 @@ mod tests {
         let doc = Document::new_plain_english_curated(&s);
         let mut linter = LintGroup::new_curated(
             FstDictionary::curated(),
-            crate::Language::English(EnglishDialect::American),
+            EnglishDialect::American,
         );
 
         let mut lint_map = linter.organized_lints(&doc);

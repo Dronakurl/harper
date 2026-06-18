@@ -15,7 +15,6 @@ pub use self::word_id::WordId;
 mod dictionary;
 pub(crate) mod embedded_dictionary;
 mod fst_dictionary;
-
 mod merged_dictionary;
 mod mutable_dictionary;
 mod rune;

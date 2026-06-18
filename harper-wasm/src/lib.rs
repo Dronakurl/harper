@@ -5,7 +5,7 @@ use std::convert::Into;
 use std::io::Cursor;
 use std::sync::Arc;
 
-use harper_core::language_detection::is_doc_likely_english;
+use harper_core::language::english::language_detection::is_doc_likely_english;
 use harper_core::linting::{HumanReadableStructuredConfig, StructuredConfig};
 use harper_core::linting::{LintGroup, Linter as _};
 use harper_core::parsers::{IsolateEnglish, Markdown, Mask, OopsAllHeadings, Parser, PlainEnglish};
@@ -112,6 +112,18 @@ impl From<Dialect> for harper_core::Language {
     }
 }
 
+impl From<Dialect> for harper_core::Dialect {
+    fn from(dialect: Dialect) -> Self {
+        match dialect {
+            Dialect::American => harper_core::EnglishDialect::American,
+            Dialect::Canadian => harper_core::EnglishDialect::Canadian,
+            Dialect::Australian => harper_core::EnglishDialect::Australian,
+            Dialect::British => harper_core::EnglishDialect::British,
+            Dialect::Indian => harper_core::EnglishDialect::Indian,
+        }
+    }
+}
+
 #[wasm_bindgen]
 pub struct Linter {
     lint_group: LintGroup,
@@ -139,8 +151,8 @@ impl Linter {
     /// in Harper.
     pub fn new(dialect: Dialect) -> Self {
         let dictionary = Self::construct_merged_dict(&[Arc::new(MutableDictionary::default())]);
-        let core_language: harper_core::Language = dialect.into();
-        let lint_group = LintGroup::new_curated_empty_config(dictionary.clone(), core_language);
+        let core_dialect: harper_core::Dialect = dialect.into();
+        let lint_group = LintGroup::new_curated_empty_config(dictionary.clone(), core_dialect);
 
         Self {
             lint_group,
@@ -712,16 +724,16 @@ fn char_idx_to_js_str_idx(char_idx: usize, char_str: &[char]) -> usize {
 
 #[wasm_bindgen]
 pub fn get_default_lint_config_as_json() -> String {
-    let core_language: harper_core::Language = Dialect::American.into();
-    let config = LintGroup::new_curated(MutableDictionary::new().into(), core_language).config;
+    let core_dialect: harper_core::Dialect = Dialect::American.into();
+    let config = LintGroup::new_curated(MutableDictionary::new().into(), core_dialect).config;
 
     serde_json::to_string(&config).unwrap()
 }
 
 #[wasm_bindgen]
 pub fn get_default_lint_config() -> JsValue {
-    let core_language: harper_core::Language = Dialect::American.into();
-    let config = LintGroup::new_curated(MutableDictionary::new().into(), core_language).config;
+    let core_dialect: harper_core::Dialect = Dialect::American.into();
+    let config = LintGroup::new_curated(MutableDictionary::new().into(), core_dialect).config;
 
     // Important for downstream JSON serialization
     let serializer = Serializer::json_compatible();

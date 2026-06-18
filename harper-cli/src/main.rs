@@ -1,6 +1,6 @@
 #![doc = include_str!("../README.md")]
 
-use harper_core::language::registry::dictionary;
+use harper_core::language::manifest::dictionary;
 use harper_core::languages::Language;
 use harper_core::spell::{Dictionary, FstDictionary, MutableDictionary, WordId};
 use hashbrown::HashMap;
@@ -8,7 +8,7 @@ use std::collections::BTreeMap;
 use std::fs::File;
 use std::io::{self, BufReader};
 use std::path::PathBuf;
-use std::sync::Arc;
+// use std::sync::Arc;
 use std::{fs, process};
 
 use anyhow::anyhow;
@@ -20,8 +20,7 @@ use harper_core::linting::LintGroup;
 use harper_core::parsers::{IsolateEnglish, MarkdownOptions};
 use harper_core::weir::WeirLinter;
 use harper_core::{
-    CharStringExt, DictWordMetadata, EnglishDialect, GermanDialect, OrthFlags, PortugueseDialect,
-    Span, TokenKind, TokenStringExt,
+    CharStringExt, Dialect, DictWordMetadata, OrthFlags, Span, TokenKind, TokenStringExt,
 };
 #[cfg(feature = "training")]
 use harper_pos_utils::{BrillChunker, BrillTagger, BurnChunkerCpu};
@@ -265,15 +264,9 @@ fn main() -> anyhow::Result<()> {
             let dialect = parse_dialect(&dialect_str)
                 .map_err(|e| anyhow!("Invalid dialect '{}': {}", dialect_str, e))?;
 
-            let dict: Arc<dyn Dictionary> = if matches!(dialect, Language::English(_)) {
-                curated_dictionary.clone()
-            } else {
-                dictionary(dialect)
-            };
-
             lint(
                 markdown_options,
-                dict,
+                curated_dictionary,
                 inputs,
                 LintOptions {
                     count,
@@ -525,10 +518,7 @@ fn main() -> anyhow::Result<()> {
                 description: String,
             }
 
-            let linter = LintGroup::new_curated(
-                curated_dictionary,
-                Language::English(EnglishDialect::American),
-            );
+            let linter = LintGroup::new_curated(curated_dictionary, Dialect::American);
 
             let default_config: HashMap<String, bool> =
                 serde_json::from_str(&serde_json::to_string(&linter.config).unwrap()).unwrap();

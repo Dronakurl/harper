@@ -2,13 +2,11 @@
 //!
 //! This module provides the core types for supporting multiple languages in Harper,
 //! including language families and specific language variants with dialects.
-
-use serde::{Deserialize, Serialize};
-use strum_macros::{Display, EnumCount, EnumIter, EnumString};
-
 use crate::dialects::english::EnglishDialect;
 use crate::language::german::dialects::GermanDialect;
 use crate::language::portuguese::dialects::PortugueseDialect;
+use serde::{Deserialize, Serialize};
+use strum_macros::{Display, EnumCount, EnumIter, EnumString};
 
 /// A specific language with its dialects.
 ///
@@ -23,13 +21,6 @@ pub enum Language {
     German(GermanDialect),
     /// Portuguese language with its dialects
     Portuguese(PortugueseDialect),
-}
-
-impl Language {
-    /// Creates a default Language (English with American dialect).
-    pub fn default_english() -> Self {
-        Self::English(EnglishDialect::American)
-    }
 }
 
 /// A family of languages (e.g., English, German, Portuguese).
@@ -97,48 +88,6 @@ impl Language {
 
 impl Default for Language {
     fn default() -> Self {
-        Self::default_english()
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_language_family_conversion() {
-        assert_eq!(
-            LanguageFamily::from(Language::English(EnglishDialect::American)),
-            LanguageFamily::English
-        );
-        assert_eq!(
-            LanguageFamily::from(Language::German(GermanDialect::Standard)),
-            LanguageFamily::German
-        );
-        assert_eq!(
-            LanguageFamily::from(Language::Portuguese(PortugueseDialect::Brazilian)),
-            LanguageFamily::Portuguese
-        );
-    }
-
-    #[test]
-    fn test_language_family_method() {
-        assert_eq!(
-            Language::English(EnglishDialect::British).family(),
-            LanguageFamily::English
-        );
-        assert_eq!(
-            Language::German(GermanDialect::Standard).family(),
-            LanguageFamily::German
-        );
-        assert_eq!(
-            Language::Portuguese(PortugueseDialect::European).family(),
-            LanguageFamily::Portuguese
-        );
-    }
-
-    #[test]
-    fn test_default_language() {
-        assert_eq!(Language::default().family(), LanguageFamily::English);
+        Self::English(EnglishDialect::American)
     }
 }

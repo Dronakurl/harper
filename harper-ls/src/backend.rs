@@ -11,7 +11,7 @@ use crate::io_utils::fileify_path;
 use anyhow::{Context, Result, anyhow};
 use harper_asciidoc::AsciidocParser;
 use harper_comments::CommentParser;
-use harper_core::language::manifest::{detect_language, dictionary, parser_for_prose};
+use harper_core::language::manifest::{detect_language, dictionary, new_curated_for_language, parser_for_prose};
 use harper_core::languages::Language;
 use harper_core::linting::{FlatConfig, LintGroup};
 use harper_core::parsers::{CollapseIdentifiers, IsolateEnglish, Parser};
@@ -481,7 +481,7 @@ impl Backend {
             DocumentState {
                 ignored_lints,
                 linter: {
-                    let mut l = LintGroup::new_curated(dict.clone(), detected_language);
+                    let mut l = new_curated_for_language(dict.clone(), detected_language);
                     l.config.merge_from(lint_config.clone());
                     l
                 },
@@ -503,7 +503,7 @@ impl Backend {
         if doc_state.dict != dict {
             doc_state.dict = dict.clone();
             info!("Constructing new linter because of modified dictionary.");
-            let mut l = LintGroup::new_curated(dict.clone(), detected_language);
+            let mut l = new_curated_for_language(dict.clone(), detected_language);
             l.config.merge_from(lint_config.clone());
             doc_state.linter = l;
         }
@@ -531,7 +531,7 @@ impl Backend {
                 let merged = Arc::new(merged);
 
                 doc_state.linter = {
-                    let mut l = LintGroup::new_curated(merged.clone(), language);
+                    let mut l = new_curated_for_language(merged.clone(), language);
                     l.config.merge_from(lint_config.clone());
                     l
                 };
@@ -1044,7 +1044,7 @@ impl LanguageServer for Backend {
             for doc in doc_lock.values_mut() {
                 info!("Constructing new LintGroup for updated configuration.");
                 let doc_language = doc.cached_language.unwrap_or(default_language);
-                let mut l = LintGroup::new_curated(doc.dict.clone(), doc_language);
+                let mut l = new_curated_for_language(doc.dict.clone(), doc_language);
                 l.config.merge_from(lint_config.clone());
                 doc.linter = l;
             }

@@ -11,8 +11,7 @@ use rayon::prelude::*;
 use serde::Serialize;
 
 use harper_core::{
-    DictWordMetadata, Document, Token, TokenKind,
-    languages::Language,
+    Dialect, DictWordMetadata, Document, Token, TokenKind,
     linting::{FlatConfig, Lint, LintGroup, LintKind},
     parsers::MarkdownOptions,
     remove_overlaps_map,
@@ -90,7 +89,7 @@ pub struct LintOptions {
     pub ignore: Option<Vec<String>>,
     pub only: Option<Vec<String>>,
     pub keep_overlapping_lints: bool,
-    pub dialect: Language,
+    pub dialect: Dialect,
     pub weirpack_inputs: Vec<SingleInput>,
     pub color: bool,
     pub format: OutputFormat,
@@ -798,7 +797,7 @@ fn find_longest_doc_line(toks: &[Token]) -> usize {
 }
 
 fn final_report(
-    dialect: Language,
+    dialect: Dialect,
     batch_mode: bool,
     all_lint_kinds: HashMap<LintKind, usize>,
     all_rules: HashMap<String, usize>,

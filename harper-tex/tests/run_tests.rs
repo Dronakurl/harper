@@ -20,7 +20,7 @@ macro_rules! create_test {
                  let dict = FstDictionary::curated();
                  let document = Document::new(&source, &TeX::default(), &dict);
 
-                 let mut linter = LintGroup::new_curated(dict, Language::English(EnglishDialect::American));
+                 let mut linter = LintGroup::new_curated(dict, Dialect::American);
                  let lints = linter.lint(&document);
 
                  dbg!(&lints);
