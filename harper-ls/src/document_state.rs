@@ -28,7 +28,7 @@ impl DocumentState {
         let temp = self.linter.config.clone();
         self.linter
             .config
-            .fill_with_curated_for_language(self.cached_language.unwrap_or_default());
+            .fill_with_curated();
 
         let mut lints = self.linter.organized_lints(&self.document);
 
@@ -58,7 +58,7 @@ impl DocumentState {
         let temp = self.linter.config.clone();
         self.linter
             .config
-            .fill_with_curated_for_language(self.cached_language.unwrap_or_default());
+            .fill_with_curated();
 
         let mut lints = self.linter.lint(&self.document);
 

@@ -292,7 +292,7 @@ use crate::linting::{
     be_adjective_confusions, closed_compounds, initialisms, phrase_set_corrections, weir_rules,
 };
 use crate::spell::Dictionary;
-use crate::{Dialect, Document, Lrc, TokenStringExt};
+use crate::{Dialect, Document, Language, Lrc, TokenStringExt};
 
 pub use flat_config::FlatConfig;
 pub use structured_config::{
@@ -513,7 +513,14 @@ impl LintGroup {
         self
     }
 
-    pub fn new_curated(dictionary: Arc<impl Dictionary + 'static>, dialect: Dialect) -> Self {
+    pub fn new_curated(dictionary: Arc<impl Dictionary + 'static>, language: Language) -> Self {
+        // Convert Language to Dialect for backward compatibility
+        let dialect = match language {
+            Language::English(dialect) => dialect,
+            Language::German(_) => Dialect::American, // Fallback for non-English languages
+            Language::Portuguese(_) => Dialect::American, // Fallback for non-English languages
+        };
+        
         let mut out = Self::empty();
 
         /// Add a `Linter` to the group, setting it to be enabled or disabled.
@@ -898,9 +905,9 @@ impl LintGroup {
     /// Create a new curated group with all config values cleared out.
     pub fn new_curated_empty_config(
         dictionary: Arc<impl Dictionary + 'static>,
-        dialect: Dialect,
+        language: Language,
     ) -> Self {
-        let mut group = Self::new_curated(dictionary, dialect);
+        let mut group = Self::new_curated(dictionary, language);
         group.config.clear();
         group
     }
@@ -1043,7 +1050,7 @@ mod tests {
     use crate::{Dialect, Document, linting::Linter};
 
     fn test_group() -> LintGroup {
-        LintGroup::new_curated(Arc::new(MutableDictionary::curated()), Dialect::American)
+        LintGroup::new_curated(Arc::new(MutableDictionary::curated()), Language::English(Dialect::American))
     }
 
     #[test]
@@ -1135,14 +1142,14 @@ mod tests {
     #[test]
     fn can_get_all_descriptions() {
         let group =
-            LintGroup::new_curated(Arc::new(MutableDictionary::default()), Dialect::American);
+            LintGroup::new_curated(Arc::new(MutableDictionary::default()), Language::English(Dialect::American));
         group.all_descriptions();
     }
 
     #[test]
     fn can_get_all_descriptions_as_html() {
         let group =
-            LintGroup::new_curated(Arc::new(MutableDictionary::default()), Dialect::American);
+            LintGroup::new_curated(Arc::new(MutableDictionary::default()), Language::English(Dialect::American));
         group.all_descriptions_html();
     }
 
@@ -1177,11 +1184,11 @@ mod tests {
     ///    in the context of another linter's description.
     #[test]
     fn lint_descriptions_are_clean() {
-        let lints_to_check = LintGroup::new_curated(FstDictionary::curated(), Dialect::American);
+        let lints_to_check = LintGroup::new_curated(FstDictionary::curated(), Language::English(Dialect::American));
 
         let enforcer_config = FlatConfig::new_curated();
         let mut lints_to_enforce =
-            LintGroup::new_curated(FstDictionary::curated(), Dialect::American)
+            LintGroup::new_curated(FstDictionary::curated(), Language::English(Dialect::American))
                 .with_lint_config(enforcer_config);
 
         let name_description_pairs: Vec<_> = lints_to_check
@@ -1209,7 +1216,7 @@ mod tests {
     #[test]
     fn no_linter_names_clash() {
         let group =
-            LintGroup::new_curated(Arc::new(MutableDictionary::default()), Dialect::American);
+            LintGroup::new_curated(Arc::new(MutableDictionary::default()), Language::English(Dialect::American));
 
         if let Some(names) = &group.clashing_linter_names {
             if !names.is_empty() {

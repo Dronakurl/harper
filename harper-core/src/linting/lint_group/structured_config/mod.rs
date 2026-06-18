@@ -315,7 +315,7 @@ mod tests {
         let curated_rule_names = collect_rule_names(&curated);
 
         let runtime_rule_names =
-            LintGroup::new_curated(MutableDictionary::new().into(), Dialect::American)
+            LintGroup::new_curated(MutableDictionary::new().into(), Language::English(Dialect::American))
                 .iter_keys()
                 .map(str::to_owned)
                 .collect::<BTreeSet<_>>();

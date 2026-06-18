@@ -11,8 +11,7 @@ use crate::io_utils::fileify_path;
 use anyhow::{Context, Result, anyhow};
 use harper_asciidoc::AsciidocParser;
 use harper_comments::CommentParser;
-use harper_core::language::manifest::detect_language;
-use harper_core::language::registry;
+use harper_core::language::manifest::{detect_language, dictionary, parser_for_prose};
 use harper_core::languages::Language;
 use harper_core::linting::{FlatConfig, LintGroup};
 use harper_core::parsers::{CollapseIdentifiers, IsolateEnglish, Parser};
@@ -281,7 +280,7 @@ impl Backend {
     async fn generate_global_dictionary(&self, language: Language) -> Result<MergedDictionary> {
         let mut dict = MergedDictionary::new();
 
-        dict.add_dictionary(registry::dictionary(language));
+        dict.add_dictionary(dictionary(language));
         info!(
             "Loaded {:?} dictionary for language: {:?}",
             language.family(),
@@ -598,7 +597,7 @@ impl Backend {
                 }
             }
             "mail" | "markdown" | "quarto" | "org" | "plaintext" | "text" => {
-                registry::parser_for_prose(language_id, detected_language, markdown_options)
+                parser_for_prose(language_id, detected_language, markdown_options)
             }
             "python" => Some(Box::new(PythonParser::default())),
             "typst" => Some(Box::new(Typst)),

@@ -15,7 +15,7 @@ impl Dialect {
 
 fn german_lint_group() -> LintGroup {
     let dict = curated_german_dictionary();
-    LintGroup::new_curated(dict, Dialect::German)
+    LintGroup::new_curated(dict, Language::German(GermanDialect::Standard))
 }
 
 /// Test 1: German parser functionality

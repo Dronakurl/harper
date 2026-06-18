@@ -7,7 +7,7 @@ use hashbrown::HashMap;
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 
 use super::LintGroup;
-use crate::Dialect;
+use crate::{Dialect, Language};
 use crate::spell::MutableDictionary;
 
 fn ser_ordered<S>(map: &HashMap<String, Option<bool>>, ser: S) -> Result<S::Ok, S::Error>
@@ -46,7 +46,7 @@ impl FlatConfig {
             .get_or_init(|| {
                 // The Dictionary and Dialect do not matter, we're just after the config.
                 let group =
-                    LintGroup::new_curated(MutableDictionary::new().into(), Dialect::American);
+                    LintGroup::new_curated(MutableDictionary::new().into(), Language::English(Dialect::American));
                 group.config
             })
             .clone()

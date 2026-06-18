@@ -14,7 +14,7 @@ impl Dialect {
 
 fn create_german_lint_group() -> LintGroup {
     let dict = curated_german_dictionary();
-    let mut linter = LintGroup::new_curated(dict.clone(), Dialect::German);
+    let mut linter = LintGroup::new_curated(dict.clone(), Language::German(GermanDialect::Standard));
     // Add German-specific linters that are not yet in the curated group
     linter.add("GermanSpellCheck", GermanSpellCheck::new(dict.clone()));
     linter.config.set_rule_enabled("GermanSpellCheck", true);
