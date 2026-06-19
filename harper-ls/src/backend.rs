@@ -1278,7 +1278,7 @@ mod tests {
 
         assert_eq!(
             harness.backend().get_document_language(&uri).await,
-            Language::German(harper_core::language::german::dialects::GermanDialect::Standard)
+            harper_core::language::parse_language("de").unwrap()
         );
 
         let diagnostics = harness.backend().generate_diagnostics(&uri).await;
@@ -1310,7 +1310,7 @@ mod tests {
 
         assert_eq!(
             harness.backend().get_document_language(&uri).await,
-            Language::German(harper_core::language::german::dialects::GermanDialect::Standard)
+            harper_core::language::parse_language("de").unwrap()
         );
 
         let diagnostics = harness.backend().generate_diagnostics(&uri).await;
@@ -1338,8 +1338,7 @@ mod tests {
         let harness = TestHarness::new().await;
         let uri = harness.file_uri("german-dicts.md");
 
-        use harper_core::language::german::dialects::GermanDialect;
-        let german_lang = Language::German(GermanDialect::Standard);
+        let german_lang = harper_core::language::parse_language("de").unwrap();
 
         harness
             .open_document(&uri, "markdown", german_text_without_errors())
@@ -1412,8 +1411,7 @@ mod tests {
         let harness = TestHarness::new().await;
         let uri = harness.file_uri("german-unsaved-buffer.md");
 
-        use harper_core::language::german::dialects::GermanDialect;
-        let german_lang = Language::German(GermanDialect::Standard);
+        let german_lang = harper_core::language::parse_language("de").unwrap();
 
         harness
             .open_document(&uri, "markdown", german_text_with_workspace_word())
@@ -1495,8 +1493,7 @@ mod tests {
             .unwrap();
         assert!(english_user_dict.contains("HarperWord"));
 
-        use harper_core::language::german::dialects::GermanDialect;
-        let german_lang = Language::German(GermanDialect::Standard);
+        let german_lang = harper_core::language::parse_language("de").unwrap();
         let german_user_dict =
             Backend::dialect_path(&harness.test_config.user_dict_path, german_lang);
         if german_user_dict.exists() {

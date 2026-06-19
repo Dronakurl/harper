@@ -1,6 +1,6 @@
 //! German dialect support.
 
-use crate::dialects::dialect_trait::{Dialect, DialectFlags};
+use crate::language::dialects::dialect_trait::{Dialect, DialectFlags};
 use itertools::Itertools;
 use serde::{Deserialize, Serialize};
 use std::convert::TryFrom;

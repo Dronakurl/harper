@@ -1,6 +1,6 @@
 use harper_core::linting::{LintGroup, Linter};
 use harper_core::spell::FstDictionary;
-use harper_core::{Document, EnglishDialect, Language};
+use harper_core::{Document, EnglishDialect};
 
 /// Creates a unit test checking that the linting of a Markdown document (in
 /// `tests_sources`) produces the expected number of lints.

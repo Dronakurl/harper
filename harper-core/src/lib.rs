@@ -5,7 +5,6 @@ mod case;
 mod char_ext;
 mod char_string;
 mod currency;
-mod dialects;
 mod dict_word_metadata;
 mod dict_word_metadata_orthography;
 mod document;
@@ -17,6 +16,7 @@ mod indefinite_article;
 mod irregular_nouns;
 mod irregular_verbs;
 pub mod language;
+pub mod language_detection;
 mod lexing;
 pub mod linting;
 mod mask;
@@ -45,9 +45,7 @@ use std::collections::{BTreeMap, VecDeque};
 pub use case::{Case, CaseIterExt};
 pub use char_string::{CharString, CharStringExt};
 pub use currency::Currency;
-pub use dialects::dialect_enum::{DialectFlagsEnum, DialectsEnum};
-pub use dialects::dialect_flags::DialectFlags;
-pub use dialects::english::{EnglishDialect, EnglishDialectFlags};
+pub use language::dialects::english::EnglishDialect;
 
 // Type alias for master branch compatibility during feature development.
 // This allows linting modules to use `Dialect` (matching master) while preserving
@@ -65,11 +63,7 @@ pub use ignored_lints::{IgnoredLints, LintContext};
 pub use indefinite_article::{InitialSound, starts_with_vowel};
 pub use irregular_nouns::IrregularNouns;
 pub use irregular_verbs::IrregularVerbs;
-pub use language::{GermanDialect, GermanDialectFlags, Language, LanguageFamily};
-pub use language::{
-    PortugueseDialect, PortugueseDialectFlags, curated_portuguese_dictionary, portuguese_dictionary,
-};
-pub use language::{curated_german_dictionary, german_dictionary};
+pub use language::{Language, LanguageFamily};
 pub use linting::{Lint, LintGroup, LintKind, Linter, Suggestion};
 pub use mask::{Mask, Masker, RegexMasker};
 pub use number::{Number, OrdinalSuffix};

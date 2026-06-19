@@ -56,7 +56,8 @@ impl Dialect for EnglishDialect {
     /// # Examples
     ///
     /// ```
-    /// use harper_core::EnglishDialect;
+    /// use harper_core::language::dialects::english::EnglishDialect;
+    /// use harper_core::language::dialects::dialect_trait::Dialect;
     ///
     /// let abbrs = ["US", "CA", "AU", "GB", "IN"];
     /// let mut dialects = abbrs.iter().map(|abbr| EnglishDialect::try_from_abbr(abbr));

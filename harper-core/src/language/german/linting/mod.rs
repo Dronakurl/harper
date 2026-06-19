@@ -13,14 +13,17 @@ use crate::linting::LintGroup;
 
 /// Create a new curated lint group for German language.
 pub fn new_curated_german(dialect: GermanDialect) -> LintGroup {
-    use crate::language::registry::{add_language_specific_linters, weir_rules_lint_group};
+    use crate::language::german::module::GermanModule;
+    use crate::language::module::LanguageModule;
+    use crate::language::registry::weir_rules_lint_group;
 
     let dictionary = curated_german_dictionary();
     let language = Language::German(dialect);
 
     let mut group = LintGroup::empty();
     group.merge_from(weir_rules_lint_group(language));
-    add_language_specific_linters(&mut group, language, dictionary.clone());
+    group.merge_from(GermanModule::rust_lint_group(dictionary));
+    group.set_all_rules_to(Some(true));
 
     group
 }

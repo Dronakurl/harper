@@ -4,12 +4,11 @@ use serde_json::Value;
 
 // Import dialect types from the central dialects module for modularity.
 use crate::TokenStringExt;
-use crate::dialects::dialect_enum::DialectsEnum;
-use crate::dialects::dialect_trait::DialectFlags as _;
-use crate::dialects::english::{EnglishDialect, EnglishDialectFlags};
-use crate::language::{
-    GermanDialect, GermanDialectFlags, PortugueseDialect, PortugueseDialectFlags,
-};
+use crate::language::dialects::dialect_enum::DialectsEnum;
+use crate::language::dialects::dialect_trait::DialectFlags as _;
+use crate::language::dialects::english::{EnglishDialect, EnglishDialectFlags};
+use crate::language::german::dialects::{GermanDialect, GermanDialectFlags};
+use crate::language::portuguese::dialects::{PortugueseDialect, PortugueseDialectFlags};
 
 /// This represents a collection of dialect flags for all supported languages.
 /// Each language has its own set of dialect flags.

@@ -5,24 +5,9 @@ use paste::paste;
 use serde::{Deserialize, Serialize};
 use smallvec::SmallVec;
 
-// Import dialect types from the central dialects module for modularity.
-use crate::dialects::dialect_flags::DialectFlags;
 use crate::dict_word_metadata_orthography::OrthFlags;
+use crate::language::dialects::dialect_flags::DialectFlags;
 use crate::spell::WordId;
-
-// Import types needed for tests
-#[cfg(test)]
-use crate::dialects::dialect_enum::DialectsEnum;
-#[cfg(test)]
-use crate::dialects::english::EnglishDialect;
-#[cfg(test)]
-use serde_json::json;
-
-// Import all dialect types from central re-exports
-
-// =============================================================================
-// DIALECT FLAGS CODE GENERATION
-// =============================================================================
 // This section uses macros to generate per-language code.
 // To add a new language, update the LANGUAGES! macro below.
 
@@ -1058,6 +1043,11 @@ impl AffixData {
 // Use the DialectFlags (language-scoped) for serialization/deserialization.
 #[test]
 fn deserializes_new_language_scoped_dialect_flags() {
+    use serde_json::json;
+
+    use crate::language::dialects::dialect_enum::DialectsEnum;
+    use crate::language::dialects::english::EnglishDialect;
+
     let metadata: crate::DictWordMetadata = serde_json::from_value(json!({
         "dialects": {
             "english": "AMERICAN",
@@ -1080,6 +1070,9 @@ fn deserializes_new_language_scoped_dialect_flags() {
 
 #[test]
 fn serializes_dialect_flags_to_language_scoped_format() {
+    use crate::language::dialects::dialect_enum::DialectsEnum;
+    use crate::language::dialects::english::EnglishDialect;
+
     let metadata = DictWordMetadata {
         dialects: DialectFlags::from_dialect(DialectsEnum::English(EnglishDialect::American)),
         ..DictWordMetadata::default()
@@ -1788,60 +1781,5 @@ pub mod tests {
             .get_word_metadata_str(word)
             .unwrap_or_else(|| panic!("Word '{word}' not found in dictionary"))
             .into_owned()
-    }
-
-    #[cfg(test)]
-    mod dialect {
-
-        use crate::DictWordMetadata;
-        use crate::dialects::dialect_enum::DialectsEnum;
-        use crate::dialects::dialect_flags::DialectFlags;
-        use crate::dialects::english::EnglishDialect;
-        use serde_json::json;
-
-        #[test]
-        fn serializes_dialect_flags_to_language_scoped_format() {
-            let metadata = DictWordMetadata {
-                dialects: DialectFlags::from_dialect(DialectsEnum::English(
-                    EnglishDialect::American,
-                )),
-                ..DictWordMetadata::default()
-            };
-
-            let value = serde_json::to_value(metadata).unwrap();
-            let dialects = value.get("dialects").unwrap();
-            assert!(dialects.get("english").is_some());
-            assert!(dialects.get("german").is_some());
-            assert!(dialects.get("portuguese").is_some());
-            assert_eq!(dialects.get("english").unwrap(), "AMERICAN");
-        }
-
-        #[test]
-        fn deserializes_new_language_scoped_dialect_flags() {
-            let metadata: crate::DictWordMetadata = serde_json::from_value(json!({
-                "dialects": {
-                    "english": "AMERICAN",
-                    "german": "STANDARD",
-                    "portuguese": "EUROPEAN"
-                }
-            }))
-            .unwrap();
-
-            assert!(
-                metadata
-                    .dialects
-                    .is_english_dialect_enabled(EnglishDialect::American)
-            );
-            assert!(
-                metadata
-                    .dialects
-                    .is_german_dialect_enabled(crate::language::GermanDialect::Standard)
-            );
-            assert!(
-                metadata
-                    .dialects
-                    .is_portuguese_dialect_enabled(crate::language::PortugueseDialect::European)
-            );
-        }
     }
 }

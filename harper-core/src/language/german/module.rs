@@ -8,7 +8,6 @@ use crate::language::german::lexing::lex_german_token;
 use crate::language::german::linting::{new_curated_german, weir_rules};
 use crate::language::german::parsers::PlainGerman;
 use crate::language::german::spell::german_dictionary;
-use crate::language::languages::Language;
 use crate::lexing::FoundToken;
 use crate::linting::LintGroup;
 use crate::parsers::Parser;
@@ -44,11 +43,27 @@ impl LanguageModule for GermanModule {
     }
 
     fn rust_lint_group(dictionary: Arc<impl Dictionary + 'static>) -> LintGroup {
-        use crate::language::registry::add_language_specific_linters;
+        use crate::language::german::linting::{
+            german_filler_words::GermanFillerWords,
+            german_noun_capitalization::GermanNounCapitalization,
+            german_sentence_capitalization::GermanSentenceCapitalization,
+            german_spell_check::GermanSpellCheck,
+        };
 
-        let language = Language::German(GermanDialect::default());
         let mut group = LintGroup::empty();
-        add_language_specific_linters(&mut group, language, dictionary);
+        group.add(
+            "GermanSpellCheck",
+            GermanSpellCheck::new(dictionary.clone()),
+        );
+        group.add(
+            "GermanNounCapitalization",
+            GermanNounCapitalization::new(dictionary.clone()),
+        );
+        group.add(
+            "GermanSentenceCapitalization",
+            GermanSentenceCapitalization::new(dictionary.clone()),
+        );
+        group.add("GermanFillerWords", GermanFillerWords::default());
         group
     }
 

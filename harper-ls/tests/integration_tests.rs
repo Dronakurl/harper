@@ -3,14 +3,15 @@
 // LSP open/change/command flows are tested in backend.rs.
 
 use harper_core::language::german::dialects::GermanDialect;
-use harper_core::language::manifest::{detect_language, new_curated_for_language};
+use harper_core::language::german::spell::curated_german_dictionary;
+use harper_core::language::registry::{detect_language, new_curated_for_language};
 use harper_core::spell::FstDictionary;
-use harper_core::{Dialect, EnglishDialect, Language, curated_german_dictionary};
+use harper_core::{Document, EnglishDialect, Language};
 
 struct TestDialect;
 impl TestDialect {
-    const AMERICAN: Language = Language::English(EnglishTestDialect::American);
-    const GERMAN: Language = Language::German(GermanTestDialect::Standard);
+    const AMERICAN: Language = Language::English(EnglishDialect::American);
+    const GERMAN: Language = Language::German(GermanDialect::Standard);
 }
 
 /// Test full workflow: open German file → auto-detect → lint → suggest corrections
@@ -31,12 +32,12 @@ fn test_full_workflow_german_document() {
     // Step 2: Parse document with correct parser
     let document = Document::new(
         german_text,
-        &harper_core::parsers::PlainGerman,
+        &harper_core::language::german::parsers::PlainGerman,
         &curated_german_dictionary(),
     );
 
     // Step 3: Lint the document
-    use harper_core::linting::{LintGroup, Linter};
+    use harper_core::linting::Linter;
     let mut linter = new_curated_for_language(dict, TestDialect::GERMAN);
     let lints = linter.lint(&document);
 
@@ -82,11 +83,11 @@ fn test_full_workflow_german_spelling_errors() {
     // Parse and lint
     let document = Document::new(
         text,
-        &harper_core::parsers::PlainGerman,
+        &harper_core::language::german::parsers::PlainGerman,
         &curated_german_dictionary(),
     );
 
-    use harper_core::linting::{LintGroup, Linter};
+    use harper_core::linting::Linter;
     let mut linter = new_curated_for_language(dict, TestDialect::GERMAN);
     let lints = linter.lint(&document);
 
@@ -128,11 +129,11 @@ fn test_mixed_language_german_english_quotes() {
     // Parse and lint - should handle gracefully
     let document = Document::new(
         text,
-        &harper_core::parsers::PlainGerman,
+        &harper_core::language::german::parsers::PlainGerman,
         &curated_german_dictionary(),
     );
 
-    use harper_core::linting::{LintGroup, Linter};
+    use harper_core::linting::Linter;
     let mut linter = new_curated_for_language(dict, TestDialect::GERMAN);
 
     // Should not crash on mixed content
@@ -162,7 +163,7 @@ fn test_mixed_language_english_german_terms() {
     // Should not crash or generate excessive lints
     let document = Document::new_curated(text, &harper_core::parsers::PlainEnglish);
 
-    use harper_core::linting::{LintGroup, Linter};
+    use harper_core::linting::Linter;
     let mut linter = new_curated_for_language(dict, TestDialect::AMERICAN);
     let lints = linter.lint(&document);
 
@@ -194,20 +195,15 @@ fn test_code_switching_mid_sentence() {
     let document = match detected {
         TestDialect::GERMAN => Document::new(
             text,
-            &harper_core::parsers::PlainGerman,
+            &harper_core::language::german::parsers::PlainGerman,
             &curated_german_dictionary(),
         ),
         _ => Document::new_curated(text, &harper_core::parsers::PlainEnglish),
     };
 
-    use harper_core::linting::{LintGroup, Linter};
-    let mut linter = LintGroup::new_curated(
-        match detected {
-            TestDialect::GERMAN => curated_german_dictionary(),
-            _ => harper_core::spell::FstDictionary::curated(),
-        },
-        detected,
-    );
+    use harper_core::linting::Linter;
+    let mut linter =
+        new_curated_for_language(harper_core::spell::FstDictionary::curated(), detected);
 
     let lints = linter.lint(&document);
     // Should handle code-switching gracefully
@@ -235,7 +231,7 @@ fn test_empty_document_workflow() {
     // Should handle empty document gracefully
     let document = Document::new_curated(text, &harper_core::parsers::PlainEnglish);
 
-    use harper_core::linting::{LintGroup, Linter};
+    use harper_core::linting::Linter;
     let mut linter = new_curated_for_language(dict, TestDialect::AMERICAN);
     let lints = linter.lint(&document);
 
@@ -261,7 +257,7 @@ fn test_very_short_text_workflow() {
     // Should handle short text gracefully
     let document = Document::new_curated(text, &harper_core::parsers::PlainEnglish);
 
-    use harper_core::linting::{LintGroup, Linter};
+    use harper_core::linting::Linter;
     let mut linter = new_curated_for_language(dict, TestDialect::AMERICAN);
     let lints = linter.lint(&document);
 
@@ -288,12 +284,12 @@ fn test_full_workflow_performance() {
     // Step 2: Parse
     let document = Document::new(
         text,
-        &harper_core::parsers::PlainGerman,
+        &harper_core::language::german::parsers::PlainGerman,
         &curated_german_dictionary(),
     );
 
     // Step 3: Lint
-    use harper_core::linting::{LintGroup, Linter};
+    use harper_core::linting::Linter;
     let mut linter = new_curated_for_language(dict, TestDialect::GERMAN);
     let lints = linter.lint(&document);
 

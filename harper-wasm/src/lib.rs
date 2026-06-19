@@ -5,17 +5,18 @@ use std::convert::Into;
 use std::io::Cursor;
 use std::sync::Arc;
 
-use harper_core::language::english::language_detection::is_doc_likely_english;
+use harper_core::language::dialects::dialect_flags::DialectFlags;
+use harper_core::language_detection::is_doc_likely_english;
 use harper_core::linting::{HumanReadableStructuredConfig, StructuredConfig};
 use harper_core::linting::{LintGroup, Linter as _};
 use harper_core::parsers::{IsolateEnglish, Markdown, Mask, OopsAllHeadings, Parser, PlainEnglish};
 use harper_core::remove_overlaps_map;
 use harper_core::weirpack::Weirpack;
 use harper_core::{
-    CharString, DictWordMetadata, Document, IgnoredLints, LintContext, Lrc, remove_overlaps,
+    CharString, DictWordMetadata, Document, IgnoredLints, LintContext, Lrc, RegexMasker,
+    remove_overlaps,
     spell::{Dictionary, FstDictionary, MergedDictionary, MutableDictionary},
 };
-use harper_core::{DialectFlags, RegexMasker};
 use harper_stats::{Record, RecordKind, Stats};
 use serde::{Deserialize, Serialize};
 use serde_wasm_bindgen::Serializer;

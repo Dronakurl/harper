@@ -1,7 +1,8 @@
 // Basic test for German language support
 // This demonstrates that the German parser works
 
-use harper_core::parsers::{Parser, PlainGerman};
+use harper_core::language::german::parsers::PlainGerman;
+use harper_core::parsers::Parser;
 
 #[test]
 fn test_german_parser() {

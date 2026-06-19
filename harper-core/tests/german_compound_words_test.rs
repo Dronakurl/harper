@@ -1,19 +1,15 @@
 // Comprehensive German compound word edge case tests
 // Tests Fugen-s, Fugen-n, and complex compound word decomposition
 
+use harper_core::Document;
 use harper_core::language::german::dialects::GermanDialect;
-use harper_core::language::german::linting::{
-    german_spell_check::GermanSpellCheck, new_curated_german,
-};
+use harper_core::language::german::linting::new_curated_german;
+use harper_core::language::german::parsers::PlainGerman;
 use harper_core::language::german::spell::curated_german_dictionary;
 use harper_core::linting::{LintGroup, Linter};
-use harper_core::{Document, Language};
 
 fn create_german_lint_group() -> LintGroup {
-    let dict = curated_german_dictionary();
-    let mut linter = new_curated_german(GermanDialect::Standard);
-    // The new_curated_german already includes GermanSpellCheck, so we don't need to add it manually
-    linter
+    new_curated_german(GermanDialect::Standard)
 }
 
 /// Test basic compound word decomposition (no Fugen-s/n)
@@ -22,11 +18,7 @@ fn test_basic_compound_word() {
     let mut linter = create_german_lint_group();
 
     let text = "Das Gartenhaus ist groß.";
-    let document = Document::new(
-        text,
-        &harper_core::parsers::PlainGerman,
-        &curated_german_dictionary(),
-    );
+    let document = Document::new(text, &PlainGerman, &curated_german_dictionary());
     let lints = linter.lint(&document);
 
     // "Gartenhaus" should be recognized as valid compound (Garten + Haus)
@@ -55,11 +47,7 @@ fn test_fugen_s_compounds() {
 
     for word in test_cases {
         let text = format!("Das {} ist wichtig.", word);
-        let document = Document::new(
-            &text,
-            &harper_core::parsers::PlainGerman,
-            &curated_german_dictionary(),
-        );
+        let document = Document::new(&text, &PlainGerman, &curated_german_dictionary());
         let lints = linter.lint(&document);
 
         let word_lints: Vec<_> = lints.iter().filter(|l| l.message.contains(word)).collect();
@@ -84,11 +72,7 @@ fn test_fugen_n_compounds() {
 
     for word in test_cases {
         let text = format!("Am {} stehen Bäume.", word);
-        let document = Document::new(
-            &text,
-            &harper_core::parsers::PlainGerman,
-            &curated_german_dictionary(),
-        );
+        let document = Document::new(&text, &PlainGerman, &curated_german_dictionary());
         let lints = linter.lint(&document);
 
         let word_lints: Vec<_> = lints.iter().filter(|l| l.message.contains(word)).collect();
@@ -114,11 +98,7 @@ fn test_three_part_compounds() {
 
     for word in test_cases {
         let text = format!("Ein {} ist klassisch.", word);
-        let document = Document::new(
-            &text,
-            &harper_core::parsers::PlainGerman,
-            &curated_german_dictionary(),
-        );
+        let document = Document::new(&text, &PlainGerman, &curated_german_dictionary());
         let lints = linter.lint(&document);
 
         let word_lints: Vec<_> = lints.iter().filter(|l| l.message.contains(word)).collect();
@@ -143,11 +123,7 @@ fn test_misspelled_compounds() {
 
     for (_correct, incorrect) in test_cases {
         let text = format!("Der {} ist neu.", incorrect);
-        let document = Document::new(
-            &text,
-            &harper_core::parsers::PlainGerman,
-            &curated_german_dictionary(),
-        );
+        let document = Document::new(&text, &PlainGerman, &curated_german_dictionary());
         let lints = linter.lint(&document);
 
         assert!(
@@ -165,11 +141,7 @@ fn test_short_word_no_decomposition() {
 
     // Short words that aren't compounds
     let text = "Das ist der Haus.";
-    let document = Document::new(
-        text,
-        &harper_core::parsers::PlainGerman,
-        &curated_german_dictionary(),
-    );
+    let document = Document::new(text, &PlainGerman, &curated_german_dictionary());
     let lints = linter.lint(&document);
 
     // "Haus" is standalone, shouldn't trigger compound decomposition logic
@@ -192,11 +164,7 @@ fn test_compounds_with_umlauts() {
 
     for word in test_cases {
         let text = format!("Die {} ist wichtig.", word);
-        let document = Document::new(
-            &text,
-            &harper_core::parsers::PlainGerman,
-            &curated_german_dictionary(),
-        );
+        let document = Document::new(&text, &PlainGerman, &curated_german_dictionary());
         let lints = linter.lint(&document);
 
         let word_lints: Vec<_> = lints.iter().filter(|l| l.message.contains(word)).collect();
@@ -219,11 +187,7 @@ fn test_compound_decomposition_performance() {
                 Der Straßenrand ist schön und der Liebesbrief ist kurz.";
 
     let start = std::time::Instant::now();
-    let document = Document::new(
-        text,
-        &harper_core::parsers::PlainGerman,
-        &curated_german_dictionary(),
-    );
+    let document = Document::new(text, &PlainGerman, &curated_german_dictionary());
     let _lints = linter.lint(&document);
     let duration = start.elapsed();
 
@@ -241,11 +205,7 @@ fn test_no_false_positives_on_simples_words() {
 
     // Simple, non-compound words
     let text = "Der Hund ist im Garten und die Katze schläft.";
-    let document = Document::new(
-        text,
-        &harper_core::parsers::PlainGerman,
-        &curated_german_dictionary(),
-    );
+    let document = Document::new(text, &PlainGerman, &curated_german_dictionary());
     let lints = linter.lint(&document);
 
     // Should have very few lints for correct simple text

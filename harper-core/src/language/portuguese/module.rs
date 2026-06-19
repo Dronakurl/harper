@@ -2,7 +2,6 @@
 
 use std::sync::Arc;
 
-use crate::language::languages::Language;
 use crate::language::portuguese::dialects::PortugueseDialect;
 use crate::language::portuguese::language_detection::PortugueseDetector;
 use crate::language::portuguese::lexing::lex_portuguese_token;
@@ -44,11 +43,13 @@ impl LanguageModule for PortugueseModule {
     }
 
     fn rust_lint_group(dictionary: Arc<impl Dictionary + 'static>) -> LintGroup {
-        use crate::language::registry::add_language_specific_linters;
+        use crate::language::portuguese::linting::portuguese_spell_check::PortugueseSpellCheck;
 
-        let language = Language::Portuguese(PortugueseDialect::default());
         let mut group = LintGroup::empty();
-        add_language_specific_linters(&mut group, language, dictionary);
+        group.add(
+            "portuguese_spell_check",
+            PortugueseSpellCheck::new(dictionary),
+        );
         group
     }
 
@@ -58,5 +59,23 @@ impl LanguageModule for PortugueseModule {
 
     fn curated_lint_group(dialect: Self::Dialect) -> LintGroup {
         new_curated_portuguese(dialect)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::spell::FstDictionary;
+
+    #[test]
+    fn test_rust_lint_group_contains_spell_check() {
+        let dict = Arc::new(FstDictionary::curated()); // Use a dummy dictionary for testing
+        let group = PortugueseModule::rust_lint_group(dict);
+
+        // Check if the spell check linter was added
+        assert!(
+            group.contains_key("portuguese_spell_check"),
+            "rust_lint_group should contain portuguese_spell_check linter"
+        );
     }
 }

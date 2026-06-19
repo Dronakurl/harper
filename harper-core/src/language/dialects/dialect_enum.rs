@@ -3,12 +3,11 @@ use std::ops::{BitOr, BitOrAssign};
 use serde::{Deserialize, Serialize};
 use strum_macros::{Display, EnumCount, EnumDiscriminants, EnumIter, EnumString, VariantArray};
 
-use crate::dialects::dialect_trait::{Dialect, DialectFlags};
-use crate::dialects::english::{EnglishDialect, EnglishDialectFlags};
-use crate::language::{
-    GermanDialect, GermanDialectFlags, Language, LanguageFamily, PortugueseDialect,
-    PortugueseDialectFlags,
-};
+use crate::language::dialects::dialect_trait::{Dialect, DialectFlags};
+use crate::language::dialects::english::{EnglishDialect, EnglishDialectFlags};
+use crate::language::german::dialects::{GermanDialect, GermanDialectFlags};
+use crate::language::languages::{Language, LanguageFamily};
+use crate::language::portuguese::dialects::{PortugueseDialect, PortugueseDialectFlags};
 
 #[derive(
     Debug,
@@ -289,8 +288,11 @@ impl_from_x_for_dialect_enum!(PortugueseDialect, PortugueseDialectFlags, Portugu
 
 #[cfg(test)]
 mod tests {
-    use crate::dialects::dialect_trait::DialectFlags as _;
-    use crate::{DialectFlagsEnum, DialectsEnum, EnglishDialect, EnglishDialectFlags};
+    use crate::language::dialects::dialect_enum::{
+        DialectFlagsEnum, DialectsEnum, EnglishDialectFlags,
+    };
+    use crate::language::dialects::dialect_trait::DialectFlags as _;
+    use crate::language::dialects::english::EnglishDialect;
 
     #[test]
     fn test_bit_or_assign_dialect_flags() {

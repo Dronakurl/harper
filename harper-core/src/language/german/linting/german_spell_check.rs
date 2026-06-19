@@ -210,8 +210,7 @@ mod tests {
     use crate::language::german::dialects::GermanDialect;
     use crate::language::german::parsers::PlainGerman;
     use crate::language::german::spell::curated_german_dictionary;
-    use crate::language::languages::Language;
-    use crate::linting::{LintGroup, Linter};
+    use crate::linting::Linter;
 
     fn lint_text(text: &str) -> Vec<String> {
         use crate::language::german::linting::new_curated_german;

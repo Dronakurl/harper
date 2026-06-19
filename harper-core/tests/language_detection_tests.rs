@@ -3,10 +3,11 @@
 //! These tests verify that the language detection system works correctly
 //! for various real-world scenarios.
 
-use harper_core::GermanDialect;
+use harper_core::EnglishDialect;
+use harper_core::language::german::dialects::GermanDialect;
+use harper_core::language::languages::Language;
 use harper_core::language::registry::detect_language;
 use harper_core::spell::FstDictionary;
-use harper_core::{EnglishDialect, Language};
 
 fn test_detection(text: &str, expected_language: Language) {
     let dict = FstDictionary::curated();

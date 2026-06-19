@@ -84,10 +84,9 @@ impl<T: Dictionary> Linter for PortugueseSpellCheck<T> {
 mod tests {
     use super::PortugueseSpellCheck;
     use crate::Document;
-    use crate::language::portuguese::dialects::PortugueseDialect;
     use crate::language::portuguese::parsers::PlainPortuguese;
     use crate::language::portuguese::spell::curated_portuguese_dictionary;
-    use crate::linting::{LintGroup, Linter};
+    use crate::linting::Linter;
 
     fn lint_text(text: &str) -> Vec<String> {
         use crate::language::portuguese::dialects::PortugueseDialect;

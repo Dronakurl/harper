@@ -212,7 +212,7 @@ impl LanguageDetector for GermanDetector {
 mod tests {
     use super::*;
     use crate::Document;
-    use crate::dialects::english::EnglishDialect;
+    use crate::language::dialects::english::EnglishDialect;
     use crate::language::languages::Language;
     use crate::spell::FstDictionary;
 

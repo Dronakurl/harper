@@ -1,6 +1,6 @@
 //! Portuguese dialect support.
 
-use crate::dialects::dialect_trait::{Dialect, DialectFlags};
+use crate::language::dialects::dialect_trait::{Dialect, DialectFlags};
 use itertools::Itertools;
 use serde::{Deserialize, Serialize};
 use strum::{EnumCount as _, VariantArray as _};
@@ -54,7 +54,8 @@ impl Dialect for PortugueseDialect {
     /// # Examples
     ///
     /// ```
-    /// use harper_core::PortugueseDialect;
+    /// use harper_core::language::portuguese::dialects::PortugueseDialect;
+    /// use harper_core::language::dialects::dialect_trait::Dialect;
     ///
     /// let abbrs = ["PT", "BR", "AO"];
     /// let mut dialects = abbrs.iter().map(|abbr| PortugueseDialect::try_from_abbr(abbr));

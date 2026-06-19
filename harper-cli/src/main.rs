@@ -1,6 +1,6 @@
 #![doc = include_str!("../README.md")]
 
-use harper_core::language::Language;
+use harper_core::language::{Language, parse_language};
 use harper_core::spell::{Dictionary, FstDictionary, MutableDictionary, WordId};
 use hashbrown::HashMap;
 use std::collections::BTreeMap;
@@ -19,8 +19,7 @@ use harper_core::linting::LintGroup;
 use harper_core::parsers::{IsolateEnglish, MarkdownOptions};
 use harper_core::weir::WeirLinter;
 use harper_core::{
-    CharStringExt, Dialect, DictWordMetadata, EnglishDialect, GermanDialect, OrthFlags,
-    PortugueseDialect, Span, TokenKind, TokenStringExt,
+    CharStringExt, Dialect, DictWordMetadata, OrthFlags, Span, TokenKind, TokenStringExt,
 };
 #[cfg(feature = "training")]
 use harper_pos_utils::{BrillChunker, BrillTagger, BurnChunkerCpu};
@@ -1019,35 +1018,7 @@ fn main() -> anyhow::Result<()> {
 /// Parse a dialect string into a Language value.
 /// Supports common synonyms, abbreviations, and codes.
 fn parse_dialect(dialect: &str) -> anyhow::Result<Language> {
-    match dialect.to_lowercase().as_str() {
-        "us" | "usa" | "america" | "american" | "en-us" | "en_us" => {
-            Ok(Language::English(EnglishDialect::American))
-        }
-        "uk" | "gb" | "british" | "britain" | "en-gb" | "en_gb" => {
-            Ok(Language::English(EnglishDialect::British))
-        }
-        "au" | "aus" | "australia" | "australian" | "en-au" | "en_au" => {
-            Ok(Language::English(EnglishDialect::Australian))
-        }
-        "in" | "india" | "indian" | "bharat" | "en-in" | "en_in" => {
-            Ok(Language::English(EnglishDialect::Indian))
-        }
-        "ca" | "canada" | "canadian" | "en-ca" | "en_ca" => {
-            Ok(Language::English(EnglishDialect::Canadian))
-        }
-        "de" | "german" | "deutsch" | "de-de" | "de_de" => {
-            Ok(Language::German(GermanDialect::Standard))
-        }
-        "at" | "austria" | "austrian" | "de-at" | "de_at" => {
-            Ok(Language::German(GermanDialect::Austrian))
-        }
-        "ch" | "switzerland" | "swiss" | "de-ch" | "de_ch" => {
-            Ok(Language::German(GermanDialect::Swiss))
-        }
-        "pt" | "pt-pt" | "pt_pt" | "portuguese" | "português" | "br" | "brazil" | "pt-br"
-        | "pt_br" => Ok(Language::Portuguese(PortugueseDialect::Brazilian)),
-        _ => Err(anyhow!("Unknown dialect: {}", dialect)),
-    }
+    parse_language(dialect).ok_or_else(|| anyhow!("Unknown dialect: {}", dialect))
 }
 
 /// Split a dictionary line into its word and annotation segments
