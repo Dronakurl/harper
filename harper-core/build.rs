@@ -89,7 +89,7 @@ fn write_grouped_weir_boilerplate(weir_rule_dir: &Path, dest: &Path) {
 
         if file_type.is_dir() {
             let public_name = entry.file_name().to_string_lossy().to_string();
-            let children = collect_weir_files(&path, &path, &weir_rule_dir);
+            let children = collect_weir_files(&path, &path, weir_rule_dir);
 
             if !children.is_empty() {
                 grouped_rules.push(GroupedRule {
@@ -102,7 +102,7 @@ fn write_grouped_weir_boilerplate(weir_rule_dir: &Path, dest: &Path) {
 
             standalone_rules.push(StandaloneRule {
                 name: rule_name_from_path(&path),
-                relative_path: path_as_weir_relative(&path, &weir_rule_dir),
+                relative_path: path_as_weir_relative(&path, weir_rule_dir),
             });
         }
     }
@@ -187,58 +187,60 @@ fn main() {
     // Language-specific weir rules (in language/<name>/linting/weir_rules/)
     // Automatically discover all language directories that have weir_rules
     let language_dir = manifest_dir.join("./src/language");
-    
+
     if let Ok(language_entries) = fs::read_dir(&language_dir) {
         for language_entry in language_entries.filter_map(Result::ok) {
             let language_path = language_entry.path();
             if !language_path.is_dir() {
                 continue;
             }
-            
+
             // Extract language name from directory (e.g., "german", "portuguese")
             let language_name = language_path
                 .file_name()
                 .and_then(|name| name.to_str())
                 .map(|name| name.to_uppercase());
-            
+
             if language_name.is_none() {
                 continue;
             }
-            
+
             let language_name = language_name.unwrap();
             let weir_rules_dir = language_path.join("linting/weir_rules");
-            
+
             // Check if the weir_rules directory exists
             if !weir_rules_dir.exists() {
                 continue;
             }
-            
+
             // For German, look in the 'de' subdirectory for locale-specific rules
             let final_weir_dir = if language_name == "GERMAN" {
                 weir_rules_dir.join("de")
             } else {
                 weir_rules_dir
             };
-            
+
             // Only process if the final directory exists and contains .weir files
             if !final_weir_dir.exists() {
                 continue;
             }
-            
+
             let has_weir_files = fs::read_dir(&final_weir_dir)
                 .map(|entries| {
-                    entries.filter_map(Result::ok)
+                    entries
+                        .filter_map(Result::ok)
                         .any(|entry| entry.path().extension().is_some_and(|ext| ext == "weir"))
                 })
                 .unwrap_or(false);
-            
+
             if !has_weir_files {
                 // For Portuguese, always generate the infrastructure even if empty
                 // This maintains consistency with German setup
                 if language_name == "PORTUGUESE" {
                     let lowercase_name = language_name.to_lowercase();
-                    let dest = out_dir.join(format!("{}_weir_rules_generated_list.rs", lowercase_name));
-                    
+                    let dest =
+                        out_dir.join(format!("{}_weir_rules_generated_list.rs", lowercase_name));
+
                     // Write empty list
                     fs::write(&dest, "generate_boilerplate!{[]}").unwrap();
 
@@ -255,7 +257,7 @@ fn main() {
                 }
                 continue;
             }
-            
+
             let lowercase_name = language_name.to_lowercase();
             let dest = out_dir.join(format!("{}_weir_rules_generated_list.rs", lowercase_name));
 

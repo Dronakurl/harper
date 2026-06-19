@@ -6,7 +6,7 @@ use std::str::FromStr;
 use strum::{EnumCount, IntoEnumIterator};
 
 use crate::Document;
-use crate::languages::LanguageFamily;
+use crate::language::languages::LanguageFamily;
 
 pub trait Dialect:
     Debug

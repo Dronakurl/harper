@@ -2,10 +2,10 @@
 // These cover detection + parsing + linting combinations, while backend-level
 // LSP open/change/command flows are tested in backend.rs.
 
-use harper_core::language::manifest::{detect_language, new_curated_for_language};
 use harper_core::language::german::dialects::GermanDialect;
+use harper_core::language::manifest::{detect_language, new_curated_for_language};
 use harper_core::spell::FstDictionary;
-use harper_core::{curated_german_dictionary, Dialect, EnglishDialect, Language};
+use harper_core::{Dialect, EnglishDialect, Language, curated_german_dictionary};
 
 struct TestDialect;
 impl TestDialect {
@@ -22,7 +22,11 @@ fn test_full_workflow_german_document() {
     let german_text = "der Hund spielt im Garten. das Auto ist schnell.";
     let detected = detect_language(german_text, &dict, TestDialect::AMERICAN);
 
-    assert_eq!(detected, TestDialect::GERMAN, "Should auto-detect German text");
+    assert_eq!(
+        detected,
+        TestDialect::GERMAN,
+        "Should auto-detect German text"
+    );
 
     // Step 2: Parse document with correct parser
     let document = Document::new(

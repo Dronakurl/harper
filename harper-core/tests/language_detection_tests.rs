@@ -4,7 +4,7 @@
 //! for various real-world scenarios.
 
 use harper_core::GermanDialect;
-use harper_core::language::manifest::detect_language;
+use harper_core::language::registry::detect_language;
 use harper_core::spell::FstDictionary;
 use harper_core::{EnglishDialect, Language};
 

@@ -1,9 +1,9 @@
+use harper_core::language::new_curated_for_language;
 use harper_core::{
     EnglishDialect, IgnoredLints, Language,
     linting::{FlatConfig, LintGroup},
     spell::{FstDictionary, MergedDictionary, MutableDictionary},
 };
-use harper_core::language::manifest::new_curated_for_language;
 use harper_dictionary_wordlist::{load_dict, save_dict};
 use serde::{
     Deserialize, Serialize,

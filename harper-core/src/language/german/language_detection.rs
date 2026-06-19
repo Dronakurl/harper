@@ -5,9 +5,9 @@
 //! - Common German words and articles
 //! - Low English word match rate
 
+use crate::language::LanguageDetector;
 use crate::language::german::dialects::GermanDialect;
-use crate::language::manifest::LanguageDetector;
-use crate::languages::Language;
+use crate::language::languages::Language;
 use crate::spell::{Dictionary, FstDictionary};
 use crate::{Token, TokenKind};
 
@@ -213,7 +213,7 @@ mod tests {
     use super::*;
     use crate::Document;
     use crate::dialects::english::EnglishDialect;
-    use crate::languages::Language;
+    use crate::language::languages::Language;
     use crate::spell::FstDictionary;
 
     fn test_detection(text: &str, expected_german: bool) {

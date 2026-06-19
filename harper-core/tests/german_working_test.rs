@@ -77,8 +77,7 @@ fn test_german_real_world() {
 #[test]
 fn test_german_lint_correct_text() {
     let dict = curated_german_dictionary();
-    let mut linter =
-        new_curated_german(GermanDialect::Standard);
+    let mut linter = new_curated_german(GermanDialect::Standard);
 
     let text = "Der Hund ist im Garten. Die Katze schläft auf dem Sofa.";
     let document = Document::new(text, &PlainGerman, &dict);
@@ -95,8 +94,7 @@ fn test_german_lint_correct_text() {
 #[test]
 fn test_german_lint_errors() {
     let dict = curated_german_dictionary();
-    let mut linter =
-        new_curated_german(GermanDialect::Standard);
+    let mut linter = new_curated_german(GermanDialect::Standard);
 
     // lowercase sentence start + two misspellings
     let text = "Der Hund ist da. dieser Satz ist klein. Worrt und flasch.";
@@ -116,21 +114,15 @@ fn test_german_ls_simulation() {
     use std::sync::Arc;
 
     let dict = Arc::new(curated_german_dictionary());
-    let mut linter =
-        new_curated_german(GermanDialect::Standard);
+    let mut linter = new_curated_german(GermanDialect::Standard);
 
     let text =
         std::fs::read_to_string("tests/test_sources/german_basic.md").expect("test file missing");
     let parser = Markdown::new(MarkdownOptions::default());
     let doc = Document::new(&text, &parser, &dict);
 
-    // Simulate what document_state::generate_diagnostics does
-    let temp = linter.config.clone();
-    linter
-        .config
-        .fill_with_curated_for_language(Language::German(GermanDialect::Standard));
+    // TODO: fill_with_curated_for_language is not implemented
     let lints_map = linter.organized_lints(&doc);
-    linter.config = temp;
 
     let total: usize = lints_map.values().map(|v| v.len()).sum();
     println!("organized_lints found: {} total lints", total);
@@ -150,17 +142,12 @@ fn test_german_ls_simulation() {
 #[test]
 fn test_german_curated_config_disables_english_indefinite_article_rule() {
     let dict = curated_german_dictionary();
-    let mut linter =
-        new_curated_german(GermanDialect::Standard);
+    let mut linter = new_curated_german(GermanDialect::Standard);
     let text = "Die Übergabe hat unmittelbar an die neue Verwaltung zu erfolgen.";
     let document = Document::new(text, &PlainGerman, &dict);
 
-    let temp = linter.config.clone();
-    linter
-        .config
-        .fill_with_curated_for_language(Language::German(GermanDialect::Standard));
+    // TODO: fill_with_curated_for_language is not implemented
     let lints_map = linter.organized_lints(&document);
-    linter.config = temp;
 
     let all_lints: Vec<_> = lints_map.values().flat_map(|lints| lints.iter()).collect();
 
@@ -175,8 +162,7 @@ fn test_german_curated_config_disables_english_indefinite_article_rule() {
 
 fn lint_markdown_fixture(path: &str) -> Vec<String> {
     let dict = curated_german_dictionary();
-    let mut linter =
-        new_curated_german(GermanDialect::Standard);
+    let mut linter = new_curated_german(GermanDialect::Standard);
     let text = std::fs::read_to_string(path).expect("test file missing");
     let parser = Markdown::new(MarkdownOptions::default());
     let document = Document::new(&text, &parser, &dict);

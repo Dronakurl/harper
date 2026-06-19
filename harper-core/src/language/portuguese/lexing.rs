@@ -1,9 +1,12 @@
 //! Portuguese-specific lexing functions.
 
-use crate::lexing::{FoundToken, lex_catch, lex_hex_number, lex_newlines, lex_number, lex_punctuation, lex_regexish, lex_spaces, lex_tabs, lex_word};
 use crate::lexing::email_address::lex_email_address;
 use crate::lexing::hostname::lex_hostname_token;
 use crate::lexing::url::lex_url;
+use crate::lexing::{
+    FoundToken, lex_catch, lex_hex_number, lex_newlines, lex_number, lex_punctuation, lex_regexish,
+    lex_spaces, lex_tabs, lex_word,
+};
 
 /// Lex a Portuguese token from the source.
 pub(crate) fn lex_portuguese_token(source: &[char]) -> FoundToken {

@@ -90,8 +90,8 @@ mod tests {
     use crate::linting::{LintGroup, Linter};
 
     fn lint_text(text: &str) -> Vec<String> {
-        use crate::language::portuguese::linting::new_curated_portuguese;
         use crate::language::portuguese::dialects::PortugueseDialect;
+        use crate::language::portuguese::linting::new_curated_portuguese;
         let dict = curated_portuguese_dictionary();
         let mut linter = new_curated_portuguese(PortugueseDialect::Brazilian);
         let document = Document::new(text, &PlainPortuguese, &dict);

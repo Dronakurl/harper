@@ -11,9 +11,10 @@ use crate::io_utils::fileify_path;
 use anyhow::{Context, Result, anyhow};
 use harper_asciidoc::AsciidocParser;
 use harper_comments::CommentParser;
-use harper_core::language::manifest::{detect_language, dictionary, new_curated_for_language, parser_for_prose};
-use harper_core::languages::Language;
-use harper_core::linting::{FlatConfig, LintGroup};
+use harper_core::language::{
+    Language, detect_language, dictionary, new_curated_for_language, parser_for_prose,
+};
+use harper_core::linting::FlatConfig;
 use harper_core::parsers::{CollapseIdentifiers, IsolateEnglish, Parser};
 use harper_core::spell::{Dictionary, FstDictionary, MergedDictionary, MutableDictionary};
 use harper_core::{Dialect, DictWordMetadata, Document, IgnoredLints};

@@ -1,8 +1,8 @@
 //! Plain text parser for Portuguese.
 
 use crate::Token;
-use crate::lexing::lex_with;
 use crate::language::portuguese::lexing::lex_portuguese_token;
+use crate::lexing::lex_with;
 use crate::parsers::Parser;
 
 /// A parser for plain Portuguese text.

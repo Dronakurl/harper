@@ -3,8 +3,8 @@
 //! This is a wrapper around the core English detection functionality
 //! to maintain consistency with the language module structure.
 
-use crate::language::manifest::LanguageDetector;
-use crate::languages::Language;
+use crate::language::LanguageDetector;
+use crate::language::languages::Language;
 use crate::spell::{Dictionary, FstDictionary};
 use crate::{Token, TokenKind};
 

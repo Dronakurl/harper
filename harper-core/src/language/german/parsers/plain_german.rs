@@ -1,6 +1,6 @@
 use crate::Token;
-use crate::lexing::lex_with;
 use crate::language::german::lexing::lex_german_token;
+use crate::lexing::lex_with;
 use crate::parsers::Parser;
 
 /// A parser that will attempt to lex as many tokens as possible,

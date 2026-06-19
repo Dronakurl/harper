@@ -4,7 +4,7 @@ use anyhow::{Result, bail};
 use dirs::{config_dir, data_local_dir};
 use globset::{Glob, GlobSet};
 use harper_core::GermanDialect;
-use harper_core::languages::Language;
+use harper_core::language::Language;
 use harper_core::{
     DialectsEnum, EnglishDialect, PortugueseDialect, linting::FlatConfig, parsers::MarkdownOptions,
 };

@@ -7,8 +7,9 @@ use crate::TokenStringExt;
 use crate::dialects::dialect_enum::DialectsEnum;
 use crate::dialects::dialect_trait::DialectFlags as _;
 use crate::dialects::english::{EnglishDialect, EnglishDialectFlags};
-use crate::language::german::dialects::{GermanDialect, GermanDialectFlags};
-use crate::language::portuguese::dialects::{PortugueseDialect, PortugueseDialectFlags};
+use crate::language::{
+    GermanDialect, GermanDialectFlags, PortugueseDialect, PortugueseDialectFlags,
+};
 
 /// This represents a collection of dialect flags for all supported languages.
 /// Each language has its own set of dialect flags.

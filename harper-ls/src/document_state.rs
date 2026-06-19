@@ -1,7 +1,7 @@
 use crate::config::{CodeActionConfig, DiagnosticSeverity};
 use crate::diagnostics::{lint_to_code_actions, lints_to_diagnostics};
 use crate::pos_conv::range_to_span;
-use harper_core::languages::Language;
+use harper_core::language::Language;
 use harper_core::linting::{Lint, LintGroup, Linter};
 use harper_core::spell::{MergedDictionary, MutableDictionary};
 use harper_core::{Document, IgnoredLints, TokenKind, remove_overlaps_map};
@@ -26,9 +26,7 @@ impl DocumentState {
 
     pub fn generate_diagnostics(&mut self, severity: DiagnosticSeverity) -> Vec<Diagnostic> {
         let temp = self.linter.config.clone();
-        self.linter
-            .config
-            .fill_with_curated();
+        self.linter.config.fill_with_curated();
 
         let mut lints = self.linter.organized_lints(&self.document);
 
@@ -56,9 +54,7 @@ impl DocumentState {
         code_action_config: &CodeActionConfig,
     ) -> Vec<CodeActionOrCommand> {
         let temp = self.linter.config.clone();
-        self.linter
-            .config
-            .fill_with_curated();
+        self.linter.config.fill_with_curated();
 
         let mut lints = self.linter.lint(&self.document);
 

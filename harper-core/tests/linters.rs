@@ -11,7 +11,7 @@
 
 use harper_core::spell::FstDictionary;
 use harper_core::{
-    Document, Dialect, Language,
+    Dialect, Document, Language,
     linting::{LintGroup, Linter},
 };
 
@@ -200,7 +200,7 @@ fn test_most_lints() {
                 _ => Dialect::American, // Non-English languages should not use new_curated, but for now use American as fallback
             })
             .unwrap_or(Dialect::American);
-        
+
         let mut linter = LintGroup::new_curated(dict, dialect);
 
         let mut lints = linter.lint(&document);

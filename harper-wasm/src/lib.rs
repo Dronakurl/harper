@@ -175,9 +175,9 @@ impl Linter {
 
         self.dictionary = Self::construct_merged_dict(&constituent_dictionaries);
 
-        let core_language: harper_core::Language = self.dialect.into();
+        let core_dialect: harper_core::Dialect = self.dialect.into();
         self.lint_group =
-            LintGroup::new_curated_empty_config(self.dictionary.clone(), core_language);
+            LintGroup::new_curated_empty_config(self.dictionary.clone(), core_dialect);
 
         self.lint_group.config.merge_from(lint_config);
     }

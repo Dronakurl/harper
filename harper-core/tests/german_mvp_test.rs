@@ -14,8 +14,8 @@ impl Dialect {
 }
 
 fn german_lint_group() -> LintGroup {
-    use harper_core::language::german::linting::new_curated_german;
     use harper_core::language::german::dialects::GermanDialect;
+    use harper_core::language::german::linting::new_curated_german;
     new_curated_german(GermanDialect::Standard)
 }
 

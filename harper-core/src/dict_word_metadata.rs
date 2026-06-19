@@ -1832,12 +1832,16 @@ pub mod tests {
                     .dialects
                     .is_english_dialect_enabled(EnglishDialect::American)
             );
-            assert!(metadata.dialects.is_german_dialect_enabled(
-                crate::language::german::dialects::GermanDialect::Standard
-            ));
-            assert!(metadata.dialects.is_portuguese_dialect_enabled(
-                crate::language::portuguese::dialects::PortugueseDialect::European
-            ));
+            assert!(
+                metadata
+                    .dialects
+                    .is_german_dialect_enabled(crate::language::GermanDialect::Standard)
+            );
+            assert!(
+                metadata
+                    .dialects
+                    .is_portuguese_dialect_enabled(crate::language::PortugueseDialect::European)
+            );
         }
     }
 }

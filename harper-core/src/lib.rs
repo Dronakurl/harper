@@ -17,8 +17,6 @@ mod indefinite_article;
 mod irregular_nouns;
 mod irregular_verbs;
 pub mod language;
-
-pub mod languages;
 mod lexing;
 pub mod linting;
 mod mask;
@@ -67,11 +65,11 @@ pub use ignored_lints::{IgnoredLints, LintContext};
 pub use indefinite_article::{InitialSound, starts_with_vowel};
 pub use irregular_nouns::IrregularNouns;
 pub use irregular_verbs::IrregularVerbs;
-pub use language::german::dialects::{GermanDialect, GermanDialectFlags};
-pub use language::german::spell::{curated_german_dictionary, german_dictionary};
-pub use language::portuguese::dialects::{PortugueseDialect, PortugueseDialectFlags};
-pub use language::portuguese::spell::{curated_portuguese_dictionary, portuguese_dictionary};
-pub use languages::{Language, LanguageFamily};
+pub use language::{GermanDialect, GermanDialectFlags, Language, LanguageFamily};
+pub use language::{
+    PortugueseDialect, PortugueseDialectFlags, curated_portuguese_dictionary, portuguese_dictionary,
+};
+pub use language::{curated_german_dictionary, german_dictionary};
 pub use linting::{Lint, LintGroup, LintKind, Linter, Suggestion};
 pub use mask::{Mask, Masker, RegexMasker};
 pub use number::{Number, OrdinalSuffix};
@@ -233,10 +231,7 @@ mod tests {
     fn keeps_space_lint() {
         let doc = Document::new_plain_english_curated("Ths  tet");
 
-        let mut linter = LintGroup::new_curated(
-            FstDictionary::curated(),
-            EnglishDialect::American,
-        );
+        let mut linter = LintGroup::new_curated(FstDictionary::curated(), EnglishDialect::American);
 
         let mut lints = linter.lint(&doc);
 
@@ -250,10 +245,7 @@ mod tests {
     #[quickcheck]
     fn overlap_removals_have_equivalent_behavior(s: String) {
         let doc = Document::new_plain_english_curated(&s);
-        let mut linter = LintGroup::new_curated(
-            FstDictionary::curated(),
-            EnglishDialect::American,
-        );
+        let mut linter = LintGroup::new_curated(FstDictionary::curated(), EnglishDialect::American);
 
         let mut lint_map = linter.organized_lints(&doc);
         let mut lint_flat: Vec<_> = lint_map.values().flatten().cloned().collect();
