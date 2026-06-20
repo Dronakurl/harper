@@ -18,13 +18,7 @@ use crate::spell::{Dictionary, FstDictionary};
 /// This trait is used by the LanguageModule trait and implemented by each language's detector.
 pub trait LanguageDetector: Debug + Send + Sync {
     fn name(&self) -> &str;
-    fn detect(
-        &self,
-        toks: &[Token],
-        source: &[char],
-        dict: &FstDictionary,
-        default_language: Language,
-    ) -> Option<Language>;
+    fn detect(&self, toks: &[Token], source: &[char], dict: &FstDictionary) -> Option<Language>;
     fn confidence(&self) -> f64;
 }
 

@@ -20,13 +20,7 @@ impl LanguageDetector for PortugueseDetector {
         "portuguese"
     }
 
-    fn detect(
-        &self,
-        toks: &[Token],
-        source: &[char],
-        dict: &FstDictionary,
-        _default_language: Language,
-    ) -> Option<Language> {
+    fn detect(&self, toks: &[Token], source: &[char], dict: &FstDictionary) -> Option<Language> {
         let mut total_words = 0;
         let mut portuguese_char_count = 0;
         let mut common_portuguese_words = 0;
@@ -192,7 +186,7 @@ impl LanguageDetector for PortugueseDetector {
 mod tests {
     use super::PortugueseDetector;
     use crate::Document;
-    use crate::dict_word_metadata::EnglishDialect;
+
     use crate::language::LanguageDetector;
     use crate::language::languages::Language;
     use crate::language::portuguese::dialects::PortugueseDialect;
@@ -204,8 +198,7 @@ mod tests {
         let doc = Document::new(text, &PlainEnglish, &dict);
         let detector = PortugueseDetector;
 
-        let default_lang = Language::English(EnglishDialect::American);
-        let result = detector.detect(doc.get_tokens(), doc.get_source(), &dict, default_lang);
+        let result = detector.detect(doc.get_tokens(), doc.get_source(), &dict);
         assert_eq!(result.is_some(), expected_portuguese);
         if expected_portuguese {
             assert_eq!(

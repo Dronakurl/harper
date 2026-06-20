@@ -184,21 +184,6 @@ fn main() {
     );
     println!("cargo:rustc-env=WEIR_RULE_LIST={}", english_dest.display());
 
-    // Language-specific weir rules configuration for extensibility
-    // These are the languages with known weir rule directories
-    let language_weir_configs: Vec<(&str, PathBuf)> = vec![
-        (
-            "GERMAN",
-            manifest_dir.join("./src/language/german/linting/weir_rules"),
-        ),
-        (
-            "PORTUGUESE",
-            manifest_dir.join("./src/language/portuguese/linting/weir_rules"),
-        ),
-    ];
-    // Note: language_weir_configs is used for documentation and future extensibility
-    let _ = &language_weir_configs;
-
     // Language-specific weir rules (in language/<name>/linting/weir_rules/)
     // Automatically discover all language directories that have weir_rules
     let language_dir = manifest_dir.join("./src/language");
@@ -210,7 +195,7 @@ fn main() {
                 continue;
             }
 
-            // Extract language name from directory (e.g., "german", "portuguese")
+            // Extract language name from directory
             let language_name = language_path
                 .file_name()
                 .and_then(|name| name.to_str())

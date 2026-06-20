@@ -1,93 +1,31 @@
-//! English language detector.
+//! Legacy English language detector wrapper.
 //!
-//! This is a wrapper around the core English detection functionality
-//! to maintain consistency with the language module structure.
+//! This file is kept for backward compatibility but the actual implementation
+//! has been moved to language::english::language_detection.
 
-use crate::language::LanguageDetector;
-use crate::language::languages::Language;
-use crate::spell::{Dictionary, FstDictionary};
-use crate::{Token, TokenKind};
+use crate::language::english::language_detection::{
+    EnglishDetector as EnglishLanguageDetector, is_likely_english as english_is_likely_english,
+};
+use crate::spell::Dictionary;
+use crate::{Document, Token};
 
 /// Check if the contents of the document are likely intended to represent
 /// English.
-pub fn is_doc_likely_english(doc: &crate::Document, dict: &impl Dictionary) -> bool {
-    is_likely_english(doc.get_tokens(), doc.get_source(), dict)
+pub fn is_doc_likely_english(doc: &Document, dict: &impl Dictionary) -> bool {
+    english_is_likely_english(doc.get_tokens(), doc.get_source(), dict)
 }
 
 /// Check if given tokens are likely intended to represent English.
+///
+/// This is a wrapper around the new implementation in language::english.
 pub fn is_likely_english(toks: &[Token], source: &[char], dict: &impl Dictionary) -> bool {
-    let mut total_words = 0;
-    let mut valid_words = 0;
-    let mut punctuation = 0;
-    let mut unlintable = 0;
-
-    for token in toks {
-        match token.kind {
-            TokenKind::Word(_) => {
-                total_words += 1;
-
-                let word_content = token.get_ch(source);
-                if dict.contains_word(word_content) {
-                    valid_words += 1;
-                }
-            }
-            TokenKind::Punctuation(_) => punctuation += 1,
-            TokenKind::Unlintable => unlintable += 1,
-            _ => (),
-        }
-    }
-
-    if total_words <= 7 && total_words - valid_words > 0 {
-        return false;
-    }
-
-    if unlintable > valid_words {
-        return false;
-    }
-
-    if (punctuation as f32 * 1.25) > valid_words as f32 {
-        return false;
-    }
-
-    if (valid_words as f64 / total_words as f64) < 0.7 {
-        return false;
-    }
-
-    true
+    english_is_likely_english(toks, source, dict)
 }
 
 /// English language detector (fallback).
-#[derive(Debug)]
-pub struct EnglishDetector;
-
-impl LanguageDetector for EnglishDetector {
-    fn name(&self) -> &str {
-        "english"
-    }
-
-    fn detect(
-        &self,
-        toks: &[Token],
-        source: &[char],
-        dict: &FstDictionary,
-        default_language: Language,
-    ) -> Option<Language> {
-        // Use Harper's built-in English detection
-        let is_english = is_likely_english(toks, source, dict);
-
-        if is_english {
-            // Return the default language for English text, so that configured language is respected
-            Some(default_language)
-        } else {
-            None
-        }
-    }
-
-    fn confidence(&self) -> f64 {
-        // Lower confidence - used as fallback
-        0.3
-    }
-}
+///
+/// This is a type alias for the new implementation in language::english.
+pub type EnglishDetector = EnglishLanguageDetector;
 
 #[cfg(test)]
 mod tests {

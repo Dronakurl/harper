@@ -44,7 +44,7 @@ pub fn detect_language(source: &str, dict: &FstDictionary, default_language: Lan
     }
 
     for (detector, _confidence) in DETECTORS.iter() {
-        if let Some(language) = detector.detect(&tokens, &source_chars, dict, default_language) {
+        if let Some(language) = detector.detect(&tokens, &source_chars, dict) {
             return language;
         }
     }

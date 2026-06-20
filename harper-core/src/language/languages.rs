@@ -2,7 +2,7 @@
 //!
 //! This module provides the core types for supporting multiple languages in Harper,
 //! including language families and specific language variants with dialects.
-use crate::dict_word_metadata::EnglishDialect;
+use crate::language::english::dialects::EnglishDialect;
 use crate::language::german::dialects::GermanDialect;
 use crate::language::portuguese::dialects::PortugueseDialect;
 use serde::{Deserialize, Serialize};

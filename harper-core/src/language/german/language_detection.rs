@@ -20,13 +20,7 @@ impl LanguageDetector for GermanDetector {
         "german"
     }
 
-    fn detect(
-        &self,
-        toks: &[Token],
-        source: &[char],
-        dict: &FstDictionary,
-        _default_language: Language,
-    ) -> Option<Language> {
+    fn detect(&self, toks: &[Token], source: &[char], dict: &FstDictionary) -> Option<Language> {
         let mut total_words = 0;
         let mut german_char_count = 0;
         let mut common_german_words = 0;
@@ -212,7 +206,7 @@ impl LanguageDetector for GermanDetector {
 mod tests {
     use super::*;
     use crate::Document;
-    use crate::dict_word_metadata::EnglishDialect;
+
     use crate::language::languages::Language;
     use crate::spell::FstDictionary;
 
@@ -221,8 +215,7 @@ mod tests {
         let doc = Document::new_plain_english_curated(text);
         let detector = GermanDetector;
 
-        let default_lang = Language::English(EnglishDialect::American);
-        let result = detector.detect(doc.get_tokens(), doc.get_source(), &dict, default_lang);
+        let result = detector.detect(doc.get_tokens(), doc.get_source(), &dict);
         assert_eq!(result.is_some(), expected_german, "Failed for: {}", text);
         if expected_german {
             assert_eq!(result.unwrap(), Language::German(GermanDialect::Standard));
