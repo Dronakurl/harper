@@ -234,27 +234,20 @@ fn main() {
                 .unwrap_or(false);
 
             if !has_weir_files {
-                // For Portuguese, always generate the infrastructure even if empty
-                // This maintains consistency with German setup
-                if language_name == "PORTUGUESE" {
-                    let lowercase_name = language_name.to_lowercase();
-                    let dest =
-                        out_dir.join(format!("{}_weir_rules_generated_list.rs", lowercase_name));
-
-                    // Write empty list
-                    fs::write(&dest, "generate_boilerplate!{[]}").unwrap();
-
-                    println!(
-                        "cargo:rustc-env={}_WEIR_RULE_DIR={}",
-                        language_name,
-                        final_weir_dir.display()
-                    );
-                    println!(
-                        "cargo:rustc-env={}_WEIR_RULE_LIST={}",
-                        language_name,
-                        dest.display()
-                    );
-                }
+                // Always generate the infrastructure even if empty
+                let lowercase_name = language_name.to_lowercase();
+                let dest = out_dir.join(format!("{}_weir_rules_generated_list.rs", lowercase_name));
+                fs::write(&dest, "generate_boilerplate!{[]}").unwrap();
+                println!(
+                    "cargo:rustc-env={}_WEIR_RULE_DIR={}",
+                    language_name,
+                    final_weir_dir.display()
+                );
+                println!(
+                    "cargo:rustc-env={}_WEIR_RULE_LIST={}",
+                    language_name,
+                    dest.display()
+                );
                 continue;
             }
 
