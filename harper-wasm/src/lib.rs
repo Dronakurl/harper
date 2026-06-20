@@ -478,7 +478,7 @@ impl Linter {
                 (
                     word.chars().collect::<CharString>(),
                     DictWordMetadata {
-                        dialects: DialectFlags::from_dialect(match self.dialect {
+                        dialects: DialectFlags::from_english_dialect(match self.dialect {
                             Dialect::American => harper_core::EnglishDialect::American,
                             Dialect::British => harper_core::EnglishDialect::British,
                             Dialect::Australian => harper_core::EnglishDialect::Australian,

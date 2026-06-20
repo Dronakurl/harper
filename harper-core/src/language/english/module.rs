@@ -5,7 +5,7 @@
 
 use std::sync::Arc;
 
-use crate::language::dialects::english::EnglishDialect;
+use crate::dict_word_metadata::EnglishDialect;
 use crate::language_detection::EnglishDetector;
 use crate::lexing::{FoundToken, lex_english_token};
 use crate::linting::{LintGroup, weir_rules};

@@ -3,8 +3,8 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
 // Import dialect types from the central dialects module for modularity.
+use crate::dict_word_metadata::{EnglishDialect, EnglishDialectFlags};
 use crate::language::dialects::dialect_trait::DialectFlags as _;
-use crate::language::dialects::english::{EnglishDialect, EnglishDialectFlags};
 use crate::language::german::dialects::{GermanDialect, GermanDialectFlags};
 use crate::language::portuguese::dialects::{PortugueseDialect, PortugueseDialectFlags};
 

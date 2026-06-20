@@ -1,4 +1,4 @@
-use crate::language::dialects::english::EnglishDialect;
+use crate::dict_word_metadata::EnglishDialect;
 use crate::{
     Token, TokenStringExt,
     expr::{Expr, FirstMatchOf, FixedPhrase},

@@ -45,7 +45,7 @@ use std::collections::{BTreeMap, VecDeque};
 pub use case::{Case, CaseIterExt};
 pub use char_string::{CharString, CharStringExt};
 pub use currency::Currency;
-pub use language::dialects::english::EnglishDialect;
+pub use dict_word_metadata::{EnglishDialect, EnglishDialectFlags};
 
 // Type alias for master branch compatibility during feature development.
 // This allows linting modules to use `Dialect` (matching master) while preserving

@@ -192,8 +192,8 @@ impl LanguageDetector for PortugueseDetector {
 mod tests {
     use super::PortugueseDetector;
     use crate::Document;
+    use crate::dict_word_metadata::EnglishDialect;
     use crate::language::LanguageDetector;
-    use crate::language::dialects::english::EnglishDialect;
     use crate::language::languages::Language;
     use crate::language::portuguese::dialects::PortugueseDialect;
     use crate::parsers::PlainEnglish;
