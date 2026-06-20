@@ -1045,7 +1045,6 @@ impl AffixData {
 fn deserializes_new_language_scoped_dialect_flags() {
     use serde_json::json;
 
-    use crate::language::dialects::dialect_enum::DialectsEnum;
     use crate::language::dialects::english::EnglishDialect;
 
     let metadata: crate::DictWordMetadata = serde_json::from_value(json!({
@@ -1059,22 +1058,21 @@ fn deserializes_new_language_scoped_dialect_flags() {
     assert!(
         metadata
             .dialects
-            .is_dialect_enabled_strict(DialectsEnum::English(EnglishDialect::American))
+            .is_english_dialect_enabled_strict(EnglishDialect::American)
     );
     assert!(
         !metadata
             .dialects
-            .is_dialect_enabled_strict(DialectsEnum::English(EnglishDialect::British))
+            .is_english_dialect_enabled_strict(EnglishDialect::British)
     );
 }
 
 #[test]
 fn serializes_dialect_flags_to_language_scoped_format() {
-    use crate::language::dialects::dialect_enum::DialectsEnum;
     use crate::language::dialects::english::EnglishDialect;
 
     let metadata = DictWordMetadata {
-        dialects: DialectFlags::from_dialect(DialectsEnum::English(EnglishDialect::American)),
+        dialects: DialectFlags::from_english_dialect(EnglishDialect::American),
         ..DictWordMetadata::default()
     };
 

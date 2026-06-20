@@ -3,8 +3,6 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
 // Import dialect types from the central dialects module for modularity.
-use crate::TokenStringExt;
-use crate::language::dialects::dialect_enum::DialectsEnum;
 use crate::language::dialects::dialect_trait::DialectFlags as _;
 use crate::language::dialects::english::{EnglishDialect, EnglishDialectFlags};
 use crate::language::german::dialects::{GermanDialect, GermanDialectFlags};
@@ -65,88 +63,42 @@ impl DialectFlags {
         }
     }
 
+    /// Creates a DialectFlags with the specified English, German, and Portuguese dialect flags.
+    #[must_use]
+    pub const fn new(
+        english: EnglishDialectFlags,
+        german: GermanDialectFlags,
+        portuguese: PortugueseDialectFlags,
+    ) -> Self {
+        Self {
+            english,
+            german,
+            portuguese,
+        }
+    }
+
+    /// Creates a DialectFlags with only the specified English dialect enabled.
+    /// This is a convenience method for tests and cases where only English dialects are needed.
+    #[must_use]
+    pub fn from_english_dialect(dialect: EnglishDialect) -> Self {
+        let english_flags = match dialect {
+            EnglishDialect::American => EnglishDialectFlags::AMERICAN,
+            EnglishDialect::Canadian => EnglishDialectFlags::CANADIAN,
+            EnglishDialect::Australian => EnglishDialectFlags::AUSTRALIAN,
+            EnglishDialect::British => EnglishDialectFlags::BRITISH,
+            EnglishDialect::Indian => EnglishDialectFlags::INDIAN,
+        };
+
+        Self {
+            english: english_flags,
+            german: GermanDialectFlags::empty(),
+            portuguese: PortugueseDialectFlags::empty(),
+        }
+    }
+
     #[must_use]
     pub fn is_empty(self) -> bool {
         self.english.is_empty() && self.german.is_empty() && self.portuguese.is_empty()
-    }
-
-    /// Checks if the provided dialect is enabled.
-    /// If no dialect is explicitly enabled, it is assumed that all dialects are enabled.
-    #[must_use]
-    pub fn is_dialect_enabled(self, dialect: impl Into<DialectsEnum>) -> bool {
-        if self.is_empty() {
-            return true;
-        }
-
-        match dialect.into() {
-            DialectsEnum::English(EnglishDialect::American) => {
-                !self.english.is_empty()
-                    && self.english.is_dialect_enabled(EnglishDialect::American)
-            }
-            DialectsEnum::English(EnglishDialect::Canadian) => {
-                !self.english.is_empty()
-                    && self.english.is_dialect_enabled(EnglishDialect::Canadian)
-            }
-            DialectsEnum::English(EnglishDialect::Australian) => {
-                !self.english.is_empty()
-                    && self.english.is_dialect_enabled(EnglishDialect::Australian)
-            }
-            DialectsEnum::English(EnglishDialect::British) => {
-                !self.english.is_empty() && self.english.is_dialect_enabled(EnglishDialect::British)
-            }
-            DialectsEnum::English(EnglishDialect::Indian) => {
-                !self.english.is_empty() && self.english.is_dialect_enabled(EnglishDialect::Indian)
-            }
-            DialectsEnum::German(GermanDialect::Standard) => {
-                !self.german.is_empty() && self.german.is_dialect_enabled(GermanDialect::Standard)
-            }
-            DialectsEnum::German(GermanDialect::Austrian) => {
-                !self.german.is_empty() && self.german.is_dialect_enabled(GermanDialect::Austrian)
-            }
-            DialectsEnum::German(GermanDialect::Swiss) => {
-                !self.german.is_empty() && self.german.is_dialect_enabled(GermanDialect::Swiss)
-            }
-            DialectsEnum::Portuguese(portuguese) => {
-                !self.portuguese.is_empty() && self.portuguese.is_dialect_enabled(portuguese)
-            }
-        }
-    }
-
-    /// Checks if the provided dialect is ***explicitly*** enabled.
-    ///
-    /// Unlike `is_dialect_enabled`, this will return false when no dialects are explicitly
-    /// enabled.
-    #[must_use]
-    pub fn is_dialect_enabled_strict(self, dialect: impl Into<DialectsEnum>) -> bool {
-        match dialect.into() {
-            DialectsEnum::English(EnglishDialect::American) => self
-                .english
-                .is_dialect_enabled_strict(EnglishDialect::American),
-            DialectsEnum::English(EnglishDialect::Canadian) => self
-                .english
-                .is_dialect_enabled_strict(EnglishDialect::Canadian),
-            DialectsEnum::English(EnglishDialect::Australian) => self
-                .english
-                .is_dialect_enabled_strict(EnglishDialect::Australian),
-            DialectsEnum::English(EnglishDialect::British) => self
-                .english
-                .is_dialect_enabled_strict(EnglishDialect::British),
-            DialectsEnum::English(EnglishDialect::Indian) => self
-                .english
-                .is_dialect_enabled_strict(EnglishDialect::Indian),
-            DialectsEnum::German(GermanDialect::Standard) => self
-                .german
-                .is_dialect_enabled_strict(GermanDialect::Standard),
-            DialectsEnum::German(GermanDialect::Austrian) => self
-                .german
-                .is_dialect_enabled_strict(GermanDialect::Austrian),
-            DialectsEnum::German(GermanDialect::Swiss) => {
-                self.german.is_dialect_enabled_strict(GermanDialect::Swiss)
-            }
-            DialectsEnum::Portuguese(portuguese) => {
-                self.portuguese.is_dialect_enabled_strict(portuguese)
-            }
-        }
     }
 
     #[must_use]
@@ -179,49 +131,6 @@ impl DialectFlags {
         self.portuguese.is_dialect_enabled_strict(dialect)
     }
 
-    /// Constructs `DialectFlags` from the provided dialect.
-    #[must_use]
-    pub fn from_dialect(dialect: impl Into<DialectsEnum>) -> Self {
-        match dialect.into() {
-            DialectsEnum::English(EnglishDialect::American) => Self {
-                english: EnglishDialectFlags::from_dialect(EnglishDialect::American),
-                ..Self::empty()
-            },
-            DialectsEnum::English(EnglishDialect::Canadian) => Self {
-                english: EnglishDialectFlags::from_dialect(EnglishDialect::Canadian),
-                ..Self::empty()
-            },
-            DialectsEnum::English(EnglishDialect::Australian) => Self {
-                english: EnglishDialectFlags::from_dialect(EnglishDialect::Australian),
-                ..Self::empty()
-            },
-            DialectsEnum::English(EnglishDialect::British) => Self {
-                english: EnglishDialectFlags::from_dialect(EnglishDialect::British),
-                ..Self::empty()
-            },
-            DialectsEnum::English(EnglishDialect::Indian) => Self {
-                english: EnglishDialectFlags::from_dialect(EnglishDialect::Indian),
-                ..Self::empty()
-            },
-            DialectsEnum::German(GermanDialect::Standard) => Self {
-                german: GermanDialectFlags::from_dialect(GermanDialect::Standard),
-                ..Self::empty()
-            },
-            DialectsEnum::German(GermanDialect::Austrian) => Self {
-                german: GermanDialectFlags::from_dialect(GermanDialect::Austrian),
-                ..Self::empty()
-            },
-            DialectsEnum::German(GermanDialect::Swiss) => Self {
-                german: GermanDialectFlags::from_dialect(GermanDialect::Swiss),
-                ..Self::empty()
-            },
-            DialectsEnum::Portuguese(portuguese) => Self {
-                portuguese: PortugueseDialectFlags::from_dialect(portuguese),
-                ..Self::empty()
-            },
-        }
-    }
-
     /// Gets the most commonly used dialect(s) in the document.
     ///
     /// If multiple dialects are used equally often, they will all be enabled in the returned
@@ -229,54 +138,17 @@ impl DialectFlags {
     /// will be the only one enabled.
     #[must_use]
     pub fn get_most_used_dialects_from_document(document: &crate::Document) -> Self {
-        // Initialize counters.
-        let mut dialect_counters = [
-            (DialectsEnum::English(EnglishDialect::American), 0usize),
-            (DialectsEnum::English(EnglishDialect::Canadian), 0usize),
-            (DialectsEnum::English(EnglishDialect::Australian), 0usize),
-            (DialectsEnum::English(EnglishDialect::British), 0usize),
-            (DialectsEnum::English(EnglishDialect::Indian), 0usize),
-            (DialectsEnum::German(GermanDialect::Standard), 0usize),
-            (DialectsEnum::German(GermanDialect::Austrian), 0usize),
-            (DialectsEnum::German(GermanDialect::Swiss), 0usize),
-            (
-                DialectsEnum::Portuguese(PortugueseDialect::European),
-                0usize,
-            ),
-            (
-                DialectsEnum::Portuguese(PortugueseDialect::Brazilian),
-                0usize,
-            ),
-            (DialectsEnum::Portuguese(PortugueseDialect::African), 0usize),
-        ];
+        // Get the most used dialects for each language separately
+        let english_flags = EnglishDialectFlags::get_most_used_dialects_from_document(document);
+        let german_flags = GermanDialectFlags::get_most_used_dialects_from_document(document);
+        let portuguese_flags =
+            PortugueseDialectFlags::get_most_used_dialects_from_document(document);
 
-        // Count word dialects.
-        document.iter_words().for_each(|w| {
-            if let crate::TokenKind::Word(Some(lexeme_metadata)) = &w.kind {
-                // If the token is a word, iterate though the dialects in `dialect_counters` and
-                // increment those counters where the word has the respective dialect enabled.
-                dialect_counters.iter_mut().for_each(|(dialect, count)| {
-                    if lexeme_metadata.dialects.is_dialect_enabled(*dialect) {
-                        *count += 1;
-                    }
-                });
-            }
-        });
-
-        // Find max counter.
-        let max_counter = dialect_counters
-            .iter()
-            .map(|(_, count)| count)
-            .max()
-            .unwrap();
-        // Get and convert the collection of most used dialects into a `DialectFlags`.
-        dialect_counters
-            .into_iter()
-            .filter(|(_, count)| count == max_counter)
-            .fold(DialectFlags::empty(), |acc, dialect| {
-                // Fold most used dialects into `DialectFlags` via bitwise or.
-                acc | Self::from_dialect(dialect.0)
-            })
+        Self {
+            english: english_flags,
+            german: german_flags,
+            portuguese: portuguese_flags,
+        }
     }
 }
 
