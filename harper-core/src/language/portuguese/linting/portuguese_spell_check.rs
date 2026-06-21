@@ -32,24 +32,27 @@ impl<T: Dictionary> PortugueseSpellCheck<T> {
     fn get_suggestions(&self, word: &[char]) -> Vec<Vec<char>> {
         // Use the dictionary's fuzzy matching (FST-based Levenshtein)
         let results = self.dictionary.fuzzy_match(word, 2, 5);
-        
+
         // Extract suggestions from results
-        let mut suggestions: Vec<Vec<char>> = results.into_iter().map(|r| r.word.to_vec()).collect();
-        
+        let mut suggestions: Vec<Vec<char>> =
+            results.into_iter().map(|r| r.word.to_vec()).collect();
+
         // Filter suggestions by dialect if the dictionary supports it
         self.filter_suggestions_by_dialect(&mut suggestions);
-        
+
         suggestions
     }
 
     /// Filter suggestions to only include words that match the configured dialect.
     fn filter_suggestions_by_dialect(&self, suggestions: &mut Vec<Vec<char>>) {
         use crate::language::dialects::dialect_flags::DialectFlags;
-        
+
         suggestions.retain(|suggestion| {
             // Check if this suggestion word exists in the dictionary with our dialect
             if let Some(metadata) = self.dictionary.get_word_metadata(suggestion) {
-                metadata.dialects.is_portuguese_dialect_enabled(self.dialect)
+                metadata
+                    .dialects
+                    .is_portuguese_dialect_enabled(self.dialect)
             } else {
                 // If we can't get metadata, include the suggestion (better to have false positives than miss valid ones)
                 true

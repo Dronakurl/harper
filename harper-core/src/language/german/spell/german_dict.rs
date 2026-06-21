@@ -3,8 +3,8 @@
 //! The word list is derived from the igerman98 dictionary (GPLv2/GPLv3),
 //! expanded using Hunspell affix rules for comprehensive coverage.
 //! It is embedded as gzip-compressed data and decompressed once at first use.
-use crate::spell::{FstDictionary, MutableDictionary};
 use crate::spell::embedded_dictionary::fst_dictionary_from_gzip_bytes;
+use crate::spell::{FstDictionary, MutableDictionary};
 use std::sync::{Arc, LazyLock};
 
 // Original FST dictionary for backward compatibility

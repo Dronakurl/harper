@@ -172,12 +172,6 @@ impl Config {
                 } else {
                     bail!("unsupported legacy dialect value: {s}");
                 }
-            } else if let Some(num) = v.as_u64() {
-                if let Some(language) = parse_language(&num.to_string()) {
-                    base.language = language;
-                } else {
-                    bail!("unsupported legacy dialect value: {num}");
-                }
             } else {
                 bail!("unsupported legacy dialect value");
             }

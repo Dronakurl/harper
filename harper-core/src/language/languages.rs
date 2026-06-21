@@ -13,25 +13,8 @@ use strum_macros::{Display, EnumCount, EnumIter, EnumString};
 /// - Abbreviations: "us", "uk", "de", "pt", "pt_br"
 /// - Full names: "american", "british", "german", "portuguese", "brazilian"
 /// - Locale codes: "en-US", "en-GB", "de-DE", "pt-BR"
-/// - Legacy numeric codes: 1, 2, 4, 8, 16, 32, 64, 128, 256
 pub fn parse_language(s: &str) -> Option<Language> {
     let s_lower = s.to_ascii_lowercase();
-
-    // Try numeric codes first
-    if let Ok(num) = s.parse::<u64>() {
-        return match num {
-            1 => Some(Language::English(EnglishDialect::American)),
-            2 => Some(Language::English(EnglishDialect::Canadian)),
-            4 => Some(Language::English(EnglishDialect::Australian)),
-            8 => Some(Language::English(EnglishDialect::British)),
-            16 => Some(Language::English(EnglishDialect::Indian)),
-            32 => Some(Language::German(GermanDialect::Standard)),
-            64 => Some(Language::German(GermanDialect::Austrian)),
-            128 => Some(Language::German(GermanDialect::Swiss)),
-            256 => Some(Language::Portuguese(PortugueseDialect::Brazilian)),
-            _ => None,
-        };
-    }
 
     // Try string matching
     match s_lower.as_str() {
