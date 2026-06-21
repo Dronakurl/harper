@@ -76,5 +76,72 @@
 			"rename_ok": true
 		}
 	},
-	"properties": {}
+	"properties": {
+		"N": {
+			"#": "noun property (German)",
+			"metadata": {
+				"noun": {}
+			}
+		},
+		"V": {
+			"#": "verb property (German)",
+			"metadata": {
+				"verb": {}
+			}
+		},
+		"J": {
+			"#": "adjective property (German)",
+			"metadata": {
+				"adjective": {}
+			}
+		},
+		"g": {
+			"#": "verb past participle property (German: ge- prefix)",
+			"metadata": {
+				"verb": {
+					"verb_form": "PAST_PARTICIPLE"
+				}
+			}
+		},
+		"t": {
+			"#": "verb past tense property (German)",
+			"metadata": {
+				"verb": {
+					"verb_form": "PAST"
+				}
+			}
+		},
+		"M": {
+			"#": "masculine noun property (German)",
+			"metadata": {
+				"noun": {
+					"gender": "MASCULINE"
+				}
+			}
+		},
+		"F": {
+			"#": "feminine noun property (German)",
+			"metadata": {
+				"noun": {
+					"gender": "FEMININE"
+				}
+			}
+		},
+		"Z": {
+			"#": "neuter noun property (German)",
+			"metadata": {
+				"noun": {
+					"gender": "NEUTER"
+				}
+			}
+		},
+		"P": {
+			"#": "plural noun property (German)",
+			"metadata": {
+				"noun": {
+					"number": "PLURAL"
+				}
+			}
+		}
+	}
 }
