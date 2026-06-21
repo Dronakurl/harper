@@ -1,0 +1,80 @@
+{
+	"affixes": {
+		"A": {
+			"#": "'be-' inseparable prefix",
+			"kind": "prefix",
+			"cross_product": true,
+			"replacements": [
+				{
+					"remove": "",
+					"add": "be",
+					"condition": "."
+				}
+			],
+			"target": [],
+			"base_metadata": {},
+			"rename_ok": true
+		},
+		"B": {
+			"#": "'-heit' feminine noun suffix",
+			"kind": "suffix",
+			"cross_product": true,
+			"replacements": [
+				{
+					"remove": "",
+					"add": "heit",
+					"condition": "."
+				}
+			],
+			"target": [],
+			"base_metadata": {},
+			"rename_ok": true
+		},
+		"C": {
+			"#": "'-keit' feminine noun suffix",
+			"kind": "suffix",
+			"cross_product": true,
+			"replacements": [
+				{
+					"remove": "",
+					"add": "keit",
+					"condition": "."
+				}
+			],
+			"target": [],
+			"base_metadata": {},
+			"rename_ok": true
+		},
+		"D": {
+			"#": "'-ung' feminine noun suffix",
+			"kind": "suffix",
+			"cross_product": true,
+			"replacements": [
+				{
+					"remove": "",
+					"add": "ung",
+					"condition": "."
+				}
+			],
+			"target": [],
+			"base_metadata": {},
+			"rename_ok": true
+		},
+		"E": {
+			"#": "'ver-' inseparable prefix",
+			"kind": "prefix",
+			"cross_product": true,
+			"replacements": [
+				{
+					"remove": "",
+					"add": "ver",
+					"condition": "."
+				}
+			],
+			"target": [],
+			"base_metadata": {},
+			"rename_ok": true
+		}
+	},
+	"properties": {}
+}

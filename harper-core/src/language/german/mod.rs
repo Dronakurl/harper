@@ -13,3 +13,6 @@ pub mod linting;
 pub mod module;
 pub mod parsers;
 pub mod spell;
+
+#[cfg(test)]
+pub mod tests;

@@ -1,0 +1,156 @@
+100
+
+# Basic German words with annotations for testing
+# Format: word/~annotations
+
+# Articles and pronouns
+der/~Dz # masculine article
+die/~Dz # feminine article
+das/~Dz # neuter article
+dem/~Dz # masculine/neuter dative
+den/~Dz # masculine accusative
+des/~Dz # masculine/neuter genitive
+ein/~Dz # indefinite article
+eine/~Dz # indefinite article feminine
+einen/~Dz # indefinite article masculine accusative
+einem/~Dz # indefinite article dative
+einer/~Dz # indefinite article feminine genitive
+eines/~Dz # indefinite article neuter genitive
+
+# Common nouns with gender annotations
+der Mann/~NgJV # masculine noun
+die Frau/~NgJV # feminine noun
+das Kind/~NgJV # neuter noun
+die Kinder/~NgJV # plural noun
+der Hund/~NgJV # masculine noun
+die Katze/~NgJV # feminine noun
+das Haus/~NgJV # neuter noun
+die Tür/~NgJV # feminine noun
+der Tisch/~NgJV # masculine noun
+das Auto/~NgJV # neuter noun
+die Schule/~NgJV # feminine noun
+der Lehrer/~NgJV # masculine noun
+die Lehrerin/~NgJV # feminine noun
+das Buch/~NgJV # neuter noun
+die Bücher/~NgJV # plural with umlaut
+
+# Verbs with conjugation annotations
+sein/~V # to be
+haben/~V # to have
+werden/~V # to become
+können/~V # can (modal)
+müssen/~V # must (modal)
+sollen/~V # should (modal)
+wollen/~V # want (modal)
+dürfen/~V # may (modal)
+mögen/~V # like (modal)
+
+# Adjectives
+ gut/~J # good
+schön/~J # beautiful
+groß/~J # big
+toll/~J # great
+klein/~J # small
+schnell/~J # fast
+langsam/~J # slow
+
+# Common verbs
+gehen/~V # to go
+kommen/~V # to come
+machen/~V # to do/make
+sagen/~V # to say
+sehen/~V # to see
+hören/~V # to hear
+arbeiten/~V # to work
+studieren/~V # to study
+
+# Words with prefixes (for affix rule testing)
+bekommen/~V # to receive (be- prefix)
+verstehen/~V # to understand (ver- prefix)
+entfernen/~V # to remove (ent- prefix)
+erzählen/~V # to tell (er- prefix)
+aufstehen/~V # to get up (auf- prefix)
+ausgehen/~V # to go out (aus- prefix)
+einkaufen/~V # to shop (ein- prefix)
+
+# Words with suffixes (for affix rule testing)
+Freiheit/~NgJV # freedom (-heit suffix)
+Möglichkeit/~NgJV # possibility (-keit suffix)
+Bildung/~NgJV # education (-ung suffix)
+Ergebnis/~NgJV # result (-nis suffix)
+Eigentum/~NgJV # property (-tum suffix)
+Lehrling/~NgJV # apprentice (-ling suffix)
+Information/~NgJV # information (-ion suffix)
+Universität/~NgJV # university (-tät suffix)
+Freundschaft/~NgJV # friendship (-schaft suffix)
+
+# Adjectives with suffixes
+freundlich/~J # friendly (-lich suffix)
+kindisch/~J # childish (-isch suffix)
+lesbar/~J # readable (-bar suffix)
+fleißig/~J # diligent (-sam suffix)
+
+# Diminutives
+Mädchen/~NgJV # girl (-chen suffix)
+Häuschen/~NgJV # little house (-chen suffix)
+Büchlein/~NgJV # little book (-lein suffix)
+
+# Prepositions
+in/~P # in
+an/~P # at/on
+auf/~P # on/onto
+aus/~P # out of/from
+bei/~P # at/with
+mit/~P # with
+nach/~P # after/to
+von/~P # from/of
+vor/~P # before/in front of
+zu/~P # to/at
+
+# Conjunctions
+und/~C # and
+oder/~C # or
+aber/~C # but
+weil/~C # because
+dass/~C # that
+wenn/~C # if/when
+
+# Adverbs
+nicht/~R # not
+auch/~R # also
+nur/~R # only
+schon/~R # already
+hier/~R # here
+dort/~R # there
+jetzt/~R # now
+dann/~R # then
+
+# Numbers
+eins/~N # one
+zwei/~N # two
+drei/~N # three
+vier/~N # four
+fünf/~N # five
+sechs/~N # six
+sieben/~N # seven
+acht/~N # eight
+neun/~N # nine
+zehn/~N # ten
+
+# Common phrases
+hallo/~! # hello
+guten Morgen/~! # good morning
+guten Tag/~! # good day
+guten Abend/~! # good evening
+gute Nacht/~! # good night
+danke/~! # thank you
+bitte/~! # please/you're welcome
+entschuldigung/~! # excuse me/sorry
+
+# Test words for affix rules
+# These should trigger various affix rule properties
+bekommenheit/~NgJV # (hypothetical word to test be- + -heit)
+verkeit/~NgJV # (hypothetical word to test ver- + -keit)
+entung/~NgJV # (hypothetical word to test ent- + -ung)
+auflichkeit/~J # (hypothetical word to test auf- + -lichkeit)
+ausbar/~J # (hypothetical word to test aus- + -bar)
