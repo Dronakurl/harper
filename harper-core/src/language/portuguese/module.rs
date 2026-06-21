@@ -48,7 +48,7 @@ impl LanguageModule for PortugueseModule {
         let mut group = LintGroup::empty();
         group.add(
             "portuguese_spell_check",
-            PortugueseSpellCheck::new(dictionary),
+            PortugueseSpellCheck::new(dictionary, PortugueseDialect::default()),
         );
         group
     }

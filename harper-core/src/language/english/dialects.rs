@@ -12,8 +12,8 @@ use crate::language::languages::LanguageFamily;
 use crate::token_string_ext::TokenStringExt;
 
 use bitflags::bitflags;
-use strum::{EnumCount, IntoEnumIterator, VariantArray};
-use strum_macros::{Display, EnumIter, EnumString, StrumVariantArray};
+use strum::{EnumCount as _, IntoEnumIterator, VariantArray as _};
+use strum_macros::{Display, EnumCount, EnumIter, EnumString, VariantArray};
 
 /// The underlying type used for dialect flags.
 type DialectFlagsUnderlyingType = u8;
@@ -29,11 +29,11 @@ type DialectFlagsUnderlyingType = u8;
     PartialOrd,
     Eq,
     Hash,
-    strum_macros::EnumCount,
-    strum_macros::EnumString,
-    strum_macros::EnumIter,
-    strum_macros::Display,
-    StrumVariantArray,
+    EnumCount,
+    EnumString,
+    EnumIter,
+    Display,
+    VariantArray,
     Default,
 )]
 pub enum EnglishDialect {

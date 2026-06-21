@@ -28,6 +28,7 @@ static DETECTORS: LazyLock<Vec<(Box<dyn LanguageDetector>, f64)>> = LazyLock::ne
         // Portuguese has high confidence due to unique characters (\u{00e3}, \u{00f5}, \u{00e7})
         (Box::new(PortugueseModule::detector()), 0.90),
         // English is the fallback with lower confidence
+        // When no other language is detected, English will be used as the default
         (Box::new(EnglishModule::detector()), 0.30),
     ]
 });
@@ -106,12 +107,20 @@ pub fn parser_for_prose(
                 GermanModule::plain_parser().parse(source)
             }),
         )),
+        // English and Portuguese use the default Markdown parser
+        // English is the implicit fallback when no specific language is matched
         ("markdown" | "quarto", _) => Some(Box::new(Markdown::new(markdown_options))),
 
         // Org mode format
         ("org", ProseLanguage::German) => Some(Box::new(OrgMode::with_inline_parser(|source| {
             GermanModule::plain_parser().parse(source)
         }))),
+        ("org", ProseLanguage::Portuguese) => {
+            Some(Box::new(OrgMode::with_inline_parser(|source| {
+                PortugueseModule::plain_parser().parse(source)
+            })))
+        }
+        // English uses the default Org mode parser (fallback)
         ("org", _) => Some(Box::new(OrgMode::default())),
 
         // Plain text format

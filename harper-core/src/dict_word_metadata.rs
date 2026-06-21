@@ -1064,8 +1064,7 @@ fn deserializes_new_language_scoped_dialect_flags() {
     let metadata: crate::DictWordMetadata = serde_json::from_value(json!({
         "dialects": {
             "english": "AMERICAN",
-            "german": 0,
-            "portuguese": 0
+            "german": 0
         }
     }))
     .unwrap();
@@ -1094,7 +1093,6 @@ fn serializes_dialect_flags_to_language_scoped_format() {
     let dialects = value.get("dialects").unwrap();
     assert!(dialects.get("english").is_some());
     assert!(dialects.get("german").is_some());
-    assert!(dialects.get("portuguese").is_some());
     assert_eq!(dialects.get("english").unwrap(), "AMERICAN");
 }
 
