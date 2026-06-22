@@ -69,6 +69,8 @@ fn rust_string_literal(value: &str) -> String {
     format!("{value:?}")
 }
 
+/// Write the rust code from the weir rules for one path. This has to be called
+/// for each language, that is why it is encapsulated in a function
 fn write_grouped_weir_boilerplate(weir_rule_dir: &Path, dest: &Path) {
     let mut entries = fs::read_dir(weir_rule_dir)
         .unwrap()
