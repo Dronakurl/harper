@@ -1,14 +1,14 @@
 {
 	"affixes": {
 		"A": {
-			"#": "'be-' inseparable prefix",
+			"#": "'be-' inseparable prefix (safe)",
 			"kind": "prefix",
-			"cross_product": true,
+			"cross_product": false,
 			"replacements": [
 				{
 					"remove": "",
 					"add": "be",
-					"condition": "."
+					"condition": "[^b]"
 				}
 			],
 			"target": [],
@@ -16,62 +16,132 @@
 			"rename_ok": true
 		},
 		"B": {
-			"#": "'-heit' feminine noun suffix",
+			"#": "'-heit' feminine noun suffix (safe)",
 			"kind": "suffix",
-			"cross_product": true,
+			"cross_product": false,
 			"replacements": [
 				{
 					"remove": "",
 					"add": "heit",
-					"condition": "."
+					"condition": "[^h]"
 				}
 			],
-			"target": [],
+			"target": [
+				{
+					"metadata": {
+						"noun": {
+							"gender": "FEMININE"
+						}
+					}
+				}
+			],
 			"base_metadata": {},
 			"rename_ok": true
 		},
 		"C": {
-			"#": "'-keit' feminine noun suffix",
+			"#": "'-keit' feminine noun suffix (safe)",
 			"kind": "suffix",
-			"cross_product": true,
+			"cross_product": false,
 			"replacements": [
 				{
 					"remove": "",
 					"add": "keit",
-					"condition": "."
+					"condition": "[^k]"
 				}
 			],
-			"target": [],
+			"target": [
+				{
+					"metadata": {
+						"noun": {
+							"gender": "FEMININE"
+						}
+					}
+				}
+			],
 			"base_metadata": {},
 			"rename_ok": true
 		},
 		"D": {
-			"#": "'-ung' feminine noun suffix",
+			"#": "'-ung' feminine noun suffix (safe)",
 			"kind": "suffix",
-			"cross_product": true,
+			"cross_product": false,
 			"replacements": [
 				{
 					"remove": "",
 					"add": "ung",
-					"condition": "."
+					"condition": "[^u]"
+				}
+			],
+			"target": [
+				{
+					"metadata": {
+						"noun": {
+							"gender": "FEMININE"
+						}
+					}
+				}
+			],
+			"base_metadata": {},
+			"rename_ok": true
+		},
+		"E": {
+			"#": "'ver-' inseparable prefix (safe)",
+			"kind": "prefix",
+			"cross_product": false,
+			"replacements": [
+				{
+					"remove": "",
+					"add": "ver",
+					"condition": "[^v]"
 				}
 			],
 			"target": [],
 			"base_metadata": {},
 			"rename_ok": true
 		},
-		"E": {
-			"#": "'ver-' inseparable prefix",
-			"kind": "prefix",
-			"cross_product": true,
+		"F": {
+			"#": "'-chen' neuter diminutive suffix (safe)",
+			"kind": "suffix",
+			"cross_product": false,
 			"replacements": [
 				{
 					"remove": "",
-					"add": "ver",
-					"condition": "."
+					"add": "chen",
+					"condition": "[^c]"
 				}
 			],
-			"target": [],
+			"target": [
+				{
+					"metadata": {
+						"noun": {
+							"gender": "NEUTER"
+						}
+					}
+				}
+			],
+			"base_metadata": {},
+			"rename_ok": true
+		},
+		"G": {
+			"#": "'-lein' neuter diminutive suffix (safe)",
+			"kind": "suffix",
+			"cross_product": false,
+			"replacements": [
+				{
+					"remove": "",
+					"add": "lein",
+					"condition": "[^l]"
+				}
+			],
+			"target": [
+				{
+					"metadata": {
+						"noun": {
+							"gender": "NEUTER"
+						}
+					}
+				}
+			],
 			"base_metadata": {},
 			"rename_ok": true
 		}
