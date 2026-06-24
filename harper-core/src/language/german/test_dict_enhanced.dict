@@ -1,0 +1,27 @@
+20
+# Test dictionary with enhanced verb annotations
+# Format: word/~annotations # comment
+
+gehen/~Va # gehen - infinitiv/lemma
+gehe/~Vh # gehe - 1st person singular
+gehst/~Vi # gehst - 2nd person singular (using i for 2nd person)
+geht/~Vk # geht - 3rd person singular
+
+ging/~Vb # ging - preterite
+gegangen/~Vg # gegangen - past participle (existing)
+
+gehen/~Vd # gehen - progressive/participle 1
+
+geh/~Vf # geh - imperative
+
+schreiben/~Va # schreiben - infinitiv
+schreibe/~Vh # schreibe - 1st person singular
+schreibst/~Vi # schreibst - 2nd person singular
+schreibt/~Vk # schreibt - 3rd person singular
+
+schrieb/~Vb # schrieb - preterite
+geschrieben/~Vg # geschrieben - past participle
+
+schreibend/~Vd # schreibend - progressive
+
+schreib/~Vf # schreib - imperative
