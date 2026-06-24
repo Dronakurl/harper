@@ -281,7 +281,7 @@ mod vicious_loop;
 mod was_aloud;
 mod way_too_adjective;
 mod web_scraping;
-pub mod weir_rules;
+mod weir_rules;
 mod well_educated;
 mod were_where;
 mod whereas;
