@@ -1,4 +1,4 @@
-17862
+17905
 
 # Converted German dictionary for testing framework
 # Format: word/~annotation # comment
@@ -65,6 +65,115 @@ besten/~Jq # besten - superlative (irregular)
 wichtig/~J # important (basic)
 wichtiger/~Jk # wichtiger - comparative
 wichtigsten/~Jq # wichtigsten - superlative
+
+# Important irregular verbs with full conjugations
+# haben (to have)
+haben/~Va # infinitiv
+habe/~Vh # ich habe
+hast/~Vi # du hast
+hat/~Vk # er/sie/es hat
+haben/~V # wir/Sie/sie haben
+hattet/~V # ihr habt
+hatte/~Vb # preterite
+hatten/~Vb # preterite
+habend/~Vd # present participle
+gehabt/~Vg # past participle
+
+# sein (to be)
+sein/~Va # infinitiv
+bin/~Vh # ich bin
+bist/~Vi # du bist
+ist/~Vk # er/sie/es ist
+sind/~V # wir/Sie/sie sind
+seid/~V # ihr seid
+war/~Vb # preterite
+waren/~Vb # preterite
+seiend/~Vd # present participle
+gewesen/~Vg # past participle
+
+# werden (to become)
+werden/~Va # infinitiv
+werde/~Vh # ich werde
+wirst/~Vi # du wirst
+wird/~Vk # er/sie/es wird
+werden/~V # wir/Sie/sie werden
+werdet/~V # ihr werdet
+wurde/~Vb # preterite
+wurden/~Vb # preterite
+werdend/~Vd # present participle
+geworden/~Vg # past participle
+
+# können (can)
+können/~Va # infinitiv
+kann/~Vh # ich kann
+kannst/~Vi # du kannst
+kann/~Vk # er/sie/es kann
+können/~V # wir/Sie/sie können
+könnt/~V # ihr könnt
+konnte/~Vb # preterite
+konnten/~Vb # preterite
+
+# müssen (must)
+müssen/~Va # infinitiv
+muss/~Vh # ich muss
+musst/~Vi # du musst
+muss/~Vk # er/sie/es muss
+müssen/~V # wir/Sie/sie müssen
+müsst/~V # ihr müsst
+musste/~Vb # preterite
+mussten/~Vb # preterite
+
+# dürfen (may)
+dürfen/~Va # infinitiv
+darf/~Vh # ich darf
+darfst/~Vi # du darfst
+darf/~Vk # er/sie/es darf
+dürfen/~V # wir/Sie/sie dürfen
+dürft/~V # ihr dürft
+durfte/~Vb # preterite
+durften/~Vb # preterite
+
+# sollen (shall)
+sollen/~Va # infinitiv
+soll/~Vh # ich soll
+sollst/~Vi # du sollst
+soll/~Vk # er/sie/es soll
+sollen/~V # wir/Sie/sie sollen
+sollt/~V # ihr sollt
+sollte/~Vb # preterite
+sollten/~Vb # preterite
+
+# wollen (want)
+wollen/~Va # infinitiv
+will/~Vh # ich will
+willst/~Vi # du willst
+will/~Vk # er/sie/es will
+wollen/~V # wir/Sie/sie wollen
+wollt/~V # ihr wollt
+wollte/~Vb # preterite
+wollten/~Vb # preterite
+
+# mögen (like)
+mögen/~Va # infinitiv
+mag/~Vh # ich mag
+magst/~Vi # du magst
+mag/~Vk # er/sie/es mag
+mögen/~V # wir/Sie/sie mögen
+mögt/~V # ihr mögt
+mochte/~Vb # preterite
+mochten/~Vb # preterite
+
+# Additional common words
+Stift/~NM # pen/pencil
+lernen/~Va # to learn
+lerne/~Vh # ich lerne
+lernst/~Vi # du lernst
+lernt/~Vk # er/sie/es lernt
+lernen/~V # wir/Sie/sie lernen
+lernt/~V # ihr lernt
+lernte/~Vb # preterite
+lernten/~Vb # preterite
+gelernt/~Vg # past participle
 Alter/~NM # age
 Vorsorge/~NF # provision/precaution
 
