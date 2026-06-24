@@ -1,4 +1,4 @@
-17850
+17862
 
 # Converted German dictionary for testing framework
 # Format: word/~annotation # comment
@@ -44,6 +44,27 @@ Werk/~NZ # work/factory
 Zeit/~NF # time
 Zimmer/~NM # room
 Garten/~NM # garden
+
+# Common adjectives with comparative and superlative forms
+schön/~J # beautiful (basic)
+schöner/~Jk # schöner - comparative
+schönsten/~Jq # schönsten - superlative
+
+schnell/~J # fast (basic)
+schneller/~Jk # schneller - comparative
+schnellsten/~Jq # schnellsten - superlative
+
+groß/~J # big/tall (basic)
+größer/~Jk # größer - comparative
+gößten/~Jq # größten - superlative
+
+gut/~J # good (basic, irregular)
+besser/~Jk # besser - comparative (irregular)
+besten/~Jq # besten - superlative (irregular)
+
+wichtig/~J # important (basic)
+wichtiger/~Jk # wichtiger - comparative
+wichtigsten/~Jq # wichtigsten - superlative
 Alter/~NM # age
 Vorsorge/~NF # provision/precaution
 

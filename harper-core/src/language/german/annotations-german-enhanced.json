@@ -303,6 +303,22 @@
 					"case": "GENITIVE"
 				}
 			}
+		},
+		"k": {
+			"#": "adjective comparative property (German)",
+			"metadata": {
+				"adjective": {
+					"degree": "Comparative"
+				}
+			}
+		},
+		"q": {
+			"#": "adjective superlative property (German)",
+			"metadata": {
+				"adjective": {
+					"degree": "Superlative"
+				}
+			}
 		}
 	}
 }
