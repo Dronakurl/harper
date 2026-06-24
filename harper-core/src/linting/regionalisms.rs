@@ -1,5 +1,4 @@
-use crate::{
-    Dialect::{self, American, Australian, British, Canadian, Indian},
+use crate::{Dialect, EnglishDialect::{self, American, Australian, British, Canadian, Indian},
     Token, TokenStringExt,
     expr::{Expr, FirstMatchOf, FixedPhrase},
     linting::{Lint, LintKind, Suggestion},

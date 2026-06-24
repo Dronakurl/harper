@@ -56,6 +56,7 @@ pub use dict_word_metadata::{
     AdverbData, ConjunctionData, Degree, DeterminerData, DictWordMetadata, NounData, PronounData,
     VerbData, VerbForm, VerbFormFlags,
 };
+pub use language::dialects::dialect_flags::DialectFlags;
 pub use dict_word_metadata_orthography::{OrthFlags, Orthography};
 pub use document::Document;
 pub use fat_token::{FatStringToken, FatToken};
@@ -71,6 +72,7 @@ pub use punctuation::{Punctuation, Quote};
 pub use regular_nouns::{get_plurals, get_singulars};
 pub use span::Span;
 pub use sync::{LSend, Lrc};
+pub use spell::{Dictionary, FstDictionary, MutableDictionary, MergedDictionary, TrieDictionary};
 pub use title_case::{make_title_case, make_title_case_str};
 pub use token::Token;
 pub use token_kind::TokenKind;

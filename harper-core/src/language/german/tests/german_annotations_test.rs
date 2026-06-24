@@ -3,7 +3,7 @@
 use crate::language::german::spell::german_dict::{
     annotated_german_dictionary, mutable_german_dictionary,
 };
-use crate::spell::{Dictionary, MutableDictionary, suggest_correct_spelling_str};
+use crate::spell::{Dictionary, suggest_correct_spelling_str};
 
 #[test]
 fn test_german_annotations_loading() {
