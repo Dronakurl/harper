@@ -253,6 +253,56 @@
 					"number": "SINGULAR"
 				}
 			}
+		},
+		"i": {
+			"#": "verb 2nd person singular property (German)",
+			"metadata": {
+				"verb": {
+					"person": "SECOND",
+					"number": "SINGULAR"
+				}
+			}
+		},
+		"k": {
+			"#": "verb 3rd person singular property (German)",
+			"metadata": {
+				"verb": {
+					"person": "THIRD",
+					"number": "SINGULAR"
+				}
+			}
+		},
+		"l": {
+			"#": "noun nominative case property (German)",
+			"metadata": {
+				"noun": {
+					"case": "NOMINATIVE"
+				}
+			}
+		},
+		"m": {
+			"#": "noun accusative case property (German)",
+			"metadata": {
+				"noun": {
+					"case": "ACCUSATIVE"
+				}
+			}
+		},
+		"n": {
+			"#": "noun dative case property (German)",
+			"metadata": {
+				"noun": {
+					"case": "DATIVE"
+				}
+			}
+		},
+		"o": {
+			"#": "noun genitive case property (German)",
+			"metadata": {
+				"noun": {
+					"case": "GENITIVE"
+				}
+			}
 		}
 	}
 }

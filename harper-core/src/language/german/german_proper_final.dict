@@ -1,7 +1,51 @@
-17799
+17850
 
 # Converted German dictionary for testing framework
 # Format: word/~annotation # comment
+
+# Added strategic compound-forming words
+Versicherung/~NF # insurance (feminine noun)
+Leben/~NZ # life (neuter noun)
+Versicherungs/~NFG # insurance (genitive form for compounds)
+Lebens/~NZG # life (genitive form for compounds)
+
+# Strategic compound-forming words to enable better compound recognition
+Anlage/~NF # facility/installation
+Ansicht/~NF # view
+Arbeit/~NF # work
+Auto/~NM # car
+Bahn/~NF # railway/track
+Bild/~NZ # picture
+Buch/~NM # book
+Bund/~NZ # federation/league
+Bundes/~NM # federal (genitive form)
+Fahrzeug/~NZ # vehicle
+Fest/~NM # festival/fixed
+Geschichte/~NF # history/story
+Haus/~NZ # house
+Karte/~NF # card/map
+Kinder/~NM # children
+Kraft/~NF # power/force
+Lehre/~NF # teaching/doctrine
+Mittel/~NF # means/agent
+Platz/~NF # place/square
+Punkt/~NZ # point
+Raum/~NZ # space/room
+Recht/~NF # law/right
+Schule/~NF # school
+Stadt/~NM # city
+Stelle/~NF # place/position
+Straße/~NF # street
+System/~NZ # system
+Teil/~NZ # part
+Wasser/~NZ # water
+Welt/~NM # world
+Werk/~NZ # work/factory
+Zeit/~NF # time
+Zimmer/~NM # room
+Garten/~NM # garden
+Alter/~NM # age
+Vorsorge/~NF # provision/precaution
 
 Ne/~N #  neuter noun
 1/~N #  neuter noun
