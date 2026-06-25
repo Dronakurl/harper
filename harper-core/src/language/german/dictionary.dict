@@ -1,193 +1,5084 @@
-188
+5076
 
-# Refined German dictionary with systematic annotations
-# Focused on core vocabulary and morphological patterns
+der/~~Dz # masculine article
+die/~~Dz # feminine article
+das/~~Dz # neuter article
+den/~~Dz # masculine accusative
+dem/~~Dz # masculine/neuter dative
+des/~~Dz # masculine/neuter genitive
+ein/~~Dz # indefinite article
+eine/~~Dz # indefinite article feminine
+einem/~~Dz # indefinite article dative
+einen/~~Dz # indefinite article masculine accusative
+einer/~~Dz # indefinite article feminine genitive
+eines/~~Dz # indefinite article neuter genitive
+ich/~~P # pronoun I
+du/~~P # pronoun you
+er/~~P # pronoun he
+sie/~~P # pronoun she/they
+es/~~P # pronoun it
+wir/~~P # pronoun we
+ihr/~~P # pronoun you (plural)
+sie/~~P # pronoun they
+sein/~~V # verb to be
+haben/~~V # verb to have
+werden/~~V # verb to become
+können/~~V # verb can
+müssen/~~V # verb must
+sollen/~~V # verb shall
+wollen/~~V # verb want
+dürfen/~~V # verb may
+mögen/~~V # verb like
+in/~~P # preposition in
+an/~~P # preposition at
+auf/~~P # preposition on
+aus/~~P # preposition from
+bei/~~P # preposition at
+mit/~~P # preposition with
+nach/~~P # preposition after
+von/~~P # preposition from
+zu/~~P # preposition to
+für/~~P # preposition for
+und/~~C # conjunction and
+oder/~~C # conjunction or
+aber/~~C # conjunction but
+dass/~~C # conjunction that
+weil/~~C # conjunction because
+wenn/~~C # conjunction if/when
+nicht/~~R # adverb not
+auch/~~R # adverb also
+nur/~~R # adverb only
+schon/~~R # adverb already
+noch/~~R # adverb still
+hier/~~R # adverb here
+dort/~~R # adverb there
+jetzt/~~R # adverb now
+sehr/~~R # adverb very
+wichtig/~~J # adjective important
+gut/~~J # adjective good
+schön/~~J # adjective beautiful
+groß/~~J # adjective large
+klein/~~J # adjective small
+neu/~~J # adjective new
+alt/~~J # adjective old
+hoch/~~J # adjective high
+tief/~~J # adjective deep
+lang/~~J # adjective long
+Mann/~~M # masculine noun man
+Frau/~~F # feminine noun woman
+Kind/~~N # neuter noun child
+Haus/~~N # neuter noun house
+Buch/~~N # neuter noun book
+Tisch/~~M # masculine noun table
+Stuhl/~~M # masculine noun chair
+Wasser/~~N # neuter noun water
+Luft/~~F # feminine noun air
+Feuer/~~N # neuter noun fire
+5001
+
+5000
+
+# German root vocabulary - extracted from expanded dictionary
+# Focused on root words that can form compounds and inflected forms
 # Format: word/~annotations # comment
 
-Auto/~N # neuter noun (car)
-Garten/~M # masculine noun (garden)
-im/~P # preposition (in the)
-ist/~V # verb (is)
-schnell/~J # adjective (fast)
-schläft/~V # verb (sleeps)
-Sofa/~N # neuter noun (sofa)
-spielt/~V # verb (plays)
-sehr/~R # adverb (very)
-Schüler/~M # masculine noun (student)
-Vokabeln/~F # feminine noun (vocabulary)
-Frühstück/~N # neuter noun (breakfast)
-sind/~V # verb (are)
-war/~V # verb (was)
-großartig/~J # adjective (great)
-üben/~V # verb (to practice)
-Äpfel/~M # masculine noun (apples)
-Ölkannen/~F # feminine noun (oil cans)
-Ball/~M # masculine noun (ball)
-Freude/~F # feminine noun (joy)
-am/~P # preposition (at/on)
-Lernen/~N # neuter noun (learning)
-Wetter/~N # neuter noun (weather)
-heute/~R # adverb (today)
-Büchlein/~N # neuter noun (little book, from Buch + -lein)
-Bildung/~F # feminine noun
-Ding/~N # neuter noun
-Frau/~F # feminine noun
-Haus/~N # neuter noun
-Hund/~M # masculine noun
-Jahr/~N # neuter noun
-Katze/~F # feminine noun
-Kind/~N # neuter noun
-Mann/~M # masculine noun
-Nacht/~F # feminine noun
-Stadt/~F # feminine noun
-Tag/~M # masculine noun
-Tisch/~M # masculine noun
-Zeit/~F # feminine noun
-aber/~C # conjunction
-alt/~J # adjective
-an/~P # preposition
-auch/~R # adverb
-auf/~P # preposition
-aus/~P # preposition
-bei/~P # preposition
-bildung/~F # feminine noun (from -ung suffix)
-bitte/~I # interjection
-da/~R # adverb
-danke/~I # interjection
-das/~Dz # neuter article
-dass/~C # conjunction
-dem/~Dz # masculine/neuter dative
-den/~Dz # masculine accusative
-denkbar/~J # adjective (from -bar suffix)
-der/~Dz # masculine article
-des/~Dz # masculine/neuter genitive
-die/~Dz # feminine article
-doch/~C # conjunction
-dort/~R # adverb
-du/~P # pronoun
-durch/~P # preposition
-dürfen/~V # verb
-ein/~Dz # indefinite article
-eine/~Dz # indefinite article feminine
-einem/~Dz # indefinite article dative
-einen/~Dz # indefinite article masculine accusative
-einer/~Dz # indefinite article feminine genitive
-eines/~Dz # indefinite article neuter genitive
-entscheidung/~F # feminine noun (from -ung suffix)
-entschuldigung/~I # interjection
-entwicklung/~F # feminine noun (from -ung suffix)
-er/~P # pronoun
-es/~P # pronoun
-fleißig/~J # adjective
-freundlich/~J # adjective (from -lich suffix)
-freundlichkeit/~F # feminine noun (from -keit suffix)
-für/~P # preposition
-geben/~V # verb
-gegen/~P # preposition
-gehen/~V # verb
-groß/~J # adjective
-gut/~J # adjective
-haben/~V # verb
-hallo/~I # interjection
-hier/~R # adverb
-hässlich/~J # adjective
-hörbar/~J # adjective (from -bar suffix)
-ich/~P # pronoun
-ihr/~P # pronoun
-in/~P # preposition
-jetzt/~R # adverb
-kindheit/~F # feminine noun (from -heit suffix)
-kindisch/~J # adjective
-kindlich/~J # adjective (from -lich suffix)
-klein/~J # adjective
-kommen/~V # verb
-können/~V # verb
-langsam/~J # adjective
-lesbar/~J # adjective (from -bar suffix)
-machbar/~J # adjective (from -bar suffix)
-machen/~V # verb
-mit/~P # preposition
-mögen/~V # verb
-möglichkeit/~F # feminine noun (from -keit suffix)
-müssen/~V # verb
-nach/~P # preposition
-nehmen/~V # verb
-neu/~J # adjective
-nicht/~R # adverb
-noch/~R # adverb
-nur/~R # adverb
-ob/~C # conjunction
-oder/~C # conjunction
-ohne/~P # preposition
-sagen/~V # verb
-schlecht/~J # adjective
-schnell/~J # adjective
-schon/~R # adverb
-schön/~J # adjective
-sein/~V # verb
-seit/~P # preposition
-sichtbar/~J # adjective (from -bar suffix)
-sie/~P # pronoun plural
-sollen/~V # verb
-sondern/~C # conjunction
-und/~C # conjunction
-verbindung/~F # feminine noun (from -ung suffix)
-von/~P # preposition
-wahrheit/~F # feminine noun (from -heit suffix)
-weil/~C # conjunction
-wenn/~C # conjunction
-werden/~V # verb
-wir/~P # pronoun
-wirklichkeit/~F # feminine noun (from -keit suffix)
-wissen/~V # verb
-wollen/~V # verb
-zu/~P # preposition
-bekommen/~V # verb (to get/receive)
-verstehen/~V # verb (to understand)
-entwickeln/~V # verb (to develop)
-aufbauen/~V # verb (to build up)
-bekommenheit/~F # feminine noun (from bekommen + -heit)
-verkeit/~F # feminine noun (from ver- + -keit)
-entung/~F # feminine noun (from ent- + -ung)
-auflichkeit/~F # feminine noun (from auf- + -lichkeit + -keit)
-ausbar/~J # adjective (from aus- + -bar)
-vor/~P # preposition (before, in front of)
-dann/~R # adverb (then)
-Tür/~F # feminine noun (door)
-entfernen/~V # verb (to remove)
-Freiheit/~F # feminine noun (freedom)
-Buch/~N # neuter noun (book)
-erzählen/~V # verb (to tell/narrate)
-Ergebnis/~N # neuter noun (result)
-aufstehen/~V # verb (to stand up)
-Eigentum/~N # neuter noun (property)
-ausgehen/~V # verb (to go out)
-Lehrling/~M # masculine noun (apprentice)
-einkaufen/~V # verb (to shop)
-Information/~F # feminine noun (information)
-Universität/~F # feminine noun (university)
-Freundschaft/~F # feminine noun (friendship)
-Mädchen/~N # neuter noun (girl)
-Häuschen/~N # neuter noun (little house)
-Möglichkeit/~F # feminine noun (possibility)
-Fuchs/~M # masculine noun (fox)
-springt/~V # verb (jumps)
-braune/~J # adjective (brown)
-Arbeitsspeicher/~M # masculine noun (memory/RAM)
-Benutzeroberfläche/~F # feminine noun (user interface)
-Festplatte/~F # feminine noun (hard drive)
-Netzwerkverbindung/~F # feminine noun (network connection)
-Computer/~M # masculine noun (computer)
-Programm/~N # neuter noun (program)
-Datei/~F # feminine noun (file)
-schnelle/~J # adjective (fast)
-über/~P # preposition (over)
-faulen/~J # adjective (lazy)
-arbeite/~V # verb (work)
-schreibe/~V # verb (write)
-Programms/~N # neuter noun (program's - genitive form)
-einfach/~J # adjective (simple)
-bedienen/~V # verb (to operate)
-hat/~V # verb (has)
-große/~J # adjective (large)
-viel/~R # adverb (much)
+heil/~N # frequency: 11
+näher/~N # frequency: 11
+reich/~N # frequency: 11
+reif/~N # frequency: 11
+sicher/~N # frequency: 11
+wunder/~N # frequency: 11
+ärger/~N # frequency: 11
+äußer/~N # frequency: 11
+bau/~N # frequency: 10
+besser/~N # frequency: 10
+ein/~N # frequency: 10
+fach/~N # frequency: 10
+irr/~N # frequency: 10
+klammer/~N # frequency: 10
+lieb/~N # frequency: 10
+link/~N # frequency: 10
+locker/~N # frequency: 10
+milder/~N # frequency: 10
+minder/~N # frequency: 10
+neu/~N # frequency: 10
+rau/~N # frequency: 10
+schal/~N # frequency: 10
+schick/~N # frequency: 10
+schmäler/~N # frequency: 10
+strahl/~N # frequency: 10
+trau/~N # frequency: 10
+weich/~N # frequency: 10
+adel/~N # frequency: 9
+anruf/~N # frequency: 9
+ball/~N # frequency: 9
+bar/~J # adjective root, frequency: 9
+berg/~N # frequency: 9
+beruf/~N # frequency: 9
+bleich/~N # frequency: 9
+dampf/~N # frequency: 9
+dick/~N # frequency: 9
+ding/~N # frequency: 9
+faul/~N # frequency: 9
+flach/~N # frequency: 9
+flau/~N # frequency: 9
+forsch/~N # frequency: 9
+frei/~N # frequency: 9
+frisch/~J # adjective root, frequency: 9
+gleich/~N # frequency: 9
+grün/~N # frequency: 9
+jung/~N # frequency: 9
+kecker/~N # frequency: 9
+keim/~N # frequency: 9
+knall/~N # frequency: 9
+kühl/~N # frequency: 9
+lau/~N # frequency: 9
+lauer/~N # frequency: 9
+leck/~N # frequency: 9
+loch/~N # frequency: 9
+mein/~N # frequency: 9
+nah/~N # frequency: 9
+offenbar/~J # adjective root, frequency: 9
+plan/~N # frequency: 9
+radikal/~N # frequency: 9
+rauch/~N # frequency: 9
+reg/~N # frequency: 9
+rock/~N # frequency: 9
+rund/~N # frequency: 9
+scheuer/~N # frequency: 9
+schrei/~N # frequency: 9
+schwäch/~N # frequency: 9
+stich/~N # frequency: 9
+still/~N # frequency: 9
+stock/~N # frequency: 9
+straff/~N # frequency: 9
+streich/~N # frequency: 9
+stumpf/~N # frequency: 9
+süß/~N # frequency: 9
+teil/~N # frequency: 9
+trüb/~N # frequency: 9
+unter/~N # frequency: 9
+verleih/~N # frequency: 9
+versuch/~N # frequency: 9
+wach/~N # frequency: 9
+wahr/~N # frequency: 9
+weiß/~N # frequency: 9
+widerruf/~N # frequency: 9
+wild/~N # frequency: 9
+wilder/~N # frequency: 9
+wohl/~N # frequency: 9
+wucher/~N # frequency: 9
+zink/~N # frequency: 9
+überreich/~N # frequency: 9
+achter/~N # frequency: 8
+aktiv/~N # frequency: 8
+anbau/~N # frequency: 8
+aufstau/~N # frequency: 8
+ausgleich/~N # frequency: 8
+ausruf/~N # frequency: 8
+austausch/~N # frequency: 8
+bang/~N # frequency: 8
+bann/~N # frequency: 8
+barsch/~N # frequency: 8
+begriff/~N # frequency: 8
+beleg/~N # frequency: 8
+bequem/~N # frequency: 8
+besuch/~N # frequency: 8
+betrieb/~N # frequency: 8
+beweg/~N # frequency: 8
+bieder/~N # frequency: 8
+bild/~N # frequency: 8
+billig/~J # adjective root, frequency: 8
+block/~N # frequency: 8
+bock/~N # frequency: 8
+brau/~N # frequency: 8
+brösel/~N # frequency: 8
+buch/~N # frequency: 8
+buckel/~N # frequency: 8
+bummel/~N # frequency: 8
+bündel/~N # frequency: 8
+deck/~N # frequency: 8
+deckel/~N # frequency: 8
+demütig/~J # adjective root, frequency: 8
+dichter/~N # frequency: 8
+doppel/~N # frequency: 8
+druck/~N # frequency: 8
+ehelich/~J # adjective root, frequency: 8
+einig/~J # adjective root, frequency: 8
+eiter/~N # frequency: 8
+ekel/~N # frequency: 8
+elend/~N # frequency: 8
+eng/~N # frequency: 8
+erwerb/~N # frequency: 8
+feig/~J # adjective root, frequency: 8
+fertig/~J # adjective root, frequency: 8
+fest/~N # frequency: 8
+finger/~N # frequency: 8
+fisch/~J # adjective root, frequency: 8
+fluch/~N # frequency: 8
+forscher/~N # frequency: 8
+früh/~N # frequency: 8
+fummel/~N # frequency: 8
+funk/~N # frequency: 8
+förder/~N # frequency: 8
+füll/~N # frequency: 8
+gabel/~N # frequency: 8
+gar/~N # frequency: 8
+geil/~N # frequency: 8
+gelb/~N # frequency: 8
+genial/~N # frequency: 8
+gewinn/~N # frequency: 8
+glück/~N # frequency: 8
+grau/~N # frequency: 8
+graupel/~N # frequency: 8
+griff/~N # frequency: 8
+hall/~N # frequency: 8
+heilig/~J # adjective root, frequency: 8
+heiter/~N # frequency: 8
+hell/~N # frequency: 8
+hinter/~N # frequency: 8
+ideal/~N # frequency: 8
+imperativ/~N # frequency: 8
+kalk/~N # frequency: 8
+kapsel/~N # frequency: 8
+knack/~N # frequency: 8
+konjunktiv/~N # frequency: 8
+krampf/~N # frequency: 8
+krank/~N # frequency: 8
+krieg/~N # frequency: 8
+kringel/~N # frequency: 8
+krümel/~N # frequency: 8
+lang/~N # frequency: 8
+leer/~N # frequency: 8
+leid/~N # frequency: 8
+lock/~N # frequency: 8
+los/~N # frequency: 8
+läster/~N # frequency: 8
+mager/~N # frequency: 8
+mark/~N # frequency: 8
+massiv/~N # frequency: 8
+mau/~N # frequency: 8
+misch/~J # adjective root, frequency: 8
+munter/~N # frequency: 8
+mäßig/~J # adjective root, frequency: 8
+nagel/~N # frequency: 8
+naiv/~N # frequency: 8
+negativ/~N # frequency: 8
+nerv/~N # frequency: 8
+nötig/~J # adjective root, frequency: 8
+ober/~N # frequency: 8
+paar/~N # frequency: 8
+pack/~N # frequency: 8
+passiv/~N # frequency: 8
+pfiff/~N # frequency: 8
+pfleg/~N # frequency: 8
+pfusch/~N # frequency: 8
+plump/~N # frequency: 8
+plural/~N # frequency: 8
+polster/~N # frequency: 8
+prall/~N # frequency: 8
+prüf/~N # frequency: 8
+quatsch/~N # frequency: 8
+quirl/~N # frequency: 8
+reicher/~N # frequency: 8
+relativ/~N # frequency: 8
+ring/~N # frequency: 8
+roh/~N # frequency: 8
+ruf/~N # frequency: 8
+rutsch/~N # frequency: 8
+scheu/~N # frequency: 8
+schiefer/~N # frequency: 8
+schiff/~N # frequency: 8
+schimmel/~N # frequency: 8
+schlag/~N # frequency: 8
+schlapp/~N # frequency: 8
+schluck/~N # frequency: 8
+schnell/~N # frequency: 8
+schnörkel/~N # frequency: 8
+schon/~N # frequency: 8
+schraub/~N # frequency: 8
+schrill/~N # frequency: 8
+schroff/~N # frequency: 8
+schräg/~N # frequency: 8
+schwefel/~N # frequency: 8
+schweiß/~N # frequency: 8
+schwer/~N # frequency: 8
+schwindel/~N # frequency: 8
+seil/~N # frequency: 8
+siech/~N # frequency: 8
+sieg/~N # frequency: 8
+sinn/~N # frequency: 8
+sonder/~N # frequency: 8
+span/~N # frequency: 8
+spann/~N # frequency: 8
+spiegel/~N # frequency: 8
+spiel/~N # frequency: 8
+spitz/~N # frequency: 8
+stachel/~N # frequency: 8
+staffel/~N # frequency: 8
+stapel/~N # frequency: 8
+stau/~N # frequency: 8
+staub/~N # frequency: 8
+steif/~N # frequency: 8
+steig/~J # adjective root, frequency: 8
+steinig/~J # adjective root, frequency: 8
+stell/~N # frequency: 8
+stereotyp/~N # frequency: 8
+steuer/~N # frequency: 8
+stick/~N # frequency: 8
+stimm/~N # frequency: 8
+streng/~N # frequency: 8
+strich/~N # frequency: 8
+strick/~N # frequency: 8
+tag/~N # frequency: 8
+takel/~N # frequency: 8
+taumel/~N # frequency: 8
+tief/~N # frequency: 8
+toll/~N # frequency: 8
+ton/~N # frequency: 8
+treu/~N # frequency: 8
+träg/~N # frequency: 8
+tätig/~J # adjective root, frequency: 8
+umbau/~N # frequency: 8
+ungelenk/~N # frequency: 8
+verbrauch/~N # frequency: 8
+verdeck/~N # frequency: 8
+verdächtig/~J # adjective root, frequency: 8
+vereinbar/~J # adjective root, frequency: 8
+vergleich/~N # frequency: 8
+verkehr/~N # frequency: 8
+verständig/~J # adjective root, frequency: 8
+vertrieb/~N # frequency: 8
+veräußer/~N # frequency: 8
+veräußerlich/~J # adjective root, frequency: 8
+vokal/~N # frequency: 8
+wall/~N # frequency: 8
+wandel/~N # frequency: 8
+welk/~N # frequency: 8
+wert/~N # frequency: 8
+wickel/~N # frequency: 8
+wiesel/~N # frequency: 8
+wirbel/~N # frequency: 8
+wirr/~N # frequency: 8
+wisch/~J # adjective root, frequency: 8
+würdig/~J # adjective root, frequency: 8
+würfel/~N # frequency: 8
+xenophob/~N # frequency: 8
+zauber/~N # frequency: 8
+zeug/~N # frequency: 8
+zieh/~N # frequency: 8
+zimmer/~N # frequency: 8
+zäh/~N # frequency: 8
+züchtig/~J # adjective root, frequency: 8
+zügel/~N # frequency: 8
+aal/~N # frequency: 7
+abbild/~N # frequency: 7
+abdeck/~N # frequency: 7
+abdruck/~N # frequency: 7
+abgleich/~N # frequency: 7
+abhol/~N # frequency: 7
+ablativ/~N # frequency: 7
+abnormal/~N # frequency: 7
+abprall/~N # frequency: 7
+abruf/~N # frequency: 7
+absonder/~N # frequency: 7
+abstieg/~N # frequency: 7
+absurd/~N # frequency: 7
+abtausch/~N # frequency: 7
+abteil/~N # frequency: 7
+abwechslungsreich/~N # frequency: 7
+abwickel/~N # frequency: 7
+abzweig/~J # adjective root, frequency: 7
+abänder/~N # frequency: 7
+achtel/~N # frequency: 7
+achtungsvoll/~N # frequency: 7
+additiv/~N # frequency: 7
+adiabat/~N # frequency: 7
+aerob/~N # frequency: 7
+aggressiv/~N # frequency: 7
+agil/~N # frequency: 7
+ahnungsvoll/~N # frequency: 7
+akephal/~N # frequency: 7
+aktuell/~N # frequency: 7
+all/~N # frequency: 7
+alter/~N # frequency: 7
+amyotroph/~N # frequency: 7
+analog/~N # frequency: 7
+ander/~N # frequency: 7
+angel/~N # frequency: 7
+angriff/~N # frequency: 7
+angstvoll/~N # frequency: 7
+anhäng/~N # frequency: 7
+anisotrop/~N # frequency: 7
+ankauf/~N # frequency: 7
+anomal/~N # frequency: 7
+anregungsreich/~N # frequency: 7
+anschliff/~N # frequency: 7
+anspruchsvoll/~N # frequency: 7
+ansteck/~N # frequency: 7
+anstich/~N # frequency: 7
+anstieg/~N # frequency: 7
+anstrich/~N # frequency: 7
+antrieb/~N # frequency: 7
+apokryph/~N # frequency: 7
+appellativ/~N # frequency: 7
+arbeitsintensiv/~N # frequency: 7
+arbeitsreich/~N # frequency: 7
+arbeitsscheu/~N # frequency: 7
+areal/~N # frequency: 7
+arm/~N # frequency: 7
+artenreich/~N # frequency: 7
+artifiziell/~N # frequency: 7
+asozial/~N # frequency: 7
+assoziationsreich/~N # frequency: 7
+atmungsaktiv/~N # frequency: 7
+attraktiv/~N # frequency: 7
+aufbau/~N # frequency: 7
+aufkauf/~N # frequency: 7
+aufopferungsvoll/~N # frequency: 7
+aufruf/~N # frequency: 7
+aufschlussreich/~N # frequency: 7
+aufstell/~N # frequency: 7
+aufstieg/~N # frequency: 7
+auftrag/~N # frequency: 7
+auftrieb/~N # frequency: 7
+ausbau/~N # frequency: 7
+ausdruck/~N # frequency: 7
+ausdrucksvoll/~N # frequency: 7
+ausliefer/~N # frequency: 7
+aussichtsreich/~N # frequency: 7
+aussichtsvoll/~N # frequency: 7
+ausstell/~N # frequency: 7
+ausstieg/~N # frequency: 7
+auswander/~N # frequency: 7
+autograf/~N # frequency: 7
+autograph/~N # frequency: 7
+automobil/~N # frequency: 7
+bad/~N # frequency: 7
+balg/~N # frequency: 7
+ballaststoffreich/~N # frequency: 7
+banal/~N # frequency: 7
+bandbreitenintensiv/~N # frequency: 7
+barock/~N # frequency: 7
+basal/~N # frequency: 7
+bausch/~N # frequency: 7
+becher/~N # frequency: 7
+bedeutungsvoll/~N # frequency: 7
+behandel/~N # frequency: 7
+belager/~N # frequency: 7
+belang/~N # frequency: 7
+beriesel/~N # frequency: 7
+beschau/~N # frequency: 7
+bescheiden/~V # verb root, frequency: 7
+beschwer/~N # frequency: 7
+beschäftigungsintensiv/~N # frequency: 7
+besiedel/~N # frequency: 7
+besitz/~N # frequency: 7
+bespitzel/~N # frequency: 7
+bestell/~N # frequency: 7
+betrag/~N # frequency: 7
+beutel/~N # frequency: 7
+bevölkerungsreich/~N # frequency: 7
+bewach/~N # frequency: 7
+bewunder/~N # frequency: 7
+bitter/~N # frequency: 7
+blau/~N # frequency: 7
+blech/~N # frequency: 7
+blick/~N # frequency: 7
+blut/~N # frequency: 7
+blöd/~N # frequency: 7
+blütenreich/~N # frequency: 7
+bodennah/~N # frequency: 7
+brauch/~N # frequency: 7
+brav/~N # frequency: 7
+bring/~N # frequency: 7
+brunch/~N # frequency: 7
+brunnenreich/~N # frequency: 7
+brutal/~N # frequency: 7
+bröckel/~N # frequency: 7
+büffel/~N # frequency: 7
+bügel/~N # frequency: 7
+camp/~N # frequency: 7
+chancenreich/~N # frequency: 7
+chic/~N # frequency: 7
+chromgelb/~N # frequency: 7
+clinch/~N # frequency: 7
+cool/~N # frequency: 7
+crack/~N # frequency: 7
+dank/~N # frequency: 7
+deal/~N # frequency: 7
+defensiv/~N # frequency: 7
+dekorativ/~N # frequency: 7
+derb/~N # frequency: 7
+destruktiv/~N # frequency: 7
+detailgetreu/~N # frequency: 7
+detailreich/~N # frequency: 7
+differential/~N # frequency: 7
+doof/~N # frequency: 7
+drang/~N # frequency: 7
+dreh/~N # frequency: 7
+drill/~N # frequency: 7
+droh/~N # frequency: 7
+drossel/~N # frequency: 7
+drück/~N # frequency: 7
+dumpf/~N # frequency: 7
+durchstich/~N # frequency: 7
+dämmer/~N # frequency: 7
+dünn/~N # frequency: 7
+effektiv/~N # frequency: 7
+effektvoll/~N # frequency: 7
+eifer/~N # frequency: 7
+eindrucksvoll/~N # frequency: 7
+einfach/~N # frequency: 7
+einfallsreich/~N # frequency: 7
+einflussreich/~N # frequency: 7
+eingriff/~N # frequency: 7
+einliefer/~N # frequency: 7
+einsam/~J # adjective root, frequency: 7
+einsichtsvoll/~N # frequency: 7
+einstell/~N # frequency: 7
+einstieg/~N # frequency: 7
+eintrag/~N # frequency: 7
+einwander/~N # frequency: 7
+einwandfrei/~N # frequency: 7
+einwohnerreich/~N # frequency: 7
+ektop/~N # frequency: 7
+elektronegativ/~N # frequency: 7
+elektropositiv/~N # frequency: 7
+ellipsoid/~N # frequency: 7
+emotional/~N # frequency: 7
+emotionell/~N # frequency: 7
+energiereich/~N # frequency: 7
+entbehrungsreich/~N # frequency: 7
+entkoppel/~N # frequency: 7
+entriegel/~N # frequency: 7
+entrümpel/~N # frequency: 7
+entscheid/~N # frequency: 7
+entschlüssel/~N # frequency: 7
+entsorg/~N # frequency: 7
+entwickel/~N # frequency: 7
+entwurzel/~N # frequency: 7
+erbau/~N # frequency: 7
+ereignisreich/~N # frequency: 7
+erfahren/~V # verb root, frequency: 7
+erfindungsreich/~N # frequency: 7
+erfolg/~N # frequency: 7
+erfolgreich/~N # frequency: 7
+ergeben/~V # verb root, frequency: 7
+erinner/~N # frequency: 7
+erklär/~N # frequency: 7
+ermittel/~N # frequency: 7
+erneuer/~N # frequency: 7
+ernst/~N # frequency: 7
+erober/~N # frequency: 7
+erschaff/~N # frequency: 7
+ertragreich/~N # frequency: 7
+erzähl/~N # frequency: 7
+ewig/~J # adjective root, frequency: 7
+exklusiv/~N # frequency: 7
+expansiv/~N # frequency: 7
+experimentell/~N # frequency: 7
+explosiv/~N # frequency: 7
+exzessiv/~N # frequency: 7
+facettenreich/~N # frequency: 7
+fad/~N # frequency: 7
+fahl/~N # frequency: 7
+fantasiereich/~N # frequency: 7
+fantasievoll/~N # frequency: 7
+fatal/~N # frequency: 7
+fei/~N # frequency: 7
+fertiger/~N # frequency: 7
+fesch/~N # frequency: 7
+fessel/~N # frequency: 7
+fett/~N # frequency: 7
+feudal/~N # frequency: 7
+feuer/~N # frequency: 7
+fick/~N # frequency: 7
+fieber/~N # frequency: 7
+film/~N # frequency: 7
+filter/~N # frequency: 7
+find/~N # frequency: 7
+finster/~N # frequency: 7
+fischreich/~N # frequency: 7
+fix/~N # frequency: 7
+flansch/~N # frequency: 7
+fleck/~N # frequency: 7
+folgenreich/~N # frequency: 7
+folter/~N # frequency: 7
+formal/~N # frequency: 7
+formell/~N # frequency: 7
+formenreich/~N # frequency: 7
+formstabil/~N # frequency: 7
+forschungsintensiv/~N # frequency: 7
+fossil/~N # frequency: 7
+frack/~N # frequency: 7
+frag/~N # frequency: 7
+fragil/~N # frequency: 7
+frankophil/~N # frequency: 7
+frech/~N # frequency: 7
+fremd/~N # frequency: 7
+frevel/~N # frequency: 7
+froh/~N # frequency: 7
+fromm/~N # frequency: 7
+frühreif/~N # frequency: 7
+fundamental/~N # frequency: 7
+fungizid/~N # frequency: 7
+fälsch/~N # frequency: 7
+füg/~N # frequency: 7
+fütter/~N # frequency: 7
+galliumreich/~N # frequency: 7
+gebrauch/~N # frequency: 7
+gefahrvoll/~N # frequency: 7
+gefühl/~N # frequency: 7
+gefühlsvoll/~N # frequency: 7
+gefühlvoll/~N # frequency: 7
+gehaltreich/~N # frequency: 7
+gehaltvoll/~N # frequency: 7
+geheimnisvoll/~N # frequency: 7
+gehorsam/~J # adjective root, frequency: 7
+geistreich/~N # frequency: 7
+geistvoll/~N # frequency: 7
+geißel/~N # frequency: 7
+gelenk/~N # frequency: 7
+gemein/~N # frequency: 7
+genau/~N # frequency: 7
+generell/~N # frequency: 7
+genital/~N # frequency: 7
+genussreich/~N # frequency: 7
+gering/~N # frequency: 7
+geräuschintensiv/~N # frequency: 7
+geräuschvoll/~N # frequency: 7
+geschmackvoll/~N # frequency: 7
+gestrüppreich/~N # frequency: 7
+getreu/~N # frequency: 7
+gewitterintensiv/~N # frequency: 7
+gipfel/~N # frequency: 7
+glatthobel/~N # frequency: 7
+glazial/~N # frequency: 7
+glorreich/~N # frequency: 7
+gläubiger/~N # frequency: 7
+grab/~N # frequency: 7
+grauenvoll/~N # frequency: 7
+greif/~N # frequency: 7
+grell/~N # frequency: 7
+grummel/~N # frequency: 7
+grusel/~N # frequency: 7
+gut/~N # frequency: 7
+gängel/~N # frequency: 7
+gärtner/~N # frequency: 7
+haar/~N # frequency: 7
+hagel/~N # frequency: 7
+handel/~N # frequency: 7
+harsch/~N # frequency: 7
+hau/~N # frequency: 7
+hebel/~N # frequency: 7
+heft/~N # frequency: 7
+heiler/~N # frequency: 7
+heim/~N # frequency: 7
+heiß/~N # frequency: 7
+heliotrop/~N # frequency: 7
+herausforder/~N # frequency: 7
+herb/~N # frequency: 7
+herbst/~N # frequency: 7
+heterolog/~N # frequency: 7
+hinder/~N # frequency: 7
+hingebungsvoll/~N # frequency: 7
+hobel/~N # frequency: 7
+hochachtungsvoll/~N # frequency: 7
+hoffnungsvoll/~N # frequency: 7
+hoheitsvoll/~N # frequency: 7
+hohl/~N # frequency: 7
+häng/~N # frequency: 7
+hör/~N # frequency: 7
+ideell/~N # frequency: 7
+ideenreich/~N # frequency: 7
+imker/~N # frequency: 7
+immobil/~N # frequency: 7
+impulsiv/~N # frequency: 7
+indikativ/~N # frequency: 7
+individuell/~N # frequency: 7
+ineffektiv/~N # frequency: 7
+infernal/~N # frequency: 7
+infinitiv/~N # frequency: 7
+informativ/~N # frequency: 7
+informell/~N # frequency: 7
+inhaltsreich/~N # frequency: 7
+initial/~N # frequency: 7
+inner/~N # frequency: 7
+innig/~J # adjective root, frequency: 7
+innovativ/~N # frequency: 7
+insektizid/~N # frequency: 7
+integral/~N # frequency: 7
+intellektuell/~N # frequency: 7
+intensiv/~N # frequency: 7
+interview/~N # frequency: 7
+irrational/~N # frequency: 7
+jubel/~N # frequency: 7
+jähr/~N # frequency: 7
+jünger/~N # frequency: 7
+kabbel/~N # frequency: 7
+kabel/~N # frequency: 7
+kalb/~N # frequency: 7
+kalkreich/~N # frequency: 7
+kalorienreich/~N # frequency: 7
+kapital/~N # frequency: 7
+kapitalintensiv/~N # frequency: 7
+kardinal/~N # frequency: 7
+karg/~N # frequency: 7
+karitativ/~N # frequency: 7
+katastrophal/~N # frequency: 7
+kau/~N # frequency: 7
+kauf/~N # frequency: 7
+kegel/~N # frequency: 7
+keil/~N # frequency: 7
+kelter/~N # frequency: 7
+kenntnisreich/~N # frequency: 7
+keusch/~N # frequency: 7
+kick/~N # frequency: 7
+kinderreich/~N # frequency: 7
+kipp/~N # frequency: 7
+kitzel/~N # frequency: 7
+klang/~N # frequency: 7
+klangreich/~N # frequency: 7
+klangvoll/~N # frequency: 7
+klar/~N # frequency: 7
+klaustrophob/~N # frequency: 7
+kleb/~N # frequency: 7
+kleid/~N # frequency: 7
+klein/~N # frequency: 7
+kleister/~N # frequency: 7
+knapp/~N # frequency: 7
+knebel/~N # frequency: 7
+knitterfrei/~N # frequency: 7
+knüpf/~N # frequency: 7
+knüppel/~N # frequency: 7
+koch/~N # frequency: 7
+kollegial/~N # frequency: 7
+kollektiv/~N # frequency: 7
+kommerziell/~N # frequency: 7
+komparativ/~N # frequency: 7
+konditional/~N # frequency: 7
+konfliktreich/~N # frequency: 7
+konservativ/~N # frequency: 7
+konstruktiv/~N # frequency: 7
+kontextreich/~N # frequency: 7
+kontrastreich/~N # frequency: 7
+konvulsiv/~N # frequency: 7
+koppel/~N # frequency: 7
+korrektiv/~N # frequency: 7
+krach/~N # frequency: 7
+kraftvoll/~N # frequency: 7
+kraul/~N # frequency: 7
+kreativ/~N # frequency: 7
+kreisel/~N # frequency: 7
+kreuz/~N # frequency: 7
+kribbel/~N # frequency: 7
+kriminell/~N # frequency: 7
+kräftig/~J # adjective root, frequency: 7
+kränk/~N # frequency: 7
+kräusel/~N # frequency: 7
+kugel/~N # frequency: 7
+kulturell/~N # frequency: 7
+kummervoll/~N # frequency: 7
+kunstvoll/~N # frequency: 7
+kuppel/~N # frequency: 7
+kur/~N # frequency: 7
+kuschel/~N # frequency: 7
+körn/~N # frequency: 7
+kühler/~N # frequency: 7
+label/~N # frequency: 7
+labil/~N # frequency: 7
+lach/~N # frequency: 7
+lager/~N # frequency: 7
+lahm/~N # frequency: 7
+lasch/~N # frequency: 7
+lausch/~N # frequency: 7
+laut/~N # frequency: 7
+leg/~N # frequency: 7
+legal/~N # frequency: 7
+leger/~N # frequency: 7
+lehrreich/~N # frequency: 7
+leib/~N # frequency: 7
+lenk/~N # frequency: 7
+liberal/~N # frequency: 7
+licht/~N # frequency: 7
+liebediener/~N # frequency: 7
+liebevoll/~N # frequency: 7
+lob/~N # frequency: 7
+lokal/~N # frequency: 7
+lukrativ/~N # frequency: 7
+lustvoll/~N # frequency: 7
+löffel/~N # frequency: 7
+lösch/~N # frequency: 7
+machtvoll/~N # frequency: 7
+mahl/~N # frequency: 7
+makel/~N # frequency: 7
+mal/~N # frequency: 7
+mangel/~N # frequency: 7
+manipulativ/~N # frequency: 7
+mannigfach/~N # frequency: 7
+massereich/~N # frequency: 7
+matriarchal/~N # frequency: 7
+matsch/~N # frequency: 7
+maul/~N # frequency: 7
+meister/~N # frequency: 7
+meißel/~N # frequency: 7
+menschenscheu/~N # frequency: 7
+merk/~N # frequency: 7
+metallreich/~N # frequency: 7
+mief/~N # frequency: 7
+mikrobizid/~N # frequency: 7
+mild/~N # frequency: 7
+mineralreich/~N # frequency: 7
+missbrauch/~N # frequency: 7
+mittel/~N # frequency: 7
+mittler/~N # frequency: 7
+mobil/~N # frequency: 7
+moder/~N # frequency: 7
+monumental/~N # frequency: 7
+morbid/~N # frequency: 7
+mulch/~N # frequency: 7
+muster/~N # frequency: 7
+mühevoll/~N # frequency: 7
+müll/~N # frequency: 7
+nacheifer/~N # frequency: 7
+nachhall/~N # frequency: 7
+nachspiel/~N # frequency: 7
+nahrungsreich/~N # frequency: 7
+naturgetreu/~N # frequency: 7
+nebel/~N # frequency: 7
+neid/~N # frequency: 7
+nepp/~N # frequency: 7
+neuer/~N # frequency: 7
+neutral/~N # frequency: 7
+niederschlagsreich/~N # frequency: 7
+normal/~N # frequency: 7
+näh/~N # frequency: 7
+nährstoffreich/~N # frequency: 7
+objektiv/~N # frequency: 7
+obsessiv/~N # frequency: 7
+offiziell/~N # frequency: 7
+okzidental/~N # frequency: 7
+opfer/~N # frequency: 7
+orakel/~N # frequency: 7
+orbital/~N # frequency: 7
+original/~N # frequency: 7
+originell/~N # frequency: 7
+paddel/~N # frequency: 7
+paraboloid/~N # frequency: 7
+paranoid/~N # frequency: 7
+partiell/~N # frequency: 7
+pasch/~N # frequency: 7
+patriarchal/~N # frequency: 7
+pejorativ/~N # frequency: 7
+pendel/~N # frequency: 7
+perfid/~N # frequency: 7
+personal/~N # frequency: 7
+pfeffer/~N # frequency: 7
+pflaster/~N # frequency: 7
+pflock/~N # frequency: 7
+pfropf/~N # frequency: 7
+phantasiereich/~N # frequency: 7
+phantasievoll/~N # frequency: 7
+piep/~N # frequency: 7
+pinsel/~N # frequency: 7
+plakativ/~N # frequency: 7
+plünder/~N # frequency: 7
+positiv/~N # frequency: 7
+possessiv/~N # frequency: 7
+potenzial/~N # frequency: 7
+prachtvoll/~N # frequency: 7
+preisstabil/~N # frequency: 7
+prell/~N # frequency: 7
+prestigereich/~N # frequency: 7
+primitiv/~N # frequency: 7
+produktiv/~N # frequency: 7
+professionell/~N # frequency: 7
+progressiv/~N # frequency: 7
+provokativ/~N # frequency: 7
+prunkvoll/~N # frequency: 7
+puffer/~N # frequency: 7
+putsch/~N # frequency: 7
+putz/~N # frequency: 7
+pöbel/~N # frequency: 7
+qualm/~N # frequency: 7
+qualvoll/~N # frequency: 7
+quengel/~N # frequency: 7
+radarhell/~N # frequency: 7
+radioaktiv/~N # frequency: 7
+ramsch/~N # frequency: 7
+rang/~N # frequency: 7
+rar/~N # frequency: 7
+rasch/~N # frequency: 7
+rational/~N # frequency: 7
+rationell/~N # frequency: 7
+raub/~N # frequency: 7
+realitätsfremd/~N # frequency: 7
+recht/~N # frequency: 7
+reell/~N # frequency: 7
+regel/~N # frequency: 7
+regenreich/~N # frequency: 7
+reih/~N # frequency: 7
+rein/~N # frequency: 7
+reizvoll/~N # frequency: 7
+rentier/~N # frequency: 7
+repressiv/~N # frequency: 7
+repräsentativ/~N # frequency: 7
+respektvoll/~N # frequency: 7
+restriktiv/~N # frequency: 7
+reuevoll/~N # frequency: 7
+revolutionär/~N # frequency: 7
+rodel/~N # frequency: 7
+rohstoffreich/~N # frequency: 7
+roll/~N # frequency: 7
+ruder/~N # frequency: 7
+ruh/~N # frequency: 7
+ruhrdeutsch/~N # frequency: 7
+rumpel/~N # frequency: 7
+runzel/~N # frequency: 7
+rätsel/~N # frequency: 7
+rücksichtsvoll/~N # frequency: 7
+rüffel/~N # frequency: 7
+rühr/~N # frequency: 7
+sack/~N # frequency: 7
+salbungsvoll/~N # frequency: 7
+salopp/~N # frequency: 7
+salzreich/~N # frequency: 7
+sattel/~N # frequency: 7
+sau/~N # frequency: 7
+schadenfroh/~N # frequency: 7
+schall/~N # frequency: 7
+schamvoll/~N # frequency: 7
+schau/~N # frequency: 7
+schauer/~N # frequency: 7
+scheffel/~N # frequency: 7
+scheitel/~N # frequency: 7
+schenk/~N # frequency: 7
+schief/~N # frequency: 7
+schier/~N # frequency: 7
+schilder/~N # frequency: 7
+schirm/~N # frequency: 7
+schlaff/~N # frequency: 7
+schlau/~N # frequency: 7
+schlauch/~N # frequency: 7
+schleim/~N # frequency: 7
+schlepp/~N # frequency: 7
+schlichter/~N # frequency: 7
+schließ/~N # frequency: 7
+schliff/~N # frequency: 7
+schmachvoll/~N # frequency: 7
+schmal/~N # frequency: 7
+schmerzvoll/~N # frequency: 7
+schmirgel/~N # frequency: 7
+schmuck/~N # frequency: 7
+schmuckreich/~N # frequency: 7
+schmuckvoll/~N # frequency: 7
+schmuggel/~N # frequency: 7
+schneereich/~N # frequency: 7
+schneid/~N # frequency: 7
+schnippel/~N # frequency: 7
+schnipsel/~N # frequency: 7
+schock/~N # frequency: 7
+schreck/~N # frequency: 7
+schreib/~N # frequency: 7
+schul/~N # frequency: 7
+schweif/~N # frequency: 7
+schwenk/~N # frequency: 7
+schwing/~N # frequency: 7
+schwul/~N # frequency: 7
+schwungvoll/~N # frequency: 7
+schwül/~N # frequency: 7
+schön/~N # frequency: 7
+segel/~N # frequency: 7
+selb/~N # frequency: 7
+senil/~N # frequency: 7
+senk/~N # frequency: 7
+sentimental/~N # frequency: 7
+servil/~N # frequency: 7
+setz/~N # frequency: 7
+sieb/~N # frequency: 7
+siegel/~N # frequency: 7
+siegreich/~N # frequency: 7
+sinnvoll/~N # frequency: 7
+skurril/~N # frequency: 7
+sog/~N # frequency: 7
+solid/~N # frequency: 7
+sozial/~N # frequency: 7
+spachtel/~N # frequency: 7
+spannungsreich/~N # frequency: 7
+speicher/~N # frequency: 7
+speziell/~N # frequency: 7
+spieß/~N # frequency: 7
+spitzel/~N # frequency: 7
+splitter/~N # frequency: 7
+spray/~N # frequency: 7
+sprecherreich/~N # frequency: 7
+spreng/~N # frequency: 7
+sprenkel/~N # frequency: 7
+spröd/~N # frequency: 7
+spuk/~N # frequency: 7
+stab/~N # frequency: 7
+stabil/~N # frequency: 7
+starr/~N # frequency: 7
+steck/~N # frequency: 7
+steiger/~N # frequency: 7
+steil/~N # frequency: 7
+steinreich/~N # frequency: 7
+stempel/~N # frequency: 7
+steril/~N # frequency: 7
+sternhell/~N # frequency: 7
+stet/~N # frequency: 7
+stichel/~N # frequency: 7
+stiefel/~N # frequency: 7
+stopp/~N # frequency: 7
+streb/~N # frequency: 7
+streck/~N # frequency: 7
+streif/~N # frequency: 7
+streik/~N # frequency: 7
+streu/~N # frequency: 7
+striegel/~N # frequency: 7
+strolch/~N # frequency: 7
+strudel/~N # frequency: 7
+stuf/~N # frequency: 7
+stupid/~N # frequency: 7
+stur/~N # frequency: 7
+stänker/~N # frequency: 7
+stöpsel/~N # frequency: 7
+stör/~N # frequency: 7
+stückel/~N # frequency: 7
+stürm/~N # frequency: 7
+substantiell/~N # frequency: 7
+substanziell/~N # frequency: 7
+subtil/~N # frequency: 7
+such/~N # frequency: 7
+sudel/~N # frequency: 7
+synonym/~N # frequency: 7
+säuber/~N # frequency: 7
+säuer/~N # frequency: 7
+sündig/~J # adjective root, frequency: 7
+tafel/~N # frequency: 7
+tagaktiv/~N # frequency: 7
+taktvoll/~N # frequency: 7
+talentvoll/~N # frequency: 7
+tank/~N # frequency: 7
+tarif/~N # frequency: 7
+taub/~N # frequency: 7
+tausch/~N # frequency: 7
+teer/~N # frequency: 7
+teilnahmsvoll/~N # frequency: 7
+temperamentvoll/~N # frequency: 7
+temporeich/~N # frequency: 7
+terminal/~N # frequency: 7
+textil/~N # frequency: 7
+theatral/~N # frequency: 7
+tisch/~J # adjective root, frequency: 7
+titel/~N # frequency: 7
+titelreich/~N # frequency: 7
+torkel/~N # frequency: 7
+torreich/~N # frequency: 7
+traditionell/~N # frequency: 7
+traditionsreich/~N # frequency: 7
+trampel/~N # frequency: 7
+treck/~N # frequency: 7
+treff/~N # frequency: 7
+trefferreich/~N # frequency: 7
+treib/~N # frequency: 7
+trickreich/~N # frequency: 7
+trieb/~N # frequency: 7
+triumphal/~N # frequency: 7
+trivial/~N # frequency: 7
+troll/~N # frequency: 7
+trostreich/~N # frequency: 7
+trumpf/~N # frequency: 7
+träger/~N # frequency: 7
+trödel/~N # frequency: 7
+tugendreich/~N # frequency: 7
+ulk/~N # frequency: 7
+umdruck/~N # frequency: 7
+umfangreich/~N # frequency: 7
+ummantel/~N # frequency: 7
+umtausch/~N # frequency: 7
+umtrieb/~N # frequency: 7
+umzingel/~N # frequency: 7
+ungefüg/~N # frequency: 7
+universell/~N # frequency: 7
+unser/~N # frequency: 7
+variantenreich/~N # frequency: 7
+variationsreich/~N # frequency: 7
+vegetabil/~N # frequency: 7
+verantwortungsvoll/~N # frequency: 7
+verbal/~N # frequency: 7
+verbesser/~N # frequency: 7
+verbreiter/~N # frequency: 7
+verdau/~N # frequency: 7
+verdienstvoll/~N # frequency: 7
+verdoppel/~N # frequency: 7
+verdunkel/~N # frequency: 7
+veredel/~N # frequency: 7
+vereitel/~N # frequency: 7
+vergrößer/~N # frequency: 7
+verhalten/~V # verb root, frequency: 7
+verhau/~N # frequency: 7
+verheißungsvoll/~N # frequency: 7
+verhältnisgleich/~N # frequency: 7
+verhängnisvoll/~N # frequency: 7
+verkabel/~N # frequency: 7
+verkapsel/~N # frequency: 7
+verkauf/~N # frequency: 7
+verkehrsreich/~N # frequency: 7
+verkrüppel/~N # frequency: 7
+verletz/~N # frequency: 7
+vermerk/~N # frequency: 7
+vermittel/~N # frequency: 7
+vernebel/~N # frequency: 7
+verriegel/~N # frequency: 7
+verschlüssel/~N # frequency: 7
+verschnörkel/~N # frequency: 7
+versicher/~N # frequency: 7
+versiegel/~N # frequency: 7
+versteck/~N # frequency: 7
+versteiger/~N # frequency: 7
+verständnisvoll/~N # frequency: 7
+verteil/~N # frequency: 7
+vertrag/~N # frequency: 7
+verwechsel/~N # frequency: 7
+verweiger/~N # frequency: 7
+verwickel/~N # frequency: 7
+verwunder/~N # frequency: 7
+verzeih/~N # frequency: 7
+veränder/~N # frequency: 7
+vital/~N # frequency: 7
+vitaminreich/~N # frequency: 7
+vogelreich/~N # frequency: 7
+volatil/~N # frequency: 7
+voll/~N # frequency: 7
+vornehm/~N # frequency: 7
+wackel/~N # frequency: 7
+wahlfrei/~N # frequency: 7
+wahrer/~N # frequency: 7
+wahrheitsgetreu/~N # frequency: 7
+waldreich/~N # frequency: 7
+wander/~N # frequency: 7
+war/~N # frequency: 7
+wasserreich/~N # frequency: 7
+wechsel/~N # frequency: 7
+wechselvoll/~N # frequency: 7
+wedel/~N # frequency: 7
+weih/~N # frequency: 7
+weis/~N # frequency: 7
+werk/~N # frequency: 7
+wertvoll/~N # frequency: 7
+widerhall/~N # frequency: 7
+widerleg/~N # frequency: 7
+widerspruchsvoll/~N # frequency: 7
+wiederhol/~N # frequency: 7
+wiener/~N # frequency: 7
+wildreich/~N # frequency: 7
+willig/~J # adjective root, frequency: 7
+wind/~N # frequency: 7
+windreich/~N # frequency: 7
+windschief/~N # frequency: 7
+wink/~N # frequency: 7
+winkel/~N # frequency: 7
+wintermild/~N # frequency: 7
+wirk/~N # frequency: 7
+wirklichkeitsfremd/~N # frequency: 7
+wirkungsvoll/~N # frequency: 7
+wohlfeil/~N # frequency: 7
+wortgetreu/~N # frequency: 7
+wortkarg/~N # frequency: 7
+wortreich/~N # frequency: 7
+wund/~N # frequency: 7
+wundervoll/~N # frequency: 7
+wurm/~N # frequency: 7
+wusel/~N # frequency: 7
+wässer/~N # frequency: 7
+würdevoll/~N # frequency: 7
+wüst/~N # frequency: 7
+zahl/~N # frequency: 7
+zahlreich/~N # frequency: 7
+zappel/~N # frequency: 7
+zeitig/~J # adjective root, frequency: 7
+zentral/~N # frequency: 7
+zeremoniell/~N # frequency: 7
+zersetz/~N # frequency: 7
+zerstäub/~N # frequency: 7
+zerstückel/~N # frequency: 7
+ziel/~N # frequency: 7
+zielgenau/~N # frequency: 7
+zirkel/~N # frequency: 7
+zuck/~N # frequency: 7
+zucker/~N # frequency: 7
+zukauf/~N # frequency: 7
+zukunftsreich/~N # frequency: 7
+zuliefer/~N # frequency: 7
+zusammenprall/~N # frequency: 7
+zuspiel/~N # frequency: 7
+zustell/~N # frequency: 7
+zuwander/~N # frequency: 7
+zweifel/~N # frequency: 7
+zähl/~N # frequency: 7
+zöger/~N # frequency: 7
+öde/~N # frequency: 7
+ölig/~J # adjective root, frequency: 7
+überrumpel/~N # frequency: 7
+übersiedel/~N # frequency: 7
+übersommer/~N # frequency: 7
+übertrag/~N # frequency: 7
+übertölpel/~N # frequency: 7
+überwach/~N # frequency: 7
+überwinter/~N # frequency: 7
+üblich/~J # adjective root, frequency: 7
+übungsintensiv/~N # frequency: 7
+abartig/~J # adjective root, frequency: 6
+abaxial/~N # frequency: 6
+abbau/~N # frequency: 6
+abberufen/~V # verb root, frequency: 6
+abbieg/~N # frequency: 6
+abbildgenau/~N # frequency: 6
+abbruchreif/~N # frequency: 6
+abdominal/~N # frequency: 6
+abdominell/~N # frequency: 6
+abdrossel/~N # frequency: 6
+abduktiv/~N # frequency: 6
+abdunkel/~N # frequency: 6
+abelsch/~N # frequency: 6
+abendelang/~N # frequency: 6
+abendrot/~N # frequency: 6
+abenteuerlich/~J # adjective root, frequency: 6
+abenteuerreich/~N # frequency: 6
+aberkannt/~N # frequency: 6
+abfall/~N # frequency: 6
+abfallfrei/~N # frequency: 6
+abflussreich/~N # frequency: 6
+abfällig/~J # adjective root, frequency: 6
+abfüll/~N # frequency: 6
+abgabenfrei/~N # frequency: 6
+abgasfrei/~N # frequency: 6
+abgehärtet/~N # frequency: 6
+abgelegen/~V # verb root, frequency: 6
+abgeschieden/~V # verb root, frequency: 6
+abgrundtief/~N # frequency: 6
+abhold/~N # frequency: 6
+abhängig/~J # adjective root, frequency: 6
+abhör/~N # frequency: 6
+abkapsel/~N # frequency: 6
+abkoppel/~N # frequency: 6
+ablager/~N # frequency: 6
+ablauf/~N # frequency: 6
+ableg/~N # frequency: 6
+ablenk/~N # frequency: 6
+ablenkungsfrei/~N # frequency: 6
+abliefer/~N # frequency: 6
+abluminal/~N # frequency: 6
+ablösefrei/~N # frequency: 6
+abmager/~N # frequency: 6
+abmahn/~N # frequency: 6
+abmilder/~N # frequency: 6
+abnahmereif/~N # frequency: 6
+abnahmestark/~N # frequency: 6
+aboral/~N # frequency: 6
+abrasiv/~N # frequency: 6
+abriegel/~N # frequency: 6
+abrissreif/~N # frequency: 6
+abscheulich/~J # adjective root, frequency: 6
+abschied/~N # frequency: 6
+abschlag/~N # frequency: 6
+abschlagsfrei/~N # frequency: 6
+abschlussschwach/~N # frequency: 6
+abschlussstark/~N # frequency: 6
+abschreck/~N # frequency: 6
+abschreckend/~N # frequency: 6
+abschreib/~N # frequency: 6
+absicher/~N # frequency: 6
+absichtsvoll/~N # frequency: 6
+absonderlich/~J # adjective root, frequency: 6
+absorptiv/~N # frequency: 6
+abspann/~N # frequency: 6
+abspiel/~N # frequency: 6
+absplitter/~N # frequency: 6
+absprachegemäß/~N # frequency: 6
+abstandsaktiv/~N # frequency: 6
+abstandsgleich/~N # frequency: 6
+abstell/~N # frequency: 6
+abstiegsreif/~N # frequency: 6
+abstoß/~N # frequency: 6
+abstoßend/~N # frequency: 6
+abstrahl/~N # frequency: 6
+abteilungsfremd/~N # frequency: 6
+abtrieb/~N # frequency: 6
+abträglich/~J # adjective root, frequency: 6
+abusiv/~N # frequency: 6
+abverkauf/~N # frequency: 6
+abwandel/~N # frequency: 6
+abwander/~N # frequency: 6
+abwasch/~N # frequency: 6
+abwechsel/~N # frequency: 6
+abwegig/~J # adjective root, frequency: 6
+abwehrstark/~N # frequency: 6
+abwiegel/~N # frequency: 6
+abzieh/~N # frequency: 6
+acetonfrei/~N # frequency: 6
+achatgrau/~N # frequency: 6
+achiral/~N # frequency: 6
+achselfrei/~N # frequency: 6
+achsenparallel/~N # frequency: 6
+achsnah/~N # frequency: 6
+achsparallel/~N # frequency: 6
+acht/~N # frequency: 6
+achteck/~N # frequency: 6
+achteinhalbfach/~N # frequency: 6
+achterlich/~J # adjective root, frequency: 6
+achtfach/~N # frequency: 6
+achtvoll/~N # frequency: 6
+achtzehnfach/~N # frequency: 6
+achtzigfach/~N # frequency: 6
+acker/~N # frequency: 6
+actionreich/~N # frequency: 6
+adaptiv/~N # frequency: 6
+additional/~N # frequency: 6
+aderreich/~N # frequency: 6
+adhäsiv/~N # frequency: 6
+adjunktiv/~N # frequency: 6
+administrativ/~N # frequency: 6
+adnominal/~N # frequency: 6
+adressatenbezogen/~V # verb root, frequency: 6
+adsorptiv/~N # frequency: 6
+advektiv/~N # frequency: 6
+adverbial/~N # frequency: 6
+adverbiell/~N # frequency: 6
+adversativ/~N # frequency: 6
+affektiv/~N # frequency: 6
+affektlabil/~N # frequency: 6
+affengeil/~N # frequency: 6
+affenheiß/~N # frequency: 6
+affenstark/~N # frequency: 6
+affentittengeil/~N # frequency: 6
+affig/~J # adjective root, frequency: 6
+affirmativ/~N # frequency: 6
+afrodeutsch/~N # frequency: 6
+agglutinativ/~N # frequency: 6
+agitativ/~N # frequency: 6
+agonal/~N # frequency: 6
+agoraphob/~N # frequency: 6
+agrarindustriell/~N # frequency: 6
+agrarstrukturell/~N # frequency: 6
+agrikulturell/~N # frequency: 6
+agro-pastoral/~N # frequency: 6
+agropastoral/~N # frequency: 6
+ahermatyp/~N # frequency: 6
+ahn/~N # frequency: 6
+aidskrank/~N # frequency: 6
+akademisch/~J # adjective root, frequency: 6
+akausal/~N # frequency: 6
+akkord/~N # frequency: 6
+akquisitionsstark/~N # frequency: 6
+aktual/~N # frequency: 6
+akzentfrei/~N # frequency: 6
+akzidentell/~N # frequency: 6
+akzidentiell/~N # frequency: 6
+alabasterweiß/~N # frequency: 6
+aldehydfrei/~N # frequency: 6
+alkalifrei/~N # frequency: 6
+alkoholfrei/~N # frequency: 6
+alkoholkrank/~N # frequency: 6
+alkoholreich/~N # frequency: 6
+alldeutsch/~N # frequency: 6
+allergenfrei/~N # frequency: 6
+allergiefrei/~N # frequency: 6
+allergieneutral/~N # frequency: 6
+allergiepräventiv/~N # frequency: 6
+allgemein/~N # frequency: 6
+alliterativ/~N # frequency: 6
+allokativ/~N # frequency: 6
+allomorph/~N # frequency: 6
+allotrop/~N # frequency: 6
+allstromsensitiv/~N # frequency: 6
+alltagsnah/~N # frequency: 6
+alluvial/~N # frequency: 6
+alt/~N # frequency: 6
+altdeutsch/~N # frequency: 6
+alternativ/~N # frequency: 6
+altersgemäß/~N # frequency: 6
+altersgrau/~N # frequency: 6
+altersschwach/~N # frequency: 6
+altersstufengemäß/~N # frequency: 6
+althochdeutsch/~N # frequency: 6
+altindustriell/~N # frequency: 6
+altklug/~N # frequency: 6
+altkonfessionell/~N # frequency: 6
+altkonservativ/~N # frequency: 6
+altliberal/~N # frequency: 6
+altmodisch/~J # adjective root, frequency: 6
+altniederdeutsch/~N # frequency: 6
+altweiß/~N # frequency: 6
+aluminiumfrei/~N # frequency: 6
+aluminiumreich/~N # frequency: 6
+ambilokal/~N # frequency: 6
+amerikanisch/~J # adjective root, frequency: 6
+amerikatreu/~N # frequency: 6
+aminosäuresensitiv/~N # frequency: 6
+aminoterminal/~N # frequency: 6
+amorph/~N # frequency: 6
+amphiphil/~N # frequency: 6
+amt/~N # frequency: 6
+amtsdeutsch/~N # frequency: 6
+amtsfrei/~N # frequency: 6
+amygdaloid/~N # frequency: 6
+amöboid/~N # frequency: 6
+anabol/~N # frequency: 6
+anaerob/~N # frequency: 6
+anal/~N # frequency: 6
+anamorph/~N # frequency: 6
+anaxial/~N # frequency: 6
+anbaufrei/~N # frequency: 6
+anbetungsvoll/~N # frequency: 6
+anbieder/~N # frequency: 6
+anblick/~N # frequency: 6
+andachtsvoll/~N # frequency: 6
+anderthalb/~N # frequency: 6
+anderthalbfach/~N # frequency: 6
+andrang/~N # frequency: 6
+andruck/~N # frequency: 6
+aneinandergeraten/~V # verb root, frequency: 6
+aneinanderlager/~N # frequency: 6
+anekdotenreich/~N # frequency: 6
+anenzephal/~N # frequency: 6
+anfall/~N # frequency: 6
+anfallsfrei/~N # frequency: 6
+anfang/~N # frequency: 6
+anfeuer/~N # frequency: 6
+anforder/~N # frequency: 6
+anforderungsgemäß/~N # frequency: 6
+anfällig/~J # adjective root, frequency: 6
+anfäng/~N # frequency: 6
+anführ/~N # frequency: 6
+angabegemäß/~N # frequency: 6
+angemessen/~V # verb root, frequency: 6
+angenehm/~N # frequency: 6
+angesehen/~V # verb root, frequency: 6
+anglieder/~N # frequency: 6
+anglophil/~N # frequency: 6
+anglophob/~N # frequency: 6
+angriffslustig/~J # adjective root, frequency: 6
+angriffsschwach/~N # frequency: 6
+angriffsstark/~N # frequency: 6
+angstbleich/~N # frequency: 6
+angsterregend/~N # frequency: 6
+angstfrei/~N # frequency: 6
+anhängerstark/~N # frequency: 6
+animationsfrei/~N # frequency: 6
+anker/~N # frequency: 6
+anklang/~N # frequency: 6
+ankoppel/~N # frequency: 6
+ankurbel/~N # frequency: 6
+anlagenintensiv/~N # frequency: 6
+anlager/~N # frequency: 6
+anlauf/~N # frequency: 6
+anleitungsgemäß/~N # frequency: 6
+anliefer/~N # frequency: 6
+anmeldefrei/~N # frequency: 6
+anmeldungsgemäß/~N # frequency: 6
+anmutig/~J # adjective root, frequency: 6
+anmutsvoll/~N # frequency: 6
+annuell/~N # frequency: 6
+annäher/~N # frequency: 6
+anordnungsgemäß/~N # frequency: 6
+anorektal/~N # frequency: 6
+anorezeptiv/~N # frequency: 6
+anormal/~N # frequency: 6
+anpassungsfähig/~J # adjective root, frequency: 6
+anpfiff/~N # frequency: 6
+anprall/~N # frequency: 6
+anrechnungsfrei/~N # frequency: 6
+anreg/~N # frequency: 6
+anreicher/~N # frequency: 6
+anrüchig/~J # adjective root, frequency: 6
+anschaffungsnah/~N # frequency: 6
+anschau/~N # frequency: 6
+anschaulich/~J # adjective root, frequency: 6
+anschlag/~N # frequency: 6
+anschmiegsam/~J # adjective root, frequency: 6
+ansehnlich/~J # adjective root, frequency: 6
+anspielungsreich/~N # frequency: 6
+ansprechend/~N # frequency: 6
+anstell/~N # frequency: 6
+anstellig/~J # adjective root, frequency: 6
+ansteuer/~N # frequency: 6
+anstrengend/~N # frequency: 6
+anständig/~J # adjective root, frequency: 6
+anstößig/~J # adjective root, frequency: 6
+anterolateral/~N # frequency: 6
+anteromedial/~N # frequency: 6
+anthrazitgrau/~N # frequency: 6
+anthropomorph/~N # frequency: 6
+antibakteriell/~N # frequency: 6
+antibiotikafrei/~N # frequency: 6
+antibiotikasensitiv/~N # frequency: 6
+anticholinerg/~N # frequency: 6
+antidepressiv/~N # frequency: 6
+antideutsch/~N # frequency: 6
+antifeudal/~N # frequency: 6
+antihormonell/~N # frequency: 6
+antihypertensiv/~N # frequency: 6
+antiintellektuell/~N # frequency: 6
+antiintuitiv/~N # frequency: 6
+antik/~N # frequency: 6
+antiklerikal/~N # frequency: 6
+antiklinal/~N # frequency: 6
+antikolonial/~N # frequency: 6
+antikommerziell/~N # frequency: 6
+antiliberal/~N # frequency: 6
+antimikrobiell/~N # frequency: 6
+antioxidativ/~N # frequency: 6
+antiparallel/~N # frequency: 6
+antipodal/~N # frequency: 6
+antiproportional/~N # frequency: 6
+antirecht/~N # frequency: 6
+antirestaurativ/~N # frequency: 6
+antiretroviral/~N # frequency: 6
+antisozial/~N # frequency: 6
+antiviral/~N # frequency: 6
+antizipativ/~N # frequency: 6
+antonym/~N # frequency: 6
+antrag/~N # frequency: 6
+antragsgemäß/~N # frequency: 6
+antriebsschwach/~N # frequency: 6
+anweisungsgemäß/~N # frequency: 6
+anwendungsnah/~N # frequency: 6
+anzahl/~N # frequency: 6
+anzeigenfrei/~N # frequency: 6
+anzüglich/~J # adjective root, frequency: 6
+apfelgroß/~N # frequency: 6
+apfelsinengroß/~N # frequency: 6
+apikal/~N # frequency: 6
+apokarp/~N # frequency: 6
+apparativ/~N # frequency: 6
+apperzeptiv/~N # frequency: 6
+appetitlich/~J # adjective root, frequency: 6
+applikativ/~N # frequency: 6
+approximativ/~N # frequency: 6
+aprikosengelb/~N # frequency: 6
+aprikosengroß/~N # frequency: 6
+aquakulturell/~N # frequency: 6
+aquamarinblau/~N # frequency: 6
+aquatil/~N # frequency: 6
+arabesk/~N # frequency: 6
+arbeiternah/~N # frequency: 6
+arbeitgeberfreundlich/~J # adjective root, frequency: 6
+arbeitgebernah/~N # frequency: 6
+arbeitnehmerfeindlich/~J # adjective root, frequency: 6
+arbeitnehmerfreundlich/~J # adjective root, frequency: 6
+arbeitsam/~J # adjective root, frequency: 6
+arbeitsfrei/~N # frequency: 6
+arbeitsfreudig/~J # adjective root, frequency: 6
+arbeitsgemäß/~N # frequency: 6
+arbeitsgleich/~N # frequency: 6
+arbeitskraftintensiv/~N # frequency: 6
+arbeitskulturell/~N # frequency: 6
+arbeitsplatznah/~N # frequency: 6
+arbitragefrei/~N # frequency: 6
+archimetral/~N # frequency: 6
+architekturfremd/~N # frequency: 6
+aregenerativ/~N # frequency: 6
+arg/~N # frequency: 6
+argumentationsstark/~N # frequency: 6
+argumentativ/~N # frequency: 6
+argumentreich/~N # frequency: 6
+argwöhnisch/~J # adjective root, frequency: 6
+arid/~N # frequency: 6
+arisch/~J # adjective root, frequency: 6
+armdick/~N # frequency: 6
+armlang/~N # frequency: 6
+armselig/~J # adjective root, frequency: 6
+aromareich/~N # frequency: 6
+aromatisch/~J # adjective root, frequency: 6
+arsenfrei/~N # frequency: 6
+arsenreich/~N # frequency: 6
+arteriell/~N # frequency: 6
+artfremd/~N # frequency: 6
+artgemäß/~N # frequency: 6
+artgleich/~N # frequency: 6
+artig/~J # adjective root, frequency: 6
+artikulationsstark/~N # frequency: 6
+artistisch/~J # adjective root, frequency: 6
+asaisonal/~N # frequency: 6
+asbestfrei/~N # frequency: 6
+aschbleich/~N # frequency: 6
+aschfahl/~N # frequency: 6
+aschgrau/~N # frequency: 6
+ascorbinsäurefrei/~N # frequency: 6
+asexuell/~N # frequency: 6
+asketisch/~J # adjective root, frequency: 6
+aspartamfrei/~N # frequency: 6
+aspektreich/~N # frequency: 6
+assertiv/~N # frequency: 6
+assistiv/~N # frequency: 6
+assoziativ/~N # frequency: 6
+astabil/~N # frequency: 6
+asteroid/~N # frequency: 6
+astfrei/~N # frequency: 6
+asthmakrank/~N # frequency: 6
+asthmoid/~N # frequency: 6
+astral/~N # frequency: 6
+astrologiegläubig/~J # adjective root, frequency: 6
+atemdepressiv/~N # frequency: 6
+atemporal/~N # frequency: 6
+athletisch/~J # adjective root, frequency: 6
+atomfrei/~N # frequency: 6
+atomwaffenfrei/~N # frequency: 6
+atonal/~N # frequency: 6
+attributiv/~N # frequency: 6
+audioaktiv/~N # frequency: 6
+audiolingual/~N # frequency: 6
+audiophil/~N # frequency: 6
+audiovisuell/~N # frequency: 6
+auditiv/~N # frequency: 6
+aufbesser/~N # frequency: 6
+aufdringlich/~J # adjective root, frequency: 6
+aufdruck/~N # frequency: 6
+auffallend/~N # frequency: 6
+auffassungsstark/~N # frequency: 6
+aufforder/~N # frequency: 6
+auffächer/~N # frequency: 6
+auffällig/~J # adjective root, frequency: 6
+aufführungsreif/~N # frequency: 6
+aufgabenfrei/~N # frequency: 6
+aufgabengemäß/~N # frequency: 6
+aufgabereif/~N # frequency: 6
+aufgeblasen/~V # verb root, frequency: 6
+aufglieder/~N # frequency: 6
+aufheiter/~N # frequency: 6
+aufhäng/~N # frequency: 6
+aufklär/~N # frequency: 6
+aufkommensneutral/~N # frequency: 6
+aufkommensstark/~N # frequency: 6
+auflagenfrei/~N # frequency: 6
+auflagengemäß/~N # frequency: 6
+auflagenschwach/~N # frequency: 6
+auflagenstark/~N # frequency: 6
+auflocker/~N # frequency: 6
+aufmach/~N # frequency: 6
+aufmerksam/~J # adjective root, frequency: 6
+aufmerksamkeitsgeil/~N # frequency: 6
+aufmerksamkeitsintensiv/~N # frequency: 6
+aufmerksamkeitsstark/~N # frequency: 6
+aufmunter/~N # frequency: 6
+aufnahmefähig/~J # adjective root, frequency: 6
+aufopfer/~N # frequency: 6
+aufprall/~N # frequency: 6
+aufrechterhalten/~V # verb root, frequency: 6
+aufreg/~N # frequency: 6
+aufregend/~N # frequency: 6
+aufreibend/~N # frequency: 6
+aufrichtig/~J # adjective root, frequency: 6
+aufschlag/~N # frequency: 6
+aufschrei/~N # frequency: 6
+aufsehenerregend/~N # frequency: 6
+aufstock/~N # frequency: 6
+aufstrich/~N # frequency: 6
+aufsässig/~J # adjective root, frequency: 6
+auftragsgemäß/~N # frequency: 6
+auftrittsscheu/~N # frequency: 6
+aufwendig/~J # adjective root, frequency: 6
+aufwickel/~N # frequency: 6
+aufwändig/~J # adjective root, frequency: 6
+aufwühlend/~N # frequency: 6
+augenfällig/~J # adjective root, frequency: 6
+augenscheinlich/~J # adjective root, frequency: 6
+auktorial/~N # frequency: 6
+ausbaufähig/~J # adjective root, frequency: 6
+ausbesser/~N # frequency: 6
+ausbildungsfremd/~N # frequency: 6
+ausbildungsreif/~N # frequency: 6
+ausbürger/~N # frequency: 6
+ausdauernd/~N # frequency: 6
+ausdehnbar/~J # adjective root, frequency: 6
+ausdrucksfähig/~J # adjective root, frequency: 6
+ausdrucksschwach/~N # frequency: 6
+ausdrucksstark/~N # frequency: 6
+ausdrück/~N # frequency: 6
+ausdrücklich/~J # adjective root, frequency: 6
+auserlesen/~V # verb root, frequency: 6
+ausfall/~N # frequency: 6
+ausfallsicher/~N # frequency: 6
+ausfuhrzollfrei/~N # frequency: 6
+ausfällig/~J # adjective root, frequency: 6
+ausführ/~N # frequency: 6
+ausführlich/~J # adjective root, frequency: 6
+ausfüll/~N # frequency: 6
+ausgabenintensiv/~N # frequency: 6
+ausgefallen/~V # verb root, frequency: 6
+ausgeglichen/~V # verb root, frequency: 6
+ausgelassen/~V # verb root, frequency: 6
+ausgewogen/~V # verb root, frequency: 6
+ausgiebig/~J # adjective root, frequency: 6
+ausglieder/~N # frequency: 6
+ausklammer/~N # frequency: 6
+auskoppel/~N # frequency: 6
+auskunftsfreudig/~J # adjective root, frequency: 6
+auskunftsgemäß/~N # frequency: 6
+auskunftsreich/~N # frequency: 6
+auslager/~N # frequency: 6
+auslandsdeutsch/~N # frequency: 6
+auslauf/~N # frequency: 6
+ausleg/~N # frequency: 6
+ausleih/~N # frequency: 6
+ausmager/~N # frequency: 6
+ausmuster/~N # frequency: 6
+ausplünder/~N # frequency: 6
+ausrissfrei/~N # frequency: 6
+aussagefähig/~J # adjective root, frequency: 6
+aussagegemäß/~N # frequency: 6
+aussagekräftig/~J # adjective root, frequency: 6
+aussagestark/~N # frequency: 6
+ausschilder/~N # frequency: 6
+ausschlaggebend/~N # frequency: 6
+aussonder/~N # frequency: 6
+ausspäh/~N # frequency: 6
+aussteuer/~N # frequency: 6
+ausstoß/~N # frequency: 6
+ausufer/~N # frequency: 6
+ausverkauf/~N # frequency: 6
+auswechsel/~N # frequency: 6
+auswirkungsreich/~N # frequency: 6
+auswärtsstark/~N # frequency: 6
+autark/~N # frequency: 6
+authentisch/~J # adjective root, frequency: 6
+autoaggressiv/~N # frequency: 6
+autobahnnah/~N # frequency: 6
+autodestruktiv/~N # frequency: 6
+autofrei/~N # frequency: 6
+autohydrothermal/~N # frequency: 6
+autoimmunkrank/~N # frequency: 6
+autokephal/~N # frequency: 6
+autolog/~N # frequency: 6
+automatensicher/~N # frequency: 6
+automorph/~N # frequency: 6
+autoreaktiv/~N # frequency: 6
+autoritativ/~N # frequency: 6
+autoritär/~N # frequency: 6
+autornah/~N # frequency: 6
+autosomal/~N # frequency: 6
+autosuggestiv/~N # frequency: 6
+autotroph/~N # frequency: 6
+autumnal/~N # frequency: 6
+auxotroph/~N # frequency: 6
+außerbilanziell/~N # frequency: 6
+außerdeutsch/~N # frequency: 6
+außerfiktional/~N # frequency: 6
+außergewöhnlich/~J # adjective root, frequency: 6
+außerindustriell/~N # frequency: 6
+außerjustiziell/~N # frequency: 6
+außerkantonal/~N # frequency: 6
+außermedial/~N # frequency: 6
+außertextuell/~N # frequency: 6
+aversiv/~N # frequency: 6
+axial/~N # frequency: 6
+azeotrop/~N # frequency: 6
+azimutal/~N # frequency: 6
+azurblau/~N # frequency: 6
+baff/~N # frequency: 6
+bagger/~N # frequency: 6
+bahnhofsnah/~N # frequency: 6
+bakteriell/~N # frequency: 6
+bakterizid/~N # frequency: 6
+baldig/~J # adjective root, frequency: 6
+balladesk/~N # frequency: 6
+ballaststofffrei/~N # frequency: 6
+ballnah/~N # frequency: 6
+baltendeutsch/~N # frequency: 6
+bananengelb/~N # frequency: 6
+band/~N # frequency: 6
+bankfremd/~N # frequency: 6
+banklebenslang/~N # frequency: 6
+bankrott/~N # frequency: 6
+barbarisch/~J # adjective root, frequency: 6
+bargeldintensiv/~N # frequency: 6
+baritonal/~N # frequency: 6
+barrierefrei/~N # frequency: 6
+basaltgrau/~N # frequency: 6
+basenreich/~N # frequency: 6
+basilikal/~N # frequency: 6
+basisnah/~N # frequency: 6
+basolateral/~N # frequency: 6
+basophil/~N # frequency: 6
+bassschwach/~N # frequency: 6
+bastel/~N # frequency: 6
+bauartgleich/~N # frequency: 6
+bauchfrei/~N # frequency: 6
+bauchnabelfrei/~N # frequency: 6
+bauchpinsel/~N # frequency: 6
+bauernschlau/~N # frequency: 6
+baugenehmigungsfrei/~N # frequency: 6
+baugleich/~N # frequency: 6
+baukonstruktiv/~N # frequency: 6
+baukulturell/~N # frequency: 6
+baumartenreich/~N # frequency: 6
+baumdick/~N # frequency: 6
+baumel/~N # frequency: 6
+baumfrei/~N # frequency: 6
+baumgroß/~N # frequency: 6
+baumlang/~N # frequency: 6
+baumreich/~N # frequency: 6
+baumstark/~N # frequency: 6
+baureif/~N # frequency: 6
+beachtlich/~J # adjective root, frequency: 6
+beanstandungsfrei/~N # frequency: 6
+bedarf/~N # frequency: 6
+bedarfsgemäß/~N # frequency: 6
+bedauer/~N # frequency: 6
+bedenkenfrei/~N # frequency: 6
+bedenklich/~J # adjective root, frequency: 6
+bedeutend/~N # frequency: 6
+bedeutsam/~J # adjective root, frequency: 6
+bedeutungsgleich/~N # frequency: 6
+bedeutungskonstitutiv/~N # frequency: 6
+bedeutungsneutral/~N # frequency: 6
+bedeutungsreich/~N # frequency: 6
+bedien/~V # verb root, frequency: 6
+bedienungsfreundlich/~J # adjective root, frequency: 6
+bedingungsfrei/~N # frequency: 6
+bedingungsgemäß/~N # frequency: 6
+bedroh/~N # frequency: 6
+bedrohlich/~J # adjective root, frequency: 6
+bedrückend/~N # frequency: 6
+bedächtig/~J # adjective root, frequency: 6
+bedürftig/~J # adjective root, frequency: 6
+beeindruckend/~N # frequency: 6
+beeng/~N # frequency: 6
+befehlsgemäß/~N # frequency: 6
+beflügel/~N # frequency: 6
+befolg/~N # frequency: 6
+befrag/~N # frequency: 6
+befrei/~N # frequency: 6
+befremdlich/~J # adjective root, frequency: 6
+befriedigend/~N # frequency: 6
+beförder/~N # frequency: 6
+befüll/~N # frequency: 6
+begegnungsreich/~N # frequency: 6
+begehrlich/~J # adjective root, frequency: 6
+begeister/~N # frequency: 6
+beglückend/~N # frequency: 6
+begreiflich/~J # adjective root, frequency: 6
+begründungsfrei/~N # frequency: 6
+behaglich/~J # adjective root, frequency: 6
+behalten/~V # verb root, frequency: 6
+beharrlich/~J # adjective root, frequency: 6
+behelf/~N # frequency: 6
+beherrsch/~N # frequency: 6
+behinder/~N # frequency: 6
+behutsam/~J # adjective root, frequency: 6
+behördenoffiziell/~N # frequency: 6
+beibehalten/~V # verb root, frequency: 6
+beifällig/~J # adjective root, frequency: 6
+beigebrauchsfrei/~N # frequency: 6
+beitrag/~N # frequency: 6
+beitragsfrei/~N # frequency: 6
+beitragsproportional/~N # frequency: 6
+bejubel/~N # frequency: 6
+bekannt/~N # frequency: 6
+bekehr/~N # frequency: 6
+bekenntnisfrei/~N # frequency: 6
+bekenntnisneutral/~N # frequency: 6
+bekömmlich/~J # adjective root, frequency: 6
+beladen/~V # verb root, frequency: 6
+belangvoll/~N # frequency: 6
+belastbar/~J # adjective root, frequency: 6
+belastend/~N # frequency: 6
+belastungsfrei/~N # frequency: 6
+belastungsstark/~N # frequency: 6
+belehrend/~N # frequency: 6
+beleihungsfähig/~J # adjective root, frequency: 6
+beliefer/~N # frequency: 6
+belächel/~N # frequency: 6
+bemerkbar/~J # adjective root, frequency: 6
+bemessen/~V # verb root, frequency: 6
+bemuster/~N # frequency: 6
+bemängel/~N # frequency: 6
+benebel/~N # frequency: 6
+benutzerfreundlich/~J # adjective root, frequency: 6
+benutzerindividuell/~N # frequency: 6
+benzolfrei/~N # frequency: 6
+berannt/~N # frequency: 6
+beraten/~V # verb root, frequency: 6
+beratungsfrei/~N # frequency: 6
+beratungsintensiv/~N # frequency: 6
+berauschend/~N # frequency: 6
+bereich/~N # frequency: 6
+bereicher/~N # frequency: 6
+bereitwillig/~J # adjective root, frequency: 6
+bergbaufreundlich/~J # adjective root, frequency: 6
+bergfrei/~N # frequency: 6
+bering/~N # frequency: 6
+berndeutsch/~N # frequency: 6
+bernsteingelb/~N # frequency: 6
+berufsfremd/~N # frequency: 6
+berufsnah/~N # frequency: 6
+beruhigend/~N # frequency: 6
+berüchtigt/~N # frequency: 6
+berührend/~N # frequency: 6
+berührungsfrei/~N # frequency: 6
+berührungssensitiv/~N # frequency: 6
+besatzungsfremd/~N # frequency: 6
+beschaff/~N # frequency: 6
+beschaffen/~V # verb root, frequency: 6
+beschaffungsreif/~N # frequency: 6
+beschaulich/~J # adjective root, frequency: 6
+bescheid/~N # frequency: 6
+beschichtungsfrei/~N # frequency: 6
+beschilder/~N # frequency: 6
+beschlag/~N # frequency: 6
+beschlagfrei/~N # frequency: 6
+beschleunig/~J # adjective root, frequency: 6
+beschleunigungsfrei/~N # frequency: 6
+beschlussgemäß/~N # frequency: 6
+beschlussreif/~N # frequency: 6
+beschneidungsfrei/~N # frequency: 6
+beschreibungsgemäß/~N # frequency: 6
+beschwerdefrei/~N # frequency: 6
+beschwerlich/~J # adjective root, frequency: 6
+beschwör/~N # frequency: 6
+beschädigungsfrei/~N # frequency: 6
+besiegel/~N # frequency: 6
+besinn/~N # frequency: 6
+besinnlich/~J # adjective root, frequency: 6
+besonder/~N # frequency: 6
+besonnen/~V # verb root, frequency: 6
+besorgniserregend/~N # frequency: 6
+besprechungsreich/~N # frequency: 6
+bessarabiendeutsch/~N # frequency: 6
+bestandsfrei/~N # frequency: 6
+bestechlich/~J # adjective root, frequency: 6
+besteck/~N # frequency: 6
+bestellfix/~N # frequency: 6
+besteuer/~N # frequency: 6
+bestimmungsfremd/~N # frequency: 6
+bestimmungsgemäß/~N # frequency: 6
+beständig/~J # adjective root, frequency: 6
+bestäub/~N # frequency: 6
+besucherintensiv/~N # frequency: 6
+besucherschwach/~N # frequency: 6
+besucherstark/~N # frequency: 6
+besudel/~N # frequency: 6
+beteuer/~N # frequency: 6
+betitel/~N # frequency: 6
+beton/~N # frequency: 6
+betongrau/~N # frequency: 6
+betragsgleich/~N # frequency: 6
+betreib/~N # frequency: 6
+betreten/~V # verb root, frequency: 6
+betreu/~N # frequency: 6
+betreuungsintensiv/~N # frequency: 6
+betriebsam/~J # adjective root, frequency: 6
+betriebsfremd/~N # frequency: 6
+betriebsfunktional/~N # frequency: 6
+betriebsnah/~N # frequency: 6
+betriebssicher/~N # frequency: 6
+betroffen/~V # verb root, frequency: 6
+betrug/~N # frequency: 6
+betrugsfrei/~N # frequency: 6
+betrüblich/~J # adjective root, frequency: 6
+bettel/~N # frequency: 6
+bettreif/~N # frequency: 6
+betörend/~N # frequency: 6
+beug/~N # frequency: 6
+beugsam/~J # adjective root, frequency: 6
+beunruhigend/~N # frequency: 6
+beurteil/~N # frequency: 6
+beutereich/~N # frequency: 6
+bevölker/~N # frequency: 6
+bevölkerungsschwach/~N # frequency: 6
+bevölkerungsstark/~N # frequency: 6
+bewahr/~N # frequency: 6
+bewegend/~N # frequency: 6
+beweglich/~J # adjective root, frequency: 6
+bewegungsaktiv/~N # frequency: 6
+bewegungsfrei/~N # frequency: 6
+bewegungsintensiv/~N # frequency: 6
+bewegungsreich/~N # frequency: 6
+beweihräucher/~N # frequency: 6
+beweiskräftig/~J # adjective root, frequency: 6
+bewertungsfrei/~N # frequency: 6
+bewilligungsfrei/~N # frequency: 6
+bewohnernah/~N # frequency: 6
+bewunderungswürdig/~J # adjective root, frequency: 6
+bewässer/~N # frequency: 6
+bezauber/~N # frequency: 6
+bezieh/~N # frequency: 6
+beziehungsreich/~N # frequency: 6
+beziehungsvoll/~N # frequency: 6
+beziffer/~N # frequency: 6
+bezirk/~N # frequency: 6
+bezirksfrei/~N # frequency: 6
+bezugsfrei/~N # frequency: 6
+bezugsscheinfrei/~N # frequency: 6
+bezweifel/~N # frequency: 6
+bezwing/~N # frequency: 6
+biaxial/~N # frequency: 6
+bibeltreu/~N # frequency: 6
+biberstark/~N # frequency: 6
+bibliophil/~N # frequency: 6
+bidirektional/~N # frequency: 6
+bieg/~N # frequency: 6
+biegeschlaff/~N # frequency: 6
+biegesteif/~N # frequency: 6
+biennal/~N # frequency: 6
+bierfrei/~N # frequency: 6
+biergelb/~N # frequency: 6
+biestig/~J # adjective root, frequency: 6
+bifunktional/~N # frequency: 6
+biholomorph/~N # frequency: 6
+bijektiv/~N # frequency: 6
+bikollateral/~N # frequency: 6
+bikonkav/~N # frequency: 6
+bikonvex/~N # frequency: 6
+bikulturell/~N # frequency: 6
+bilabial/~N # frequency: 6
+bilanziell/~N # frequency: 6
+bilateral/~N # frequency: 6
+bilderreich/~N # frequency: 6
+bildhauer/~N # frequency: 6
+bildhübsch/~N # frequency: 6
+bildreich/~N # frequency: 6
+bildstark/~N # frequency: 6
+bildungsfern/~N # frequency: 6
+bildungsfremd/~N # frequency: 6
+bildungsnah/~N # frequency: 6
+bilingual/~N # frequency: 6
+billionenfach/~N # frequency: 6
+bimanuell/~N # frequency: 6
+bimedial/~N # frequency: 6
+bimmel/~N # frequency: 6
+bimodal/~N # frequency: 6
+binational/~N # frequency: 6
+binaural/~N # frequency: 6
+bind/~N # frequency: 6
+bindegewebsreich/~N # frequency: 6
+bindungsscheu/~N # frequency: 6
+binnendeutsch/~N # frequency: 6
+binominal/~N # frequency: 6
+bio-psycho-sozial/~N # frequency: 6
+bioakkumulativ/~N # frequency: 6
+bioaktiv/~N # frequency: 6
+biodeutsch/~N # frequency: 6
+bioorthogonal/~N # frequency: 6
+biophil/~N # frequency: 6
+biopsychosozial/~N # frequency: 6
+biotitreich/~N # frequency: 6
+biped/~N # frequency: 6
+bipyramidal/~N # frequency: 6
+biserial/~N # frequency: 6
+bisexuell/~N # frequency: 6
+bistabil/~N # frequency: 6
+bistumsnah/~N # frequency: 6
+bitgenau/~N # frequency: 6
+bitparallel/~N # frequency: 6
+bitseriell/~N # frequency: 6
+bitterlich/~J # adjective root, frequency: 6
+bittersüß/~N # frequency: 6
+bizarr/~N # frequency: 6
+blank/~N # frequency: 6
+blasenfrei/~N # frequency: 6
+blassblau/~N # frequency: 6
+blassgelb/~N # frequency: 6
+blassgrau/~N # frequency: 6
+blattreich/~N # frequency: 6
+blaugelb/~N # frequency: 6
+blaugrau/~N # frequency: 6
+blauschwarz/~N # frequency: 6
+blauweiß/~N # frequency: 6
+bleifrei/~N # frequency: 6
+bleigelb/~N # frequency: 6
+bleigrau/~N # frequency: 6
+bleistiftdick/~N # frequency: 6
+bleiweiß/~N # frequency: 6
+blendfrei/~N # frequency: 6
+blickwinkelstabil/~N # frequency: 6
+blink/~N # frequency: 6
+blinzel/~N # frequency: 6
+blitzblank/~N # frequency: 6
+blitzblau/~N # frequency: 6
+blitzeblank/~N # frequency: 6
+blitzschnell/~N # frequency: 6
+blockfrei/~N # frequency: 6
+blockier/~N # frequency: 6
+bloß/~N # frequency: 6
+bluff/~N # frequency: 6
+blumenreich/~N # frequency: 6
+blumig/~J # adjective root, frequency: 6
+blutig/~J # adjective root, frequency: 6
+blutreich/~N # frequency: 6
+blutrünstig/~J # adjective root, frequency: 6
+blutsfremd/~N # frequency: 6
+blutungsfrei/~N # frequency: 6
+blutvoll/~N # frequency: 6
+bläschenfrei/~N # frequency: 6
+blätter/~N # frequency: 6
+bläu/~N # frequency: 6
+blödel/~N # frequency: 6
+blühstark/~N # frequency: 6
+blütenrein/~N # frequency: 6
+blütenweiß/~N # frequency: 6
+bocciaspiel/~N # frequency: 6
+bockstark/~N # frequency: 6
+bocksteif/~N # frequency: 6
+bodengleich/~N # frequency: 6
+bodengrau/~N # frequency: 6
+bodenlang/~N # frequency: 6
+bodentief/~N # frequency: 6
+body-positiv/~N # frequency: 6
+bohr/~N # frequency: 6
+bohrsch/~N # frequency: 6
+bomb/~N # frequency: 6
+bonitätsschwach/~N # frequency: 6
+bonitätsstark/~N # frequency: 6
+boolesch/~N # frequency: 6
+boreal/~N # frequency: 6
+borstenfrei/~N # frequency: 6
+botmäßig/~J # adjective root, frequency: 6
+boulevardesk/~N # frequency: 6
+brachial/~N # frequency: 6
+branchenfremd/~N # frequency: 6
+brandaktuell/~N # frequency: 6
+brand/~N # frequency: 6
+brandheiß/~N # frequency: 6
+brandlastfrei/~N # frequency: 6
+brandneu/~N # frequency: 6
+bratpfannengroß/~N # frequency: 6
+brauchbar/~J # adjective root, frequency: 6
+braungelb/~N # frequency: 6
+braungrau/~N # frequency: 6
+braunschwarz/~N # frequency: 6
+brech/~N # frequency: 6
+brei/~N # frequency: 6
+brennend/~N # frequency: 6
+brief/~N # frequency: 6
+briefmarkengroß/~N # frequency: 6
+brillantgrau/~N # frequency: 6
+bromidfrei/~N # frequency: 6
+bronchial/~N # frequency: 6
+bruchfrei/~N # frequency: 6
+bruchstabil/~N # frequency: 6
+brumm/~N # frequency: 6
+brummel/~N # frequency: 6
+brusttief/~N # frequency: 6
+brutorttreu/~N # frequency: 6
+bräun/~N # frequency: 6
+brüchig/~J # adjective root, frequency: 6
+brühheiß/~N # frequency: 6
+brüsk/~N # frequency: 6
+buchdick/~N # frequency: 6
+buchstabengemäß/~N # frequency: 6
+buchstabengetreu/~N # frequency: 6
+buchtenreich/~N # frequency: 6
+buckelig/~J # adjective root, frequency: 6
+bucklig/~J # adjective root, frequency: 6
+buddel/~N # frequency: 6
+bugfrei/~N # frequency: 6
+bullig/~J # adjective root, frequency: 6
+bundesdeutsch/~N # frequency: 6
+bundesligareif/~N # frequency: 6
+bundespräsidial/~N # frequency: 6
+bunker/~N # frequency: 6
+buntscheckig/~J # adjective root, frequency: 6
+burgenreich/~N # frequency: 6
+burlesk/~N # frequency: 6
+busenfrei/~N # frequency: 6
+butterblumengelb/~N # frequency: 6
+butter/~N # frequency: 6
+buttergelb/~N # frequency: 6
+butterweich/~N # frequency: 6
+bußgeldfrei/~N # frequency: 6
+byteseriell/~N # frequency: 6
+bändel/~N # frequency: 6
+bärenstark/~N # frequency: 6
+böig/~J # adjective root, frequency: 6
+böller/~N # frequency: 6
+bönnsch/~N # frequency: 6
+bös/~N # frequency: 6
+böswillig/~J # adjective root, frequency: 6
+bück/~N # frequency: 6
+bügelfrei/~N # frequency: 6
+bühnenreif/~N # frequency: 6
+bündnisfrei/~N # frequency: 6
+bürger/~N # frequency: 6
+bürgernah/~N # frequency: 6
+cadmiumfrei/~N # frequency: 6
+cadmiumgelb/~N # frequency: 6
+calciumreich/~N # frequency: 6
+calziumreich/~N # frequency: 6
+caravaggesk/~N # frequency: 6
+cartansch/~N # frequency: 6
+cashneutral/~N # frequency: 6
+centgenau/~N # frequency: 6
+centromernah/~N # frequency: 6
+cerebrospinal/~N # frequency: 6
+chancengleich/~N # frequency: 6
+chaotisch/~J # adjective root, frequency: 6
+charakteristisch/~J # adjective root, frequency: 6
+charakterschwach/~N # frequency: 6
+charakterstark/~N # frequency: 6
+charaktervoll/~N # frequency: 6
+charismatisch/~J # adjective root, frequency: 6
+chauvinistisch/~J # adjective root, frequency: 6
+check/~N # frequency: 6
+chemikalienfrei/~N # frequency: 6
+chemosensitiv/~N # frequency: 6
+chiffrenreich/~N # frequency: 6
+chinatreu/~N # frequency: 6
+chiral/~N # frequency: 6
+chlorfrei/~N # frequency: 6
+chlorophyllfrei/~N # frequency: 6
+cholerisch/~J # adjective root, frequency: 6
+cholesterinfrei/~N # frequency: 6
+cholesterinreich/~N # frequency: 6
+cholinerg/~N # frequency: 6
+christenfreundlich/~J # adjective root, frequency: 6
+christlich/~J # adjective root, frequency: 6
+christsozial/~N # frequency: 6
+chromatfrei/~N # frequency: 6
+chromatophil/~N # frequency: 6
+chromfrei/~N # frequency: 6
+chromophor/~N # frequency: 6
+chromosomal/~N # frequency: 6
+chronikalisch/~J # adjective root, frequency: 6
+cinephil/~N # frequency: 6
+cisalpin/~N # frequency: 6
+citynah/~N # frequency: 6
+clean/~N # frequency: 6
+clever/~N # frequency: 6
+clownesk/~N # frequency: 6
+clubnah/~N # frequency: 6
+cluster/~N # frequency: 6
+coach/~N # frequency: 6
+computational/~N # frequency: 6
+computerfrei/~N # frequency: 6
+coronafrei/~N # frequency: 6
+coronapositiv/~N # frequency: 6
+coronasymptomfrei/~N # frequency: 6
+coronaviral/~N # frequency: 6
+cortical/~N # frequency: 6
+cortisolerg/~N # frequency: 6
+cortisonfrei/~N # frequency: 6
+courtagefrei/~N # frequency: 6
+cover/~N # frequency: 6
+crawl/~N # frequency: 6
+crem/~N # frequency: 6
+cremeweiß/~N # frequency: 6
+crossfunktional/~N # frequency: 6
+crossmedial/~N # frequency: 6
+cyberkriminell/~N # frequency: 6
+cysteinreich/~N # frequency: 6
+d'hondtsch/~N # frequency: 6
+dackel/~N # frequency: 6
+dampffrei/~N # frequency: 6
+dankbar/~J # adjective root, frequency: 6
+dantesk/~N # frequency: 6
+darlehensgleich/~N # frequency: 6
+darstell/~N # frequency: 6
+darwinsch/~N # frequency: 6
+datenintensiv/~N # frequency: 6
+daueraktiv/~N # frequency: 6
+dauergeil/~N # frequency: 6
+dauersteif/~N # frequency: 6
+daumendick/~N # frequency: 6
+daumengroß/~N # frequency: 6
+daumenstark/~N # frequency: 6
+daunenweich/~N # frequency: 6
+davysch/~N # frequency: 6
+daytonagrau/~N # frequency: 6
+debil/~N # frequency: 6
+deckungsgleich/~N # frequency: 6
+deckungsreich/~N # frequency: 6
+deduktiv/~N # frequency: 6
+deeskalativ/~N # frequency: 6
+defekt/~N # frequency: 6
+defektiv/~N # frequency: 6
+defensivstark/~N # frequency: 6
+definitionsgemäß/~N # frequency: 6
+definitiv/~N # frequency: 6
+defizitär/~N # frequency: 6
+deftig/~J # adjective root, frequency: 6
+degenerativ/~N # frequency: 6
+degressiv/~N # frequency: 6
+dehnbar/~J # adjective root, frequency: 6
+deichsel/~N # frequency: 6
+dein/~N # frequency: 6
+deklarativ/~N # frequency: 6
+dekonstruktiv/~N # frequency: 6
+deliberativ/~N # frequency: 6
+dementiell/~N # frequency: 6
+demenziell/~N # frequency: 6
+demenzkrank/~N # frequency: 6
+demokratietauglich/~J # adjective root, frequency: 6
+demokratisch/~J # adjective root, frequency: 6
+demonstrativ/~N # frequency: 6
+demutsvoll/~N # frequency: 6
+denk/~N # frequency: 6
+denkfaul/~N # frequency: 6
+denkwürdig/~J # adjective root, frequency: 6
+denominativ/~N # frequency: 6
+denotativ/~N # frequency: 6
+dental/~N # frequency: 6
+depressiv/~N # frequency: 6
+derbysieg/~N # frequency: 6
+derespektierlich/~J # adjective root, frequency: 6
+derivativ/~N # frequency: 6
+dermal/~N # frequency: 6
+derogativ/~N # frequency: 6
+design/~N # frequency: 6
+desinformativ/~N # frequency: 6
+desintegrativ/~N # frequency: 6
+deskriptiv/~N # frequency: 6
+destillativ/~N # frequency: 6
+detailgenau/~N # frequency: 6
+determinativ/~N # frequency: 6
+deutlich/~J # adjective root, frequency: 6
+deutsch/~N # frequency: 6
+deutschnational/~N # frequency: 6
+devisenstark/~N # frequency: 6
+devotional/~N # frequency: 6
+dextranblau/~N # frequency: 6
+dezentral/~N # frequency: 6
+dezimal/~N # frequency: 6
+dezisiv/~N # frequency: 6
+diachron/~N # frequency: 6
+diagonal/~N # frequency: 6
+dialektal/~N # frequency: 6
+dialektfrei/~N # frequency: 6
+dialog/~N # frequency: 6
+diamantschwarz/~N # frequency: 6
+diametral/~N # frequency: 6
+diastereoselektiv/~N # frequency: 6
+dichotom/~N # frequency: 6
+dicht/~N # frequency: 6
+dickköpfig/~J # adjective root, frequency: 6
+dicklich/~J # adjective root, frequency: 6
+dicktengleich/~N # frequency: 6
+dieb/~N # frequency: 6
+dien/~V # verb root, frequency: 6
+dienlich/~J # adjective root, frequency: 6
+diensteifrig/~J # adjective root, frequency: 6
+dienstfrei/~N # frequency: 6
+dienststellennah/~N # frequency: 6
+dienststellungsgleich/~N # frequency: 6
+dies/~N # frequency: 6
+differentiell/~N # frequency: 6
+differenzgleich/~N # frequency: 6
+differenziell/~N # frequency: 6
+differenzierungsfrei/~N # frequency: 6
+diffizil/~N # frequency: 6
+digital/~N # frequency: 6
+digitigrad/~N # frequency: 6
+diktatorial/~N # frequency: 6
+dilatativ/~N # frequency: 6
+diluvial/~N # frequency: 6
+dimensional/~N # frequency: 6
+dimensionsfrei/~N # frequency: 6
+diminutiv/~N # frequency: 6
+dimm/~N # frequency: 6
+dioxinfrei/~N # frequency: 6
+diploid/~N # frequency: 6
+diplomatisch/~J # adjective root, frequency: 6
+direktional/~N # frequency: 6
+direktiv/~N # frequency: 6
+direktorial/~N # frequency: 6
+discobesuch/~N # frequency: 6
+disfunktional/~N # frequency: 6
+disjunktiv/~N # frequency: 6
+diskriminierungsfrei/~N # frequency: 6
+diskursiv/~N # frequency: 6
+diskussionsintensiv/~N # frequency: 6
+disordinal/~N # frequency: 6
+dispersiv/~N # frequency: 6
+dispositional/~N # frequency: 6
+dispositionell/~N # frequency: 6
+dispositiv/~N # frequency: 6
+disproportional/~N # frequency: 6
+disquotal/~N # frequency: 6
+disruptiv/~N # frequency: 6
+dissident/~N # frequency: 6
+dissipativ/~N # frequency: 6
+dissozial/~N # frequency: 6
+dissoziativ/~N # frequency: 6
+distal/~N # frequency: 6
+distinktiv/~N # frequency: 6
+distributiv/~N # frequency: 6
+ditransitiv/~N # frequency: 6
+diurnal/~N # frequency: 6
+dividendenstark/~N # frequency: 6
+divisional/~N # frequency: 6
+dock/~N # frequency: 6
+dokumentationsfaul/~N # frequency: 6
+dokumentierfaul/~N # frequency: 6
+doll/~N # frequency: 6
+donner/~N # frequency: 6
+dopaminerg/~N # frequency: 6
+dopingfrei/~N # frequency: 6
+doppelblattgroß/~N # frequency: 6
+doppeldeutig/~J # adjective root, frequency: 6
+doppeldeutsch/~N # frequency: 6
+doppelfunktional/~N # frequency: 6
+doppelkonkav/~N # frequency: 6
+doppelkonvex/~N # frequency: 6
+dornenreich/~N # frequency: 6
+dornenvoll/~N # frequency: 6
+dorsal/~N # frequency: 6
+dorsiventral/~N # frequency: 6
+dorsolateral/~N # frequency: 6
+dorsomedial/~N # frequency: 6
+dorsoventral/~N # frequency: 6
+dottergelb/~N # frequency: 6
+dotterreich/~N # frequency: 6
+drall/~N # frequency: 6
+dramatisch/~J # adjective root, frequency: 6
+drangvoll/~N # frequency: 6
+drastisch/~J # adjective root, frequency: 6
+drechsel/~N # frequency: 6
+dreckig/~J # adjective root, frequency: 6
+drehbuchgemäß/~N # frequency: 6
+dreiaxial/~N # frequency: 6
+dreidimensional/~N # frequency: 6
+dreieck/~N # frequency: 6
+dreieinhalbfach/~N # frequency: 6
+dreifach/~N # frequency: 6
+dreifaktoriell/~N # frequency: 6
+dreihundertfach/~N # frequency: 6
+dreiteil/~N # frequency: 6
+dreiundzwanzigfach/~N # frequency: 6
+dreiviertellang/~N # frequency: 6
+dreißigfach/~N # frequency: 6
+dribbel/~N # frequency: 6
+dribbelschwach/~N # frequency: 6
+dribbelstark/~N # frequency: 6
+driftfrei/~N # frequency: 6
+dringend/~N # frequency: 6
+dringlich/~J # adjective root, frequency: 6
+drogenfrei/~N # frequency: 6
+drogenkrank/~N # frequency: 6
+druckfehlerfrei/~N # frequency: 6
+druckfrei/~N # frequency: 6
+druckreif/~N # frequency: 6
+druckstabil/~N # frequency: 6
+druckvoll/~N # frequency: 6
+druckwasserfrei/~N # frequency: 6
+drängel/~N # frequency: 6
+drängend/~N # frequency: 6
+drückend/~N # frequency: 6
+drüsenfrei/~N # frequency: 6
+dual/~N # frequency: 6
+dudel/~N # frequency: 6
+duftneutral/~N # frequency: 6
+duktal/~N # frequency: 6
+duktil/~N # frequency: 6
+dunkelblau/~N # frequency: 6
+dunkelgelb/~N # frequency: 6
+dunkelgrau/~N # frequency: 6
+dunkeloliv/~N # frequency: 6
+dunstreich/~N # frequency: 6
+duodezimal/~N # frequency: 6
+durativ/~N # frequency: 6
+durchblick/~N # frequency: 6
+durchdring/~N # frequency: 6
+durchdringungsfrei/~N # frequency: 6
+durchlauf/~N # frequency: 6
+durchlaufen/~V # verb root, frequency: 6
+durchlässig/~J # adjective root, frequency: 6
+durchlöcher/~N # frequency: 6
+durchmessen/~V # verb root, frequency: 6
+durchschlag/~N # frequency: 6
+durchschlagskräftig/~J # adjective root, frequency: 6
+durchschnitt/~N # frequency: 6
+durchsetzungsschwach/~N # frequency: 6
+durchsetzungsstark/~N # frequency: 6
+durchsichtig/~J # adjective root, frequency: 6
+durchsteig/~J # adjective root, frequency: 6
+durchstoßen/~V # verb root, frequency: 6
+durchtrieben/~V # verb root, frequency: 6
+durchwander/~N # frequency: 6
+durchwurzel/~N # frequency: 6
+durchzugsstark/~N # frequency: 6
+durchzugstark/~N # frequency: 6
+durstig/~J # adjective root, frequency: 6
+dusselig/~J # adjective root, frequency: 6
+dusslig/~J # adjective root, frequency: 6
+dutzendfach/~N # frequency: 6
+dynamisch/~J # adjective root, frequency: 6
+dynastiefremd/~N # frequency: 6
+dysfunktional/~N # frequency: 6
+dämlich/~J # adjective root, frequency: 6
+dämm/~N # frequency: 6
+dämmergrau/~N # frequency: 6
+dämmerungsaktiv/~N # frequency: 6
+dämpf/~N # frequency: 6
+dübel/~N # frequency: 6
+dümpel/~N # frequency: 6
+düng/~N # frequency: 6
+dünnflüssig/~J # adjective root, frequency: 6
+dürftig/~J # adjective root, frequency: 6
+dürr/~N # frequency: 6
+düsterblau/~N # frequency: 6
+düster/~N # frequency: 6
+ebener/~N # frequency: 6
+ebenholzschwarz/~N # frequency: 6
+echofrei/~N # frequency: 6
+eck/~N # frequency: 6
+ectotympanal/~N # frequency: 6
+edelfaul/~N # frequency: 6
+edelfrei/~N # frequency: 6
+edelmetallfrei/~N # frequency: 6
+edelsüß/~N # frequency: 6
+edukativ/~N # frequency: 6
+effektstark/~N # frequency: 6
+effusiv/~N # frequency: 6
+egoman/~N # frequency: 6
+egressiv/~N # frequency: 6
+ehescheu/~N # frequency: 6
+ehrbar/~J # adjective root, frequency: 6
+ehr/~N # frequency: 6
+ehrenreich/~N # frequency: 6
+ehrenvoll/~N # frequency: 6
+ehrerbietig/~J # adjective root, frequency: 6
+ehrfahrungsreich/~N # frequency: 6
+ehrfurchtsvoll/~N # frequency: 6
+ehrgeizig/~J # adjective root, frequency: 6
+ehrlich/~J # adjective root, frequency: 6
+ehrwürdig/~J # adjective root, frequency: 6
+eich/~N # frequency: 6
+eid/~N # frequency: 6
+eidesgleich/~N # frequency: 6
+eidottergelb/~N # frequency: 6
+eifersüchtig/~J # adjective root, frequency: 6
+eifrig/~J # adjective root, frequency: 6
+eigenaktiv/~N # frequency: 6
+eigenartig/~J # adjective root, frequency: 6
+eigen/~V # verb root, frequency: 6
+eigeninitiativ/~N # frequency: 6
+eigenkapitalnah/~N # frequency: 6
+eigennützig/~J # adjective root, frequency: 6
+eigensinnig/~J # adjective root, frequency: 6
+eigentlich/~J # adjective root, frequency: 6
+eigentümlich/~J # adjective root, frequency: 6
+eigenwillig/~J # adjective root, frequency: 6
+eigroß/~N # frequency: 6
+eil/~N # frequency: 6
+eilend/~N # frequency: 6
+eilig/~J # adjective root, frequency: 6
+einbau/~N # frequency: 6
+einbehalten/~V # verb root, frequency: 6
+einberufen/~V # verb root, frequency: 6
+einbettungsfrei/~N # frequency: 6
+einbürger/~N # frequency: 6
+eindeutig/~J # adjective root, frequency: 6
+eindimensional/~N # frequency: 6
+eindring/~N # frequency: 6
+eindringlich/~J # adjective root, frequency: 6
+eindrucksstark/~N # frequency: 6
+eindrücklich/~J # adjective root, frequency: 6
+eineinhalbfach/~N # frequency: 6
+einfaktoriell/~N # frequency: 6
+einflüster/~N # frequency: 6
+einfuhrzollfrei/~N # frequency: 6
+einfältig/~J # adjective root, frequency: 6
+einfühlsam/~J # adjective root, frequency: 6
+einfüll/~N # frequency: 6
+eingangsnah/~N # frequency: 6
+eingehend/~N # frequency: 6
+eingetrocknet/~N # frequency: 6
+einglieder/~N # frequency: 6
+eingriffsintensiv/~N # frequency: 6
+eingriffsreif/~N # frequency: 6
+eingängig/~J # adjective root, frequency: 6
+einheitlich/~J # adjective root, frequency: 6
+einheitsgrau/~N # frequency: 6
+einhundertundein/~N # frequency: 6
+einkauf/~N # frequency: 6
+einkessel/~N # frequency: 6
+einkommensgenau/~N # frequency: 6
+einkommensneutral/~N # frequency: 6
+einkommensproportional/~N # frequency: 6
+einkommensschwach/~N # frequency: 6
+einkommensstark/~N # frequency: 6
+einkommenssteuerfrei/~N # frequency: 6
+einkommensteuerfrei/~N # frequency: 6
+einkoppel/~N # frequency: 6
+einlager/~N # frequency: 6
+einleg/~N # frequency: 6
+einleuchtend/~N # frequency: 6
+einnehmbar/~J # adjective root, frequency: 6
+einprägsam/~J # adjective root, frequency: 6
+einrichtungsfremd/~N # frequency: 6
+einsatzfreudig/~J # adjective root, frequency: 6
+einsatzfähig/~J # adjective root, frequency: 6
+einsatzintensiv/~N # frequency: 6
+einschiff/~N # frequency: 6
+einschlag/~N # frequency: 6
+einschneidend/~N # frequency: 6
+einschüchter/~N # frequency: 6
+einsichtig/~J # adjective root, frequency: 6
+einsprach/~N # frequency: 6
+einstrahl/~N # frequency: 6
+einstuf/~N # frequency: 6
+eintausch/~N # frequency: 6
+einteil/~N # frequency: 6
+eintragungsfrei/~N # frequency: 6
+eintreib/~N # frequency: 6
+eintrittsfrei/~N # frequency: 6
+einträchtig/~J # adjective root, frequency: 6
+einträglich/~J # adjective root, frequency: 6
+eintönig/~J # adjective root, frequency: 6
+einwechsel/~N # frequency: 6
+einwohnerschwach/~N # frequency: 6
+einwohnerstark/~N # frequency: 6
+einzahl/~N # frequency: 6
+eisblau/~N # frequency: 6
+eisenfrei/~N # frequency: 6
+eisengrau/~N # frequency: 6
+eisenreich/~N # frequency: 6
+eisfrei/~N # frequency: 6
+eisgrau/~N # frequency: 6
+eisig/~J # adjective root, frequency: 6
+eisreich/~N # frequency: 6
+eiweißhaltig/~J # adjective root, frequency: 6
+eiweißreich/~N # frequency: 6
+ekelerregend/~N # frequency: 6
+ekliptikal/~N # frequency: 6
+ektodermal/~N # frequency: 6
+elanvoll/~N # frequency: 6
+elastisch/~J # adjective root, frequency: 6
+elektiv/~N # frequency: 6
+elektoral/~N # frequency: 6
+elektrolytreich/~N # frequency: 6
+elektronenreich/~N # frequency: 6
+elektroneutral/~N # frequency: 6
+elektrophil/~N # frequency: 6
+elektroschwach/~N # frequency: 6
+elektrosensitiv/~N # frequency: 6
+elementar/~N # frequency: 6
+elementfremd/~N # frequency: 6
+elendig/~J # adjective root, frequency: 6
+elfenbeinweiß/~N # frequency: 6
+elffach/~N # frequency: 6
+ellbogenlang/~N # frequency: 6
+ellenlang/~N # frequency: 6
+eluotrop/~N # frequency: 6
+embryonal/~N # frequency: 6
+emissionsfrei/~N # frequency: 6
+emissionsneutral/~N # frequency: 6
+emotionsfrei/~N # frequency: 6
+emotionsreich/~N # frequency: 6
+empfang/~N # frequency: 6
+empfindlich/~J # adjective root, frequency: 6
+empfindsam/~J # adjective root, frequency: 6
+empfindungsreich/~N # frequency: 6
+empfindungsvoll/~N # frequency: 6
+empfäng/~N # frequency: 6
+emsig/~J # adjective root, frequency: 6
+enaktiv/~N # frequency: 6
+enantiomorph/~N # frequency: 6
+enantiotrop/~N # frequency: 6
+end/~N # frequency: 6
+endarteriell/~N # frequency: 6
+endgültig/~J # adjective root, frequency: 6
+endlichdimensional/~N # frequency: 6
+endoanal/~N # frequency: 6
+endometrial/~N # frequency: 6
+endothelial/~N # frequency: 6
+endotracheal/~N # frequency: 6
+endovesikal/~N # frequency: 6
+endrekursiv/~N # frequency: 6
+endverbrauchernah/~N # frequency: 6
+energieautark/~N # frequency: 6
+energieintensiv/~N # frequency: 6
+energieneutral/~N # frequency: 6
+energiesparend/~N # frequency: 6
+energievoll/~N # frequency: 6
+energisch/~J # adjective root, frequency: 6
+engelgleich/~N # frequency: 6
+engelsgleich/~N # frequency: 6
+enger/~N # frequency: 6
+englandtreu/~N # frequency: 6
+englisch/~J # adjective root, frequency: 6
+enorm/~N # frequency: 6
+entbehr/~N # frequency: 6
+entbehrlich/~J # adjective root, frequency: 6
+entbehrungsvoll/~N # frequency: 6
+entdeck/~N # frequency: 6
+enteignungsgleich/~N # frequency: 6
+entengroß/~N # frequency: 6
+enteral/~N # frequency: 6
+entfall/~N # frequency: 6
+entfern/~N # frequency: 6
+entfessel/~N # frequency: 6
+entführ/~N # frequency: 6
+entgelt/~N # frequency: 6
+entgeltfrei/~N # frequency: 6
+enthalten/~V # verb root, frequency: 6
+enthaltsam/~J # adjective root, frequency: 6
+enthüll/~N # frequency: 6
+entitativ/~N # frequency: 6
+entkern/~N # frequency: 6
+entladen/~V # verb root, frequency: 6
+entlassen/~V # verb root, frequency: 6
+entlegen/~V # verb root, frequency: 6
+entotympanal/~N # frequency: 6
+entsagungsreich/~N # frequency: 6
+entsagungsvoll/~N # frequency: 6
+entscheidend/~N # frequency: 6
+entscheidungsnah/~N # frequency: 6
+entscheidungsreif/~N # frequency: 6
+entscheidungsschnell/~N # frequency: 6
+entscheidungsschwach/~N # frequency: 6
+entscheidungsvoll/~N # frequency: 6
+entschieden/~V # verb root, frequency: 6
+entschlossen/~V # verb root, frequency: 6
+entsetzlich/~J # adjective root, frequency: 6
+entsiegel/~N # frequency: 6
+enttäuschungsreich/~N # frequency: 6
+entvölker/~N # frequency: 6
+entwaldungsfrei/~N # frequency: 6
+entwicklungsfähig/~J # adjective root, frequency: 6
+entwicklungsgemäß/~N # frequency: 6
+entwicklungsgetreu/~N # frequency: 6
+entwicklungsintensiv/~N # frequency: 6
+entwässer/~N # frequency: 6
+entzauber/~N # frequency: 6
+entziffer/~N # frequency: 6
+entzwei/~N # frequency: 6
+entzückend/~N # frequency: 6
+entzündbar/~J # adjective root, frequency: 6
+entäußer/~N # frequency: 6
+enzianblau/~N # frequency: 6
+eosinophil/~N # frequency: 6
+epidermal/~N # frequency: 6
+epigonal/~N # frequency: 6
+epiphyll/~N # frequency: 6
+episch/~J # adjective root, frequency: 6
+episkopal/~N # frequency: 6
+epithelial/~N # frequency: 6
+epochal/~N # frequency: 6
+erbarmungsreich/~N # frequency: 6
+erbarmungsvoll/~N # frequency: 6
+erbaulich/~J # adjective root, frequency: 6
+erb/~N # frequency: 6
+erbgleich/~N # frequency: 6
+erbittert/~N # frequency: 6
+erbkrank/~N # frequency: 6
+erbsengroß/~N # frequency: 6
+erdacht/~N # frequency: 6
+erdbebengefährdet/~N # frequency: 6
+erdbebenreich/~N # frequency: 6
+erdbebensicher/~N # frequency: 6
+erdfern/~N # frequency: 6
+erdgroß/~N # frequency: 6
+erdnah/~N # frequency: 6
+erdoberflächennah/~N # frequency: 6
+erdrossel/~N # frequency: 6
+erdölfrei/~N # frequency: 6
+erdölreich/~N # frequency: 6
+ereignisvoll/~N # frequency: 6
+erektil/~N # frequency: 6
+ererbt/~N # frequency: 6
+erfahrungsgemäß/~N # frequency: 6
+erfindungsgemäß/~N # frequency: 6
+erfolgsneutral/~N # frequency: 6
+erfolgssensitiv/~N # frequency: 6
+erfolgversprechend/~N # frequency: 6
+erforder/~N # frequency: 6
+erforsch/~N # frequency: 6
+erfreulich/~J # adjective root, frequency: 6
+ergebnisreich/~N # frequency: 6
+ergiebig/~J # adjective root, frequency: 6
+ergreifend/~N # frequency: 6
+erhaben/~V # verb root, frequency: 6
+erhalten/~V # verb root, frequency: 6
+erheb/~N # frequency: 6
+erheblich/~J # adjective root, frequency: 6
+erheiter/~N # frequency: 6
+erhellend/~N # frequency: 6
+erholsam/~J # adjective root, frequency: 6
+erkenn/~N # frequency: 6
+erkenntlich/~J # adjective root, frequency: 6
+erkenntnisreich/~N # frequency: 6
+erklärlich/~J # adjective root, frequency: 6
+erklärungsgemäß/~N # frequency: 6
+erklärungsintensiv/~N # frequency: 6
+erlassen/~V # verb root, frequency: 6
+erlaubnisfrei/~N # frequency: 6
+erlebnisreich/~N # frequency: 6
+erlebnisvoll/~N # frequency: 6
+erleichter/~N # frequency: 6
+erlesen/~V # verb root, frequency: 6
+erläuter/~N # frequency: 6
+ermangel/~N # frequency: 6
+ermunter/~N # frequency: 6
+ermüdend/~N # frequency: 6
+ermüdungsfrei/~N # frequency: 6
+erntereif/~N # frequency: 6
+ernähr/~N # frequency: 6
+ernüchter/~N # frequency: 6
+ernüchternd/~N # frequency: 6
+erogen/~V # verb root, frequency: 6
+erosiv/~N # frequency: 6
+erotisch/~J # adjective root, frequency: 6
+erquick/~N # frequency: 6
+erquicklich/~J # adjective root, frequency: 6
+erregbar/~J # adjective root, frequency: 6
+erreg/~N # frequency: 6
+erregend/~N # frequency: 6
+erschaffen/~V # verb root, frequency: 6
+erschnüffel/~N # frequency: 6
+erschreckend/~N # frequency: 6
+erschwindel/~N # frequency: 6
+erschwinglich/~J # adjective root, frequency: 6
+erschütter/~N # frequency: 6
+erschütternd/~N # frequency: 6
+erschütterungsfrei/~N # frequency: 6
+ersetzbar/~J # adjective root, frequency: 6
+ersichtlich/~J # adjective root, frequency: 6
+ersprießlich/~J # adjective root, frequency: 6
+erstaunlich/~J # adjective root, frequency: 6
+erst/~N # frequency: 6
+ersteiger/~N # frequency: 6
+erstell/~N # frequency: 6
+erstligareif/~N # frequency: 6
+ertrag/~N # frequency: 6
+ertragsschwach/~N # frequency: 6
+ertragsstark/~N # frequency: 6
+erträglich/~J # adjective root, frequency: 6
+eruptiv/~N # frequency: 6
+erwartungsfroh/~N # frequency: 6
+erwartungsgemäß/~N # frequency: 6
+erwartungstreu/~N # frequency: 6
+erwartungsvoll/~N # frequency: 6
+erweck/~N # frequency: 6
+erweiter/~N # frequency: 6
+erwider/~N # frequency: 6
+erythroid/~N # frequency: 6
+erzeug/~N # frequency: 6
+erzfaul/~N # frequency: 6
+erzieh/~N # frequency: 6
+erzkonservativ/~N # frequency: 6
+erzvolatil/~N # frequency: 6
+eröffnungsreif/~N # frequency: 6
+erörter/~N # frequency: 6
+eselgrau/~N # frequency: 6
+eskalativ/~N # frequency: 6
+espritvoll/~N # frequency: 6
+ess/~N # frequency: 6
+essentiell/~N # frequency: 6
+essenziell/~N # frequency: 6
+ethnokulturell/~N # frequency: 6
+ethnonational/~N # frequency: 6
+eulersch/~N # frequency: 6
+eulitoral/~N # frequency: 6
+euphemistisch/~J # adjective root, frequency: 6
+euregional/~N # frequency: 6
+europid/~N # frequency: 6
+europäisch/~J # adjective root, frequency: 6
+eutroph/~N # frequency: 6
+evaluativ/~N # frequency: 6
+evangelikal/~N # frequency: 6
+evangeliumsgemäß/~N # frequency: 6
+eventuell/~N # frequency: 6
+evidenzfrei/~N # frequency: 6
+evokativ/~N # frequency: 6
+evolutiv/~N # frequency: 6
+exekutiv/~N # frequency: 6
+exhaustiv/~N # frequency: 6
+existential/~N # frequency: 6
+existentialistisch/~J # adjective root, frequency: 6
+existentiell/~N # frequency: 6
+existenzial/~N # frequency: 6
+existenziell/~N # frequency: 6
+exotisch/~J # adjective root, frequency: 6
+expansionsfähig/~J # adjective root, frequency: 6
+experimentierfreudig/~J # adjective root, frequency: 6
+explanativ/~N # frequency: 6
+explikativ/~N # frequency: 6
+explorativ/~N # frequency: 6
+exponentiell/~N # frequency: 6
+exportintensiv/~N # frequency: 6
+exportstark/~N # frequency: 6
+expressiv/~N # frequency: 6
+exsudativ/~N # frequency: 6
+extensional/~N # frequency: 6
+extensionsgleich/~N # frequency: 6
+extensiv/~N # frequency: 6
+external/~N # frequency: 6
+exterritorial/~N # frequency: 6
+extrachromosomal/~N # frequency: 6
+extraembryonal/~N # frequency: 6
+extrafloral/~N # frequency: 6
+extrafokal/~N # frequency: 6
+extragroß/~N # frequency: 6
+extrahelikal/~N # frequency: 6
+extrakonstitutionell/~N # frequency: 6
+extrakorporal/~N # frequency: 6
+extrakraniell/~N # frequency: 6
+extralang/~N # frequency: 6
+extralegal/~N # frequency: 6
+extramural/~N # frequency: 6
+extraoral/~N # frequency: 6
+extrapulmonal/~N # frequency: 6
+extrapyramidal/~N # frequency: 6
+extraterritorial/~N # frequency: 6
+extrem/~N # frequency: 6
+extremophil/~N # frequency: 6
+exzeptionell/~N # frequency: 6
+fabel/~N # frequency: 6
+fabrikneu/~N # frequency: 6
+fabrikreif/~N # frequency: 6
+fachfremd/~N # frequency: 6
+fachgemäß/~N # frequency: 6
+fachkundig/~J # adjective root, frequency: 6
+fachlich/~J # adjective root, frequency: 6
+fachmännisch/~J # adjective root, frequency: 6
+fachnah/~N # frequency: 6
+fackel/~N # frequency: 6
+fadenscheinig/~J # adjective root, frequency: 6
+fahlblau/~N # frequency: 6
+fahlgelb/~N # frequency: 6
+fahlgrau/~N # frequency: 6
+fahrbar/~J # adjective root, frequency: 6
+fahrig/~J # adjective root, frequency: 6
+fahrlässig/~J # adjective root, frequency: 6
+fahrplangemäß/~N # frequency: 6
+fahrradfreundlich/~J # adjective root, frequency: 6
+fair/~N # frequency: 6
+faktenreich/~N # frequency: 6
+faktentreu/~N # frequency: 6
+faktoriell/~N # frequency: 6
+fakultativ/~N # frequency: 6
+falb/~N # frequency: 6
+fall/~N # frequency: 6
+falsch/~N # frequency: 6
+faltenfrei/~N # frequency: 6
+faltenreich/~N # frequency: 6
+faltig/~J # adjective root, frequency: 6
+familial/~N # frequency: 6
+familienfremd/~N # frequency: 6
+familiennah/~N # frequency: 6
+familientauglich/~J # adjective root, frequency: 6
+familienuntauglich/~J # adjective root, frequency: 6
+familiär/~N # frequency: 6
+fang/~N # frequency: 6
+fantastisch/~J # adjective root, frequency: 6
+farbenfroh/~N # frequency: 6
+farbenprächtig/~J # adjective root, frequency: 6
+farbenreich/~N # frequency: 6
+farbentreu/~N # frequency: 6
+farbgetreu/~N # frequency: 6
+farbgleich/~N # frequency: 6
+farbig/~J # adjective root, frequency: 6
+farbintensiv/~N # frequency: 6
+farbneutral/~N # frequency: 6
+farbsensitiv/~N # frequency: 6
+farbstabil/~N # frequency: 6
+farbstark/~N # frequency: 6
+farbtreu/~N # frequency: 6
+faschistoid/~N # frequency: 6
+fasel/~N # frequency: 6
+faser/~N # frequency: 6
+faserfrei/~N # frequency: 6
+faserig/~J # adjective root, frequency: 6
+fasertief/~N # frequency: 6
+fasrig/~J # adjective root, frequency: 6
+fassettenreich/~N # frequency: 6
+faszial/~N # frequency: 6
+faszinierend/~N # frequency: 6
+faustdick/~N # frequency: 6
+faustgroß/~N # frequency: 6
+featurereich/~N # frequency: 6
+febril/~N # frequency: 6
+feder/~N # frequency: 6
+federweich/~N # frequency: 6
+fehl/~N # frequency: 6
+fehlerfrei/~N # frequency: 6
+feier/~N # frequency: 6
+feierlich/~J # adjective root, frequency: 6
+feindfrei/~N # frequency: 6
+feindlich/~J # adjective root, frequency: 6
+fein/~N # frequency: 6
+feinfühlig/~J # adjective root, frequency: 6
+feinherb/~N # frequency: 6
+feinhörig/~J # adjective root, frequency: 6
+feinporig/~J # adjective root, frequency: 6
+feldfrei/~N # frequency: 6
+feldgrau/~N # frequency: 6
+felgentreu/~N # frequency: 6
+felsenreich/~N # frequency: 6
+felsgrau/~N # frequency: 6
+felsig/~J # adjective root, frequency: 6
+feministisch/~J # adjective root, frequency: 6
+femoral/~N # frequency: 6
+fennoman/~N # frequency: 6
+ferkel/~N # frequency: 6
+fermentativ/~N # frequency: 6
+fern/~N # frequency: 6
+fersenfrei/~N # frequency: 6
+fertigungsnah/~N # frequency: 6
+fertil/~N # frequency: 6
+fesselfrei/~N # frequency: 6
+fesselnd/~N # frequency: 6
+festlich/~J # adjective root, frequency: 6
+fetal/~N # frequency: 6
+fettfrei/~N # frequency: 6
+fettig/~J # adjective root, frequency: 6
+fettleibig/~J # adjective root, frequency: 6
+fettreich/~N # frequency: 6
+feuchteadaptiv/~N # frequency: 6
+feuchtereich/~N # frequency: 6
+feuchtheiß/~N # frequency: 6
+feuchtkühl/~N # frequency: 6
+feuchtschwül/~N # frequency: 6
+feurig/~J # adjective root, frequency: 6
+fieberfrei/~N # frequency: 6
+fieberheiß/~N # frequency: 6
+fieberkrank/~N # frequency: 6
+fiedel/~N # frequency: 6
+fies/~N # frequency: 6
+figural/~N # frequency: 6
+figurativ/~N # frequency: 6
+figurenreich/~N # frequency: 6
+figurnah/~N # frequency: 6
+fiktional/~N # frequency: 6
+fiktiv/~N # frequency: 6
+filmreif/~N # frequency: 6
+filterstabil/~N # frequency: 6
+filz/~N # frequency: 6
+final/~N # frequency: 6
+finanziell/~N # frequency: 6
+finanzier/~N # frequency: 6
+finanzschwach/~N # frequency: 6
+finanzstark/~N # frequency: 6
+findig/~J # adjective root, frequency: 6
+fingerdick/~N # frequency: 6
+fingerlang/~N # frequency: 6
+fintenreich/~N # frequency: 6
+firmenneutral/~N # frequency: 6
+firmentreu/~N # frequency: 6
+fixpunktfrei/~N # frequency: 6
+flackerfrei/~N # frequency: 6
+flapsig/~J # adjective root, frequency: 6
+flash/~N # frequency: 6
+flatter/~N # frequency: 6
+flaumweich/~N # frequency: 6
+flauschig/~J # adjective root, frequency: 6
+flechtenreich/~N # frequency: 6
+fleckenfrei/~N # frequency: 6
+fleckig/~J # adjective root, frequency: 6
+flegel/~N # frequency: 6
+fleischfrei/~N # frequency: 6
+fleischreich/~N # frequency: 6
+fleißig/~J # adjective root, frequency: 6
+fliederblau/~N # frequency: 6
+flieg/~N # frequency: 6
+flimmer/~N # frequency: 6
+flimmerfrei/~N # frequency: 6
+flink/~N # frequency: 6
+flipp/~N # frequency: 6
+flipper/~N # frequency: 6
+floh/~N # frequency: 6
+floral/~N # frequency: 6
+flugfrei/~N # frequency: 6
+flugnah/~N # frequency: 6
+fluid/~N # frequency: 6
+flusenfrei/~N # frequency: 6
+flussnah/~N # frequency: 6
+fluvial/~N # frequency: 6
+fluviatil/~N # frequency: 6
+flächengleich/~N # frequency: 6
+flächeninhaltsgleich/~N # frequency: 6
+flächenintensiv/~N # frequency: 6
+flächentreu/~N # frequency: 6
+flözfrei/~N # frequency: 6
+flüchtig/~J # adjective root, frequency: 6
+flüchtlingsfrei/~N # frequency: 6
+flüssig/~J # adjective root, frequency: 6
+flüssigkeitsreich/~N # frequency: 6
+fokal/~N # frequency: 6
+folg/~N # frequency: 6
+folgenschwer/~N # frequency: 6
+folger/~N # frequency: 6
+folgsam/~J # adjective root, frequency: 6
+forder/~N # frequency: 6
+forellenblau/~N # frequency: 6
+forellenreich/~N # frequency: 6
+formaldehydfrei/~N # frequency: 6
+formalistisch/~J # adjective root, frequency: 6
+formatfrei/~N # frequency: 6
+formatier/~N # frequency: 6
+formativ/~N # frequency: 6
+formelfrei/~N # frequency: 6
+formfrei/~N # frequency: 6
+formgemäß/~N # frequency: 6
+formgetreu/~N # frequency: 6
+formgleich/~N # frequency: 6
+formschwach/~N # frequency: 6
+formschön/~N # frequency: 6
+formstark/~N # frequency: 6
+formsteif/~N # frequency: 6
+formstreng/~N # frequency: 6
+formtreu/~N # frequency: 6
+forschungsstark/~N # frequency: 6
+fortentwickel/~N # frequency: 6
+fortgeschritten/~V # verb root, frequency: 6
+fortlauf/~N # frequency: 6
+fortschritt/~N # frequency: 6
+fortschrittlich/~J # adjective root, frequency: 6
+fossilfrei/~N # frequency: 6
+fossilienreich/~N # frequency: 6
+fossilreich/~N # frequency: 6
+fotogen/~V # verb root, frequency: 6
+fotosensitiv/~N # frequency: 6
+fototrop/~N # frequency: 6
+fotovoltaisch/~J # adjective root, frequency: 6
+foul/~N # frequency: 6
+foveal/~N # frequency: 6
+frachtfrei/~N # frequency: 6
+frachtintensiv/~N # frequency: 6
+fraglich/~J # adjective root, frequency: 6
+fragmental/~N # frequency: 6
+fragwürdig/~J # adjective root, frequency: 6
+fraktal/~N # frequency: 6
+fraktionell/~N # frequency: 6
+frankophob/~N # frequency: 6
+frauenfeindlich/~J # adjective root, frequency: 6
+frauenfreundlich/~J # adjective root, frequency: 6
+fraulich/~J # adjective root, frequency: 6
+freideutsch/~N # frequency: 6
+freigebig/~J # adjective root, frequency: 6
+freiheitlich/~J # adjective root, frequency: 6
+freikonservativ/~N # frequency: 6
+freimütig/~J # adjective root, frequency: 6
+freizügig/~J # adjective root, frequency: 6
+fremdaggressiv/~N # frequency: 6
+fremdkapitalnah/~N # frequency: 6
+fremdkulturell/~N # frequency: 6
+fremdwortfrei/~N # frequency: 6
+frequenzschwach/~N # frequency: 6
+frequenzselektiv/~N # frequency: 6
+frequenzstabil/~N # frequency: 6
+freu/~N # frequency: 6
+freudenreich/~N # frequency: 6
+freudevoll/~N # frequency: 6
+freudig/~J # adjective root, frequency: 6
+freudvoll/~N # frequency: 6
+freundlich/~J # adjective root, frequency: 6
+friedensliebend/~N # frequency: 6
+friedfertig/~J # adjective root, frequency: 6
+friedlich/~J # adjective root, frequency: 6
+friedvoll/~N # frequency: 6
+friemel/~N # frequency: 6
+frigid/~N # frequency: 6
+frikativ/~N # frequency: 6
+friktionell/~N # frequency: 6
+friktionsfrei/~N # frequency: 6
+frisiert/~N # frequency: 6
+fristgemäß/~N # frequency: 6
+frivol/~N # frequency: 6
+frontal/~N # frequency: 6
+frontnah/~N # frequency: 6
+frontotemporal/~N # frequency: 6
+frostfrei/~N # frequency: 6
+frostig/~J # adjective root, frequency: 6
+frostreich/~N # frequency: 6
+froststeif/~N # frequency: 6
+frotzel/~N # frequency: 6
+fruchtbar/~J # adjective root, frequency: 6
+fruchtig/~J # adjective root, frequency: 6
+fruchtreich/~N # frequency: 6
+fructosefrei/~N # frequency: 6
+fructosereich/~N # frequency: 6
+frugal/~N # frequency: 6
+fruktosefrei/~N # frequency: 6
+fruktoserreich/~N # frequency: 6
+fröhlich/~J # adjective root, frequency: 6
+fröstel/~N # frequency: 6
+früchtereich/~N # frequency: 6
+frühbarock/~N # frequency: 6
+frühdeutsch/~N # frequency: 6
+frühembryonal/~N # frequency: 6
+frühfeudal/~N # frequency: 6
+frühindustriell/~N # frequency: 6
+frühkolonial/~N # frequency: 6
+frühkonstitutionell/~N # frequency: 6
+frühliberal/~N # frequency: 6
+frühlingssonnenhell/~N # frequency: 6
+frühmittelhochdeutsch/~N # frequency: 6
+frühmorbid/~N # frequency: 6
+frühnational/~N # frequency: 6
+frühneuhochdeutsch/~N # frequency: 6
+frühzeitig/~J # adjective root, frequency: 6
+fuchsteufelswild/~N # frequency: 6
+fuchtel/~N # frequency: 6
+fug/~N # frequency: 6
+fundamentalistisch/~J # adjective root, frequency: 6
+funkel/~N # frequency: 6
+funkelnagelneu/~N # frequency: 6
+funkenerosiv/~N # frequency: 6
+funkfrei/~N # frequency: 6
+funktional/~N # frequency: 6
+funktionell/~N # frequency: 6
+funktionsgemäß/~N # frequency: 6
+funktionsgleich/~N # frequency: 6
+funktionsreich/~N # frequency: 6
+furchtbar/~J # adjective root, frequency: 6
+furchteinflößend/~N # frequency: 6
+furchterregend/~N # frequency: 6
+furchtsam/~J # adjective root, frequency: 6
+fussel/~N # frequency: 6
+fusselfrei/~N # frequency: 6
+futter/~N # frequency: 6
+fußballfrei/~N # frequency: 6
+fußfaul/~N # frequency: 6
+fußfrei/~N # frequency: 6
+fußgängerfrei/~N # frequency: 6
+fußkrank/~N # frequency: 6
+fußlang/~N # frequency: 6
+fußtief/~N # frequency: 6
+fächel/~N # frequency: 6
+fächer/~N # frequency: 6
+fädel/~N # frequency: 6
+fähig/~J # adjective root, frequency: 6
+fäkal/~N # frequency: 6
+fäll/~N # frequency: 6
+fäng/~N # frequency: 6
+färb/~N # frequency: 6
+föderal/~N # frequency: 6
+föderativ/~N # frequency: 6
+föhn/~N # frequency: 6
+förderfrei/~N # frequency: 6
+förderlich/~J # adjective root, frequency: 6
+förderstark/~N # frequency: 6
+förmlich/~J # adjective root, frequency: 6
+fötal/~N # frequency: 6
+fügsam/~J # adjective root, frequency: 6
+fühl/~N # frequency: 6
+führ/~N # frequency: 6
+führerscheinfrei/~N # frequency: 6
+führungsschwach/~N # frequency: 6
+führungsstark/~N # frequency: 6
+fünfdimensional/~N # frequency: 6
+fünfeck/~N # frequency: 6
+fünffach/~N # frequency: 6
+fünfhundertfach/~N # frequency: 6
+fünfundzwanzigfach/~N # frequency: 6
+fünfzehnfach/~N # frequency: 6
+fünfzigfach/~N # frequency: 6
+fürchterlich/~J # adjective root, frequency: 6
+fürsorglich/~J # adjective root, frequency: 6
+fürstenbergsch/~N # frequency: 6
+gallenkrank/~N # frequency: 6
+gammel/~N # frequency: 6
+gammelig/~J # adjective root, frequency: 6
+gammlig/~J # adjective root, frequency: 6
+gangbar/~J # adjective root, frequency: 6
+ganggenau/~N # frequency: 6
+ganz/~N # frequency: 6
+ganzrational/~N # frequency: 6
+garstig/~J # adjective root, frequency: 6
+gasfrei/~N # frequency: 6
+gasintensiv/~N # frequency: 6
+gasreich/~N # frequency: 6
+gastfrei/~N # frequency: 6
+gastlich/~J # adjective root, frequency: 6
+gastral/~N # frequency: 6
+gastrointestinal/~N # frequency: 6
+gastroösophageal/~N # frequency: 6
+gattentreu/~N # frequency: 6
+gattungsfremd/~N # frequency: 6
+gattungsgleich/~N # frequency: 6
+gaukel/~N # frequency: 6
+gazellenschlank/~N # frequency: 6
+geachtet/~N # frequency: 6
+gebefreudig/~J # adjective root, frequency: 6
+gebietsfremd/~N # frequency: 6
+gebildet/~N # frequency: 6
+gebrechlich/~J # adjective root, frequency: 6
+gebrochenrational/~N # frequency: 6
+gebräuchlich/~J # adjective root, frequency: 6
+geburtenreich/~N # frequency: 6
+geburtenschwach/~N # frequency: 6
+geburtenstark/~N # frequency: 6
+gebäudenah/~N # frequency: 6
+gebührenfrei/~N # frequency: 6
+gedankenreich/~N # frequency: 6
+gedankenschnell/~N # frequency: 6
+gedankenvoll/~N # frequency: 6
+gedeck/~N # frequency: 6
+gedeih/~N # frequency: 6
+gediegen/~V # verb root, frequency: 6
+geduldig/~J # adjective root, frequency: 6
+gedächtnisschnell/~N # frequency: 6
+gedächtnisschwach/~N # frequency: 6
+gedächtnisstark/~N # frequency: 6
+geeignet/~N # frequency: 6
+gefahrbringend/~N # frequency: 6
+gefahrenfrei/~N # frequency: 6
+gefahrenreich/~N # frequency: 6
+gefahrenträchtig/~J # adjective root, frequency: 6
+gefallen/~V # verb root, frequency: 6
+gefräßig/~J # adjective root, frequency: 6
+gefährdet/~N # frequency: 6
+gefährlich/~J # adjective root, frequency: 6
+gefäll/~N # frequency: 6
+gefällig/~J # adjective root, frequency: 6
+gefäßfrei/~N # frequency: 6
+gefäßreich/~N # frequency: 6
+gefügig/~J # adjective root, frequency: 6
+gefühlsintensiv/~N # frequency: 6
+gefühlsneutral/~N # frequency: 6
+gefühlsroh/~N # frequency: 6
+gefürchtet/~N # frequency: 6
+gegengleich/~N # frequency: 6
+gegenintuitiv/~N # frequency: 6
+gegenkulturell/~N # frequency: 6
+gegensätzlich/~J # adjective root, frequency: 6
+gegenwartsfremd/~N # frequency: 6
+gegenwartsnah/~N # frequency: 6
+geheim/~N # frequency: 6
+gehoben/~V # verb root, frequency: 6
+gehässig/~J # adjective root, frequency: 6
+gehölzfrei/~N # frequency: 6
+gehör/~N # frequency: 6
+geifer/~N # frequency: 6
+geig/~J # adjective root, frequency: 6
+geist/~N # frequency: 6
+geisteskrank/~N # frequency: 6
+geistesschwach/~N # frequency: 6
+geiz/~N # frequency: 6
+geizig/~J # adjective root, frequency: 6
+gelassen/~V # verb root, frequency: 6
+gelatinefrei/~N # frequency: 6
+gelbgrau/~N # frequency: 6
+gelbgrün/~N # frequency: 6
+gelbweiß/~N # frequency: 6
+geld/~N # frequency: 6
+geldgeil/~N # frequency: 6
+geldgierig/~J # adjective root, frequency: 6
+geldmarktnah/~N # frequency: 6
+geldnah/~N # frequency: 6
+geldwertstabil/~N # frequency: 6
+gelehrig/~J # adjective root, frequency: 6
+gelenkig/~J # adjective root, frequency: 6
+gelenknah/~N # frequency: 6
+gelinder/~N # frequency: 6
+gelungen/~V # verb root, frequency: 6
+geläufig/~J # adjective root, frequency: 6
+gemeindefrei/~N # frequency: 6
+gemeindenah/~N # frequency: 6
+gemeindescharf/~N # frequency: 6
+gemeindeutsch/~N # frequency: 6
+gemeinfrei/~N # frequency: 6
+gemeingefährlich/~J # adjective root, frequency: 6
+gemeinschaftsfremd/~N # frequency: 6
+gemäß/~N # frequency: 6
+gemüsereich/~N # frequency: 6
+gemütlich/~J # adjective root, frequency: 6
+gemütsfrei/~N # frequency: 6
+gemütskrank/~N # frequency: 6
+gemütsvoll/~N # frequency: 6
+gemütvoll/~N # frequency: 6
+genderinklusiv/~N # frequency: 6
+genderneutral/~N # frequency: 6
+gendersensitiv/~N # frequency: 6
+genehm/~N # frequency: 6
+genehmigungsfrei/~N # frequency: 6
+generalpräventiv/~N # frequency: 6
+generational/~N # frequency: 6
+generationenlang/~N # frequency: 6
+generativ/~N # frequency: 6
+genesen/~V # verb root, frequency: 6
+genick/~N # frequency: 6
+geniefrei/~N # frequency: 6
+genossenschafsgemäß/~N # frequency: 6
+genossenschaftsfremd/~N # frequency: 6
+genossenschaftsindividuell/~N # frequency: 6
+genossenschaftskulturell/~N # frequency: 6
+genrefremd/~N # frequency: 6
+gentechnikfrei/~N # frequency: 6
+gentil/~N # frequency: 6
+genusssüchtig/~J # adjective root, frequency: 6
+genussvoll/~N # frequency: 6
+genügend/~N # frequency: 6
+genügsam/~J # adjective root, frequency: 6
+geothermal/~N # frequency: 6
+gerechtfertigt/~N # frequency: 6
+gerichtsfremd/~N # frequency: 6
+gerichtsgebührenfrei/~N # frequency: 6
+germanophob/~N # frequency: 6
+gertenschlank/~N # frequency: 6
+geruchsfrei/~N # frequency: 6
+geruchsintensiv/~N # frequency: 6
+geruchsneutral/~N # frequency: 6
+geruchsstark/~N # frequency: 6
+geruhsam/~J # adjective root, frequency: 6
+geräumig/~J # adjective root, frequency: 6
+geräuschfrei/~N # frequency: 6
+geröllfrei/~N # frequency: 6
+geröllreich/~N # frequency: 6
+gesamtaktiv/~N # frequency: 6
+gesamtdeutsch/~N # frequency: 6
+gesamtkulturell/~N # frequency: 6
+geschehen/~V # verb root, frequency: 6
+gescheiter/~N # frequency: 6
+geschenk/~N # frequency: 6
+geschichtsreich/~N # frequency: 6
+geschichtsträchtig/~J # adjective root, frequency: 6
+geschick/~N # frequency: 6
+geschlechterneutral/~N # frequency: 6
+geschlechterstereotyp/~N # frequency: 6
+geschlechtskrank/~N # frequency: 6
+geschlechtsneutral/~N # frequency: 6
+geschlechtsreif/~N # frequency: 6
+geschlechtsstereotyp/~N # frequency: 6
+geschmackfrei/~N # frequency: 6
+geschmacksfrei/~N # frequency: 6
+geschmacksintensiv/~N # frequency: 6
+geschmacksneutral/~N # frequency: 6
+geschmeidig/~J # adjective root, frequency: 6
+geschulter/~N # frequency: 6
+geschwätzig/~J # adjective root, frequency: 6
+geschäft/~N # frequency: 6
+geschäftig/~J # adjective root, frequency: 6
+geschäftskundig/~J # adjective root, frequency: 6
+geschäftsnah/~N # frequency: 6
+geschäftstüchtig/~J # adjective root, frequency: 6
+geschöpf/~N # frequency: 6
+gesell/~N # frequency: 6
+gesellig/~J # adjective root, frequency: 6
+gesellschaftsformneutral/~N # frequency: 6
+gesellschaftsneutral/~N # frequency: 6
+gesetz/~N # frequency: 6
+gesetzesgemäß/~N # frequency: 6
+gesetzestreu/~N # frequency: 6
+gesetzesuntreu/~N # frequency: 6
+gesinnungstreu/~N # frequency: 6
+gespräch/~N # frequency: 6
+gesprächig/~J # adjective root, frequency: 6
+gestaltenreich/~N # frequency: 6
+gestaltgleich/~N # frequency: 6
+gestell/~N # frequency: 6
+gestenreich/~N # frequency: 6
+gestreng/~N # frequency: 6
+gesuch/~N # frequency: 6
+gesund/~N # frequency: 6
+gesundheitsschädlich/~J # adjective root, frequency: 6
+getreidefrei/~N # frequency: 6
+getreidereich/~N # frequency: 6
+getränk/~N # frequency: 6
+gewaltfrei/~N # frequency: 6
+gewaltig/~J # adjective root, frequency: 6
+gewaltreich/~N # frequency: 6
+gewaltsam/~J # adjective root, frequency: 6
+gewaltscheu/~N # frequency: 6
+gewalttätig/~J # adjective root, frequency: 6
+gewaltvoll/~N # frequency: 6
+gewebsaktiv/~N # frequency: 6
+geweih/~N # frequency: 6
+gewerbesteuerfrei/~N # frequency: 6
+gewerkschaftsnah/~N # frequency: 6
+gewicht/~N # frequency: 6
+gewichtig/~J # adjective root, frequency: 6
+gewinnmaximal/~N # frequency: 6
+gewinnreich/~N # frequency: 6
+gewinnstark/~N # frequency: 6
+gewinnträchtig/~J # adjective root, frequency: 6
+gewiss/~N # frequency: 6
+gewitterreich/~N # frequency: 6
+gewitterschwül/~N # frequency: 6
+gewohnheitsgemäß/~N # frequency: 6
+gewässernah/~N # frequency: 6
+gewässerreich/~N # frequency: 6
+gewöhn/~N # frequency: 6
+gewöhnlich/~J # adjective root, frequency: 6
+gichtkrank/~N # frequency: 6
+gierig/~J # adjective root, frequency: 6
+giftfrei/~N # frequency: 6
+giftgelb/~N # frequency: 6
+giftig/~J # adjective root, frequency: 6
+ginstergelb/~N # frequency: 6
+gitterfremd/~N # frequency: 6
+glanzvoll/~N # frequency: 6
+glasglockenhell/~N # frequency: 6
+glashell/~N # frequency: 6
+glaub/~N # frequency: 6
+glaubensstark/~N # frequency: 6
+glaubensvoll/~N # frequency: 6
+glaubwürdig/~J # adjective root, frequency: 6
+gleichberechtigt/~N # frequency: 6
+gleichgroß/~N # frequency: 6
+gleichlang/~N # frequency: 6
+gleichmäßig/~J # adjective root, frequency: 6
+gleichstark/~N # frequency: 6
+gletscherfrei/~N # frequency: 6
+glial/~N # frequency: 6
+glieder/~N # frequency: 6
+glitschig/~J # adjective root, frequency: 6
+global/~N # frequency: 6
+glockenhell/~N # frequency: 6
+glottal/~N # frequency: 6
+glutamaterg/~N # frequency: 6
+glutenfrei/~N # frequency: 6
+glutensensitiv/~N # frequency: 6
+glutheiß/~N # frequency: 6
+glutäal/~N # frequency: 6
+glänzend/~N # frequency: 6
+gläubig/~J # adjective root, frequency: 6
+glücklich/~J # adjective root, frequency: 6
+glühend/~N # frequency: 6
+glühheiß/~N # frequency: 6
+gnadenreich/~N # frequency: 6
+gnadenvoll/~N # frequency: 6
+gnädig/~J # adjective root, frequency: 6
+gold/~N # frequency: 6
+goldgelb/~N # frequency: 6
+goldreich/~N # frequency: 6
+golfballgroß/~N # frequency: 6
+gong/~N # frequency: 6
+googel/~N # frequency: 6
+gottgleich/~N # frequency: 6
+gottvoll/~N # frequency: 6
+grabbel/~N # frequency: 6
+gradual/~N # frequency: 6
+graduell/~N # frequency: 6
+grafikintensiv/~N # frequency: 6
+grafitgrau/~N # frequency: 6
+grafitschwarz/~N # frequency: 6
+gramlabil/~N # frequency: 6
+gramnegativ/~N # frequency: 6
+grampositiv/~N # frequency: 6
+gramvoll/~N # frequency: 6
+granatenstark/~N # frequency: 6
+granatenvoll/~N # frequency: 6
+granitreich/~N # frequency: 6
+grannig/~J # adjective root, frequency: 6
+graphitgrau/~N # frequency: 6
+graphitschwarz/~N # frequency: 6
+grasreich/~N # frequency: 6
+graublau/~N # frequency: 6
+grauenerregend/~N # frequency: 6
+graugelb/~N # frequency: 6
+graugrün/~N # frequency: 6
+grausam/~J # adjective root, frequency: 6
+grauschwarz/~N # frequency: 6
+grausig/~J # adjective root, frequency: 6
+grauweiß/~N # frequency: 6
+gravid/~N # frequency: 6
+gravierend/~N # frequency: 6
+gravitationsfrei/~N # frequency: 6
+gravitativ/~N # frequency: 6
+grazil/~N # frequency: 6
+greifbar/~J # adjective root, frequency: 6
+grellgelb/~N # frequency: 6
+grellweiß/~N # frequency: 6
+grenzdebil/~N # frequency: 6
+grenzflächenaktiv/~N # frequency: 6
+grenzflächennah/~N # frequency: 6
+grenzkontrollfrei/~N # frequency: 6
+grenznah/~N # frequency: 6
+grenzstabil/~N # frequency: 6
+grenzwertig/~J # adjective root, frequency: 6
+griffig/~J # adjective root, frequency: 6
+grill/~N # frequency: 6
+grimmig/~J # adjective root, frequency: 6
+grimmsch/~N # frequency: 6
+grippal/~N # frequency: 6
+grippekrank/~N # frequency: 6
+grippesymptomfrei/~N # frequency: 6
+grob/~N # frequency: 6
+grobschlächtig/~J # adjective root, frequency: 6
+groll/~N # frequency: 6
+grotesk/~N # frequency: 6
+grottenfalsch/~N # frequency: 6
+groß/~N # frequency: 6
+großartig/~J # adjective root, frequency: 6
+großdeutsch/~N # frequency: 6
+großflächig/~J # adjective root, frequency: 6
+großherzig/~J # adjective root, frequency: 6
+großindustriell/~N # frequency: 6
+großstadtnah/~N # frequency: 6
+großzügig/~J # adjective root, frequency: 6
+grundfalsch/~N # frequency: 6
+grundgesetzestreu/~N # frequency: 6
+grundgesetzgleich/~N # frequency: 6
+grundlegend/~N # frequency: 6
+grundrechtsgleich/~N # frequency: 6
+grundsatztreu/~N # frequency: 6
+grundsolid/~N # frequency: 6
+grundstücksgleich/~N # frequency: 6
+grundwasserfrei/~N # frequency: 6
+grundwassernah/~N # frequency: 6
+grundwasserneutral/~N # frequency: 6
+gruppenfremd/~N # frequency: 6
+grässlich/~J # adjective root, frequency: 6
+gräulich/~J # adjective root, frequency: 6
+größengleich/~N # frequency: 6
+grübel/~N # frequency: 6
+grüblerisch/~J # adjective root, frequency: 6
+grünblau/~N # frequency: 6
+gründlich/~J # adjective root, frequency: 6
+grüngelb/~N # frequency: 6
+grüngrau/~N # frequency: 6
+grünschwarz/~N # frequency: 6
+gurgel/~N # frequency: 6
+gussgrau/~N # frequency: 6
+gutmütig/~J # adjective root, frequency: 6
+guttural/~N # frequency: 6
+gutwillig/~J # adjective root, frequency: 6
+gymnasial/~N # frequency: 6
+gynosexuell/~N # frequency: 6
+gängig/~J # adjective root, frequency: 6
+gänsegroß/~N # frequency: 6
+göttergleich/~N # frequency: 6
+göttlich/~J # adjective root, frequency: 6
+günstig/~J # adjective root, frequency: 6
+gütig/~J # adjective root, frequency: 6
+haargenau/~N # frequency: 6
+haarig/~J # adjective root, frequency: 6
+haarscharf/~N # frequency: 6
+haarsträubend/~N # frequency: 6
+habgierig/~J # adjective root, frequency: 6
+habituell/~N # frequency: 6
+hack/~N # frequency: 6
+hader/~N # frequency: 6
+hafennah/~N # frequency: 6
+hager/~N # frequency: 6
+hai/~N # frequency: 6
+halb/~N # frequency: 6
+halbformal/~N # frequency: 6
+halbfrei/~N # frequency: 6
+halbhegemonial/~N # frequency: 6
+halbhell/~N # frequency: 6
+halbkolonial/~N # frequency: 6
+halblang/~N # frequency: 6
+halblegal/~N # frequency: 6
+halblink/~N # frequency: 6
+halbmaximal/~N # frequency: 6
+halbmeterdick/~N # frequency: 6
+halbnah/~N # frequency: 6
+halboffiziell/~N # frequency: 6
+halboval/~N # frequency: 6
+halbprofessionell/~N # frequency: 6
+halbquantitativ/~N # frequency: 6
+halbrecht/~N # frequency: 6
+halbreif/~N # frequency: 6
+halbrekursiv/~N # frequency: 6
+halbschlau/~N # frequency: 6
+halbstark/~N # frequency: 6
+halbsteif/~N # frequency: 6
+halbsüß/~N # frequency: 6
+halbtaub/~N # frequency: 6
+halbtotal/~N # frequency: 6
+halbvoll/~N # frequency: 6
+halbwach/~N # frequency: 6
+halbwild/~N # frequency: 6
+halfter/~N # frequency: 6
+hallesch/~N # frequency: 6
+halluzinogen/~V # verb root, frequency: 6
+halogenfrei/~N # frequency: 6
+halogenidfrei/~N # frequency: 6
+halophil/~N # frequency: 6
+halophob/~N # frequency: 6
+halsbrecherisch/~J # adjective root, frequency: 6
+halsnah/~N # frequency: 6
+haltbar/~J # adjective root, frequency: 6
+halt/~N # frequency: 6
+hammergeil/~N # frequency: 6
+hamster/~N # frequency: 6
+handflächengroß/~N # frequency: 6
+handgroß/~N # frequency: 6
+handikap/~N # frequency: 6
+handlang/~N # frequency: 6
+handlich/~J # adjective root, frequency: 6
+handlungsaktiv/~N # frequency: 6
+handlungsreich/~N # frequency: 6
+handlungsschnell/~N # frequency: 6
+handlungsstark/~N # frequency: 6
+handschuhweich/~N # frequency: 6
+handtellergroß/~N # frequency: 6
+handvoll/~N # frequency: 6
+handzahm/~N # frequency: 6
+hangel/~N # frequency: 6
+hangparallel/~N # frequency: 6
+hannoversch/~N # frequency: 6
+hantel/~N # frequency: 6
+haploid/~N # frequency: 6
+hardenbergsch/~N # frequency: 6
+hardwaregleich/~N # frequency: 6
+hardwarenah/~N # frequency: 6
+harmoniefremd/~N # frequency: 6
+harmonisch/~J # adjective root, frequency: 6
+harn/~N # frequency: 6
+hartherzig/~J # adjective root, frequency: 6
+hartnäckig/~J # adjective root, frequency: 6
+harz/~N # frequency: 6
+harzfrei/~N # frequency: 6
+harzreich/~N # frequency: 6
+haselnussgroß/~N # frequency: 6
+hauch/~N # frequency: 6
+hauptsächlich/~J # adjective root, frequency: 6
+hausaufgabenfrei/~N # frequency: 6
+hausfremd/~N # frequency: 6
+haushaltsnah/~N # frequency: 6
+hauteng/~N # frequency: 6
+hautmild/~N # frequency: 6
+hautnah/~N # frequency: 6
+hautneutral/~N # frequency: 6
+heb/~N # frequency: 6
+hechel/~N # frequency: 6
+hechtblau/~N # frequency: 6
+hechtgrau/~N # frequency: 6
+heck/~N # frequency: 6
+hefefrei/~N # frequency: 6
+heftig/~J # adjective root, frequency: 6
+hegemonial/~N # frequency: 6
+hehl/~N # frequency: 6
+heilfroh/~N # frequency: 6
+heilkräftig/~J # adjective root, frequency: 6
+heilsam/~J # adjective root, frequency: 6
+heilvoll/~N # frequency: 6
+heimatfremd/~N # frequency: 6
+heimatnah/~N # frequency: 6
+heimattreu/~N # frequency: 6
+heimatverbunden/~V # verb root, frequency: 6
+heimelig/~J # adjective root, frequency: 6
+heimlich/~J # adjective root, frequency: 6
+heimlichtu/~N # frequency: 6
+heimschwach/~N # frequency: 6
+heimstark/~N # frequency: 6
+heimtückisch/~J # adjective root, frequency: 6
+heimwehkrank/~N # frequency: 6
+heiterhell/~N # frequency: 6
+heiz/~N # frequency: 6
+heißblütig/~J # adjective root, frequency: 6
+hektisch/~J # adjective root, frequency: 6
+helikal/~N # frequency: 6
+heliophob/~N # frequency: 6
+heliumreich/~N # frequency: 6
+hellblau/~N # frequency: 6
+hellenophil/~N # frequency: 6
+hellgelb/~N # frequency: 6
+hellgrau/~N # frequency: 6
+hellsichtig/~J # adjective root, frequency: 6
+hellwach/~N # frequency: 6
+hemimetabol/~N # frequency: 6
+herablassend/~N # frequency: 6
+herabminder/~N # frequency: 6
+herausforderungsreich/~N # frequency: 6
+herbsüß/~N # frequency: 6
+hermatyp/~N # frequency: 6
+hermitesch/~N # frequency: 6
+heroisch/~J # adjective root, frequency: 6
+herrisch/~J # adjective root, frequency: 6
+herrlich/~J # adjective root, frequency: 6
+herrschaftsfrei/~N # frequency: 6
+herstell/~N # frequency: 6
+herstellerneutral/~N # frequency: 6
+hervorragend/~N # frequency: 6
+hervorstechend/~N # frequency: 6
+herz/~N # frequency: 6
+herzensfroh/~N # frequency: 6
+herzig/~J # adjective root, frequency: 6
+herzinnig/~J # adjective root, frequency: 6
+herzkrank/~N # frequency: 6
+herzlich/~J # adjective root, frequency: 6
+herznah/~N # frequency: 6
+herzog/~N # frequency: 6
+herzvoll/~N # frequency: 6
+heterodox/~N # frequency: 6
+heteromorph/~N # frequency: 6
+heteronormativ/~N # frequency: 6
+heterophil/~N # frequency: 6
+heterosexuell/~N # frequency: 6
+heterotroph/~N # frequency: 6
+heterotyp/~N # frequency: 6
+hetzerisch/~J # adjective root, frequency: 6
+heuberg/~N # frequency: 6
+heuchel/~N # frequency: 6
+heuchlerisch/~J # adjective root, frequency: 6
+hexadezimal/~N # frequency: 6
+hexagonal/~N # frequency: 6
+hieb/~N # frequency: 6
+hierarchiefrei/~N # frequency: 6
+hilbertsch/~N # frequency: 6
+hilf/~N # frequency: 6
+hilfreich/~N # frequency: 6
+himmel/~N # frequency: 6
+himmelblau/~N # frequency: 6
+himmlisch/~J # adjective root, frequency: 6
+hinblick/~N # frequency: 6
+hinderlich/~J # adjective root, frequency: 6
+hindernisfrei/~N # frequency: 6
+hindernisreich/~N # frequency: 6
+hinterfrag/~N # frequency: 6
+hintergeh/~N # frequency: 6
+hinterhältig/~J # adjective root, frequency: 6
+hinterlistig/~J # adjective root, frequency: 6
+hirnfunktionell/~N # frequency: 6
+hirnrissig/~J # adjective root, frequency: 6
+hitlertreu/~N # frequency: 6
+hitzebeständig/~J # adjective root, frequency: 6
+hitzeempfindlich/~J # adjective root, frequency: 6
+hitzelabil/~N # frequency: 6
+hitzestabil/~N # frequency: 6
+hitzig/~J # adjective root, frequency: 6
+hochaggressiv/~N # frequency: 6
+hochaktiv/~N # frequency: 6
+hochaktuell/~N # frequency: 6
+hochattraktiv/~N # frequency: 6
+hochbarock/~N # frequency: 6
+hochdeutsch/~N # frequency: 6
+hochdimensional/~N # frequency: 6
+hocheffektiv/~N # frequency: 6
+hochemotional/~N # frequency: 6
+hocherfolgreich/~N # frequency: 6
+hochexklusiv/~N # frequency: 6
+hochexperimentell/~N # frequency: 6
+hochexplosiv/~N # frequency: 6
+hochexpressiv/~N # frequency: 6
+hochfeudal/~N # frequency: 6
+hochfunktional/~N # frequency: 6
+hochfunktionell/~N # frequency: 6
+hochgenau/~N # frequency: 6
+hochgenial/~N # frequency: 6
+hochglazial/~N # frequency: 6
+hochindividuell/~N # frequency: 6
+hochindustriell/~N # frequency: 6
+hochinnovativ/~N # frequency: 6
+hochintellektuell/~N # frequency: 6
+hochintensiv/~N # frequency: 6
+hochkarätig/~J # adjective root, frequency: 6
+hochkomplex/~N # frequency: 6
+hochkonservativ/~N # frequency: 6
+hochkonspirativ/~N # frequency: 6
+hochkriminell/~N # frequency: 6
+hochliquid/~N # frequency: 6
+hochmobil/~N # frequency: 6
+hochmütig/~J # adjective root, frequency: 6
+hochnäsig/~J # adjective root, frequency: 6
+hochoffiziell/~N # frequency: 6
+hochpalliativ/~N # frequency: 6
+hochproduktiv/~N # frequency: 6
+hochprofessionell/~N # frequency: 6
+hochqualitativ/~N # frequency: 6
+hochradioaktiv/~N # frequency: 6
+hochreaktiv/~N # frequency: 6
+hochrepetitiv/~N # frequency: 6
+hochsaisonal/~N # frequency: 6
+hochschulfrei/~N # frequency: 6
+hochschulnah/~N # frequency: 6
+hochselektiv/~N # frequency: 6
+hochsensitiv/~N # frequency: 6
+hochspekulativ/~N # frequency: 6
+hochspeziell/~N # frequency: 6
+hochstabil/~N # frequency: 6
+hochvolatil/~N # frequency: 6
+hochwasserfrei/~N # frequency: 6
+hochwertig/~J # adjective root, frequency: 6
+hoffnungsfroh/~N # frequency: 6
+hoffnungsreich/~N # frequency: 6
+hoffremd/~N # frequency: 6
+hofnah/~N # frequency: 6
+hoh/~N # frequency: 6
+hoheitsfrei/~N # frequency: 6
+hohlraumreich/~N # frequency: 6
+hol/~N # frequency: 6
+hold/~N # frequency: 6
+hollywoodreif/~N # frequency: 6
+holomorph/~N # frequency: 6
+holper/~N # frequency: 6
+holz/~N # frequency: 6
+holzfrei/~N # frequency: 6
+homogen/~V # verb root, frequency: 6
+homolateral/~N # frequency: 6
+homolog/~N # frequency: 6
+homomorph/~N # frequency: 6
+homonym/~N # frequency: 6
+homophil/~N # frequency: 6
+homophob/~N # frequency: 6
+homosexuell/~N # frequency: 6
+homöomorph/~N # frequency: 6
+honiggelb/~N # frequency: 6
+honigsüß/~N # frequency: 6
+honorarfrei/~N # frequency: 6
+hoppel/~N # frequency: 6
+horch/~N # frequency: 6
+horizontal/~N # frequency: 6
+hormonal/~N # frequency: 6
+hormonell/~N # frequency: 6
+hormonfrei/~N # frequency: 6
+hormonrezeptorpositiv/~N # frequency: 6
+hormonsensitiv/~N # frequency: 6
+hubraumgleich/~N # frequency: 6
+huldreich/~N # frequency: 6
+huldvoll/~N # frequency: 6
+human/~N # frequency: 6
+humankapitalintensiv/~N # frequency: 6
+humanoid/~N # frequency: 6
+humid/~N # frequency: 6
+humoral/~N # frequency: 6
+humorfrei/~N # frequency: 6
+humorvoll/~N # frequency: 6
+humpel/~N # frequency: 6
+humusreich/~N # frequency: 6
+hundertfach/~N # frequency: 6
+hunderttausendfach/~N # frequency: 6
+hunger/~N # frequency: 6
+hungrig/~J # adjective root, frequency: 6
+hurtig/~J # adjective root, frequency: 6
+hybrid/~N # frequency: 6
+hydrogen/~V # verb root, frequency: 6
+hydrogenotroph/~N # frequency: 6
+hydrolysestabil/~N # frequency: 6
+hydromorph/~N # frequency: 6
+hydrophil/~N # frequency: 6
+hydrophob/~N # frequency: 6
+hydrothermal/~N # frequency: 6
+hygienisch/~J # adjective root, frequency: 6
+hygrophil/~N # frequency: 6
+hyperaktiv/~N # frequency: 6
+hyperkomplex/~N # frequency: 6
+hypermedial/~N # frequency: 6
+hypermobil/~N # frequency: 6
+hypermorph/~N # frequency: 6
+hyperregenerativ/~N # frequency: 6
+hypersensitiv/~N # frequency: 6
+hypertensiv/~N # frequency: 6
+hyperthermophil/~N # frequency: 6
+hypertroph/~N # frequency: 6
+hypnagog/~N # frequency: 6
+hypoaktiv/~N # frequency: 6
+hypodermal/~N # frequency: 6
+hypothekenfrei/~N # frequency: 6
+hypoton/~N # frequency: 6
+hysterisch/~J # adjective root, frequency: 6
+häkel/~N # frequency: 6
+hämatophag/~N # frequency: 6
+hämisch/~J # adjective root, frequency: 6
+hämorrhoidal/~N # frequency: 6
+hänsel/~N # frequency: 6
+hässlich/~J # adjective root, frequency: 6
+häuf/~N # frequency: 6
+häufig/~J # adjective root, frequency: 6
+häuslich/~J # adjective root, frequency: 6
+höchstgenau/~N # frequency: 6
+höflich/~J # adjective root, frequency: 6
+höhenfrei/~N # frequency: 6
+höhengleich/~N # frequency: 6
+höhenlinienparallel/~N # frequency: 6
+höherdimensional/~N # frequency: 6
+höherstuf/~N # frequency: 6
+höhl/~N # frequency: 6
+höhlenreich/~N # frequency: 6
+höhnisch/~J # adjective root, frequency: 6
+hübsch/~N # frequency: 6
+hüftgelenksnah/~N # frequency: 6
+hüftlang/~N # frequency: 6
+hüftsteif/~N # frequency: 6
+hüfttief/~N # frequency: 6
+hügelreich/~N # frequency: 6
+hühnereigroß/~N # frequency: 6
+hühnergroß/~N # frequency: 6
+hürdenreich/~N # frequency: 6
+hüstel/~N # frequency: 6
+idealistisch/~J # adjective root, frequency: 6
+identitiv/~N # frequency: 6
+ideologiefrei/~N # frequency: 6
+idiolektal/~N # frequency: 6
+idiologiefrei/~N # frequency: 6
+idiomorph/~N # frequency: 6
+idiotisch/~J # adjective root, frequency: 6
+idyllisch/~J # adjective root, frequency: 6
+igel/~N # frequency: 6
+ihr/~N # frequency: 6
+ikonengleich/~N # frequency: 6
+ikonodul/~N # frequency: 6
+illegal/~N # frequency: 6
+illiberal/~N # frequency: 6
+illiquid/~N # frequency: 6
+illokutiv/~N # frequency: 6
+illoyal/~N # frequency: 6
+illusionsfrei/~N # frequency: 6
+illustrativ/~N # frequency: 6
+imaginativ/~N # frequency: 6
+immateriell/~N # frequency: 6
+immergleich/~N # frequency: 6
+immersiv/~N # frequency: 6
+immunreaktiv/~N # frequency: 6
+immunschwach/~N # frequency: 6
+immunsuppressiv/~N # frequency: 6
+imperfekt/~N # frequency: 6
+imperfektiv/~N # frequency: 6
+imperial/~N # frequency: 6
+impersonell/~N # frequency: 6
+impf/~N # frequency: 6
+impffrei/~N # frequency: 6
+implementier/~N # frequency: 6
+implikativ/~N # frequency: 6
+imprädikativ/~N # frequency: 6
+impulsreich/~N # frequency: 6
+inaktiv/~N # frequency: 6
+inaktuell/~N # frequency: 6
+indigoblau/~N # frequency: 6
+induktionsfrei/~N # frequency: 6
+induktiv/~N # frequency: 6
+industriekulturell/~N # frequency: 6
+industriell/~N # frequency: 6
+industrienah/~N # frequency: 6
+inertial/~N # frequency: 6
+inessentiell/~N # frequency: 6
+inessenziell/~N # frequency: 6
+infam/~N # frequency: 6
+infantil/~N # frequency: 6
+infertil/~N # frequency: 6
+infiltrativ/~N # frequency: 6
+infinitesimal/~N # frequency: 6
+inflationsfrei/~N # frequency: 6
+informal/~N # frequency: 6
+informationell/~N # frequency: 6
+informationsreich/~N # frequency: 6
+infraorbital/~N # frequency: 6
+infrastrukturell/~N # frequency: 6
+infrastrukturschwach/~N # frequency: 6
+ingenieursnah/~N # frequency: 6
+ingressiv/~N # frequency: 6
+inguinal/~N # frequency: 6
+inhalativ/~N # frequency: 6
+inhaltsgleich/~N # frequency: 6
+inhaltsleer/~N # frequency: 6
+inhaltstief/~N # frequency: 6
+inhaltsvoll/~N # frequency: 6
+initiativ/~N # frequency: 6
+injektiv/~N # frequency: 6
+inklusiv/~N # frequency: 6
+inkorporal/~N # frequency: 6
+inkrementell/~N # frequency: 6
+innenstadtnah/~N # frequency: 6
+innerdeutsch/~N # frequency: 6
+innerfiktional/~N # frequency: 6
+innerfraktionell/~N # frequency: 6
+innerkantonal/~N # frequency: 6
+innerlibysch/~N # frequency: 6
+innovationsfreudig/~J # adjective root, frequency: 6
+innovationsfähig/~J # adjective root, frequency: 6
+innovationsschwach/~N # frequency: 6
+innovationsstark/~N # frequency: 6
+inoffiziell/~N # frequency: 6
+insektenfrei/~N # frequency: 6
+insektenreich/~N # frequency: 6
+insektizidfrei/~N # frequency: 6
+inselfremd/~N # frequency: 6
+inselnah/~N # frequency: 6
+insensitiv/~N # frequency: 6
+insolvenznah/~N # frequency: 6
+inspirativ/~N # frequency: 6
+instabil/~N # frequency: 6
+instanziell/~N # frequency: 6
+instinktiv/~N # frequency: 6
+institutionell/~N # frequency: 6
+institutsfremd/~N # frequency: 6
+instruktionsgemäß/~N # frequency: 6
+instruktiv/~N # frequency: 6
+instrumental/~N # frequency: 6
+instrumentell/~N # frequency: 6
+inständig/~J # adjective root, frequency: 6
+integrativ/~N # frequency: 6
+intelligenzintensiv/~N # frequency: 6
+intensional/~N # frequency: 6
+intensionsgleich/~N # frequency: 6
+intensitätsschwach/~N # frequency: 6
+intensitätsstark/~N # frequency: 6
+intentional/~N # frequency: 6
+interaktiv/~N # frequency: 6
+interdental/~N # frequency: 6
+interdigital/~N # frequency: 6
+interfakultativ/~N # frequency: 6
+interfraktionell/~N # frequency: 6
+intergenerational/~N # frequency: 6
+intergenerationell/~N # frequency: 6
+intergenerativ/~N # frequency: 6
+interglazial/~N # frequency: 6
+intergouvernemental/~N # frequency: 6
+interindividuell/~N # frequency: 6
+interindustriell/~N # frequency: 6
+interinstitutionell/~N # frequency: 6
+interkantonal/~N # frequency: 6
+interkollegial/~N # frequency: 6
+interkolonial/~N # frequency: 6
+interkommunal/~N # frequency: 6
+interkonfessionell/~N # frequency: 6
+interkontinental/~N # frequency: 6
+interkulturell/~N # frequency: 6
+interlingual/~N # frequency: 6
+interlokal/~N # frequency: 6
+intermedial/~N # frequency: 6
+interministeriell/~N # frequency: 6
+intermodal/~N # frequency: 6
+internal/~N # frequency: 6
+international/~N # frequency: 6
+interorganisational/~N # frequency: 6
+interpersonal/~N # frequency: 6
+interpersonell/~N # frequency: 6
+interplanetar/~N # frequency: 6
+interpretativ/~N # frequency: 6
+interprofessionell/~N # frequency: 6
+interprozedural/~N # frequency: 6
+interregional/~N # frequency: 6
+interrogativ/~N # frequency: 6
+intersektional/~N # frequency: 6
+intersektionell/~N # frequency: 6
+intersektoral/~N # frequency: 6
+intersexuell/~N # frequency: 6
+interspinal/~N # frequency: 6
+interstitiell/~N # frequency: 6
+intersubjektiv/~N # frequency: 6
+intertemporal/~N # frequency: 6
+interterritorial/~N # frequency: 6
+intertextuell/~N # frequency: 6
+intertribal/~N # frequency: 6
+interventionell/~N # frequency: 6
+intervertebral/~N # frequency: 6
+interzonal/~N # frequency: 6
+intestinal/~N # frequency: 6
+intim/~N # frequency: 6
+intonationsstabil/~N # frequency: 6
+intraabdominell/~N # frequency: 6
+intraduktal/~N # frequency: 6
+intraepidermal/~N # frequency: 6
+intraepithelial/~N # frequency: 6
+intrafokal/~N # frequency: 6
+intraforaminal/~N # frequency: 6
+intragenerativ/~N # frequency: 6
+intraindividuell/~N # frequency: 6
+intraindustriell/~N # frequency: 6
+intrakardial/~N # frequency: 6
+intrakontinental/~N # frequency: 6
+intrakortikal/~N # frequency: 6
+intrakraniell/~N # frequency: 6
+intralingual/~N # frequency: 6
+intramural/~N # frequency: 6
+intranasal/~N # frequency: 6
+intransitiv/~N # frequency: 6
+intraoperativ/~N # frequency: 6
+intraoral/~N # frequency: 6
+intraparietal/~N # frequency: 6
+intraperitoneal/~N # frequency: 6
+intrapersonell/~N # frequency: 6
+intraprofessionell/~N # frequency: 6
+intraprozedural/~N # frequency: 6
+intrapulpal/~N # frequency: 6
+intraregional/~N # frequency: 6
+intraretinal/~N # frequency: 6
+intraseptal/~N # frequency: 6
+intrasexuell/~N # frequency: 6
+intrasubjektiv/~N # frequency: 6
+intratextuell/~N # frequency: 6
+intrathekal/~N # frequency: 6
+intratracheal/~N # frequency: 6
+intravaginal/~N # frequency: 6
+intravasal/~N # frequency: 6
+intravesikal/~N # frequency: 6
+intravital/~N # frequency: 6
+intrazerebral/~N # frequency: 6
+intronfrei/~N # frequency: 6
+introspektiv/~N # frequency: 6
+intrusiv/~N # frequency: 6
+intuitiv/~N # frequency: 6
+invasiv/~N # frequency: 6
+investigativ/~N # frequency: 6
+investitionsstark/~N # frequency: 6
+investiv/~N # frequency: 6
+inzidental/~N # frequency: 6
+inzidentell/~N # frequency: 6
+ionenselektiv/~N # frequency: 6
+ionotrop/~N # frequency: 6
+ipsativ/~N # frequency: 6
+ipsilateral/~N # frequency: 6
+irantreu/~N # frequency: 6
+irisch/~J # adjective root, frequency: 6
+ironiefrei/~N # frequency: 6
+ironisch/~J # adjective root, frequency: 6
+irreal/~N # frequency: 6
+irreflexiv/~N # frequency: 6
+irreführend/~N # frequency: 6
+irrelativ/~N # frequency: 6
+irrenhausreif/~N # frequency: 6
+irritativ/~N # frequency: 6
+irrsinnig/~J # adjective root, frequency: 6
+irrwitzig/~J # adjective root, frequency: 6
+islamfeindlich/~J # adjective root, frequency: 6
+islamistisch/~J # adjective root, frequency: 6
+islamophil/~N # frequency: 6
+islamophob/~N # frequency: 6
+isobar/~J # adjective root, frequency: 6
+isogonal/~N # frequency: 6
+isomer/~N # frequency: 6
+isomorph/~N # frequency: 6
+isostrukturell/~N # frequency: 6
+isoton/~N # frequency: 6
+isotrop/~N # frequency: 6
+iterativ/~N # frequency: 6
+jahrelang/~N # frequency: 6
+jahresaktuell/~N # frequency: 6
+jahresgenau/~N # frequency: 6
+jahrgenau/~N # frequency: 6
+jahrhundertelang/~N # frequency: 6
+jahrtausendelang/~N # frequency: 6
+jahrzehntelang/~N # frequency: 6
+jammer/~N # frequency: 6
+jammervoll/~N # frequency: 6
+jazz/~N # frequency: 6
+jeansblau/~N # frequency: 6
+jeck/~N # frequency: 6
+jen/~V # verb root, frequency: 6
+jodreich/~N # frequency: 6
+jogg/~N # frequency: 6
+jovial/~N # frequency: 6
+judenfrei/~N # frequency: 6
+judikativ/~N # frequency: 6
+jugendfrei/~N # frequency: 6
+jugendfreundlich/~J # adjective root, frequency: 6
+jugendgemäß/~N # frequency: 6
+jugendkulturell/~N # frequency: 6
+jungdeutsch/~N # frequency: 6
+jungpleistozän/~N # frequency: 6
+junktoral/~N # frequency: 6
+juryfrei/~N # frequency: 6
+justiziell/~N # frequency: 6
+juvenil/~N # frequency: 6
+jäh/~N # frequency: 6
+jähzornig/~J # adjective root, frequency: 6
+jämmerlich/~J # adjective root, frequency: 6
+kackfrech/~N # frequency: 6
+kadmiumgelb/~N # frequency: 6
+kafkaesk/~N # frequency: 6
+kahl/~N # frequency: 6
+kaisertreu/~N # frequency: 6
+kaliumreich/~N # frequency: 6
+kalkfrei/~N # frequency: 6
+kalkulierbar/~J # adjective root, frequency: 6
+kalkweiß/~N # frequency: 6
+kalorienfrei/~N # frequency: 6
+kaltblau/~N # frequency: 6
+kaltblütig/~J # adjective root, frequency: 6
+kaltherzig/~J # adjective root, frequency: 6
+kaltschnäuzig/~J # adjective root, frequency: 6
+kaltschwarz/~N # frequency: 6
+kaltweiß/~N # frequency: 6
+kalziumfrei/~N # frequency: 6
+kameradschaftlich/~J # adjective root, frequency: 6
+kamerascheu/~N # frequency: 6
+kampfbegierig/~J # adjective root, frequency: 6
+kampfkräftig/~J # adjective root, frequency: 6
+kampflustig/~J # adjective root, frequency: 6
+kampfreich/~N # frequency: 6
+kampfschwach/~N # frequency: 6
+kampfstark/~N # frequency: 6
+kanariengelb/~N # frequency: 6
+kaninchengroß/~N # frequency: 6
+kanonikal/~N # frequency: 6
+kantenreich/~N # frequency: 6
+kantonal/~N # frequency: 6
+kapazitiv/~N # frequency: 6
+kaper/~N # frequency: 6
+kapitalertragsteuerfrei/~N # frequency: 6
+kapitalismuskritisch/~J # adjective root, frequency: 6
+kapitalknapp/~N # frequency: 6
+kapitalkräftig/~J # adjective root, frequency: 6
+kapitalreich/~N # frequency: 6
+kapitalschwach/~N # frequency: 6
+kapitalstark/~N # frequency: 6
+karbonatfrei/~N # frequency: 6
+kardial/~N # frequency: 6
+kardiopulmonal/~N # frequency: 6
+kardiorenal/~N # frequency: 6
+kariesprotektiv/~N # frequency: 6
+karikativ/~N # frequency: 6
+karnevalesk/~N # frequency: 6
+karrieregeil/~N # frequency: 6
+kasper/~N # frequency: 6
+kassenindividuell/~N # frequency: 6
+katabol/~N # frequency: 6
+kataton/~N # frequency: 6
+katecholaminerg/~N # frequency: 6
+kategorial/~N # frequency: 6
+kategorisch/~J # adjective root, frequency: 6
+katheterinterventionell/~N # frequency: 6
+katholisch/~J # adjective root, frequency: 6
+katzengleich/~N # frequency: 6
+katzengroß/~N # frequency: 6
+katzenkopfgroß/~N # frequency: 6
+kaudal/~N # frequency: 6
+kaudodorsal/~N # frequency: 6
+kaudoventral/~N # frequency: 6
+kaufkräftig/~J # adjective root, frequency: 6
+kaufstark/~N # frequency: 6
+kausal/~N # frequency: 6
+kausativ/~N # frequency: 6
+kaustisch/~J # adjective root, frequency: 6
+keck/~N # frequency: 6
+kehl/~N # frequency: 6
+kehr/~N # frequency: 6
+keimfrei/~N # frequency: 6
+kein/~N # frequency: 6
+kellner/~N # frequency: 6
+kelpwaldreich/~N # frequency: 6
+kenn/~N # frequency: 6
+kerbfrei/~N # frequency: 6
+kernfaul/~N # frequency: 6
+kernfrei/~N # frequency: 6
+kernholzreich/~N # frequency: 6
+kernig/~J # adjective root, frequency: 6
+kernnah/~N # frequency: 6
+kernwaffenfrei/~N # frequency: 6
+kerzenhell/~N # frequency: 6
+kessel/~N # frequency: 6
+ketzerisch/~J # adjective root, frequency: 6
+kieselgrau/~N # frequency: 6
+kill/~N # frequency: 6
+kilometerdick/~N # frequency: 6
+kilometergroß/~N # frequency: 6
+kilometerlang/~N # frequency: 6
+kilometertief/~N # frequency: 6
+kind/~N # frequency: 6
+kinderarbeitsfrei/~N # frequency: 6
+kinderfrei/~N # frequency: 6
+kinderfreundlich/~J # adjective root, frequency: 6
+kinderfroh/~N # frequency: 6
+kinderkopfgroß/~N # frequency: 6
+kinderlieb/~N # frequency: 6
+kindgemäß/~N # frequency: 6
+kindisch/~J # adjective root, frequency: 6
+kindlich/~J # adjective root, frequency: 6
+kindskopfgroß/~N # frequency: 6
+kinnlang/~N # frequency: 6
+kippel/~N # frequency: 6
+kippstabil/~N # frequency: 6
+kirchenfremd/~N # frequency: 6
+kirchenfreundlich/~J # adjective root, frequency: 6
+kirchennah/~N # frequency: 6
+kirchensteuerfrei/~N # frequency: 6
+kirchentreu/~N # frequency: 6
+kirschgroß/~N # frequency: 6
+kitschfrei/~N # frequency: 6
+kitschig/~J # adjective root, frequency: 6
+klack/~N # frequency: 6
+klafterlang/~N # frequency: 6
+klaftertief/~N # frequency: 6
+klag/~N # frequency: 6
+klamm/~N # frequency: 6
+klangfarbenreich/~N # frequency: 6
+klanggetreu/~N # frequency: 6
+klangrein/~N # frequency: 6
+klangschön/~N # frequency: 6
+klangtreu/~N # frequency: 6
+klapp/~N # frequency: 6
+klapper/~N # frequency: 6
+klapperfrei/~N # frequency: 6
+klassisch/~J # adjective root, frequency: 6
+klatsch/~N # frequency: 6
+klatschsüchtig/~J # adjective root, frequency: 6
+klebrig/~J # adjective root, frequency: 6
+klebstofffrei/~N # frequency: 6
+kleidsam/~J # adjective root, frequency: 6
+kleinbürgerlich/~J # adjective root, frequency: 6
+kleindeutsch/~N # frequency: 6
+kleinkriminell/~N # frequency: 6
+kleinlich/~J # adjective root, frequency: 6
+kleinräumig/~J # adjective root, frequency: 6
+klerikal/~N # frequency: 6
+kletter/~N # frequency: 6
+klick/~N # frequency: 6
+klimagemäß/~N # frequency: 6
+klimaneutral/~N # frequency: 6
+klingel/~N # frequency: 6
+klippenreich/~N # frequency: 6
+klischeefrei/~N # frequency: 6
+klitoral/~N # frequency: 6
+klonal/~N # frequency: 6
+klon/~N # frequency: 6
+klotz/~N # frequency: 6
+klotzig/~J # adjective root, frequency: 6
+klug/~N # frequency: 6
+klumpenfrei/~N # frequency: 6
+kläglich/~J # adjective root, frequency: 6
+klüngel/~N # frequency: 6
+knackevoll/~N # frequency: 6
+knackscharf/~N # frequency: 6
+knallblau/~N # frequency: 6
+knalleng/~N # frequency: 6
+knallgelb/~N # frequency: 6
+knallheiß/~N # frequency: 6
+knallig/~J # adjective root, frequency: 6
+knallvoll/~N # frequency: 6
+knauser/~N # frequency: 6
+knauserig/~J # adjective root, frequency: 6
+knausrig/~J # adjective root, frequency: 6
+knibbel/~N # frequency: 6
+knick/~N # frequency: 6
+knickgelenk/~N # frequency: 6
+kniefrei/~N # frequency: 6
+kniekurz/~N # frequency: 6
+knielang/~N # frequency: 6
+knietief/~N # frequency: 6
+knieweich/~N # frequency: 6
+kniff/~N # frequency: 6
+kniffelig/~J # adjective root, frequency: 6
+knifflig/~J # adjective root, frequency: 6
+knitter/~N # frequency: 6
+knobel/~N # frequency: 6
+knochenweiß/~N # frequency: 6
+knuddel/~N # frequency: 6
+knuff/~N # frequency: 6
+knusper/~N # frequency: 6
+knusperig/~J # adjective root, frequency: 6
+knusprig/~J # adjective root, frequency: 6
+knöchelfrei/~N # frequency: 6
+knöchellang/~N # frequency: 6
+knöcheltief/~N # frequency: 6
+knüppeldick/~N # frequency: 6
+ko-konstruktiv/~N # frequency: 6
+koalitionstreu/~N # frequency: 6
+koaxial/~N # frequency: 6
+kobaltblau/~N # frequency: 6
+kochsalzfrei/~N # frequency: 6
+kochsalzreich/~N # frequency: 6
+koedukativ/~N # frequency: 6
+koextensional/~N # frequency: 6
+koffeinfrei/~N # frequency: 6
+kognitiv/~N # frequency: 6
+kohlehydratreich/~N # frequency: 6
+kohlendioxidreich/~N # frequency: 6
+kohlenhydratreich/~N # frequency: 6
+kohlenstofffrei/~N # frequency: 6
+kohlenstoffneutral/~N # frequency: 6
+kohlenstoffreich/~N # frequency: 6
+kohlensäurefrei/~N # frequency: 6
+kohlenwasserstofffrei/~N # frequency: 6
+kohlrabenschwarz/~N # frequency: 6
+kohlschwarz/~N # frequency: 6
+kohäsiv/~N # frequency: 6
+kollaborativ/~N # frequency: 6
+kollagen/~V # verb root, frequency: 6
+kollagenreich/~N # frequency: 6
+kollateral/~N # frequency: 6
+koller/~N # frequency: 6
+kollisionsfrei/~N # frequency: 6
+kolloidal/~N # frequency: 6
+kollokativ/~N # frequency: 6
+kollusiv/~N # frequency: 6
+kolonial/~N # frequency: 6
+kolorektal/~N # frequency: 6
+kolossal/~N # frequency: 6
+komisch/~J # adjective root, frequency: 6
+kommissionell/~N # frequency: 6
+kommod/~N # frequency: 6
+kommunal/~N # frequency: 6
+kommunikationsfrei/~N # frequency: 6
+kommunikationsintensiv/~N # frequency: 6
+kommunikationsstark/~N # frequency: 6
+kommunikationsunfähig/~J # adjective root, frequency: 6
+kommunikativ/~N # frequency: 6
+kommutativ/~N # frequency: 6
+komorbid/~N # frequency: 6
+kompetitiv/~N # frequency: 6
+komplex/~N # frequency: 6
+komplikationsfrei/~N # frequency: 6
+komponentenfrei/~N # frequency: 6
+kompositionell/~N # frequency: 6
+kompulsiv/~N # frequency: 6
+konativ/~N # frequency: 6
+kondensatorfrei/~N # frequency: 6
+konditionell/~N # frequency: 6
+konditionsschwach/~N # frequency: 6
+konditionsstark/~N # frequency: 6
+kondolenzbesuch/~N # frequency: 6
+konfessionell/~N # frequency: 6
+konfessionsfrei/~N # frequency: 6
+konfessionsneutral/~N # frequency: 6
+konfigurationsfrei/~N # frequency: 6
+konfigurativ/~N # frequency: 6
+konfliktfrei/~N # frequency: 6
+konfliktfreudig/~J # adjective root, frequency: 6
+konfliktscheu/~N # frequency: 6
+konfokal/~N # frequency: 6
+konfrontationsscheu/~N # frequency: 6
+konfrontativ/~N # frequency: 6
+konföderal/~N # frequency: 6
+konföderativ/~N # frequency: 6
+kongenial/~N # frequency: 6
+kongenital/~N # frequency: 6
+konjunktival/~N # frequency: 6
+konjunkturell/~N # frequency: 6
+konjunkturregulativ/~N # frequency: 6
+konjunktursensitiv/~N # frequency: 6
+konkav/~N # frequency: 6
+konkurrenzfähig/~J # adjective root, frequency: 6
+konkurrenzschwach/~N # frequency: 6
+konkurrenzstark/~N # frequency: 6
+konkursreif/~N # frequency: 6
+konnatal/~N # frequency: 6
+konnex/~N # frequency: 6
+konnotativ/~N # frequency: 6
+konsekutiv/~N # frequency: 6
+konsensuell/~N # frequency: 6
+konsequenzenreich/~N # frequency: 6
+konspirativ/~N # frequency: 6
+konstativ/~N # frequency: 6
+konstitutionell/~N # frequency: 6
+konstitutiv/~N # frequency: 6
+konstruktionsreif/~N # frequency: 6
+konsular/~N # frequency: 6
+konsultativ/~N # frequency: 6
+konsumfreudig/~J # adjective root, frequency: 6
+konsumgeil/~N # frequency: 6
+konsumptiv/~N # frequency: 6
+konsumtiv/~N # frequency: 6
+kontaktanalog/~N # frequency: 6
+kontaktfrei/~N # frequency: 6
+kontaktfreudig/~J # adjective root, frequency: 6
+kontaktscheu/~N # frequency: 6
+kontaktschwach/~N # frequency: 6
+kontaktsensitiv/~N # frequency: 6
+kontaktstark/~N # frequency: 6
+kontemplativ/~N # frequency: 6
+konter/~N # frequency: 6
+konterrevolutionär/~N # frequency: 6
+konterschwach/~N # frequency: 6
+konterstark/~N # frequency: 6
+kontextfrei/~N # frequency: 6
+kontextsensitiv/~N # frequency: 6
+kontextuell/~N # frequency: 6
+kontinental/~N # frequency: 6
+kontingent/~N # frequency: 6
+kontraintuitiv/~N # frequency: 6
+kontraktgemäß/~N # frequency: 6
+kontraktil/~N # frequency: 6
+kontraktiv/~N # frequency: 6
+kontralateral/~N # frequency: 6
+kontraproduktiv/~N # frequency: 6
+kontrastiv/~N # frequency: 6
+kontraststark/~N # frequency: 6
+kontrazeptiv/~N # frequency: 6
+kontrollfrei/~N # frequency: 6
+konturenreich/~N # frequency: 6
+konturenscharf/~N # frequency: 6
+konturgetreu/~N # frequency: 6
+konvektiv/~N # frequency: 6
+konventional/~N # frequency: 6
+konventionell/~N # frequency: 6
+konventionsgemäß/~N # frequency: 6
+konversationell/~N # frequency: 6
+konvertier/~N # frequency: 6
+konvex/~N # frequency: 6
+konzentrationsschwach/~N # frequency: 6
+konzeptionell/~N # frequency: 6
+konzeptuell/~N # frequency: 6
+konzernfremd/~N # frequency: 6
+konzertreif/~N # frequency: 6
+konzessiv/~N # frequency: 6
+kooperativ/~N # frequency: 6
+koorbital/~N # frequency: 6
+koordinationsintensiv/~N # frequency: 6
+koordinativ/~N # frequency: 6
+kopfballschwach/~N # frequency: 6
+kopfballstark/~N # frequency: 6
+kopfgroß/~N # frequency: 6
+kopfkrank/~N # frequency: 6
+kopfscheu/~N # frequency: 6
+kopfstark/~N # frequency: 6
+kopulativ/~N # frequency: 6
+korangemäß/~N # frequency: 6
+korantreu/~N # frequency: 6
+kordial/~N # frequency: 6
+korinth/~N # frequency: 6
+kornblau/~N # frequency: 6
+kornblumenblau/~N # frequency: 6
+korngrenzenfrei/~N # frequency: 6
+kornreich/~N # frequency: 6
+koronal/~N # frequency: 6
+korporativ/~N # frequency: 6
+korrekturbedürftig/~J # adjective root, frequency: 6
+korrelativ/~N # frequency: 6
+korrosionsfrei/~N # frequency: 6
+korrosiv/~N # frequency: 6
+korruptionsfrei/~N # frequency: 6
+kortikal/~N # frequency: 6
+kostal/~N # frequency: 6
+kostbar/~J # adjective root, frequency: 6
+kosteneffektiv/~N # frequency: 6
+kostenfrei/~N # frequency: 6
+kostengünstig/~J # adjective root, frequency: 6
+kostenintensiv/~N # frequency: 6
+kostenneutral/~N # frequency: 6
+kostenoptimal/~N # frequency: 6
+kostspielig/~J # adjective root, frequency: 6
+krabbel/~N # frequency: 6
+kraftfrei/~N # frequency: 6
+kraftintensiv/~N # frequency: 6
+kraftraubend/~N # frequency: 6
+krakel/~N # frequency: 6
+krampfig/~J # adjective root, frequency: 6
+kranial/~N # frequency: 6
+kraniofazial/~N # frequency: 6
+kraniosakral/~N # frequency: 6
+krankenhausreif/~N # frequency: 6
+krankheitsfrei/~N # frequency: 6
+krankheitsgemäß/~N # frequency: 6
+kratz/~N # frequency: 6
+kratzerfrei/~N # frequency: 6
+kratzig/~J # adjective root, frequency: 6
+krautreich/~N # frequency: 6
+krebserregend/~N # frequency: 6
+krebsfrei/~N # frequency: 6
+krebskrank/~N # frequency: 6
+krebspräventiv/~N # frequency: 6
+kredenzt/~N # frequency: 6
+kreditfähig/~J # adjective root, frequency: 6
+kreditkartengroß/~N # frequency: 6
+kreditwürdig/~J # adjective root, frequency: 6
+kreidebleich/~N # frequency: 6
+kreidehaltig/~J # adjective root, frequency: 6
+kreideweiß/~N # frequency: 6
+kreisfrei/~N # frequency: 6
+kreisgenau/~N # frequency: 6
+kreislaufstabil/~N # frequency: 6
+krem/~N # frequency: 6
+kremlnah/~N # frequency: 6
+kremltreu/~N # frequency: 6
+krempel/~N # frequency: 6
+kreuzbrav/~N # frequency: 6
+kreuzreaktiv/~N # frequency: 6
+kreuzungsfrei/~N # frequency: 6
+kriegerisch/~J # adjective root, frequency: 6
+kriegsfrei/~N # frequency: 6
+kriegslüstern/~N # frequency: 6
+kriegsneutral/~N # frequency: 6
+kriminalitätsfrei/~N # frequency: 6
+kriminalpräventiv/~N # frequency: 6
+krisenreich/~N # frequency: 6
+kristallblau/~N # frequency: 6
+kristallin/~N # frequency: 6
+kristalloid/~N # frequency: 6
+kristallwasserfrei/~N # frequency: 6
+kriterial/~N # frequency: 6
+kriteriell/~N # frequency: 6
+kritisch/~J # adjective root, frequency: 6
+krud/~N # frequency: 6
+krumm/~N # frequency: 6
+krustenfrei/~N # frequency: 6
+kräftefrei/~N # frequency: 6
+krähengroß/~N # frequency: 6
+kränklich/~J # adjective root, frequency: 6
+kräuselfrei/~N # frequency: 6
+kräuterreich/~N # frequency: 6
+krümmungsreich/~N # frequency: 6
+krüppelig/~J # adjective root, frequency: 6
+krüpplig/~J # adjective root, frequency: 6
+kult/~N # frequency: 6
+kulturfremd/~N # frequency: 6
+kulturfreundlich/~J # adjective root, frequency: 6
+kulturkonservativ/~N # frequency: 6
+kulturkritisch/~J # adjective root, frequency: 6
+kulturreflexiv/~N # frequency: 6
+kulturreich/~N # frequency: 6
+kummerreich/~N # frequency: 6
+kumulativ/~N # frequency: 6
+kundenindividuell/~N # frequency: 6
+kundennah/~N # frequency: 6
+kunstgemäß/~N # frequency: 6
+kunstreich/~N # frequency: 6
+kupferblau/~N # frequency: 6
+kurativ/~N # frequency: 6
+kurbel/~N # frequency: 6
+kurial/~N # frequency: 6
+kursiv/~N # frequency: 6
+kurvenreich/~N # frequency: 6
+kurvig/~J # adjective root, frequency: 6
+kurz/~N # frequency: 6
+kurzlebig/~J # adjective root, frequency: 6
+kurzschlussfrei/~N # frequency: 6
+kurzweilig/~J # adjective root, frequency: 6
+kuschelweich/~N # frequency: 6
+kälteempfindlich/~J # adjective root, frequency: 6
+kältescheu/~N # frequency: 6
+kältesensitiv/~N # frequency: 6
+kämpferisch/~J # adjective root, frequency: 6
+kärglich/~J # adjective root, frequency: 6
+käsebleich/~N # frequency: 6
+käseweiß/~N # frequency: 6
+köchel/~N # frequency: 6
+köchergleich/~N # frequency: 6
+kölsch/~N # frequency: 6
+königsblau/~N # frequency: 6
+königsfrei/~N # frequency: 6
+königsgleich/~N # frequency: 6
+königsnah/~N # frequency: 6
+königstreu/~N # frequency: 6
+körnig/~J # adjective root, frequency: 6
+körperfrei/~N # frequency: 6
+körperfremd/~N # frequency: 6
+körperlang/~N # frequency: 6
+körpernah/~N # frequency: 6
+körperschaftsteuerfrei/~N # frequency: 6
+körpersteuerfrei/~N # frequency: 6
+köstlich/~J # adjective root, frequency: 6
+kühlschrankgroß/~N # frequency: 6
+kühn/~N # frequency: 6
+kükenklug/~N # frequency: 6
+kümmer/~N # frequency: 6
+künstlich/~J # adjective root, frequency: 6
+kürz/~N # frequency: 6
+küstenfern/~N # frequency: 6
+küstennah/~N # frequency: 6
+lab/~N # frequency: 6
+labial/~N # frequency: 6
+labiodental/~N # frequency: 6
+labyrinth/~N # frequency: 6
+lackier/~N # frequency: 6
+ladungsfrei/~N # frequency: 6
+ladungsneutral/~N # frequency: 6
+lag/~N # frequency: 6
+lagerfrei/~N # frequency: 6
+laichreif/~N # frequency: 6
+laienschauspiel/~N # frequency: 6
+laikal/~N # frequency: 6
+laktosefrei/~N # frequency: 6
+land/~N # frequency: 6
+landesfremd/~N # frequency: 6
+landfremd/~N # frequency: 6
+landnah/~N # frequency: 6
+landreich/~N # frequency: 6
+landwirtschaftsnah/~N # frequency: 6
+langflügelig/~J # adjective root, frequency: 6
+langflüglig/~J # adjective root, frequency: 6
+langfristig/~J # adjective root, frequency: 6
+langlebig/~J # adjective root, frequency: 6
+langoval/~N # frequency: 6
+langsam/~J # adjective root, frequency: 6
+langweilig/~J # adjective root, frequency: 6
+langzeitstabil/~N # frequency: 6
+lapislazuliblau/~N # frequency: 6
+lapp/~N # frequency: 6
+larval/~N # frequency: 6
+las/~N # frequency: 6
+laser/~N # frequency: 6
+lastervoll/~N # frequency: 6
+lastfrei/~N # frequency: 6
+lasurblau/~N # frequency: 6
+lasziv/~N # frequency: 6
+lateral/~N # frequency: 6
+latexfrei/~N # frequency: 6
+lauf/~N # frequency: 6
+lauffaul/~N # frequency: 6
+laufintensiv/~N # frequency: 6
+laufmaschenfrei/~N # frequency: 6
+laufstark/~N # frequency: 6
+launisch/~J # adjective root, frequency: 6
+lautgetreu/~N # frequency: 6
+lautgleich/~N # frequency: 6
+lautstark/~N # frequency: 6
+lavendelblau/~N # frequency: 6
+lax/~N # frequency: 6
+leb/~N # frequency: 6
+lebend/~N # frequency: 6
+lebendig/~J # adjective root, frequency: 6
+lebensfeindlich/~J # adjective root, frequency: 6
+lebensfremd/~N # frequency: 6
+lebensfroh/~N # frequency: 6
+lebensgetreu/~N # frequency: 6
+lebensgroß/~N # frequency: 6
+lebensklug/~N # frequency: 6
+lebenslang/~N # frequency: 6
+lebensnah/~N # frequency: 6
+lebensvoll/~N # frequency: 6
+lebenswichtig/~J # adjective root, frequency: 6
+leberkrank/~N # frequency: 6
+ledig/~J # adjective root, frequency: 6
+legasthen/~V # verb root, frequency: 6
+legionellenfrei/~N # frequency: 6
+legislativ/~N # frequency: 6
+leguminosenfrei/~N # frequency: 6
+lehmgelb/~N # frequency: 6
+lehmreich/~N # frequency: 6
+lehr/~N # frequency: 6
+lehrplangemäß/~N # frequency: 6
+leichenfahl/~N # frequency: 6
+leicht/~N # frequency: 6
+leichtfertig/~J # adjective root, frequency: 6
+leichtgewichtig/~J # adjective root, frequency: 6
+leichtgläubig/~J # adjective root, frequency: 6
+leichtsinnig/~J # adjective root, frequency: 6
+leidend/~N # frequency: 6
+leidenschaftlich/~J # adjective root, frequency: 6
+leidvoll/~N # frequency: 6
+leinen/~V # verb root, frequency: 6
+leistungsabhängig/~J # adjective root, frequency: 6
+leistungsfrei/~N # frequency: 6
+leistungsfremd/~N # frequency: 6
+leistungsfähig/~J # adjective root, frequency: 6
+leistungsgleich/~N # frequency: 6
+leistungsschwach/~N # frequency: 6
+leistungsstark/~N # frequency: 6
+leiterfremd/~N # frequency: 6
+leninsch/~N # frequency: 6
+leprakrank/~N # frequency: 6
+lernaktiv/~N # frequency: 6
+lernbegierig/~J # adjective root, frequency: 6
+lernfaul/~N # frequency: 6
+lernintensiv/~N # frequency: 6
+lernschwach/~N # frequency: 6
+lernstandsgemäß/~N # frequency: 6
+lernstrukturell/~N # frequency: 6
+lesebuchreif/~N # frequency: 6
+lesefaul/~N # frequency: 6
+leserInnenfreundlich/~J # adjective root, frequency: 6
+leserfreundlich/~J # adjective root, frequency: 6
+leserlich/~J # adjective root, frequency: 6
+letal/~N # frequency: 6
+lettenreich/~N # frequency: 6
+letzt/~N # frequency: 6
+leuchtend/~N # frequency: 6
+leuchtkräftig/~J # adjective root, frequency: 6
+leuchtschwach/~N # frequency: 6
+leuchtstark/~N # frequency: 6
+leukämiekrank/~N # frequency: 6
+leutescheu/~N # frequency: 6
+leutselig/~J # adjective root, frequency: 6
+liberalkonservativ/~N # frequency: 6
+libertin/~N # frequency: 6
+libysch/~N # frequency: 6
+lichtblau/~N # frequency: 6
+lichtdurchlässig/~J # adjective root, frequency: 6
+lichtempfindlich/~J # adjective root, frequency: 6
+lichter/~N # frequency: 6
+lichterloh/~N # frequency: 6
+lichtgrau/~N # frequency: 6
+lichthoffrei/~N # frequency: 6
+lichtreich/~N # frequency: 6
+lichtscheu/~N # frequency: 6
+lichtschnell/~N # frequency: 6
+lichtschwach/~N # frequency: 6
+lichtsensitiv/~N # frequency: 6
+lichtstark/~N # frequency: 6
+lichtvoll/~N # frequency: 6
+liebbehalten/~V # verb root, frequency: 6
+liebenswürdig/~J # adjective root, frequency: 6
+liebeskrank/~N # frequency: 6
+liebesschwül/~N # frequency: 6
+liebestoll/~N # frequency: 6
+lieblich/~J # adjective root, frequency: 6
+liebreich/~N # frequency: 6
+liederlich/~J # adjective root, frequency: 6
+liederreich/~N # frequency: 6
+lief/~N # frequency: 6
+liefer/~N # frequency: 6
+liefergebührfrei/~N # frequency: 6
+lilienweiß/~N # frequency: 6
+limikol/~N # frequency: 6
+limitativ/~N # frequency: 6
+lind/~N # frequency: 6
+linder/~N # frequency: 6
+lingual/~N # frequency: 6
+linienreich/~N # frequency: 6
+linientreu/~N # frequency: 6
+linksalternativ/~N # frequency: 6
+linksdistributiv/~N # frequency: 6
+linksextrem/~N # frequency: 6
+linksintellektuell/~N # frequency: 6
+linkskomparativ/~N # frequency: 6
+linkslateral/~N # frequency: 6
+linksliberal/~N # frequency: 6
+linksneutral/~N # frequency: 6
+linksradikal/~N # frequency: 6
+linksschief/~N # frequency: 6
+linkstotal/~N # frequency: 6
+lipophil/~N # frequency: 6
+lipophob/~N # frequency: 6
+liposomal/~N # frequency: 6
+liquid/~N # frequency: 6
+lispel/~N # frequency: 6
+listenreich/~N # frequency: 6
+listig/~J # adjective root, frequency: 6
+livid/~N # frequency: 6
+lizenzfrei/~N # frequency: 6
+lizenzkostenfrei/~N # frequency: 6
+log/~N # frequency: 6
+logistikintensiv/~N # frequency: 6
+lohn/~N # frequency: 6
+lohnend/~N # frequency: 6
+lohnintensiv/~N # frequency: 6
+lohnkostenintensiv/~N # frequency: 6
+lohnsteuerfrei/~N # frequency: 6
+lokoregional/~N # frequency: 6
+lokutiv/~N # frequency: 6
+longitudinal/~N # frequency: 6
+loyal/~N # frequency: 6
+luftblasenfrei/~N # frequency: 6
+luftfrei/~N # frequency: 6
+luftig/~J # adjective root, frequency: 6
+luftkrank/~N # frequency: 6
+lug/~N # frequency: 6
+lumbal/~N # frequency: 6
+luminal/~N # frequency: 6
+lunch/~N # frequency: 6
+lungenkrank/~N # frequency: 6
+lunkerfrei/~N # frequency: 6
+lupenrein/~N # frequency: 6
+lustig/~J # adjective root, frequency: 6
+lutsch/~N # frequency: 6
+luzid/~N # frequency: 6
+lymphoproliferativ/~N # frequency: 6
+lysosomal/~N # frequency: 6
+lächel/~N # frequency: 6
+ländlich/~J # adjective root, frequency: 6
+läng/~N # frequency: 6
+längengleich/~N # frequency: 6
+längentreu/~N # frequency: 6
+länglich/~J # adjective root, frequency: 6
+lärm/~N # frequency: 6
+lärmig/~J # adjective root, frequency: 6
+lärmintensiv/~N # frequency: 6
+lärmvoll/~N # frequency: 6
+lässig/~J # adjective root, frequency: 6
+lästig/~J # adjective root, frequency: 6
+läuf/~N # frequency: 6
+läuter/~N # frequency: 6
+löcher/~N # frequency: 6
+lösbar/~J # adjective root, frequency: 6
+lös/~N # frequency: 6
+lösemittelfrei/~N # frequency: 6
+löslich/~J # adjective root, frequency: 6
+lösungsmittelfrei/~N # frequency: 6
+lösungsneutral/~N # frequency: 6
+lötstellenfrei/~N # frequency: 6
+löwenstark/~N # frequency: 6
+lübsch/~N # frequency: 6
+lückenreich/~N # frequency: 6
+lügnerisch/~J # adjective root, frequency: 6
+lümmel/~N # frequency: 6
+lüstern/~N # frequency: 6
+mach/~N # frequency: 6
+machtgeil/~N # frequency: 6
+magenkrank/~N # frequency: 6
+magenmild/~N # frequency: 6
+magnesiumreich/~N # frequency: 6
+magnetfeldfrei/~N # frequency: 6
+mahn/~N # frequency: 6
+mail/~N # frequency: 6
+maisgelb/~N # frequency: 6
+makaber/~N # frequency: 6
+makrosozial/~N # frequency: 6
+makrostrukturell/~N # frequency: 6
+makrozephal/~N # frequency: 6
+malad/~N # frequency: 6
+maladaptiv/~N # frequency: 6
+malariakrank/~N # frequency: 6
+malerisch/~J # adjective root, frequency: 6
+manch/~N # frequency: 6
+mandelweiß/~N # frequency: 6
+manganreich/~N # frequency: 6
+mangelfrei/~N # frequency: 6
+manifest/~N # frequency: 6
+manipulationsfrei/~N # frequency: 6
+mannigfaltig/~J # adjective root, frequency: 6
+mannsdick/~N # frequency: 6
+mannsgroß/~N # frequency: 6
+mannstoll/~N # frequency: 6
+manuell/~N # frequency: 6
+manufakturell/~N # frequency: 6
+margenreich/~N # frequency: 6
+margenschwach/~N # frequency: 6
+margenstark/~N # frequency: 6
+margenträchtig/~J # adjective root, frequency: 6
+marginal/~N # frequency: 6
+marineblau/~N # frequency: 6
+markenfrei/~N # frequency: 6
+markengeil/~N # frequency: 6
+markenneutral/~N # frequency: 6
+markentreu/~N # frequency: 6
+markierungsfrei/~N # frequency: 6
+markstückgroß/~N # frequency: 6
+markteng/~N # frequency: 6
+marktfremd/~N # frequency: 6
+marktfähig/~J # adjective root, frequency: 6
+marktgenau/~N # frequency: 6
+marktliberal/~N # frequency: 6
+marktnah/~N # frequency: 6
+marktneutral/~N # frequency: 6
+marktradikal/~N # frequency: 6
+marktrational/~N # frequency: 6
+marktreif/~N # frequency: 6
+marsnah/~N # frequency: 6
+marter/~N # frequency: 6
+maschinell/~N # frequency: 6
+maschinennah/~N # frequency: 6
+maskenfrei/~N # frequency: 6
+massefrei/~N # frequency: 6
+massenkulturell/~N # frequency: 6
+massenmedial/~N # frequency: 6
+match/~N # frequency: 6
+materialintensiv/~N # frequency: 6
+materialistisch/~J # adjective root, frequency: 6
+materialreich/~N # frequency: 6
+materiefrei/~N # frequency: 6
+materiell/~N # frequency: 6
+maternal/~N # frequency: 6
+matrilokal/~N # frequency: 6
+matrixfrei/~N # frequency: 6
+matschig/~J # adjective root, frequency: 6
+mattblau/~N # frequency: 6
+mattgelb/~N # frequency: 6
+mattgrau/~N # frequency: 6
+mattschwarz/~N # frequency: 6
+maulfaul/~N # frequency: 6
+mausgrau/~N # frequency: 6
+mautfrei/~N # frequency: 6
+maximal/~N # frequency: 6
+maßgebend/~N # frequency: 6
+maßgenau/~N # frequency: 6
+maßstabgetreu/~N # frequency: 6
+maßstabsgetreu/~N # frequency: 6
+maßvoll/~N # frequency: 6
+medial/~N # frequency: 6
+median/~N # frequency: 6
+medienbruchfrei/~N # frequency: 6
+mediengeil/~N # frequency: 6
+medienneutral/~N # frequency: 6
+medienscheu/~N # frequency: 6
+medienwirksam/~J # adjective root, frequency: 6
+medikamentenfrei/~N # frequency: 6
+mediodorsal/~N # frequency: 6
+meditativ/~N # frequency: 6
+medizinnah/~N # frequency: 6
+mediäval/~N # frequency: 6
+meerblau/~N # frequency: 6
+meeresblau/~N # frequency: 6
+meernah/~N # frequency: 6
+meetingfrei/~N # frequency: 6
+meetingreich/~N # frequency: 6
+megaloman/~N # frequency: 6
+mehlig/~J # adjective root, frequency: 6
+mehlweiß/~N # frequency: 6
+mehrdeutig/~J # adjective root, frequency: 6
+mehrdimensional/~N # frequency: 6
+mehr/~N # frequency: 6
+mehrfach/~N # frequency: 6
+mehrfaktoriell/~N # frequency: 6
+mehrgenerational/~N # frequency: 6
+mehrgenerationell/~N # frequency: 6
+mehrkostenfrei/~N # frequency: 6
+mehrkriteriell/~N # frequency: 6
+mehrtausendfach/~N # frequency: 6
+mehrwertsteuerfrei/~N # frequency: 6
+meilenlang/~N # frequency: 6
+meineid/~N # frequency: 6
+meinungsfrei/~N # frequency: 6
+meinungsstark/~N # frequency: 6
+melancholisch/~J # adjective root, frequency: 6
+melatoninerg/~N # frequency: 6
+meliorativ/~N # frequency: 6
