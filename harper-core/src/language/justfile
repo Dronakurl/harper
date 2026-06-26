@@ -1,0 +1,51 @@
+# Harper Language Testing and Coverage Recipes
+
+# Build the language testing framework
+build-lang-test:
+	@echo "🛠️  Building language testing framework"
+	@echo "========================================="
+	@cd harper-core/src/language/testing_framework && \
+	  cargo build --release
+	@echo "✅ Language testing framework built"
+	@echo "==================================="
+
+# Test a specific language
+test-language language="german":
+	@echo "🧪 Testing {{language}} language"
+	@echo "==============================="
+	@cd harper-core/src/language/testing_framework && \
+	  ./target/release/harper-lang-test --language "{{language}}" --test
+	@echo "==============================="
+
+# Test all languages
+test-all-languages:
+	@echo "🧪 Testing all languages"
+	@echo "========================"
+	@for lang in english german portuguese; do \
+	    echo "Testing $$lang language..." && \
+	    just test-language "$$lang" || \
+	    echo "❌ $$lang language tests failed"; \
+	    echo; \
+	done
+	@echo "========================"
+
+
+
+# Full language analysis
+full-language-analysis:
+	@echo "🔬 Full Language Analysis"
+	@echo "========================="
+	@just build-lang-test
+	@just test-all-languages
+	@just german-coverage
+	@echo "========================="
+
+# Clean language test artifacts
+clean-lang-test:
+	@echo "🧹 Cleaning language test artifacts"
+	@echo "===================================="
+	@cd harper-core/src/language/testing_framework && \
+	  cargo clean
+	@rm -rf harper-core/src/language/testing_framework/target
+	@echo "✅ Language test artifacts cleaned"
+	@echo "================================="

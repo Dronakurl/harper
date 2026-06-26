@@ -1,9 +1,12 @@
 # Harper Language Statistics and Analysis
 
+# Import language-specific recipes
+import "harper-core/src/language/justfile"
+
 # Language statistics - analyze all languages
 language-stats:
 	@echo "📊 Harper Language Statistics"
-	@echo "================================"
+	@echo "==============================="
 	
 	# Create output directory
 	@mkdir -p .stats
@@ -22,9 +25,9 @@ language-stats:
 # German coverage analysis
 german-coverage:
 	@echo "🔍 German Coverage Analysis"
-	@echo "============================"
+	@echo "==========================="
 	@python3 scripts/german_coverage.py
-	@echo "============================"
+	@echo "==========================="
 
 # Clean statistics
 clean-stats:
