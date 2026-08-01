@@ -229,7 +229,7 @@ impl ExprLinter for HeadOffHeed {
 #[cfg(test)]
 mod tests {
     use crate::linting::tests::{
-        assert_good_and_bad_suggestions, assert_no_lints, assert_suggestion_result,
+        assert_good_and_bad_suggestions, assert_suggestion_result,
     };
 
     use super::HeadOffHeed;
