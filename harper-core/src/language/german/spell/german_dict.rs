@@ -52,6 +52,15 @@ fn load_german_base_dict_from_word_list(
 static GERMAN_WORD_LIST: LazyLock<Vec<crate::spell::rune::word_list::AnnotatedWord>> =
     LazyLock::new(load_german_word_list);
 
+/// The parsed base word list, with its property flags still attached.
+///
+/// Used by [`super::lexical_classes`] to derive the closed lexical classes the
+/// capitalization linter needs, without paying for affix expansion or a
+/// dictionary lookup.
+pub(super) fn german_word_list() -> &'static [crate::spell::rune::word_list::AnnotatedWord] {
+    &GERMAN_WORD_LIST
+}
+
 // Base dictionary without pre-generated compounds (FST for fast lookups)
 static GERMAN_BASE_DICT: LazyLock<Arc<FstDictionary>> = LazyLock::new(|| {
     Arc::new(

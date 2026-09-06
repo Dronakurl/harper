@@ -11,3 +11,4 @@ pub mod compound;
 pub mod compound_aware_dict;
 pub mod compound_checker;
 pub mod german_dict;
+pub mod lexical_classes;

@@ -80,8 +80,41 @@ just language-meta-text german "das war ein versehen"
 
 1. **Word not recognized**: Add to `dictionary.dict`
 2. **Wrong POS tag**: Fix flags in `dictionary.dict` or add properties
-3. **False positives in capitalization**: Add to `GERMAN_NON_NOUNS` list
+3. **False positives in capitalization**: Tag the word in `dictionary.dict` — see
+   "Lexical classes" below. Do not add words to a Rust `const`.
 4. **Missing inflected forms**: Add affix rules to `annotations.json`
+
+### Lexical classes
+
+`GermanNounCapitalization` must not "correct" words that are legitimately lower
+case. Three such classes are **dictionary data**, carried by property flags:
+
+| Flag | Class | Example entry |
+|------|-------|---------------|
+| `1` | Spelled-out cardinal numeral | `zwei/~~hJOQRSTUWq1` |
+| `2` | Unit abbreviation | `kwh/~~2` |
+| `3` | Lower-case Latin/Greek term | `facto/~~NhY3` |
+
+To stop a word being flagged as a miscapitalized noun, add the appropriate flag
+to its dictionary entry. `spell/lexical_classes.rs` reads these back into sets
+once per process; no Rust change is needed.
+
+Three lists remain in `german_noun_capitalization.rs` on purpose, because they
+are closed grammatical classes the linter reasons over rather than vocabulary:
+
+- `GERMAN_NON_NOUNS` — function words the dictionary actively mistags (94 of the
+  265 currently carry a noun flag), so the dictionary cannot be the source of
+  truth for them yet.
+- `NOUN_PHRASE_LICENSORS` — the left-context test for "is this inside a noun
+  phrase"; consulted only after the `is_preposition`/`is_determiner` metadata
+  fast path fails.
+- `SEPARABLE_VERB_PREFIXES` — a *prefix* match (`herausrückt`), not a membership
+  test, so it cannot be a dictionary lookup.
+
+**Note on flag characters**: 21 letters are simultaneously a property *and* an
+affix rule, so adding a letter flag to a word can generate unintended forms
+(tagging `mein` with the determiner flag `D` would also produce `meinung`). Only
+digits and punctuation are free; new property flags should use digits.
 
 ## Comparison with English
 

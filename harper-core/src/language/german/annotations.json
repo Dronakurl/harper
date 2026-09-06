@@ -757,83 +757,30 @@
 		}
 	},
 	"properties": {
-		"N": {
-			"#": "noun property (German)",
+		"1": {
+			"#": "Spelled-out cardinal numeral (German). Lower case in running text; used attributively it licenses a following noun.",
 			"metadata": {
-				"noun": {}
+				"pos_tag": "NUM"
 			}
 		},
-		"V": {
-			"#": "verb property (German)",
+		"2": {
+			"#": "Unit abbreviation (German), e.g. km, kg, kWh. Written lower case and must never be 'corrected' to a capitalized noun.",
 			"metadata": {
-				"verb": {}
+				"abbreviation": true
 			}
 		},
-		"J": {
-			"#": "adjective property (German)",
+		"3": {
+			"#": "Latin/Greek etymology term appearing lower case in German prose (de facto, Homo sapiens). Not a miscapitalized German noun.",
 			"metadata": {
-				"adjective": {}
+				"morphology": {
+					"is_foreign": true
+				}
 			}
 		},
 		"A": {
 			"#": "adjective property (German) - alias for J",
 			"metadata": {
 				"adjective": {}
-			}
-		},
-		"g": {
-			"#": "verb past participle property (German: ge- prefix)",
-			"metadata": {
-				"verb": {
-					"verb_form": "PAST_PARTICIPLE"
-				}
-			}
-		},
-		"t": {
-			"#": "verb past tense property (German)",
-			"metadata": {
-				"verb": {
-					"verb_form": "PAST"
-				}
-			}
-		},
-		"M": {
-			"#": "masculine noun property (German)",
-			"metadata": {
-				"noun": {},
-				"morphology": {
-					"noun": {
-						"gender": "Masculine"
-					}
-				}
-			}
-		},
-		"F": {
-			"#": "feminine noun property (German)",
-			"metadata": {
-				"noun": {},
-				"morphology": {
-					"noun": {
-						"gender": "Feminine"
-					}
-				}
-			}
-		},
-		"Z": {
-			"#": "neuter noun property (German)",
-			"metadata": {
-				"noun": {},
-				"morphology": {
-					"noun": {
-						"gender": "Neuter"
-					}
-				}
-			}
-		},
-		"P": {
-			"#": "preposition property (German)",
-			"metadata": {
-				"preposition": true
 			}
 		},
 		"C": {
@@ -848,21 +795,44 @@
 				"determiner": {}
 			}
 		},
+		"F": {
+			"#": "feminine noun property (German)",
+			"metadata": {
+				"noun": {},
+				"morphology": {
+					"noun": {
+						"gender": "Feminine"
+					}
+				}
+			}
+		},
 		"I": {
 			"#": "pronoun property (German)",
 			"metadata": {
 				"pronoun": {}
 			}
 		},
-		"z": {
-			"#": "neuter noun property (German - alternative)",
+		"J": {
+			"#": "adjective property (German)",
+			"metadata": {
+				"adjective": {}
+			}
+		},
+		"M": {
+			"#": "masculine noun property (German)",
 			"metadata": {
 				"noun": {},
 				"morphology": {
 					"noun": {
-						"gender": "Neuter"
+						"gender": "Masculine"
 					}
 				}
+			}
+		},
+		"N": {
+			"#": "noun property (German)",
+			"metadata": {
+				"noun": {}
 			}
 		},
 		"O": {
@@ -871,10 +841,22 @@
 				"adjective": {}
 			}
 		},
+		"P": {
+			"#": "preposition property (German)",
+			"metadata": {
+				"preposition": true
+			}
+		},
 		"Q": {
 			"#": "adjective declension -em (German)",
 			"metadata": {
 				"adjective": {}
+			}
+		},
+		"R": {
+			"#": "adverb property (German)",
+			"metadata": {
+				"adverb": {}
 			}
 		},
 		"S": {
@@ -893,6 +875,12 @@
 			"#": "adjective comparative -er (German)",
 			"metadata": {
 				"adjective": {}
+			}
+		},
+		"V": {
+			"#": "verb property (German)",
+			"metadata": {
+				"verb": {}
 			}
 		},
 		"W": {
@@ -919,6 +907,17 @@
 				"morphology": {
 					"noun": {
 						"number": "Plural"
+					}
+				}
+			}
+		},
+		"Z": {
+			"#": "neuter noun property (German)",
+			"metadata": {
+				"noun": {},
+				"morphology": {
+					"noun": {
+						"gender": "Neuter"
 					}
 				}
 			}
@@ -959,16 +958,28 @@
 				}
 			}
 		},
+		"g": {
+			"#": "verb past participle property (German: ge- prefix)",
+			"metadata": {
+				"verb": {
+					"verb_form": "PAST_PARTICIPLE"
+				}
+			}
+		},
 		"j": {
 			"#": "verb infinitive/plural -en (German)",
 			"metadata": {
 				"verb": {}
 			}
 		},
-		"R": {
-			"#": "adverb property (German)",
+		"p": {
+			"#": "Nominative case flag (German)",
+			"metadata": {}
+		},
+		"q": {
+			"#": "Compound adjective flag - words with this flag can participate in adjective compound formation",
 			"metadata": {
-				"adverb": {}
+				"adjective": {}
 			}
 		},
 		"r": {
@@ -977,15 +988,13 @@
 				"adverb": {}
 			}
 		},
-		"q": {
-			"#": "Compound adjective flag - words with this flag can participate in adjective compound formation",
+		"t": {
+			"#": "verb past tense property (German)",
 			"metadata": {
-				"adjective": {}
+				"verb": {
+					"verb_form": "PAST"
+				}
 			}
-		},
-		"p": {
-			"#": "Nominative case flag (German)",
-			"metadata": {}
 		},
 		"u": {
 			"#": "Accusative case flag (German)",
@@ -1014,6 +1023,17 @@
 				"verb": {},
 				"morphology": {
 					"mood": "SubjunctiveI"
+				}
+			}
+		},
+		"z": {
+			"#": "neuter noun property (German - alternative)",
+			"metadata": {
+				"noun": {},
+				"morphology": {
+					"noun": {
+						"gender": "Neuter"
+					}
 				}
 			}
 		}

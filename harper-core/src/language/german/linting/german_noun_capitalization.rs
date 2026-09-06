@@ -1,6 +1,7 @@
 use crate::{
     Token, TokenKind, TokenStringExt,
     document::Document,
+    language::german::spell::lexical_classes::{FOREIGN_TERMS, NUMERALS, UNIT_ABBREVIATIONS},
     language::morphology::MorphologyExt,
     linting::{Lint, LintKind, Linter, Suggestion},
     spell::Dictionary,
@@ -316,79 +317,10 @@ const GERMAN_NON_NOUNS: &[&str] = &[
     "lag",
 ];
 
-/// Spelled-out German cardinal numbers. In running text these are lower case
-/// (the noun *"die Drei"* is rare and always keeps its article), so they are
-/// never flagged; used attributively they *license* a following noun
-/// (*"die drei Streifen"*).
-const GERMAN_NUMBER_WORDS: &[&str] = &[
-    "null",
-    "eins",
-    "zwei",
-    "drei",
-    "vier",
-    "fünf",
-    "sechs",
-    "sieben",
-    "acht",
-    "neun",
-    "zehn",
-    "elf",
-    "zwölf",
-    "dreizehn",
-    "vierzehn",
-    "fünfzehn",
-    "sechzehn",
-    "siebzehn",
-    "achtzehn",
-    "neunzehn",
-    "zwanzig",
-    "dreißig",
-    "vierzig",
-    "fünfzig",
-    "sechzig",
-    "siebzig",
-    "achtzig",
-    "neunzig",
-    "hundert",
-    "tausend",
-    "million",
-    "millionen",
-    "milliarde",
-    "milliarden",
-    "dutzend",
-];
-
-/// Unit abbreviations that are written lower case and must not be "corrected".
-const UNIT_ABBREVS: &[&str] = &[
-    "km", "kg", "mg", "cm", "mm", "dm", "ml", "cl", "dl", "ha", "qm", "kwh", "kw", "mw", "gw",
-    "hz", "khz", "mhz", "ghz", "psi", "mio", "mrd",
-];
-
-/// Latin / Greek etymology words that appear lower case in German prose
-/// ("von lateinisch *scientia*", "de facto", "Homo *sapiens*"). They live in
-/// the dictionary as bare nouns so the spell checker accepts them, but they are
-/// not miscapitalized German nouns. Words with non-German letters (*téchnē*,
-/// *lógos*) are already rejected by the alphabet check; these are the ones
-/// spelled with plain ASCII.
-const FOREIGN_ETYMOLOGY_TERMS: &[&str] = &[
-    "facto",
-    "magistra",
-    "magna",
-    "modus",
-    "natura",
-    "sapiens",
-    "scientia",
-    "terminis",
-    "technicis",
-    "heidelbergensis",
-    "ars",
-    "vitae",
-    "cum",
-    "laude",
-    "versus",
-    "circa",
-    "alias",
-];
+// The spelled-out numerals, unit abbreviations and lower-case foreign terms
+// that used to live here are now dictionary data, carried by the property flags
+// `1`, `2` and `3` in `dictionary.dict` / `annotations.json`. They are read back
+// as sets by `spell::lexical_classes`; adding a word no longer means editing Rust.
 
 /// Words that, standing immediately to the left of a candidate, mark it as the
 /// head or a modifier of a noun phrase: articles, other determiners,
@@ -679,8 +611,7 @@ impl<T: Dictionary> GermanNounCapitalization<T> {
             .map(|c| c.to_lowercase().next().unwrap_or(*c))
             .collect();
 
-        NOUN_PHRASE_LICENSORS.contains(&prev_lower.as_str())
-            || GERMAN_NUMBER_WORDS.contains(&prev_lower.as_str())
+        NOUN_PHRASE_LICENSORS.contains(&prev_lower.as_str()) || NUMERALS.contains(&prev_lower)
     }
 
     /// Decide whether a lowercase, alphabetic, non-sentence-initial word should
@@ -714,9 +645,9 @@ impl<T: Dictionary> GermanNounCapitalization<T> {
 
         // Hard non-noun classes.
         if Self::is_non_noun(&lower)
-            || GERMAN_NUMBER_WORDS.contains(&s.as_str())
-            || UNIT_ABBREVS.contains(&s.as_str())
-            || FOREIGN_ETYMOLOGY_TERMS.contains(&s.as_str())
+            || NUMERALS.contains(&s)
+            || UNIT_ABBREVIATIONS.contains(&s)
+            || FOREIGN_TERMS.contains(&s)
         {
             return false;
         }

@@ -6338,7 +6338,7 @@ achtvollem/~~NhY #noun
 achtvollen/~~Vdifj # verb
 achtvoller/~~NhY #noun
 achtvolles/~~NhY #noun
-achtzehn/~~NhY #noun
+achtzehn/~~NhY1 #noun
 achtzehnfache/~~FhY #feminine noun
 achtzehnfachem/~~NhY #noun
 achtzehnfachen/~~Vdifj # verb
@@ -15198,7 +15198,7 @@ achselfrei/~NhY #frequency: 6
 achsenparallel/~NhY #frequency: 6
 achsnah/~NhY #frequency: 6
 achsparallel/~NhY #frequency: 6
-acht/~hJOQRSTUWq #frequency: 6
+acht/~hJOQRSTUWq1 #frequency: 6
 achteck/~NhY #frequency: 6
 achteinhalbfach/~NhY #frequency: 6
 achterlich/~JqOQRSTUW #adjective root, frequency: 6
@@ -19123,7 +19123,7 @@ algarve/~~NhY
 alge/~~NhY
 algebra/~~NhY
 algen/~~Vdifj # auto-added
-alias/~~r # retag: was NXh
+alias/~~r3 # retag: was NXh
 alibi/~~Nbh
 alien/~~Vdifj # auto-added
 aliens/~~NhY
@@ -22841,7 +22841,7 @@ ciao/~~NhY
 cidre/~~NhY
 cidres/~~NhY
 cineast/~~NhY
-circa/~~hP
+circa/~~hP3
 circus/~~NhY
 cis/~~NhY
 citrat/~~NXh
@@ -23002,7 +23002,7 @@ crews/~~NhY
 crimpen/~~Vdifj # auto-added
 croquis/~~NhY
 cruz/~~NhY
-cum/~~Zah  # preposition um #  auto-added
+cum/~~Zah3 # preposition um #  auto-added
 curacao/~~NhY
 curare/~~NhY
 curium/~~Zah  # preposition um #  auto-added
@@ -23725,11 +23725,11 @@ drehers/~~NhY
 dreht/~~NXh
 drehtet/~~NhY
 drehung/~~FhY
-drei/~~hJOQRSTUWqY
+drei/~~hJOQRSTUWqY1
 dreier/~~MhY
 dreimal/~~JOQRSTUWqh # retag: adjective (was ~~Nh)
 dreiste/~~NhY
-dreißig/~~NhY
+dreißig/~~NhY1
 dresche/~~NhY
 drescht/~~NXh
 dresden/~~Vdifj # auto-added
@@ -23934,7 +23934,7 @@ dutt/~~NXh
 dutten/~~Vdifj # auto-added
 duttes/~~NhY
 dutts/~~NhY
-dutzend/~~NhY
+dutzend/~~NhY1
 duz/~~Vej # REPLACES duzen
 duzt/~~NXh
 duztest/~~NhY
@@ -24369,7 +24369,7 @@ einrede/~~NhY
 einrieb/~~NXh
 einriss/~~NXh
 einritt/~~NhY
-eins/~~hJOQRSTUWq
+eins/~~hJOQRSTUWq1
 einsagt/~~NXh
 einsah/~~NhY
 einsaht/~~NhY
@@ -24548,7 +24548,7 @@ elends/~~NhY
 elendst/~~NhY
 eleve/~~NhY
 eleven/~~Vdifj # auto-added
-elf/~~NXh
+elf/~~NXh1
 elfchen/~~XZ #  auto-added
 elfeck/~~NhY
 elfecks/~~NhY
@@ -25396,7 +25396,7 @@ fackele/~~NhY
 fackeln/~~Vdifj # auto-added
 fackelt/~~NXh
 fackle/~~NhY
-facto/~~NhY # foreign etymology term (Latin/Greek), handled in GermanNounCapitalization
+facto/~~NhY3 # foreign etymology term (Latin/Greek), handled in GermanNounCapitalization
 fade/~~NhY
 fadem/~~NhY
 faden/~~Vdifj # auto-added
@@ -26724,7 +26724,7 @@ füllt/~~NXh
 fülltet/~~NhY
 füllung/~~FhY
 fündig/~~JOQRSTUWqh
-fünf/~~hJOQRSTUWq
+fünf/~~hJOQRSTUWq1
 fünfer/~~MhY
 fünfern/~~NhY
 fünfers/~~NhY
@@ -26735,7 +26735,7 @@ fünftem/~~NhY
 fünften/~~Vdifj # auto-added
 fünfter/~~MhY
 fünftes/~~NhY
-fünfzig/~~NhY
+fünfzig/~~NhY1
 fürbass/~~NhY
 fürchte/~~NhY
 fürder/~~MhY
@@ -29468,8 +29468,8 @@ Historia/~~NY
 histon/~~NhY
 histone/~~NhY
 histons/~~NhY
-magistra/~~NY # foreign etymology term (Latin/Greek), handled in GermanNounCapitalization
-vitae/~~NY
+magistra/~~NY3 # foreign etymology term (Latin/Greek), handled in GermanNounCapitalization
+vitae/~~NY3
 hit/~~NhY
 hits/~~NhY
 hitze/~~NhY
@@ -29710,7 +29710,7 @@ hunans/~~NhY
 hund/~~MhiY
 hunde/~~NhY
 hunden/~~Vdifj # auto-added
-hundert/~~hJOQRSTUWq
+hundert/~~hJOQRSTUWq1
 hundes/~~NhY
 hunds/~~NhY
 hungere/~~NhY
@@ -32697,7 +32697,7 @@ laubes/~~NhY
 laubs/~~NhY
 lauch/~~NhY
 lauches/~~NhY
-laude/~~NhY
+laude/~~NhY3
 lauem/~~NhY
 lau/~~Veji # REPLACES lauen
 lauerem/~~NhY
@@ -33684,7 +33684,7 @@ magier/~~MhY
 magiern/~~NhY
 magiers/~~NhY
 magma/~~Nbh
-magna/~~NhY # foreign etymology term (Latin/Greek), handled in GermanNounCapitalization
+magna/~~NhY3 # foreign etymology term (Latin/Greek), handled in GermanNounCapitalization
 magnat/~~NhY
 magnet/~~NXh
 magnets/~~NhY
@@ -34276,7 +34276,7 @@ milieu/~~Nbh
 militär/~~NhY
 miliz/~~NhY
 milizen/~~Vdifj # auto-added
-million/~~NhY
+million/~~NhY1
 milz/~~NhY
 milzen/~~Vdifj # auto-added
 mim/~~Vcej # REPLACES mimen
@@ -34515,7 +34515,7 @@ modular/~~NXh
 modulen/~~Vdifj # auto-added
 modulo/~~NhY
 moduls/~~NhY
-modus/~~NhY # foreign etymology term (Latin/Greek), handled in GermanNounCapitalization
+modus/~~NhY3 # foreign etymology term (Latin/Greek), handled in GermanNounCapitalization
 moesien/~~Vdifj # auto-added
 mofa/~~Nbh
 mogel/~~NXh
@@ -35199,7 +35199,7 @@ natter/~~MhY
 nattern/~~NhY
 natur/~~NhY
 naturstoff/~~MhY
-natura/~~NhY # foreign etymology term (Latin/Greek), handled in GermanNounCapitalization
+natura/~~NhY3 # foreign etymology term (Latin/Greek), handled in GermanNounCapitalization
 natural/~~NXh
 naturen/~~Vdifj # auto-added
 nautik/~~NhY
@@ -35330,7 +35330,7 @@ neuest/~~NhY
 neueste/~~NhY
 neuheit/~~FhY
 neuling/~~MhY
-neun/~~hJOQRSTUWq
+neun/~~hJOQRSTUWq1
 neuneck/~~NXh
 neunmal/~~JOQRSTUWqh # retag: adjective (was ~~Nh)
 neunt/~~NXh
@@ -35339,7 +35339,7 @@ neuntem/~~NhY
 neunten/~~Vdifj # auto-added
 neunter/~~MhY
 neuntes/~~NhY
-neunzig/~~NhY
+neunzig/~~NhY1
 neural/~~NXh
 neuron/~~NhY
 neurose/~~NhY
@@ -35531,7 +35531,7 @@ nukleon/~~NhY
 nukleär/~~NXh
 nuklid/~~NXh
 nuklids/~~NhY
-null/~~NXh
+null/~~NXh1
 null/~~Vcej # REPLACES nullen
 nullmal/~~JOQRSTUWqh # retag: adjective (was ~~Nh)
 nullt/~~NXh
@@ -38929,7 +38929,7 @@ santa/~~NhY
 sao/~~NhY
 saphir/~~NXh
 saphirs/~~NhY
-sapiens/~~NhY # foreign etymology term (Latin/Greek), handled in GermanNounCapitalization
+sapiens/~~NhY3 # foreign etymology term (Latin/Greek), handled in GermanNounCapitalization
 sarde/~~NhY
 sarden/~~Vdifj # auto-added
 sardes/~~NhY
@@ -39290,7 +39290,7 @@ score/~~NhY
 scotch/~~NhY
 scoute/~~NhY
 script/~~NXh
-sechs/~~hJOQRSTUWq
+sechs/~~hJOQRSTUWq1
 sechst/~~NhY
 see/~~MhY
 seele/~~NhY
@@ -41346,7 +41346,7 @@ versah/~~NhY
 vers/~~Vcj # REPLACES versen
 verses/~~NhY
 verstehen/~~Vdifj # auto-added
-versus/~~NhY
+versus/~~NhY3
 vertan/~~NhY
 vertat/~~NhY
 vertu/~~NXhY
@@ -41379,7 +41379,7 @@ vielem/~~NhY
 vielen/~~Vdifj # auto-added
 vieler/~~JhOQRSTUWq # many (adjective genitive plural)
 vieles/~~NhY
-vier/~~Vej # REPLACES vieren
+vier/~~Vej1 # REPLACES vieren
 vierer/~~MhY
 viert/~~NXh
 viermächtestatus/~~MhY
@@ -42448,7 +42448,7 @@ zwangt/~~NhY
 zwar/~~hr
 zweck/~~NXh
 zwecks/~~NhY
-zwei/~~hJOQRSTUWq
+zwei/~~hJOQRSTUWq1
 zwei/~~Vej # REPLACES zweien
 zweier/~~MhY
 zweig/~~NXh
@@ -42471,7 +42471,7 @@ zwo/~~NhY
 zwäng/~~NhY
 zwänge/~~NhY
 zwängt/~~NXh
-zwölf/~~hJOQRSTUWq
+zwölf/~~hJOQRSTUWq1
 zwölft/~~NXh
 zyanid/~~NhY
 zygote/~~NhY
@@ -59474,7 +59474,7 @@ clusters/~~NhY
 clustert/~~NXh
 clusterten/~~Vdifj # auto-added
 clustertet/~~NhY
-cm/~~NhY
+cm/~~NhY2
 coachten/~~Vdifj # auto-added
 coachtest/~~NhY
 coachtet/~~NhY
@@ -61613,7 +61613,7 @@ diözesane/~~NhY
 diözesanen/~~Vdifj # auto-added
 diözesans/~~NhY
 diözesen/~~Vdifj # auto-added
-dm/~~NhY
+dm/~~NhY2
 dobermann/~~NhY
 dobermanns/~~NhY
 dobnagau/~~Nbh
@@ -62052,7 +62052,7 @@ dreitürers/~~NhY
 dreiweller/~~MhY
 dreizack/~~NhY
 dreizacks/~~NhY
-dreizehn/~~NhY
+dreizehn/~~NhY1
 dreizehnte/~~NhY
 dreißiger/~~MhY
 dreißigern/~~Vdifj # auto-added
@@ -75026,7 +75026,7 @@ fünftonner/~~MhY
 fünftürer/~~MhY
 fünftürern/~~Vdifj # auto-added
 fünftürers/~~NhY
-fünfzehn/~~NhY
+fünfzehn/~~NhY1
 fünfzehnte/~~NhY
 fünfzeiler/~~MhY
 fünfziger/~~MhY
@@ -83205,7 +83205,7 @@ gütigstem/~~NhY
 gütigsten/~~Vdifj # auto-added
 gütigster/~~MhY
 gütigstes/~~NhY
-ha/~~NhY
+ha/~~NhY2
 haarbreit/~~NXh
 haardtrand/~~NhY
 haardttals/~~NhY
@@ -88523,7 +88523,7 @@ keuschste/~~NhY
 keyboard/~~NhY
 keyboards/~~NhY
 keylogger/~~MhY
-kg/~~NhY
+kg/~~NhY2
 khakihose/~~NhY
 kibbuzen/~~Vdifj # auto-added
 kibbuzim/~~NhY
@@ -89091,7 +89091,7 @@ klüngele/~~NhY
 klüngeln/~~Vdifj # auto-added
 klüngels/~~NhY
 klüngelt/~~NXh
-km/~~NhY
+km/~~NhY2
 knabbere/~~NhY
 knabberei/~~NhY
 knabbern/~~Vdifj # auto-added
@@ -93807,7 +93807,7 @@ meutertet/~~NhY
 mexikaner/~~MhY
 mezzanin/~~NhY
 mezzanins/~~NhY
-mg/~~NhY
+mg/~~NhY2
 miauende/~~NhY
 miauendem/~~NhY
 miauender/~~MhY
@@ -93899,8 +93899,8 @@ military/~~NhY
 militärs/~~NhY
 milizheer/~~MhY
 millennia/~~NhY
-milliarde/~~NhY
-millionen/~~Vdifj # auto-added
+milliarde/~~NhY1
+millionen/~~Vdifj1 # auto-added
 millionär/~~NhY
 millirem/~~NhY
 millivolt/~~NhY
@@ -94511,8 +94511,8 @@ mixstabes/~~NhY
 mixstabs/~~NhY
 mixturen/~~Vdifj # auto-added
 mizellen/~~Vdifj # auto-added
-ml/~~NhY
-mm/~~NhY
+ml/~~NhY2
+mm/~~NhY2
 mobbende/~~NhY
 mobbendem/~~NhY
 mobbender/~~MhY
@@ -95991,7 +95991,7 @@ neunerlei/~~NhY
 neunfach/~~NXh # auto-added
 neuntens/~~NhY
 neuntöter/~~MhY
-neunzehn/~~NhY
+neunzehn/~~NhY1
 neunziger/~~MhY
 neuordnen/~~Vdifj # auto-added
 neuralem/~~NhY
@@ -99199,7 +99199,7 @@ püriertem/~~NhY
 pürierter/~~MhY
 püriertes/~~NhY
 püriertet/~~NhY
-qm/~~NhY
+qm/~~NhY2
 quaddeln/~~Vdifj # auto-added
 quadrant/~~JOQRSTUWqh # retag: adjective (was ~~Nh)
 quadraten/~~Vdifj # auto-added
@@ -103595,7 +103595,7 @@ sechstem/~~NhY
 sechstens/~~NhY
 sechster/~~MhY
 sechstes/~~NhY
-sechzehn/~~hJOQRSTUWq
+sechzehn/~~hJOQRSTUWq1
 sedantag/~~NXh
 sedantags/~~NhY
 sedier/~~Vej # REPLACES sedieren
@@ -104144,7 +104144,7 @@ siebter/~~MhY
 siebtes/~~NhY
 siebtest/~~NhY
 siebtet/~~NhY
-siebzehn/~~NhY
+siebzehn/~~NhY1
 siebzelle/~~NhY
 siechem/~~NhY
 siechen/~~XZ #  auto-added
@@ -107657,7 +107657,7 @@ tauschs/~~NhY
 tauscht/~~NXh
 tauschten/~~Vdifj # auto-added
 tauschtet/~~NhY
-tausend/~~NhY
+tausend/~~NhY1
 tausende/~~NhY
 tausendem/~~NhY
 tausenden/~~Vdifj # auto-added
@@ -113893,7 +113893,7 @@ vierter/~~MhY
 viertes/~~NhY
 viertle/~~NhY
 viertürer/~~MhY
-vierzehn/~~NhY
+vierzehn/~~NhY1
 vietcong/~~NhY
 vietnam/~~NhY
 vietnams/~~NhY
@@ -120421,7 +120421,7 @@ achtzehnköpfig/~~JOQRSTUWq #adjective (auto-converted)
 achtzehnmonatig/~~JOQRSTUWq #adjective (auto-converted)
 achtzehntägig/~~JOQRSTUWq #adjective (auto-converted)
 achtzeilig/~~JOQRSTUWq #adjective (auto-converted)
-achtzig/~~JOQRSTUWq #adjective (auto-converted)
+achtzig/~~JOQRSTUWq1 #adjective (auto-converted)
 achtzigjährig/~~JOQRSTUWq #adjective (auto-converted)
 achtzigseitig/~~JOQRSTUWq #adjective (auto-converted)
 achtzylindrig/~~JOQRSTUWq #adjective (auto-converted)
@@ -123178,7 +123178,7 @@ schätzbar/~~JOQRSTUWq #adjective (auto-converted)
 schüttbar/~~JOQRSTUWq #adjective (auto-converted)
 schützbar/~~JOQRSTUWq #adjective (auto-converted)
 sechsmal/~~JOQRSTUWq #adjective (auto-converted)
-sechzig/~~JOQRSTUWq #adjective (auto-converted)
+sechzig/~~JOQRSTUWq1 #adjective (auto-converted)
 sedativ/~~JOQRSTUWq #adjective (auto-converted)
 seeartig/~~JOQRSTUWq #adjective (auto-converted)
 seegängig/~~JOQRSTUWq #adjective (auto-converted)
@@ -123222,7 +123222,7 @@ sichtlich/~~JOQRSTUWq #adjective (auto-converted)
 siderisch/~~JOQRSTUWq #adjective (auto-converted)
 siebartig/~~JOQRSTUWq #adjective (auto-converted)
 siebenmal/~~JOQRSTUWq #adjective (auto-converted)
-siebzig/~~JOQRSTUWq #adjective (auto-converted)
+siebzig/~~JOQRSTUWq1 #adjective (auto-converted)
 siegfähig/~~JOQRSTUWq #adjective (auto-converted)
 sieghaft/~~JOQRSTUWq #adjective (auto-converted)
 sieglos/~~JOQRSTUWq #adjective (auto-converted)
@@ -123716,7 +123716,7 @@ viertägig/~~JOQRSTUWq #adjective (auto-converted)
 viertönig/~~JOQRSTUWq #adjective (auto-converted)
 viertürig/~~JOQRSTUWq #adjective (auto-converted)
 vierzehig/~~JOQRSTUWq #adjective (auto-converted)
-vierzig/~~JOQRSTUWq #adjective (auto-converted)
+vierzig/~~JOQRSTUWq1 #adjective (auto-converted)
 vierzügig/~~JOQRSTUWq #adjective (auto-converted)
 vieräugig/~~JOQRSTUWq #adjective (auto-converted)
 virgental/~~JOQRSTUWq #adjective (auto-converted)
@@ -123922,7 +123922,7 @@ zuweisbar/~~JOQRSTUWq #adjective (auto-converted)
 zuwenig/~~JOQRSTUWq #adjective (auto-converted)
 zuzüglich/~~JOQRSTUWq #adjective (auto-converted)
 zwanglos/~~JOQRSTUWq #adjective (auto-converted)
-zwanzig/~~JOQRSTUWq #adjective (auto-converted)
+zwanzig/~~JOQRSTUWq1 #adjective (auto-converted)
 zwecklos/~~JOQRSTUWq #adjective (auto-converted)
 zweiadrig/~~JOQRSTUWq #adjective (auto-converted)
 zweiaktig/~~JOQRSTUWq #adjective (auto-converted)
@@ -126940,7 +126940,7 @@ milizartig/~~RJOQRSTUWqh
 milizbasis/~~NhY
 milizionär/~~NhY
 millennium/~~NhY
-milliarden/~~Nh
+milliarden/~~Nh1
 milliardär/~~NhY
 milligramm/~~NhY
 milliliter/~~NhY
@@ -190820,7 +190820,7 @@ heidegrashüpfer/~~NhY
 heidelandschaft/~~FhY
 heidelbeeranbau/~~NhY
 heidelbeerkraut/~~NhY
-heidelbergensis/~~NhY # foreign etymology term (Latin/Greek), handled in GermanNounCapitalization
+heidelbergensis/~~NhY3 # foreign etymology term (Latin/Greek), handled in GermanNounCapitalization
 heidenspektakel/~~NhY
 heilbuttschnitt/~~NhY
 heiligenfenster/~~NhY
@@ -211569,7 +211569,7 @@ vorn/~~NY
 ware/~~FhY
 wehe/~~NY
 woge/~~NY
-zehn/~~JOQRSTUWq
+zehn/~~JOQRSTUWq1
 äsen/~~Vdifj
 ölen/~~Vdifj
 üben/~~NY
@@ -220514,7 +220514,7 @@ français/~~NY
 hosttown/~~NY
 eurovelo/~~NY
 modische/~~NY
-scientia/~~NY # foreign etymology term (Latin/Greek), handled in GermanNounCapitalization
+scientia/~~NY3 # foreign etymology term (Latin/Greek), handled in GermanNounCapitalization
 obsolete/~~NY
 thiutisk/~~NY
 xaveropp/~~NY
@@ -220613,7 +220613,7 @@ berichte/~~NY
 esmunich/~~NY
 gianotti/~~NY
 litterae/~~NY
-terminis/~~NY # foreign etymology term (Latin/Greek), handled in GermanNounCapitalization
+terminis/~~NY3 # foreign etymology term (Latin/Greek), handled in GermanNounCapitalization
 ˈhambʊʁk/~~NY
 ˈhambɔʁχ/~~NY
 infoline/~~NY
@@ -220823,7 +220823,7 @@ ereignete/~~NY
 klinische/~~NY
 angehörte/~~NY
 fahrzeuge/~~NY
-technicis/~~NY # foreign etymology term (Latin/Greek), handled in GermanNounCapitalization
+technicis/~~NY3 # foreign etymology term (Latin/Greek), handled in GermanNounCapitalization
 kampflose/~~NY
 templates/~~NY
 mündliche/~~NY
@@ -222488,7 +222488,7 @@ umfassenden/~~RJOQRSTUWqh # comprehensive (adjective)
 unheilbaren/~~RJOQRSTUWqh # incurable (adjective)
 wiederherzustellen/~~Vdifj # to restore
 zusammensetzungen/~~F # compositions, compounds, plural of Zusammensetzung
-ars/~~FhY # art (Latin, used in German) - handled in GermanNounCapitalization
+ars/~~FhY3 # art (Latin, used in German) - handled in GermanNounCapitalization
 berufsordnungen/~~F # professional regulations, plural of Berufsordnung
 datenschutz/~~MhY # data protection
 patientarztbeziehung/~~FhY # patient-doctor relationship
@@ -222801,3 +222801,20 @@ bessere/~~JOQRSTUWq
 größten/~~JOQRSTUWq
 
 brennt/~~V # verb form
+
+# Unit abbreviations and numerals referenced by GermanNounCapitalization.
+# Lower case in running text; flag 2 = abbreviation, flag 1 = numeral.
+cl/~~2
+dl/~~2
+ghz/~~2
+gw/~~2
+hz/~~2
+khz/~~2
+kw/~~2
+kwh/~~2
+mhz/~~2
+mio/~~2
+mrd/~~2
+mw/~~2
+psi/~~2
+sieben/~~1
