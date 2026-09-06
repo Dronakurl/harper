@@ -363,6 +363,32 @@ const UNIT_ABBREVS: &[&str] = &[
     "hz", "khz", "mhz", "ghz", "psi", "mio", "mrd",
 ];
 
+/// Latin / Greek etymology words that appear lower case in German prose
+/// ("von lateinisch *scientia*", "de facto", "Homo *sapiens*"). They live in
+/// the dictionary as bare nouns so the spell checker accepts them, but they are
+/// not miscapitalized German nouns. Words with non-German letters (*téchnē*,
+/// *lógos*) are already rejected by the alphabet check; these are the ones
+/// spelled with plain ASCII.
+const FOREIGN_ETYMOLOGY_TERMS: &[&str] = &[
+    "facto",
+    "magistra",
+    "magna",
+    "modus",
+    "natura",
+    "sapiens",
+    "scientia",
+    "terminis",
+    "technicis",
+    "heidelbergensis",
+    "ars",
+    "vitae",
+    "cum",
+    "laude",
+    "versus",
+    "circa",
+    "alias",
+];
+
 /// Words that, standing immediately to the left of a candidate, mark it as the
 /// head or a modifier of a noun phrase: articles, other determiners,
 /// possessives, demonstratives, quantifiers and the common prepositions
@@ -689,6 +715,7 @@ impl<T: Dictionary> GermanNounCapitalization<T> {
         if Self::is_non_noun(&lower)
             || GERMAN_NUMBER_WORDS.contains(&s.as_str())
             || UNIT_ABBREVS.contains(&s.as_str())
+            || FOREIGN_ETYMOLOGY_TERMS.contains(&s.as_str())
         {
             return false;
         }
