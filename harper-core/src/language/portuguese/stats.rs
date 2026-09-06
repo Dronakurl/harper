@@ -3,6 +3,8 @@
 //! This module provides dictionary/annotation statistics for Portuguese,
 //! used by the `harper-lang-stats` binary.
 
+use hashbrown::HashMap;
+
 use crate::language::module::LanguageModule;
 use crate::language::portuguese::module::PortugueseModule;
 use crate::spell::Dictionary;
@@ -41,7 +43,7 @@ pub fn analyze(detailed: bool) {
 }
 
 fn count_annotations() -> (usize, Vec<(String, usize)>) {
-    let mut annotation_counts = std::collections::HashMap::new();
+    let mut annotation_counts = HashMap::new();
 
     annotation_counts.insert("Noun".to_string(), 8000);
     annotation_counts.insert("Verb".to_string(), 5000);

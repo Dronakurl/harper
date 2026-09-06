@@ -3,6 +3,8 @@
 //! This module provides dictionary/annotation statistics for English,
 //! used by the `harper-lang-stats` binary.
 
+use hashbrown::HashMap;
+
 use crate::language::english::module::EnglishModule;
 use crate::language::module::LanguageModule;
 use crate::spell::Dictionary;
@@ -41,7 +43,7 @@ pub fn analyze(detailed: bool) {
 }
 
 fn count_annotations() -> (usize, Vec<(String, usize)>) {
-    let mut annotation_counts = std::collections::HashMap::new();
+    let mut annotation_counts = HashMap::new();
 
     // English has more complex annotations
     annotation_counts.insert("Noun".to_string(), 25000);

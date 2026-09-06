@@ -3,8 +3,9 @@
 //! This module provides dictionary/annotation statistics for German,
 //! used by the `harper-lang-stats` binary.
 
-use std::collections::HashMap;
 use std::fs;
+
+use hashbrown::HashMap;
 
 use crate::language::german::spell::{curated_german_dictionary, mutable_german_dictionary};
 
