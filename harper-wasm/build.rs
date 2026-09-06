@@ -84,7 +84,14 @@ const NON_LANGUAGE_DIRS: [&str; 2] = ["dialects", "testing_framework"];
 
 /// A language discovered from a harper-core config.toml.
 struct LanguageConfig {
+    /// Directory name under `harper-core/src/language/`, e.g. `german`.
+    dir_name: String,
+    /// Human-readable name used for enum variants, e.g. `German`.
     name: String,
+    /// Cargo feature gating the language, e.g. `de`.
+    feature: String,
+    /// Dialect names as written in `config.toml`. These are also the
+    /// abbreviations accepted by the language's `Dialect::try_from_abbr`.
     dialects: Vec<String>,
 }
 
@@ -171,13 +178,100 @@ fn discover_languages(language_dir: &Path) -> Vec<LanguageConfig> {
             }
         }
 
+        let Some(feature) = language_table.get("feature").and_then(|v| v.as_str()) else {
+            eprintln!(
+                "Warning: Missing 'feature' in [language] section for {}",
+                config_path.display()
+            );
+            continue;
+        };
+
         languages.push(LanguageConfig {
+            dir_name: dir_name.clone(),
             name: name.to_string(),
+            feature: feature.to_string(),
             dialects,
         });
     }
 
     languages
+}
+
+/// Generate `impl From<Dialect> for Language`, plus the dialect-type imports.
+///
+/// Hand-writing this meant ~18 `#[cfg]` arms to add per new language, and
+/// forgetting the `#[cfg(not(...))]` fallback produced a non-exhaustive match
+/// only in builds that excluded the language. Both are now derived from
+/// `config.toml`.
+///
+/// Dialects are converted via `try_from_abbr`, which accepts the dialect names
+/// exactly as written in `config.toml` -- Portuguese `PT`/`BR`/`AO` map to
+/// `European`/`Brazilian`/`African`, so the Rust variant names are never needed
+/// here.
+fn generate_language_conversion(code: &mut String, languages: &[LanguageConfig]) {
+    let with_dialects: Vec<&LanguageConfig> = languages
+        .iter()
+        .filter(|lang| !lang.dialects.is_empty())
+        .collect();
+
+    for lang in &with_dialects {
+        code.push_str(&format!("#[cfg(feature = \"{}\")]\n", lang.feature));
+        code.push_str(&format!(
+            "use harper_core::language::{}::dialects::{}Dialect;\n",
+            lang.dir_name, lang.name
+        ));
+    }
+    code.push('\n');
+
+    code.push_str("impl From<Dialect> for harper_core::language::languages::Language {\n");
+    code.push_str("    fn from(dialect: Dialect) -> Self {\n");
+    code.push_str("        use harper_core::language::dialects::dialect_trait::Dialect as _;\n");
+    code.push_str("        use harper_core::language::languages::Language;\n\n");
+    code.push_str("        match dialect {\n");
+
+    // English is always compiled in.
+    for variant in ["American", "British", "Australian", "Canadian", "Indian"] {
+        code.push_str(&format!(
+            "            Dialect::{} => Language::English(EnglishDialect::{}),\n",
+            variant, variant
+        ));
+    }
+
+    for lang in &with_dialects {
+        for dialect_name in &lang.dialects {
+            let variant = format!("{}{}", lang.name, to_dialect_variant(dialect_name));
+            code.push_str(&format!(
+                "            #[cfg(feature = \"{}\")]\n",
+                lang.feature
+            ));
+            code.push_str(&format!(
+                "            Dialect::{} => Language::{}({}Dialect::try_from_abbr(\"{}\").unwrap()),\n",
+                variant, lang.name, lang.name, dialect_name
+            ));
+        }
+    }
+
+    // Fall back to English for any language not compiled into this build.
+    for lang in &with_dialects {
+        let variants: Vec<String> = lang
+            .dialects
+            .iter()
+            .map(|d| format!("Dialect::{}{}", lang.name, to_dialect_variant(d)))
+            .collect();
+
+        code.push_str(&format!(
+            "            #[cfg(not(feature = \"{}\"))]\n",
+            lang.feature
+        ));
+        code.push_str(&format!(
+            "            {} => Language::English(EnglishDialect::American),\n",
+            variants.join(" | ")
+        ));
+    }
+
+    code.push_str("        }\n");
+    code.push_str("    }\n");
+    code.push_str("}\n");
 }
 
 fn main() {
@@ -213,20 +307,22 @@ fn main() {
     code.push_str("    Canadian,\n");
     code.push_str("    Indian,\n");
 
-    for lang in languages {
+    for lang in &languages {
         if lang.dialects.is_empty() {
             continue;
         }
 
         code.push_str(&format!("    // {} dialects\n", lang.name));
-        for dialect_name in lang.dialects {
-            let dialect_variant = to_dialect_variant(&dialect_name);
+        for dialect_name in &lang.dialects {
+            let dialect_variant = to_dialect_variant(dialect_name);
             let variant = format!("{}{}", lang.name, dialect_variant);
             code.push_str(&format!("    {},\n", variant));
         }
     }
 
-    code.push_str("}\n");
+    code.push_str("}\n\n");
+
+    generate_language_conversion(&mut code, &languages);
 
     let formatted = format_rust_content(&code);
 

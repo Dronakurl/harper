@@ -23,17 +23,6 @@ use harper_core::{DialectFlags, RegexMasker};
 // Import language module types
 use harper_core::language::english::dialects::EnglishDialect;
 
-#[cfg(feature = "de")]
-use harper_core::language::german::dialects::GermanDialect;
-
-#[cfg(feature = "pl")]
-use harper_core::language::polish::dialects::PolishDialect;
-
-#[cfg(feature = "pt")]
-use harper_core::language::portuguese::dialects::PortugueseDialect;
-
-#[cfg(feature = "sk")]
-use harper_core::language::slovak::dialects::SlovakDialect;
 use harper_stats::{Record, RecordKind, Stats};
 use serde::{Deserialize, Serialize};
 use serde_wasm_bindgen::Serializer;
@@ -99,78 +88,10 @@ impl Language {
     }
 }
 
+// The `Dialect` enum, the per-language dialect imports and
+// `impl From<Dialect> for Language` are all generated from each language's
+// config.toml by build.rs. See harper-wasm/build.rs.
 include!(concat!(env!("OUT_DIR"), "/generated_dialect.rs"));
-
-impl From<Dialect> for harper_core::language::languages::Language {
-    fn from(dialect: Dialect) -> Self {
-        match dialect {
-            Dialect::American => {
-                harper_core::language::languages::Language::English(EnglishDialect::American)
-            }
-            Dialect::British => {
-                harper_core::language::languages::Language::English(EnglishDialect::British)
-            }
-            Dialect::Australian => {
-                harper_core::language::languages::Language::English(EnglishDialect::Australian)
-            }
-            Dialect::Canadian => {
-                harper_core::language::languages::Language::English(EnglishDialect::Canadian)
-            }
-            Dialect::Indian => {
-                harper_core::language::languages::Language::English(EnglishDialect::Indian)
-            }
-            #[cfg(feature = "de")]
-            Dialect::GermanStandard => {
-                harper_core::language::languages::Language::German(GermanDialect::Standard)
-            }
-            #[cfg(feature = "de")]
-            Dialect::GermanAustrian => {
-                harper_core::language::languages::Language::German(GermanDialect::Austrian)
-            }
-            #[cfg(feature = "de")]
-            Dialect::GermanSwiss => {
-                harper_core::language::languages::Language::German(GermanDialect::Swiss)
-            }
-            #[cfg(feature = "pl")]
-            Dialect::PolishStandard => {
-                harper_core::language::languages::Language::Polish(PolishDialect::Standard)
-            }
-            #[cfg(feature = "pt")]
-            Dialect::PortuguesePT => {
-                harper_core::language::languages::Language::Portuguese(PortugueseDialect::European)
-            }
-            #[cfg(feature = "pt")]
-            Dialect::PortugueseBR => {
-                harper_core::language::languages::Language::Portuguese(PortugueseDialect::Brazilian)
-            }
-            #[cfg(feature = "pt")]
-            Dialect::PortugueseAO => {
-                harper_core::language::languages::Language::Portuguese(PortugueseDialect::African)
-            }
-            #[cfg(feature = "sk")]
-            Dialect::SlovakStandard => {
-                harper_core::language::languages::Language::Slovak(SlovakDialect::Standard)
-            }
-            // Fallback to English for dialects whose language support is not compiled in
-            #[cfg(not(feature = "de"))]
-            Dialect::GermanStandard | Dialect::GermanAustrian | Dialect::GermanSwiss => {
-                harper_core::language::languages::Language::English(EnglishDialect::American)
-            }
-            #[cfg(not(feature = "pl"))]
-            Dialect::PolishStandard => {
-                harper_core::language::languages::Language::English(EnglishDialect::American)
-            }
-            #[cfg(not(feature = "pt"))]
-            Dialect::PortuguesePT | Dialect::PortugueseBR | Dialect::PortugueseAO => {
-                harper_core::language::languages::Language::English(EnglishDialect::American)
-            }
-            #[cfg(not(feature = "sk"))]
-            Dialect::SlovakStandard => {
-                harper_core::language::languages::Language::English(EnglishDialect::American)
-            }
-        }
-    }
-}
 
 #[wasm_bindgen]
 pub struct Linter {
