@@ -9,3 +9,4 @@ pub mod linting;
 pub mod module;
 pub mod parsers;
 pub mod spell;
+pub mod stats;

@@ -96,7 +96,7 @@ Files are embedded via `include_str!()`. Structure must match exactly.
 3. Add the feature to `harper-core/Cargo.toml` `[features]`: `<lang> = ["language-module"]`, and add `<lang>` to the `multilingual` feature's dependency list
 4. Forward the feature in the consumer crates' Cargo.toml files: `<lang> = ["harper-core/<lang>"]` in `harper-ls/Cargo.toml`, `harper-cli/Cargo.toml`, `harper-wasm/Cargo.toml`, and `harper-desktop/src-tauri/Cargo.toml`
 5. Add the language's dialect variants to the `From<Dialect> for Language` impl in `harper-wasm/src/lib.rs`, with `#[cfg(feature = "<lang>")]` arms for each dialect and a `#[cfg(not(feature = "<lang>"))]` fallback arm that maps them to English
-6. Optionally add a dispatch arm in `harper-cli/src/bin/lang_stats.rs` for the `harper-lang-stats` binary
+6. Optionally add statistics for the language: create a `stats.rs` in the language folder (e.g. `harper-core/src/language/<lang>/stats.rs`) exposing `pub fn analyze(detailed: bool)`, register it in the language's `mod.rs`, and add a dispatch arm in `harper-cli/src/bin/lang_stats.rs` for the `harper-lang-stats` binary. Language-specific statistics logic belongs in the language folder, keeping the binary a thin dispatcher.
 
 **Note**: Feature forwarding is intentional. Different binaries can ship different language sets (e.g., CLI with all languages, Chrome extension with English only); each consumer declares which languages it wants. The `language-module` marker should also stay in each consumer's **base** `harper-core` dependency so English is always available regardless of the selected language features.
 **Note**: To enable all language support, use the `multilingual` feature which includes de, pt, sk, and pl.
