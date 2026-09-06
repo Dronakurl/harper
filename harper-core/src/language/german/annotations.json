@@ -330,7 +330,13 @@
 					"condition": "."
 				}
 			],
-			"target": [],
+			"target": [
+				{
+					"metadata": {
+						"adjective": {}
+					}
+				}
+			],
 			"base_metadata": {
 				"adjective": {}
 			},
@@ -347,7 +353,13 @@
 					"condition": "."
 				}
 			],
-			"target": [],
+			"target": [
+				{
+					"metadata": {
+						"adjective": {}
+					}
+				}
+			],
 			"base_metadata": {
 				"adjective": {}
 			},
@@ -364,7 +376,13 @@
 					"condition": "."
 				}
 			],
-			"target": [],
+			"target": [
+				{
+					"metadata": {
+						"adjective": {}
+					}
+				}
+			],
 			"base_metadata": {
 				"adjective": {}
 			},
@@ -381,7 +399,13 @@
 					"condition": "."
 				}
 			],
-			"target": [],
+			"target": [
+				{
+					"metadata": {
+						"adjective": {}
+					}
+				}
+			],
 			"base_metadata": {
 				"adjective": {}
 			},
@@ -398,7 +422,13 @@
 					"condition": "."
 				}
 			],
-			"target": [],
+			"target": [
+				{
+					"metadata": {
+						"adjective": {}
+					}
+				}
+			],
 			"base_metadata": {
 				"adjective": {}
 			},
@@ -415,7 +445,15 @@
 					"condition": "."
 				}
 			],
-			"target": [],
+			"target": [
+				{
+					"metadata": {
+						"adjective": {
+							"degree": "Comparative"
+						}
+					}
+				}
+			],
 			"base_metadata": {
 				"adjective": {}
 			},
@@ -432,7 +470,15 @@
 					"condition": "."
 				}
 			],
-			"target": [],
+			"target": [
+				{
+					"metadata": {
+						"adjective": {
+							"degree": "Superlative"
+						}
+					}
+				}
+			],
 			"base_metadata": {
 				"adjective": {}
 			},

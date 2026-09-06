@@ -5,5 +5,6 @@
 //! - Dictionary tests
 //! - Grammar rule tests
 
+pub mod adjective_declension_test;
 pub mod compound_test;
 pub mod german_annotations_test;
