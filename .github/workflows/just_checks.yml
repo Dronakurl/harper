@@ -16,8 +16,6 @@ jobs:
     runs-on: ubuntu-latest
     name: just ${{ matrix.task }}
     timeout-minutes: 120
-    env:
-      DISABLE_WASM_OPT: 1
     strategy:
       matrix:
         task:
@@ -52,7 +50,7 @@ jobs:
           sudo apt-get install -y \
             librsvg2-dev \
             libwebkit2gtk-4.1-dev \
-            libxdo-dev 
+            libxdo-dev
       - name: Rust Cache
         uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
         with:
