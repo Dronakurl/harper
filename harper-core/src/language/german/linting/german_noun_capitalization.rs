@@ -403,9 +403,11 @@ impl<T: Dictionary> GermanNounCapitalization<T> {
             return false;
         }
 
-        // Common adjective endings - include all common endings to prevent false positives
-        if word_str.ends_with("e")
-            || word_str.ends_with("er")
+        // Common adjective endings - include all common endings to prevent false positives.
+        // `-e` is handled separately below: it is the last letter of many genuine
+        // feminine nouns (Blume, Sonne, Frage) as well as 1st-person verb forms, so it
+        // can only be classified reliably via dictionary gender evidence.
+        if word_str.ends_with("er")
             || word_str.ends_with("es")
             || word_str.ends_with("em")
             || word_str.ends_with("en")
@@ -413,6 +415,27 @@ impl<T: Dictionary> GermanNounCapitalization<T> {
             || word_str.ends_with("ere")
             || word_str.ends_with("tes")
         {
+            return false;
+        }
+
+        // Words ending in bare `-e`: flag only when the dictionary confirms a real
+        // feminine/neuter noun (gender or number set), e.g. `Blume`, `Sonne`, `Frage`.
+        // Otherwise it is a 1st-person verb or inflected adjective and is not a noun.
+        if word_str.ends_with("e") {
+            let e_metadata = self.dictionary.get_word_metadata(word_chars);
+            let e_lower_metadata = self.dictionary.get_word_metadata(&lower);
+            let is_gendered_noun = e_metadata.as_ref().is_some_and(|m| {
+                m.noun
+                    .as_ref()
+                    .is_some_and(|n| n.gender.is_some() || n.number.is_some())
+            }) || e_lower_metadata.as_ref().is_some_and(|m| {
+                m.noun
+                    .as_ref()
+                    .is_some_and(|n| n.gender.is_some() || n.number.is_some())
+            });
+            if is_gendered_noun {
+                return true;
+            }
             return false;
         }
 

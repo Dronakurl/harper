@@ -248,7 +248,7 @@ boxhorn/~~Nr
 bpjm/~~N
 bpräswahlg/~~N
 brache/~~MZ
-brachte/~~VZ
+brachte/~~Vh  # brought (past tense)
 brachter/~~NF
 bracke/~~N
 brackwede/~~N
@@ -906,7 +906,7 @@ bikompositen/~~N
 bikompositum/~~N
 bilbao/~~N
 bilch/~~NPT
-bilden/~~NMZ
+bilden/~~Vh  # to form
 bildlichkeit/~~N
 bilfinger/~~N
 bilharziose/~~N
@@ -3395,7 +3395,7 @@ abstrahierende/~~Fh #feminine noun
 abstrahierendem/~~Nh #noun
 abstrahierender/~~Nh #noun
 abstrahierendes/~~Nh #noun
-abstrahiert/~~NXh #noun
+abstrahiert/~~hV #noun
 abstrahiertem/~~Nh #noun
 abstrahierter/~~Nh #noun
 abstrahiertes/~~Nh #noun
@@ -6586,7 +6586,7 @@ abgrenzendem/~~Nh #noun
 abgrenzender/~~Nh #noun
 abgrenzendes/~~Nh #noun
 abgrenzens/~~Nh #noun
-abgrenzt/~~NXh #noun
+abgrenzt/~~hV #noun
 abgrenztest/~~Nh #noun
 abgrenztet/~~Nh #noun
 abgrenzung/~~Fh #feminine noun
@@ -9789,7 +9789,7 @@ absoff/~~Nh #noun
 absoffen/~~V # verb
 absoffest/~~Nh #noun
 absofft/~~Nh #noun
-absolut/~~NXh #noun
+absolut/~~hJ #noun
 absolutem/~~Nh #noun
 absoluten/~~V # verb
 absoluter/~~Nh #noun
@@ -10238,7 +10238,7 @@ abbildendes/~~Nh #noun
 abbilder/~~Nh #noun
 abbildern/~~Nh #noun
 abbildes/~~Nh #noun
-abbildet/~~NXh #noun
+abbildet/~~Vh  # 3rd person of bilden #noun
 abbildeten/~~V # verb
 abbildetest/~~Nh #noun
 abbildetet/~~Nh #noun
@@ -11405,7 +11405,7 @@ abgebetteltem/~~Nh #noun
 abgebettelten/~~V # verb
 abgebettelter/~~Nh #noun
 abgebetteltes/~~Nh #noun
-abgebildet/~~NXh #noun
+abgebildet/~~Vh  # 3rd person of bilden #noun
 abgebildetem/~~Nh #noun
 abgebildeten/~~V # verb
 abgebildeter/~~Nh #noun
@@ -11553,7 +11553,7 @@ abgedanktem/~~Nh #noun
 abgedankten/~~V # verb
 abgedankter/~~Nh #noun
 abgedanktes/~~Nh #noun
-abgedeckt/~~NXh #noun
+abgedeckt/~~hV #noun
 abgedecktem/~~Nh #noun
 abgedeckten/~~V # verb
 abgedeckter/~~Nh #noun
@@ -12659,7 +12659,7 @@ abgeriebenem/~~Nh #noun
 abgeriebenen/~~V # verb
 abgeriebener/~~Nh #noun
 abgeriebenes/~~Nh #noun
-abgeriegelt/~~NXh #noun
+abgeriegelt/~~hV #noun
 abgeriegeltem/~~Nh #noun
 abgeriegelten/~~V # verb
 abgeriegelter/~~Nh #noun
@@ -12768,7 +12768,7 @@ abgeschabtem/~~Nh #noun
 abgeschabten/~~V # verb
 abgeschabter/~~Nh #noun
 abgeschabtes/~~Nh #noun
-abgeschafft/~~NXh #noun
+abgeschafft/~~hV #noun
 abgeschafftem/~~Nh #noun
 abgeschafften/~~V # verb
 abgeschaffter/~~Nh #noun
@@ -13916,7 +13916,7 @@ an/~~Pi # preposition at
 auf/~~Pi # preposition on
 auf,/~~P # preposition on (with comma)
 aus/~~P # preposition from
-bei/~~PY # preposition at
+bei/~~P  # preposition # preposition at
 mit/~~P # preposition with
 nach/~~P # preposition after
 von/~~P # preposition from
@@ -14028,7 +14028,7 @@ dampf/~~JOQRSTUWpuvw #frequency: 9 (adjective)
 dick/~~JOQRSTUWpuvw #frequency: 9 (adjective)
 ding/~~JOQRSTUWpuvw #frequency: 9 (adjective)
 faul/~~JOQRSTUWpuvw #frequency: 9 (adjective)
-flach/~~NJOQRSTUWqi #adjective and noun
+flach/~~JOQRSTUWqi #adjective and noun
 flau/~~JOQRSTUWpuvw #frequency: 9 (adjective)
 forsch/~~JOQRSTUWpuvw #frequency: 9 (adjective)
 frei/~~JOQRSTUWpuvw #frequency: 9 (adjective)
@@ -14091,7 +14091,7 @@ begriff/~~Mh #frequency: 8
 beleg/~Nhpuvw #frequency: 8
 bequem/~~RJOQRSTUWqh #frequency: 8
 besuch/~Nhpuvw #frequency: 8
-betrieb/~~MYhi #frequency: 8
+betrieb/~~YhiV #frequency: 8
 beweg/~Nhpuvw #frequency: 8
 bieder/~~JOQRSTUWqh #frequency: 8
 bild/~Nhpuvw #frequency: 8
@@ -14960,7 +14960,7 @@ temporeich/~~RJOQRSTUWqh #frequency: 7
 terminal/~~RJOQRSTUWqh #frequency: 7
 textil/~~RJOQRSTUWqh #frequency: 7
 theatral/~~RJOQRSTUWqh #frequency: 7
-tisch/~Jq #adjective root, frequency: 7
+tisch/~~Mh #masculine noun der Tisch
 titel/~Nhpuvw #frequency: 7
 titelreich/~~RJOQRSTUWqh #frequency: 7
 torkel/~Nhpuvw #frequency: 7
@@ -15037,7 +15037,7 @@ wahrer/~~NJOQRSTUWq #frequency: 7
 wahrheitsgetreu/~~RJOQRSTUWqh #frequency: 7
 waldreich/~~RJOQRSTUWqh #frequency: 7
 wander/~Nhpuvw #frequency: 7
-war/~Nhpuvw #frequency: 7
+war/~~Vt # past tense of sein
 wasserreich/~~RJOQRSTUWqh #frequency: 7
 wechsel/~Nhpuvw #frequency: 7
 wechselvoll/~~RJOQRSTUWqh #frequency: 7
@@ -15200,7 +15200,7 @@ achselfrei/~Nh #frequency: 6
 achsenparallel/~Nh #frequency: 6
 achsnah/~Nh #frequency: 6
 achsparallel/~Nh #frequency: 6
-acht/~Nh #frequency: 6
+acht/~hJ #frequency: 6
 achteck/~Nh #frequency: 6
 achteinhalbfach/~Nh #frequency: 6
 achterlich/~Jq #adjective root, frequency: 6
@@ -15430,7 +15430,7 @@ apparativ/~Nh #frequency: 6
 apperzeptiv/~Nh #frequency: 6
 appetitlich/~Jq #adjective root, frequency: 6
 applikativ/~Nh #frequency: 6
-approximativ/~Nh #frequency: 6
+approximativ/~hJ #frequency: 6
 aprikosengelb/~Nh #frequency: 6
 aprikosengroß/~Nh #frequency: 6
 aquakulturell/~Nh #frequency: 6
@@ -15967,7 +15967,7 @@ blitzeblank/~Nh #frequency: 6
 blitzschnell/~Nh #frequency: 6
 blockfrei/~Nh #frequency: 6
 blockier/~Nh #frequency: 6
-bloß/~Nh #frequency: 6
+bloß/~hr #frequency: 6
 bluff/~Nh #frequency: 6
 blumenreich/~Nh #frequency: 6
 blumig/~Jq #adjective root, frequency: 6
@@ -16198,7 +16198,7 @@ destillativ/~Nh #frequency: 6
 detailgenau/~Nh #frequency: 6
 determinativ/~Nh #frequency: 6
 deutlich/~Jq #adjective root, frequency: 6
-deutsch/~~NJOQRSTUWq #adjective and noun (base form)
+deutsch/~~JOQRSTUWq #adjective and noun (base form)
 devisenstark/~Nh #frequency: 6
 devotional/~Nh #frequency: 6
 dextranblau/~Nh #frequency: 6
@@ -16690,7 +16690,7 @@ erschütternd/~Nh #frequency: 6
 erschütterungsfrei/~Nh #frequency: 6
 ersprießlich/~Jq #adjective root, frequency: 6
 erstaunlich/~Jq #adjective root, frequency: 6
-erst/~Nh #frequency: 6
+erst/~hJ #frequency: 6
 ersteiger/~Nh #frequency: 6
 erstell/~Nh #frequency: 6
 erstligareif/~Nh #frequency: 6
@@ -16728,12 +16728,12 @@ eulitoral/~Nh #frequency: 6
 euphemistisch/~Jq #adjective root, frequency: 6
 euregional/~Nh #frequency: 6
 europid/~Nh #frequency: 6
-europäisch/~~NJOQRSTUWq #adjective and noun
+europäisch/~~JOQRSTUWq #adjective and noun
 eutroph/~Nh #frequency: 6
 evaluativ/~Nh #frequency: 6
 evangelikal/~Nh #frequency: 6
 evangeliumsgemäß/~Nh #frequency: 6
-eventuell/~Nh #frequency: 6
+eventuell/~hJ #frequency: 6
 evidenzfrei/~Nh #frequency: 6
 evokativ/~Nh #frequency: 6
 evolutiv/~Nh #frequency: 6
@@ -16805,7 +16805,7 @@ faktoriell/~Nh #frequency: 6
 fakultativ/~Nh #frequency: 6
 falb/~Nh #frequency: 6
 fall/~~Nh # frequency: 6
-falsch/~~NJOQRSTUWq #adjective and noun
+falsch/~~JOQRSTUWq #adjective and noun
 faltenfrei/~Nh #frequency: 6
 faltenreich/~Nh #frequency: 6
 faltig/~Jq #adjective root, frequency: 6
@@ -17071,7 +17071,7 @@ funkel/~Nh #frequency: 6
 funkelnagelneu/~Nh #frequency: 6
 funkenerosiv/~Nh #frequency: 6
 funkfrei/~Nh #frequency: 6
-funktional/~Nh #frequency: 6
+funktional/~hJ #frequency: 6
 funktionell/~Nh #frequency: 6
 funktionsgemäß/~Nh #frequency: 6
 funktionsgleich/~Nh #frequency: 6
@@ -17857,7 +17857,7 @@ inaktiv/~Nh #frequency: 6
 inaktuell/~Nh #frequency: 6
 indigoblau/~Nh #frequency: 6
 induktionsfrei/~Nh #frequency: 6
-induktiv/~Nh #frequency: 6
+induktiv/~hJ #frequency: 6
 industriekulturell/~Nh #frequency: 6
 industriell/~~JOQRSTUWq # fixed from noun to adjective
 industrienah/~Nh #frequency: 6
@@ -17967,7 +17967,7 @@ intersektoral/~Nh #frequency: 6
 intersexuell/~Nh #frequency: 6
 interspinal/~Nh #frequency: 6
 interstitiell/~Nh #frequency: 6
-intersubjektiv/~Nh #frequency: 6
+intersubjektiv/~hJ #frequency: 6
 intertemporal/~Nh #frequency: 6
 interterritorial/~Nh #frequency: 6
 intertextuell/~Nh #frequency: 6
@@ -18019,7 +18019,7 @@ intrazerebral/~Nh #frequency: 6
 intronfrei/~Nh #frequency: 6
 introspektiv/~Nh #frequency: 6
 intrusiv/~Nh #frequency: 6
-intuitiv/~Nh #frequency: 6
+intuitiv/~hJ #frequency: 6
 invasiv/~Nh #frequency: 6
 investigativ/~Nh #frequency: 6
 investitionsstark/~Nh #frequency: 6
@@ -18153,7 +18153,7 @@ keck/~Nh #frequency: 6
 kehl/~Nh #frequency: 6
 kehr/~Nh #frequency: 6
 keimfrei/~Nh #frequency: 6
-kein/~Nh #frequency: 6
+kein/~hI #frequency: 6
 kellner/~Nh #frequency: 6
 kelpwaldreich/~Nh #frequency: 6
 kenn/~Nh #frequency: 6
@@ -18627,7 +18627,7 @@ lehmreich/~Nh #frequency: 6
 lehr/~Nh #frequency: 6
 lehrplangemäß/~Nh #frequency: 6
 leichenfahl/~Nh #frequency: 6
-leicht/~Nh #frequency: 6
+leicht/~hJ #frequency: 6
 leicht/~~JOQRSTUWq #adjective light/easy
 leichtfertig/~Jq #adjective root, frequency: 6
 leichtgewichtig/~Jq #adjective root, frequency: 6
@@ -18694,7 +18694,7 @@ lieblich/~Jq #adjective root, frequency: 6
 liebreich/~Nh #frequency: 6
 liederlich/~Jq #adjective root, frequency: 6
 liederreich/~Nh #frequency: 6
-lief/~Nh #frequency: 6
+lief/~hV #frequency: 6
 liefer/~Nh #frequency: 6
 liefergebührfrei/~Nh #frequency: 6
 lilienweiß/~Nh #frequency: 6
@@ -18884,7 +18884,7 @@ mehlweiß/~Nh #frequency: 6
 mehrdeutig/~Jq #adjective root, frequency: 6
 mehrdimensional/~Nh #frequency: 6
 mehr/~Rh #frequency: 6
-mehrfach/~Nh #frequency: 6
+mehrfach/~hr #frequency: 6
 mehrfaktoriell/~Nh #frequency: 6
 mehrgenerational/~Nh #frequency: 6
 mehrgenerationell/~Nh #frequency: 6
@@ -19109,7 +19109,7 @@ albino/~~Nbh
 albre/~~Nh
 albtal/~~Nh
 albtals/~~Nh
-album/~~Za #  auto-added
+album/~~Zah  # preposition um #  auto-added
 albumin/~~Nh
 albums/~~Nh
 aldehyd/~~NXh
@@ -19153,7 +19153,7 @@ alledem/~~Nh
 allee/~~Nh
 alleen/~~V # auto-added
 allegro/~~Nh
-allein/~~XZ #  auto-added
+allein/~~r #  auto-added
 alleine/~~Nh
 allel/~~NXh
 allelen/~~V # auto-added
@@ -19263,7 +19263,7 @@ ampfers/~~Nh
 amphora/~~Nh
 amphore/~~Nh
 ampulle/~~Nh
-amrum/~~Za #  auto-added
+amrum/~~Zah  # preposition um #  auto-added
 amrums/~~Nh
 amsel/~~Nh
 amseln/~~V # auto-added
@@ -19437,7 +19437,7 @@ angeln/~~V # auto-added
 angelnd/~~Nh
 angelt/~~NXh
 anger/~~Mh
-angern/~~Nh
+angern/~~rh # adverb gladly
 angers/~~Nh
 angesät/~~NXh
 angetan/~~Nh
@@ -19476,7 +19476,7 @@ anhafte/~~Nh
 anhaken/~~V # auto-added
 anhalt/~~NXh
 anhalts/~~Nh
-anhand/~~Nh
+anhand/~~hr
 anhang/~~Nh
 anhangs/~~Nh
 anhast/~~Nh
@@ -19640,7 +19640,7 @@ anmutet/~~NXh
 annag/~~Vej # REPLACES annagen
 annagle/~~Nh
 annagt/~~NXh
-annahm/~~NXh
+annahm/~~hV
 annahmt/~~Nh
 annalen/~~V # auto-added
 annam/~~Nh
@@ -19671,7 +19671,7 @@ anoraks/~~Nh
 anordne/~~Nh
 anosmie/~~Nh
 anpackt/~~NXh
-anpasst/~~Nh
+anpasst/~~hV
 anpeilt/~~NXh
 anpickt/~~NXh
 anpinnt/~~NXh
@@ -19886,7 +19886,7 @@ anwärmt/~~NXh
 anwürfe/~~Nh
 anzahlt/~~NXh
 anzapft/~~NXh
-anzeigt/~~NXh
+anzeigt/~~hV
 anziehe/~~Nh
 anzieht/~~Nh
 anzielt/~~NXh
@@ -20129,7 +20129,7 @@ atolls/~~Nh
 atom/~~NXh
 atomar/~~NXh
 atomen/~~V # auto-added
-atomium/~~Za #  auto-added
+atomium/~~Zah  # preposition um #  auto-added
 atoms/~~Nh
 atonale/~~Nh
 atresie/~~Nh
@@ -20545,7 +20545,7 @@ bagage/~~Nh
 bagdad/~~Nh
 bagdads/~~Nh
 baggere/~~Nh
-baggern/~~Nh
+baggern/~~rh # adverb gladly
 baggers/~~Nh
 baggert/~~NXh
 baggre/~~Nh
@@ -20607,7 +20607,7 @@ balsams/~~Nh
 balte/~~Nh
 balten/~~V # auto-added
 baltin/~~Nh
-baltrum/~~Za #  auto-added
+baltrum/~~Zah  # preposition um #  auto-added
 balz/~~NXh
 balz/~~Vcej # REPLACES balzen
 balzt/~~NXh
@@ -20672,12 +20672,12 @@ barem/~~Nh
 baren/~~V # auto-added
 barer/~~Mh
 bares/~~Nh
-barfuß/~~Nh
+barfuß/~~hJ
 barg/~~Nh
 bargen/~~V # auto-added
 bargt/~~Nh
 bariton/~~Nh
-barium/~~Za #  auto-added
+barium/~~Zah  # preposition um #  auto-added
 bark/~~NXh
 barken/~~V # auto-added
 barocke/~~Nh
@@ -20723,7 +20723,7 @@ bashen/~~V # auto-added
 basic/~~Nh
 basics/~~Nh
 basidie/~~Nh
-basiert/~~NXh
+basiert/~~hV
 basis/~~Nh
 baske/~~Nh
 basken/~~V # auto-added
@@ -20840,11 +20840,11 @@ bedankt/~~NXh
 bedarfe/~~Nh
 bedarfs/~~Nh
 bedaure/~~Nh
-bedeckt/~~NXh
+bedeckt/~~hV
 bedenke/~~Nh
 bedenkt/~~Nh
 bedeute/~~Nh
-bedient/~~NXh
+bedient/~~hV
 bedingt/~~NXh
 bedroht/~~NXh
 beduine/~~Nh
@@ -20882,7 +20882,7 @@ befahrt/~~Nh
 befall/~~Nh # auto-added
 befalls/~~Nh
 befand/~~Nh
-befasst/~~Nh
+befasst/~~hV
 befehde/~~Nh
 befehl/~~NXh
 befehls/~~Nh
@@ -20922,7 +20922,7 @@ begab/~~Nh
 begab/~~Vej # REPLACES begaben
 begabt/~~NXh
 begafft/~~NXh
-begann/~~Nh
+begann/~~hV
 begannt/~~Nh
 begas/~~Vej # REPLACES begasen
 begast/~~Nh
@@ -20932,7 +20932,7 @@ begatte/~~Nh
 begeb/~~Vcj # REPLACES begeben
 begegne/~~Nh
 begeh/~~Vcj # REPLACES begehen
-begehrt/~~NXh
+begehrt/~~hJ
 begib/~~Nh
 begibt/~~Nh
 begier/~~Mh
@@ -20946,7 +20946,7 @@ begingt/~~Nh
 beginn/~~Nh
 beginne/~~Nh
 beginns/~~Nh
-beginnt/~~Nh
+beginnt/~~hV
 begleit/~~NXh
 begnüge/~~Nh
 begnügt/~~NXh
@@ -21046,7 +21046,7 @@ beilen/~~V # auto-added
 beiles/~~Nh
 beils/~~Nh
 beiläge/~~Nh
-beim/~~Nh
+beim/~~hP
 beimaß/~~Nh
 beimaßt/~~Nh
 beimpft/~~NXh
@@ -21155,7 +21155,7 @@ belfert/~~Nh
 belgien/~~V # auto-added
 belgier/~~Mh
 belgrad/~~Nh
-beliebt/~~NXh
+beliebt/~~hV
 belief/~~NXh
 beliege/~~Nh
 beliegt/~~Nh
@@ -21219,7 +21219,7 @@ benagle/~~Nh
 benagt/~~NXh
 benahm/~~Nh
 benahmt/~~Nh
-benannt/~~NXh
+benannt/~~hV
 beneble/~~Nh
 benefiz/~~NXh
 benehme/~~Nh
@@ -21239,7 +21239,7 @@ benimmt/~~Nh
 benote/~~Nh
 benoten/~~V # auto-added
 benotet/~~NXh
-benutzt/~~NXah
+benutzt/~~hV
 benzin/~~Nh
 benzins/~~Nh
 benzol/~~Nh
@@ -21273,7 +21273,7 @@ beregne/~~Nh
 bereift/~~NXh
 bereist/~~Nh
 bereit/~~NJOQRSTUWq #adjective and noun
-bereits/~~Nh
+bereits/~~hr
 berenne/~~Nh
 berennt/~~Nh
 bereu/~~Vcej # REPLACES bereuen
@@ -21315,7 +21315,7 @@ berufes/~~Nh
 berufs/~~Nh # auto-added
 beruh/~~Vcej # REPLACES beruhen
 beruhig/~~JOQRSTUWqh
-beruht/~~NXh
+beruht/~~hV
 berußt/~~Nh
 beryll/~~Nh
 berät/~~Nh
@@ -21339,7 +21339,7 @@ besannt/~~Nh
 besatz/~~Nh
 besaufe/~~Nh
 besauft/~~Nh
-besaß/~~Nh
+besaß/~~hV
 besaßen/~~V # auto-added
 besaßt/~~Nh
 beseelt/~~NXh
@@ -21355,7 +21355,7 @@ besingt/~~Nh
 besinne/~~Nh
 besinnt/~~Nh
 besitze/~~Nh
-besitzt/~~Nh
+besitzt/~~hV
 besoff/~~Nh
 besofft/~~Nh
 besohlt/~~NXh
@@ -21372,7 +21372,7 @@ bessre/~~Nh
 best/~~Nh
 bestach/~~NYh
 bestahl/~~Nh
-bestand/~~Nh
+bestand/~~hV
 bestaun/~~Nh
 beste/~~Nh
 bestehe/~~V
@@ -21438,7 +21438,7 @@ betrugs/~~Nh
 betrugt/~~Nh
 beträfe/~~Nh
 beträge/~~Nh
-beträgt/~~Nh
+beträgt/~~hV
 beträte/~~Nh
 betröge/~~Nh
 betrübe/~~Nh
@@ -21470,7 +21470,7 @@ betört/~~NXh
 beug/~~Vcej # REPLACES beugen
 beugens/~~Nh
 beuger/~~Mh
-beugern/~~Nh
+beugern/~~rh # adverb gladly
 beugers/~~Nh
 beuget/~~Nh
 beugt/~~NXh
@@ -21491,7 +21491,7 @@ bevogte/~~Nh
 bevor/~~Nh
 bewache/~~Nh
 bewacht/~~NXh
-bewahrt/~~NXah
+bewahrt/~~hV
 bewalde/~~Nh
 bewandt/~~Nh
 bewarb/~~Nh
@@ -21500,7 +21500,7 @@ bewarf/~~Nh
 bewarft/~~Nh
 beweg/~~Vcej # REPLACES bewegen
 beweger/~~Mh
-bewegt/~~NXh
+bewegt/~~hV
 bewehrt/~~NXh
 beweide/~~Nh
 bewein/~~Nh # auto-added
@@ -21542,7 +21542,7 @@ beziehe/~~Nh
 bezirke/~~Nh
 bezirks/~~Nh
 bezirzt/~~NXh
-bezog/~~Nh
+bezog/~~hV
 bezogen/~~V # auto-added
 bezogt/~~Nh
 bezopft/~~NXh
@@ -21617,7 +21617,7 @@ bildens/~~Nh
 bilder/~~Mh
 bildern/~~Nh
 bildes/~~Nh
-bildet/~~NXh
+bildet/~~Vh  # 3rd person of bilden
 bildner/~~Mh
 bildnis/~~Nh
 bilds/~~Nh
@@ -21688,7 +21688,7 @@ bischof/~~Nh
 bisher/~~Mh
 biskaya/~~Nh
 biskuit/~~Nh
-bislang/~~Nh
+bislang/~~hr
 bismut/~~Nh
 bismuts/~~Nh
 bison/~~Nh
@@ -21703,7 +21703,7 @@ bissig/~~RJOQRSTUWqh
 bissmal/~~NXh
 bist/~~Nh
 bistro/~~Nbh
-bistum/~~Za # auto-added
+bistum/~~Zah  # preposition um # auto-added
 bistums/~~Nh
 bit/~~Nh
 bitbus/~~Nh
@@ -21783,7 +21783,7 @@ blick/~~Vcej # REPLACES blicken
 blickes/~~Nh
 blicks/~~Nh
 blickt/~~NXh
-blieb/~~NXh
+blieb/~~hV
 blieben/~~V # auto-added
 bliebt/~~Nh
 blies/~~Nh
@@ -21906,7 +21906,7 @@ boardet/~~NXh
 boards/~~Nh
 bob/~~Nh
 boccia/~~Nh
-bochum/~~Za #  auto-added
+bochum/~~Zah  # preposition um #  auto-added
 bochums/~~Nh
 bock/~~Vcej # REPLACES bocken
 bockes/~~Nh
@@ -21944,7 +21944,7 @@ bohrens/~~Nh
 bohrer/~~Mh
 bohrern/~~Nh
 bohrers/~~Nh
-bohrium/~~Za #  auto-added
+bohrium/~~Zah  # preposition um #  auto-added
 bohrt/~~NXh
 bohrtet/~~Nh
 bohrung/~~Fh
@@ -22037,7 +22037,7 @@ borids/~~Nh
 borke/~~Nh
 borken/~~V # auto-added
 borkig/~~RJOQRSTUWqh
-borkum/~~Za #  auto-added
+borkum/~~Zah  # preposition um #  auto-added
 borkums/~~Nh
 borneo/~~Nbh
 bors/~~Nh
@@ -22058,7 +22058,7 @@ bossen/~~V # auto-added
 bosses/~~Nh
 boston/~~Nh
 bostons/~~Nh
-bot/~~NXh
+bot/~~hV
 botanik/~~Nh
 botank/~~Nh
 boten/~~V # auto-added
@@ -22159,7 +22159,7 @@ bregenz/~~Nh
 brei/~~Vej # REPLACES breien
 breiig/~~RJOQRSTUWqh
 breis/~~Nh
-breit/~~NJOQRSTUWq #adjective and noun
+breit/~~JOQRSTUWq #adjective and noun
 breitet/~~NXh
 bremen/~~V # auto-added
 bremens/~~Nh
@@ -22613,7 +22613,7 @@ bürge/~~Nh
 bürg/~~Vcej # REPLACES bürgen
 bürgens/~~Nh
 bürgere/~~Nh
-bürgern/~~Nh
+bürgern/~~rh # adverb gladly
 bürgers/~~Nh
 bürgert/~~NXh
 bürgre/~~Nh
@@ -22657,13 +22657,13 @@ caches/~~Nh
 cacht/~~NXh
 cach/~~Vce # REPLACES cachten
 cadiz/~~Nh
-cadmium/~~Za #  auto-added
+cadmium/~~Zah  # preposition um #  auto-added
 caen/~~V # auto-added
-caesium/~~Za #  auto-added
+caesium/~~Zah  # preposition um #  auto-added
 caisson/~~Nh
 calcit/~~NXh
 calcits/~~Nh
-calcium/~~Zah #  auto-added
+calcium/~~Zah  # preposition umh #  auto-added
 call/~~Nh
 callboy/~~Nh
 calls/~~Nh
@@ -22843,7 +22843,7 @@ ciao/~~Nh
 cidre/~~Nh
 cidres/~~Nh
 cineast/~~Nh
-circa/~~Nh
+circa/~~hP
 circus/~~Nh
 cis/~~Nh
 citrat/~~NXh
@@ -23004,10 +23004,10 @@ crews/~~Nh
 crimpen/~~V # auto-added
 croquis/~~Nh
 cruz/~~Nh
-cum/~~Za #  auto-added
+cum/~~Zah  # preposition um #  auto-added
 curacao/~~Nh
 curare/~~Nh
-curium/~~Za #  auto-added
+curium/~~Zah  # preposition um #  auto-added
 curiums/~~Nh
 curl/~~Vej # REPLACES curlen
 curlte/~~Nh
@@ -23030,9 +23030,9 @@ cyclins/~~Nh
 cystein/~~Nh
 cytosin/~~Nh
 cytosol/~~NXh
-cäsium/~~Za #  auto-added
+cäsium/~~Zah  # preposition um #  auto-added
 cäsiums/~~Nh
-dabei/~~Nh
+dabei/~~hr
 dablieb/~~NXh
 dach/~~Nah
 daches/~~Nh
@@ -23051,8 +23051,8 @@ dackle/~~Nh
 daddele/~~Nh
 daddeln/~~V # auto-added
 daddelt/~~NXh
-dadurch/~~Nh
-dafür/~~Nh
+dadurch/~~hr
+dafür/~~hr
 dagegen/~~V # auto-added
 dahabe/~~Nh
 dahaben/~~V # auto-added
@@ -23062,7 +23062,7 @@ dahat/~~Nh
 daheim/~~Nh
 daher/~~Mh
 dahier/~~Mh
-dahin/~~Nh
+dahin/~~hr
 dahinab/~~Nh
 dahlie/~~Nh
 dahlien/~~V # auto-added
@@ -23090,7 +23090,7 @@ dalägen/~~V # auto-added
 daläget/~~Nh
 dalässt/~~Nh
 damalig/~~RJOQRSTUWqh
-damals/~~Nh
+damals/~~hr
 damast/~~Nh
 damaste/~~Nh
 damasts/~~Nh
@@ -23122,17 +23122,17 @@ dann/~~Nh
 dannen/~~V # auto-added
 danzig/~~Nh
 danzigs/~~Nh
-dar/~~Nh
-daran/~~Nh
-darauf/~~Nh
-daraus/~~Nh
+dar/~~hr
+daran/~~hr
+darauf/~~hr
+daraus/~~hr
 darb/~~Vcej # REPLACES darben
 darbot/~~Nh
 darbt/~~NXh
 darbtet/~~Nh
 darböte/~~Nh
 darein/~~Nh
-darf/~~Nh
+darf/~~Vt # 3rd person singular of dürfen
 dari/~~NbYh
 darlegt/~~NXh
 darlehn/~~Nh
@@ -23154,8 +23154,8 @@ dartun/~~Nh
 dartust/~~Nh
 dartut/~~Nh
 dartäte/~~Nh
-darum/~~Za #  auto-added
-darüber/~~Mh
+darum/~~Zah  # preposition um #  auto-added
+darüber/~~hr
 dasaß/~~Nh
 dasaßen/~~V # auto-added
 dasaßt/~~Nh
@@ -23178,13 +23178,13 @@ datest/~~Nh
 datete/~~Nh
 dateten/~~V # auto-added
 datex/~~Nh
-datiert/~~NXh
+datiert/~~hV
 dativ/~~Nh
 dativs/~~Nh
 dato/~~Nh
 dattel/~~Nh
 datteln/~~V # auto-added
-datum/~~Za #  auto-added
+datum/~~Zah  # preposition um #  auto-added
 datums/~~Nh
 daube/~~Nh
 dauben/~~V # auto-added
@@ -23198,11 +23198,11 @@ daumens/~~Nh
 daune/~~Nh
 daunen/~~V # auto-added
 daure/~~Nh
-davon/~~Nh
+davon/~~hr
 davor/~~Nh
 davos/~~Nh
 dawider/~~Mh
-dazu/~~Nh
+dazu/~~hr
 dazugab/~~Nh
 dazukam/~~Nh
 dazumal/~~Nh
@@ -23297,7 +23297,7 @@ delta/~~Nbh
 dement/~~NXh
 dementi/~~Nbh
 demenz/~~Nh
-demnach/~~Nh
+demnach/~~hr
 demo/~~Nh
 demut/~~Nh
 denar/~~NXh
@@ -23350,7 +23350,7 @@ dersim/~~Nh
 dersims/~~Nh
 derweil/~~Nh
 derzeit/~~Nh
-deshalb/~~Nh
+deshalb/~~hr
 designs/~~Nh
 designt/~~NXh
 desktop/~~Nh
@@ -23422,7 +23422,7 @@ dichtes/~~Nh
 dichtet/~~NXh
 dickem/~~Nh
 dick/~~Vej # REPLACES dicken
-dicker/~~Mh
+dicker/~~Jh  # comparative of dick (adjective)
 dickere/~~Nh
 dickes/~~Nh
 dickste/~~Nh
@@ -23452,7 +23452,7 @@ diesel/~~Nh
 diesels/~~Nh
 diesem/~~Nh
 diesen/~~V # auto-added
-dieser/~~Mh
+dieser/~~Dh  # demonstrative determiner
 dieses/~~Nh
 diesig/~~RJOQRSTUWqh
 diesmal/~~Nh
@@ -23461,7 +23461,7 @@ diffus/~~NXh
 diktat/~~NXh
 diktats/~~Nh
 diktion/~~Nh
-diktum/~~Za #  auto-added
+diktum/~~Zah  # preposition um #  auto-added
 diktums/~~Nh
 dildo/~~Nbh
 dilemma/~~Nbh
@@ -23475,7 +23475,7 @@ dimerer/~~Mh
 dimeres/~~Nh
 dimm/~~Vcej # REPLACES dimmen
 dimmens/~~Nh
-dimmer/~~Mh
+dimmer/~~rh  # adverb always
 dimmern/~~Nh
 dimmers/~~Nh
 dimmt/~~NXh
@@ -23485,7 +23485,7 @@ diner/~~Mh
 diners/~~Nh
 ding/~~Vcj # REPLACES dingen
 dinger/~~Mh
-dingern/~~Nh
+dingern/~~rh # adverb gladly
 dinges/~~Nh
 dingo/~~Nbh
 dings/~~Nh
@@ -23518,7 +23518,7 @@ dippt/~~NXh
 dipptet/~~Nh
 diptam/~~Nh
 dir/~~I # pronoun to you (singular, dative)
-direkt/~~NXh
+direkt/~~hJ
 dirndl/~~NYh
 dirndls/~~Nh
 dirne/~~Nh
@@ -23727,7 +23727,7 @@ drehers/~~Nh
 dreht/~~NXh
 drehtet/~~Nh
 drehung/~~Fh
-drei/~~NYh
+drei/~~YhJ
 dreier/~~Mh
 dreimal/~~Nh
 dreiste/~~Nh
@@ -23791,7 +23791,7 @@ druden/~~V # auto-added
 druide/~~Nh
 druiden/~~V # auto-added
 druidin/~~Nh
-drum/~~Za #  auto-added
+drum/~~Zah  # preposition um #  auto-added
 drummer/~~Mh
 drums/~~Nh
 drunten/~~V # auto-added
@@ -23829,7 +23829,7 @@ drücke/~~Nh
 drück/~~Vcej # REPLACES drücken
 drücker/~~Mh
 drückst/~~Nh
-drückt/~~NXh
+drückt/~~hV
 drüse/~~Nh
 drüsen/~~V # auto-added
 drüsig/~~RJOQRSTUWqh
@@ -23846,7 +23846,7 @@ dublees/~~Nh
 dublett/~~NXh
 dublin/~~Nh
 dublins/~~Nh
-dubnium/~~Za #  auto-added
+dubnium/~~Zah  # preposition um #  auto-added
 duck/~~Vcej # REPLACES ducken
 duckt/~~NXh
 ducktet/~~Nh
@@ -24021,7 +24021,7 @@ dünge/~~Nh
 düng/~~Vcej # REPLACES düngen
 düngens/~~Nh
 dünger/~~Mh
-düngern/~~Nh
+düngern/~~rh # adverb gladly
 düngers/~~Nh
 düngst/~~Nh
 düngt/~~NXh
@@ -24086,7 +24086,7 @@ ebenen/~~V # auto-added
 ebenere/~~Nh
 ebeners/~~Nh
 ebenes/~~Nh
-ebenso/~~Nh
+ebenso/~~hr
 eber/~~Mh
 ebern/~~Nh
 ebers/~~Nh
@@ -24166,7 +24166,7 @@ ehe/~~Nh
 ehec/~~Nh
 ehedem/~~Nh
 ehelos/~~NXh
-ehemals/~~Nh
+ehemals/~~hr
 ehen/~~V # auto-added
 eher/~~Mh
 ehern/~~Nh
@@ -24233,7 +24233,7 @@ eigenen/~~V # auto-added
 eigener/~~Mh
 eigenes/~~Nh
 eigens/~~Nh
-eigentum/~~Za # auto-added
+eigentum/~~Zah  # preposition um # auto-added
 eign/~~Vcj # REPLACES eignen
 eignens/~~Nh
 eigner/~~Mh
@@ -24359,7 +24359,7 @@ einlöst/~~Nh
 einlöte/~~Nh
 einlüde/~~Nh
 einmach/~~NYXh
-einmal/~~Nh
+einmal/~~hr
 einmann/~~Nh
 einnahm/~~NXh
 einnute/~~Nh
@@ -24371,7 +24371,7 @@ einrede/~~Nh
 einrieb/~~NXh
 einriss/~~NXh
 einritt/~~Nh
-eins/~~Nh
+eins/~~hJ
 einsagt/~~NXh
 einsah/~~Nh
 einsaht/~~Nh
@@ -24602,7 +24602,7 @@ emiren/~~V # auto-added
 emirs/~~Nh
 emitter/~~Mh
 emotion/~~Nhi
-empfahl/~~Nh
+empfahl/~~hV
 empfand/~~Nh
 empfing/~~Nh
 emphase/~~Nh
@@ -24713,7 +24713,7 @@ entkamt/~~Nh
 entkäme/~~Nh
 entkämt/~~Nh
 entlade/~~Nh
-entlang/~~Nh
+entlang/~~hr
 entlief/~~NXh
 entlieh/~~Nh
 entließ/~~NXh
@@ -24822,7 +24822,7 @@ erbeute/~~Nh
 erbiete/~~Nh
 erbin/~~Nh
 erbitte/~~Nh
-erbium/~~Za #  auto-added
+erbium/~~Zah  # preposition um #  auto-added
 erbiums/~~Nh
 erblühe/~~Nh
 erblüht/~~NXh
@@ -24879,13 +24879,13 @@ eremit/~~Nh
 ererbte/~~Nh
 erfahre/~~Nh
 erfahrt/~~Nh
-erfand/~~Nh
+erfand/~~hV
 erfasst/~~Nh
 erfinde/~~Nh
 erfleht/~~NXh
 erfocht/~~Nh
 erfolgs/~~Nh
-erfolgt/~~NXh
+erfolgt/~~hV
 erfragt/~~NXh
 erfreut/~~NXh
 erfror/~~Nh
@@ -24910,7 +24910,7 @@ ergebnis/~~Nh
 ergebt/~~Nh
 ergeh/~~Vcj # REPLACES ergehen
 ergib/~~Nh
-ergibt/~~Nh
+ergibt/~~hV
 ergieße/~~Nh
 ergießt/~~Nh
 erging/~~Nh
@@ -24936,7 +24936,7 @@ erguss/~~Nh
 ergäbe/~~Nh
 ergäben/~~V # auto-added
 ergänze/~~Nh
-ergänzt/~~NXh
+ergänzt/~~hV
 ergösse/~~Nh
 ergötze/~~Nh
 ergötzt/~~NXh
@@ -24946,7 +24946,7 @@ erhalts/~~Nh
 erheb/~~Vcj # REPLACES erheben
 erhebet/~~Nh
 erhellt/~~NXh
-erhielt/~~NXh
+erhielt/~~hV
 erhitzt/~~NXh
 erhob/~~Nh
 erhoben/~~V # auto-added
@@ -24974,7 +24974,7 @@ eritrea/~~Nbh
 erjag/~~Vej # REPLACES erjagen
 erjagt/~~NXh
 erkalte/~~Nh
-erkannt/~~NXh
+erkannt/~~hV
 erkauf/~~NXh
 erkauft/~~NXh
 erkenne/~~Nh
@@ -24988,7 +24988,7 @@ erklang/~~Nh
 erklimm/~~NXh
 erklomm/~~Nh
 erkläre/~~Nh
-erklärt/~~NXh
+erklärt/~~hV
 erkor/~~Nh
 erkoren/~~V # auto-added
 erkort/~~Nh
@@ -25121,7 +25121,7 @@ ersehe/~~Nh
 ersehen/~~V # auto-added
 ersehnt/~~NXh
 erseht/~~Nh
-ersetzt/~~NXh
+ersetzt/~~hV
 ersieht/~~Nh
 ersinnt/~~NXh
 ersoff/~~Nh
@@ -25140,8 +25140,8 @@ erstehe/~~Nh
 ersteht/~~Nh
 erstem/~~Nh
 ersten/~~V # auto-added
-erstens/~~Nh
-erster/~~Mh
+erstens/~~hJ
+erster/~~Jh  # first (adjective)
 erstere/~~Nh
 erstes/~~Nh
 erstich/~~Nh
@@ -25174,7 +25174,7 @@ ertönt/~~NXh
 eruiert/~~NXh
 erwach/~~NYXh
 erwacht/~~NXh
-erwarb/~~Nh
+erwarb/~~hV
 erwarbt/~~Nh
 erwarte/~~Nh
 erweckt/~~NXh
@@ -25203,7 +25203,7 @@ erwähle/~~Nh
 erwählt/~~NXh
 erwähn/~~Nh
 erwähne/~~Nh
-erwähnt/~~NXh
+erwähnt/~~hV
 erwärm/~~NXh
 erwärmt/~~NXh
 erwöge/~~Nh
@@ -25216,7 +25216,7 @@ erythem/~~Nh
 erzböse/~~Nh
 erzdumm/~~NXh
 erzeigt/~~NXh
-erzeugt/~~NXh
+erzeugt/~~hV
 erziehe/~~Nh
 erzieht/~~Nh
 erzielt/~~g # past participle of erzielen
@@ -25457,7 +25457,7 @@ faktes/~~Nh
 faktor/~~Nh
 faktors/~~Nh
 fakts/~~Nh
-faktum/~~Za #  auto-added
+faktum/~~Zah  # preposition um #  auto-added
 faktums/~~Nh
 falafel/~~Nh
 falbe/~~Nh
@@ -25499,7 +25499,7 @@ fanal/~~NXh
 fanalen/~~V # auto-added
 fanals/~~Nh
 fanclub/~~Nh
-fand/~~Nh
+fand/~~hV
 fanden/~~V # auto-added
 fandest/~~Nh
 fandet/~~Nh
@@ -25570,7 +25570,7 @@ fatalem/~~Nh
 fatalen/~~V # auto-added
 fataler/~~Mh
 fatales/~~Nh
-fatum/~~Za #  auto-added
+fatum/~~Zah  # preposition um #  auto-added
 fatums/~~Nh
 fauchen/~~XZ #  auto-added
 faucht/~~NXh
@@ -25715,7 +25715,7 @@ ferkels/~~Nh
 ferkelt/~~NXh
 ferkle/~~Nh
 ferment/~~NXh
-fermium/~~Za #  auto-added
+fermium/~~Zah  # preposition um #  auto-added
 fernab/~~Nh
 fernere/~~Nh
 fernher/~~Mh
@@ -25895,7 +25895,7 @@ finesse/~~Nh
 fing/~~Nh
 fingen/~~V # auto-added
 fingere/~~Nh
-fingern/~~Nh
+fingern/~~rh # adverb gladly
 fingers/~~Nh
 fingert/~~NXh
 fingre/~~Nh
@@ -25955,7 +25955,7 @@ fixerin/~~Nh
 fixern/~~Nh
 fixers/~~Nh
 fixes/~~Nh
-fixiert/~~NXh
+fixiert/~~hV
 fixt/~~NXh
 fixtest/~~Nh
 fixtet/~~Nh
@@ -25997,7 +25997,7 @@ flau/~~Vej # REPLACES flauen
 flauer/~~Mh
 flauere/~~Nh
 flaues/~~Nh
-flaum/~~Za #  auto-added
+flaum/~~Zah  # preposition um #  auto-added
 flaumig/~~RJOQRSTUWqh
 flaums/~~Nh
 flaus/~~Vej # REPLACES flausen
@@ -26223,10 +26223,10 @@ fokales/~~Nh
 fokus/~~Nh
 folg/~~Vcej # REPLACES folgen
 folgere/~~Nh
-folgern/~~Nh
+folgern/~~hV
 folgert/~~NXh
 folgre/~~Nh
-folgt/~~NXh
+folgt/~~hV
 folgtet/~~Nh
 folie/~~Nh
 folien/~~V # auto-added
@@ -26282,14 +26282,14 @@ forste/~~Nh
 forsten/~~V # auto-added
 forstes/~~Nh
 forstet/~~NXh
-fort/~~NXh
+fort/~~hr
 fortan/~~Nh
 fortkam/~~Nh
 fortran/~~Nh
 forts/~~Nh # auto-added
 fortune/~~Nh
 fortzog/~~Nh
-forum/~~Za #  auto-added
+forum/~~Zah  # preposition um #  auto-added
 forums/~~Nh
 fossile/~~Nh
 fossils/~~Nh
@@ -26312,7 +26312,7 @@ fracks/~~Nh
 frackt/~~NXh
 frag/~~Vcej # REPLACES fragen
 frager/~~Mh
-fragern/~~Nh
+fragern/~~rh # adverb gladly
 fragers/~~Nh
 fragile/~~Nh
 fraglos/~~NXh
@@ -26502,7 +26502,7 @@ fugt/~~NXh
 fugtest/~~Nh
 fugtet/~~Nh
 fugung/~~Fh
-fuhr/~~NXah
+fuhr/~~Vt # past tense of fahren
 fuhren/~~V # auto-added
 fuhrt/~~Nh
 fujian/~~Nh
@@ -26639,7 +26639,7 @@ fändet/~~Nh
 fänge/~~Nh
 fängen/~~V # auto-added
 fänger/~~Mh
-fängern/~~Nh
+fängern/~~rh # adverb gladly
 fängers/~~Nh
 fängig/~~NXh
 fängt/~~Nh
@@ -26711,7 +26711,7 @@ führens/~~Nh
 führern/~~Nh
 führers/~~Nh
 führst/~~Nh
-führt/~~NXh
+führt/~~hV
 führtet/~~Nh
 führung/~~Fh
 fülle/~~Nh
@@ -26726,7 +26726,7 @@ füllt/~~NXh
 fülltet/~~Nh
 füllung/~~Fh
 fündig/~~JOQRSTUWqh
-fünf/~~Nh
+fünf/~~hJ
 fünfer/~~Mh
 fünfern/~~Nh
 fünfers/~~Nh
@@ -26809,7 +26809,7 @@ gallert/~~NXh
 gallien/~~V # auto-added
 gallier/~~Mh
 gallig/~~RJOQRSTUWqh
-gallium/~~Za #  auto-added
+gallium/~~Zah  # preposition um #  auto-added
 gallo/~~Nh
 gallone/~~Nh
 galmei/~~Nh
@@ -26990,7 +26990,7 @@ gebrüll/~~NXh
 gebucht/~~JOQRSTUWVg
 gebumst/~~JOQRSTUWVg
 gebung/~~Fh
-geburt/~~JOQRSTUWVg
+geburt/~~Fh # feminine noun die Geburt
 geburts/~~Nh
 gebäck/~~NXh
 gebäcks/~~Nh
@@ -27245,7 +27245,7 @@ geifre/~~Nh
 geig/~~Vcej # REPLACES geigen
 geigens/~~Nh
 geiger/~~Mh
-geigern/~~Nh
+geigern/~~rh # adverb gladly
 geigers/~~Nh
 geigt/~~JOQRSTUWVg
 geigtet/~~JOQRSTUWVg
@@ -27357,7 +27357,7 @@ gelage/~~Nh
 gelagen/~~V # auto-added
 gelages/~~Nh
 gelahmt/~~JOQRSTUWVga
-gelang/~~Nh
+gelang/~~hV
 gelangt/~~JOQRSTUWVg
 gelappt/~~JOQRSTUWVg
 gelass/~~NXh
@@ -27495,7 +27495,7 @@ genarrt/~~JOQRSTUWVg
 genas/~~Nh
 genasen/~~V # auto-added
 genast/~~JOQRSTUWVg
-genauso/~~Nh
+genauso/~~hr
 genaust/~~JOQRSTUWVg
 gendarm/~~Nh
 gendere/~~Nh
@@ -27675,7 +27675,7 @@ gerinnt/~~JOQRSTUWVg
 gerippt/~~JOQRSTUWVg
 geritzt/~~JOQRSTUWVg
 germane/~~Nh
-gern/~~Nh
+gern/~~rh # adverb gladly
 gerne/~~Nh
 gernhat/~~JOQRSTUWVg
 gerobbt/~~JOQRSTUWVg
@@ -27716,7 +27716,7 @@ gerüsts/~~Nh
 gesackt/~~JOQRSTUWVg
 gesafed/~~Nh
 gesaft/~~JOQRSTUWVg
-gesagt/~~JOQRSTUWVga
+gesagt/~~JOQRSTUWVg
 gesalbt/~~JOQRSTUWVg
 gesamt/~~JOQRSTUWVg
 gesandt/~~JOQRSTUWVg
@@ -27724,7 +27724,7 @@ gesang/~~Nh
 gesangs/~~Nh
 gesaugt/~~JOQRSTUWVga
 gesaust/~~JOQRSTUWVg
-geschah/~~Nh
+geschah/~~hV
 gesehen/~~V # auto-added
 gesehnt/~~JOQRSTUWVg
 geseiht/~~JOQRSTUWVg
@@ -27881,7 +27881,7 @@ gewand/~~Nh
 gewands/~~Nh
 gewandt/~~JOQRSTUWVg
 gewankt/~~JOQRSTUWVg
-gewann/~~Nh
+gewann/~~hV
 gewannt/~~JOQRSTUWVg
 gewarnt/~~JOQRSTUWVg
 gewatet/~~JOQRSTUWVg
@@ -28016,7 +28016,7 @@ ghoste/~~Nh
 ghosten/~~V # auto-added
 ghostet/~~NXh
 gib/~~Nh
-gibt/~~Nh
+gibt/~~hV
 gicht/~~Nh
 gichtig/~~RJOQRSTUWqh
 giebel/~~Nh
@@ -28055,13 +28055,13 @@ gilbt/~~NXh
 gilbtet/~~Nh
 gilde/~~Nh
 gilden/~~V # auto-added
-gilt/~~Nh
+gilt/~~hV
 gimpel/~~Nh
 gimpeln/~~V # auto-added
 gimpels/~~Nh
 gin/~~Nh
 ginfizz/~~Nh
-ging/~~Nh
+ging/~~hV
 ginge/~~Nh
 gingen/~~V # auto-added
 ginget/~~Nh
@@ -28113,7 +28113,7 @@ glases/~~Nh
 glasgow/~~Nh
 glasig/~~RJOQRSTUWqh
 glasur/~~Nh
-glatt/~~NXh
+glatt/~~hJ
 glattem/~~Nh
 glatten/~~V # auto-added
 glatter/~~Mh
@@ -28148,7 +28148,7 @@ gliedre/~~Nh
 glieds/~~Nh
 glimm/~~NXh
 glimm/~~Vcej # REPLACES glimmen
-glimmer/~~Mh
+glimmer/~~rh  # adverb always
 glimmt/~~NXh
 glitt/~~NXh
 glitten/~~V # auto-added
@@ -28375,7 +28375,7 @@ grellen/~~V # auto-added
 greller/~~Mh
 grelles/~~Nh
 gremien/~~V # auto-added
-gremium/~~Za #  auto-added
+gremium/~~Zah  # preposition um #  auto-added
 grenada/~~Nbh
 grenz/~~NXh
 grenz/~~Vcej # REPLACES grenzen
@@ -28494,7 +28494,7 @@ größtes/~~Nh
 grübe/~~Nh
 grübele/~~Nh
 grübeln/~~V # auto-added
-grübelt/~~NXh
+grübelt/~~hV
 grüben/~~V # auto-added
 grübet/~~Nh
 grüble/~~Nh
@@ -28612,7 +28612,7 @@ gängeln/~~V # auto-added
 gängelt/~~NXh
 gängen/~~V # auto-added
 gänger/~~Mh
-gängern/~~Nh
+gängern/~~rh # adverb gladly
 gängers/~~Nh
 gängige/~~Nh
 gängle/~~Nh
@@ -28624,7 +28624,7 @@ gär/~~Vcej # REPLACES gären
 gärende/~~Nh
 gärens/~~Nh
 gärfass/~~Nah
-gärraum/~~Za #  auto-added
+gärraum/~~Zah  # preposition um #  auto-added
 gärst/~~Nh
 gärt/~~NXh
 gärtank/~~Nh
@@ -28724,7 +28724,7 @@ haff/~~NXh
 haffen/~~V # auto-added
 haffes/~~Nh
 haffs/~~Nh
-hafnium/~~Za #  auto-added
+hafnium/~~Zah  # preposition um #  auto-added
 haft/~~NXh
 haftend/~~Nh
 haftest/~~Nh
@@ -28841,7 +28841,7 @@ hand/~~Nh
 handele/~~Nh
 handeln/~~V # auto-added
 handels/~~Nh
-handelt/~~NXh
+handelt/~~hV
 handle/~~Nh
 handout/~~Nh
 handy/~~Nh
@@ -29103,7 +29103,7 @@ heiß/~~Vcej # REPLACES heißen
 heißer/~~Mh
 heißere/~~Nh
 heißes/~~Nh
-heißt/~~NXh
+heißt/~~hV
 heißtet/~~Nh
 hektar/~~NXh
 hektars/~~Nh
@@ -29118,7 +29118,7 @@ helfer/~~Mh
 helfern/~~Nh
 helfers/~~Nh
 helices/~~Nh
-helium/~~Za #  auto-added
+helium/~~Zah  # preposition um #  auto-added
 heliums/~~Nh
 hellas/~~Nh
 hellauf/~~Nh
@@ -29170,7 +29170,7 @@ heran/~~Nh
 herat/~~Nh
 herats/~~Nh
 herauf/~~Nh
-heraus/~~Nh
+heraus/~~hV
 herbat/~~Nh
 herbe/~~Nh
 herbei/~~Nh
@@ -29222,7 +29222,7 @@ herkäme/~~Nh
 herlegt/~~NXh
 herlief/~~Nh
 herlieh/~~NXh
-hermuss/~~Nh
+hermuss/~~Vt # 3rd person singular of müssen
 hernach/~~Nh
 hernahm/~~Nh
 heroben/~~V # auto-added
@@ -29245,8 +29245,8 @@ hersehe/~~Nh
 herseht/~~Nh
 hersähe/~~Nh
 hertrug/~~Nh
-herum/~~Za #  auto-added
-hervor/~~Nh
+herum/~~Zah  # preposition um #  auto-added
+hervor/~~hr
 herwagt/~~NXh
 herwarf/~~Nh
 herz/~~Vej # REPLACES herzen
@@ -29313,7 +29313,7 @@ hiebe/~~Nh
 hieben/~~V # auto-added
 hiebes/~~Nh
 hiebt/~~Nh
-hielt/~~NXh
+hielt/~~hV
 hielten/~~V # auto-added
 hieltet/~~Nh
 hieran/~~Nh
@@ -29321,21 +29321,21 @@ hierauf/~~Nh
 hieraus/~~Nh
 hierbei/~~Nh
 hierein/~~Nh
-hierfür/~~Nh
+hierfür/~~hr
 hierher/~~Mh
 hierhin/~~Nh
 hierin/~~Nh
 hiermit/~~Nh
-hierum/~~Za #  auto-added
+hierum/~~Zah  # preposition um #  auto-added
 hiervon/~~Nh
 hiervor/~~Nh
-hierzu/~~Nh
+hierzu/~~hr
 hiesig/~~RJOQRSTUWqh
 hiev/~~NXh
 hiev/~~Vcej # REPLACES hieven
 hievt/~~NXh
 hievtet/~~Nh
-hieß/~~NXh
+hieß/~~hV
 hießen/~~V # auto-added
 hießest/~~Nh
 hießt/~~Nh
@@ -29358,7 +29358,7 @@ hin/~~r
 hinab/~~r
 hinan/~~Nh
 hinauf/~~Nh
-hinaus/~~Nh
+hinaus/~~hr
 hinbog/~~Nh
 hinbogt/~~Nh
 hindere/~~Nh
@@ -29368,7 +29368,7 @@ hindi/~~Nh
 hindre/~~Nh
 hindu/~~Nbh
 hineilt/~~NXh
-hinein/~~Nh
+hinein/~~hr
 hinfand/~~Nh
 hinfiel/~~NXh
 hinflog/~~Nh
@@ -29430,13 +29430,13 @@ hintun/~~Nh
 hintust/~~Nh
 hintut/~~Nh
 hinwarf/~~Nh
-hinweg/~~Nh
+hinweg/~~hr
 hinweis/~~NXh
 hinwies/~~Nh
 hinwill/~~Nh
 hinzog/~~Nh
 hinzogt/~~Nh
-hinzu/~~Nh
+hinzu/~~hr
 hinzöge/~~Nh
 hinzögt/~~Nh
 hinüber/~~Mh
@@ -29546,7 +29546,7 @@ holla/~~Nh
 holland/~~Nh
 holm/~~NXh
 holmen/~~V # auto-added
-holmium/~~Za #  auto-added
+holmium/~~Zah  # preposition um #  auto-added
 holms/~~Nh
 holonom/~~NXh
 holozän/~~Nh
@@ -29712,11 +29712,11 @@ hunans/~~Nh
 hund/~~Mhi
 hunde/~~Nh
 hunden/~~V # auto-added
-hundert/~~NXh
+hundert/~~hJ
 hundes/~~Nh
 hunds/~~Nh
 hungere/~~Nh
-hungern/~~Nh
+hungern/~~rh # adverb gladly
 hungers/~~Nh
 hungert/~~NXh
 hungre/~~Nh
@@ -29746,7 +29746,7 @@ huste/~~Nh
 husten/~~V # auto-added
 hustend/~~Nh
 hustet/~~NXh
-husum/~~Za #  auto-added
+husum/~~Zah  # preposition um #  auto-added
 husums/~~Nh
 hut/~~Nah
 hutes/~~Nh
@@ -29812,11 +29812,11 @@ hänge/~~Nh
 häng/~~Vcej # REPLACES hängen
 hängens/~~Nh
 hänger/~~Mh
-hängern/~~Nh
+hängern/~~rh # adverb gladly
 hängers/~~Nh
 hängig/~~RJOQRSTUWqh
 hängst/~~Nh
-hängt/~~NXh
+hängt/~~hV
 hängtet/~~Nh
 hängung/~~Fh
 hänsele/~~Nh
@@ -29924,7 +29924,7 @@ höriges/~~Nh
 hörner/~~Mh
 hörnern/~~Nh
 hörst/~~Nh
-hört/~~NXh
+hört/~~hV
 hörtest/~~Nh
 hörtet/~~Nh
 höschen/~~XZ #  auto-added
@@ -30072,7 +30072,7 @@ imkert/~~NXh
 imkre/~~Nh
 immatur/~~NXh
 immens/~~NXh
-immer/~~Mh
+immer/~~rh  # adverb always
 immerzu/~~Nh
 immun/~~Nh
 immune/~~Nh
@@ -30107,7 +30107,7 @@ indiens/~~Nh
 indigen/~~V # auto-added
 indigo/~~Nbh
 indio/~~Nbh
-indium/~~Za #  auto-added
+indium/~~Zah  # preposition um #  auto-added
 indiums/~~Nh
 indiz/~~Nh
 indizes/~~Nh
@@ -30131,7 +30131,7 @@ infekt/~~NXh
 infekts/~~Nh
 inferno/~~Nbh
 infima/~~Nh
-infimum/~~Za #  auto-added
+infimum/~~Zah  # preposition um #  auto-added
 infinit/~~NXh
 info/~~Nh
 infolge/~~Nh
@@ -30237,7 +30237,7 @@ irdenen/~~V # auto-added
 irdener/~~Mh
 irdenes/~~Nh
 irgend/~~Nh
-iridium/~~Za #  auto-added
+iridium/~~Zah  # preposition um #  auto-added
 iris/~~Nh
 irische/~~Nh
 irisöl/~~Nh
@@ -30272,7 +30272,7 @@ irrstes/~~Nh
 irrt/~~NXh
 irrtest/~~Nh
 irrtet/~~Nh
-irrtum/~~Za # auto-added
+irrtum/~~Zah  # preposition um # auto-added
 irrtums/~~Nh
 irrung/~~Fh
 irrweg/~~NXh
@@ -30408,7 +30408,7 @@ jeeps/~~Nh
 jeher/~~Mh
 jein/~~Nh
 jemals/~~Nh
-jemand/~~Nh
+jemand/~~hI
 jemen/~~V # auto-added
 jemenit/~~Nh
 jemens/~~Nh
@@ -30436,7 +30436,7 @@ jetten/~~V # auto-added
 jettend/~~Nh
 jettet/~~NXh
 jetzige/~~Nh
-jeweils/~~Nh
+jeweils/~~hr
 job/~~Nh # auto-added
 jobb/~~Vcej # REPLACES jobben
 jobbt/~~NXh
@@ -30475,7 +30475,7 @@ jodtest/~~Nh
 jodzahl/~~Nh
 jogg/~~Vcej # REPLACES joggen
 jogger/~~Mh
-joggern/~~Nh
+joggern/~~rh # adverb gladly
 joggers/~~Nh
 jogging/~~Nh
 joggt/~~NXh
@@ -30573,7 +30573,7 @@ juxte/~~Nh
 jäger/~~Mh
 jägerei/~~Nh
 jägerin/~~Nh
-jägern/~~Nh
+jägern/~~rh # adverb gladly
 jägers/~~Nh
 jähe/~~Nh
 jähem/~~Nh
@@ -30596,7 +30596,7 @@ jäteten/~~V # auto-added
 jätetet/~~Nh
 jüdin/~~Nh
 jüngere/~~Nh
-jüngern/~~Nh
+jüngern/~~rh # adverb gladly
 jüngers/~~Nh
 jüngst/~~Nh
 jüngste/~~Nh
@@ -30630,7 +30630,7 @@ kadern/~~Nh
 kaders/~~Nh
 kadett/~~Nh
 kadi/~~Nbh
-kadmium/~~Za #  auto-added
+kadmium/~~Zah  # preposition um #  auto-added
 kadrage/~~Nh
 kaff/~~Nh
 kaffee/~~Nh
@@ -30685,7 +30685,7 @@ kaliber/~~Mh
 kalif/~~Nh
 kalifat/~~NXh
 kalifen/~~V # auto-added
-kalium/~~Za #  auto-added
+kalium/~~Zah  # preposition um #  auto-added
 kalkar/~~Nh
 kalkarm/~~NXh
 kalk/~~Vcej # REPLACES kalken
@@ -30702,8 +30702,8 @@ kalorie/~~Nh
 kalt/~~NJOQRSTUWq #adjective and noun
 kalzit/~~Nh
 kalzits/~~Nh
-kalzium/~~Za #  auto-added
-kam/~~Nh
+kalzium/~~Zah  # preposition um #  auto-added
+kam/~~hV
 kamel/~~NXh
 kamelen/~~V # auto-added
 kamels/~~Nh
@@ -30741,7 +30741,7 @@ kandare/~~Nh
 kandis/~~Nh
 kaneel/~~NXh
 kaneels/~~Nh
-kann/~~Nh
+kann/~~Vt # 3rd person singular of können
 kann/~~Vej # REPLACES kannen
 kannte/~~Nh
 kanntet/~~Nh
@@ -30934,7 +30934,7 @@ kaufes/~~Nh
 kaufs/~~Nh
 kauft/~~NXh
 kauftet/~~Nh
-kaum/~~Za #  auto-added
+kaum/~~r #  auto-added
 kaure/~~Nh
 kauri/~~Nbh
 kausale/~~Nh
@@ -31423,7 +31423,7 @@ kläff/~~Vej # REPLACES kläffen
 kläffst/~~Nh
 kläfft/~~NXh
 kläger/~~Mh
-klägern/~~Nh
+klägern/~~rh # adverb gladly
 klägers/~~Nh
 klänge/~~Nh
 klängen/~~V # auto-added
@@ -31761,7 +31761,7 @@ konsens/~~NXh
 konsole/~~Nh
 konsul/~~NYh
 konsuls/~~Nh
-konsum/~~Za #  auto-added
+konsum/~~Zah  # preposition um #  auto-added
 konsums/~~Nh
 kontakt/~~NXh
 konten/~~V # auto-added
@@ -32138,7 +32138,7 @@ krümme/~~Nh
 krümmel/~~Nh
 krümm/~~Vej # REPLACES krümmen
 krümmst/~~Nh
-krümmt/~~NXh
+krümmt/~~hV
 krüppel/~~Nh
 kuba/~~Nbh
 kubaner/~~Mh
@@ -32254,7 +32254,7 @@ kurv/~~Vcej # REPLACES kurven
 kurvige/~~Nh
 kurvt/~~NXh
 kurvtet/~~Nh
-kurzum/~~Za #  auto-added
+kurzum/~~Zah  # preposition um #  auto-added
 kusch/~~NYXh
 kuschle/~~Nh
 kuscht/~~NXh
@@ -32372,7 +32372,7 @@ könnens/~~Nh
 könner/~~Mh
 könnern/~~Nh
 könners/~~Nh
-könnt/~~NXh
+könnt/~~hV
 könntet/~~Nh
 köpf/~~NXh
 köpf/~~Vcej # REPLACES köpfen
@@ -32546,7 +32546,7 @@ laffen/~~V # auto-added
 lage/~~Nh
 lagen/~~V # auto-added
 lagere/~~Nh
-lagern/~~Nh
+lagern/~~rh # adverb gladly
 lagernd/~~Nh
 lagerns/~~Nh
 lagers/~~Nh
@@ -32681,7 +32681,7 @@ lateran/~~Nh
 laterne/~~Nh
 latex/~~Nh
 latino/~~Nbh
-latinum/~~Za #  auto-added
+latinum/~~Zah  # preposition um #  auto-added
 latrine/~~Nh
 latsche/~~Nh
 latscht/~~NXh
@@ -32845,13 +32845,13 @@ legeren/~~V # auto-added
 legerer/~~Mh
 legeres/~~Nh
 legerin/~~Nh
-legern/~~Nh
+legern/~~rh # adverb gladly
 legers/~~Nh
 leggins/~~Nh
 legiert/~~NXh
 legion/~~Nhi
 legitim/~~NXh
-legt/~~NXh
+legt/~~hV
 legtest/~~Nh
 legtet/~~Nh
 leguan/~~Nh
@@ -32969,7 +32969,7 @@ lernens/~~Nh
 lerner/~~Mh
 lernern/~~Nh
 lerners/~~Nh
-lernt/~~NXh
+lernt/~~hV
 lerntet/~~Nh
 lesart/~~Nh # auto-added
 lesbe/~~Nh
@@ -33055,7 +33055,7 @@ liebes/~~Nh
 liebhat/~~Nh
 lieblos/~~NXh
 liebste/~~Nh
-liebt/~~NXh
+liebt/~~hV
 liebtet/~~Nh
 lied/~~NXh
 lieder/~~Mh
@@ -33150,7 +33150,7 @@ link/~~Vceji # REPLACES linken
 linker/~~Mh
 linkes/~~Nh
 links/~~Nh
-linksum/~~Za #  auto-added
+linksum/~~Zah  # preposition um #  auto-added
 linkt/~~NXh
 linktet/~~Nh
 linnen/~~V # auto-added
@@ -33191,7 +33191,7 @@ literal/~~NXh
 literat/~~Nh
 litern/~~Nh
 liters/~~Nh
-lithium/~~Za #  auto-added
+lithium/~~Zah  # preposition um #  auto-added
 litowsk/~~Nh
 litt/~~NXh
 litten/~~V # auto-added
@@ -33323,7 +33323,7 @@ loslief/~~NXh
 losließ/~~NXh
 loslöse/~~Nh
 loslöst/~~Nh
-losmuss/~~Nh
+losmuss/~~Vt # 3rd person singular of müssen
 losrast/~~Nh
 losriss/~~NXh
 lossagt/~~NXh
@@ -33332,7 +33332,7 @@ loste/~~Nh
 lostet/~~Nh
 lostrat/~~Nh
 losung/~~Fh
-loswird/~~Nh
+loswird/~~Vt # 3rd person singular of werden
 loszog/~~Nh
 loszogt/~~Nh
 loszöge/~~Nh
@@ -33370,7 +33370,7 @@ luchs/~~Vej # REPLACES luchsen
 luchses/~~Nh
 luchst/~~Nh
 luchste/~~Nh
-lud/~~Nh
+lud/~~hV
 luden/~~V # auto-added
 luder/~~Mh
 ludern/~~Nh
@@ -33409,7 +33409,7 @@ lunge/~~Nh
 lungen/~~V # auto-added
 lunger/~~Mh
 lungere/~~Nh
-lungern/~~Nh
+lungern/~~rh # adverb gladly
 lungert/~~NXh
 lungre/~~Nh
 lunte/~~Nh
@@ -33463,7 +33463,7 @@ lysogen/~~V # auto-added
 lysosom/~~NXh
 lysozym/~~NXh
 lyzeen/~~V # auto-added
-lyzeum/~~Za #  auto-added
+lyzeum/~~Zah  # preposition um #  auto-added
 lyzeums/~~Nh
 lächele/~~Nh
 lächeln/~~V # auto-added
@@ -33512,7 +33512,7 @@ läse/~~Nh
 läsen/~~V # auto-added
 läset/~~Nh
 lässige/~~Nh
-lässt/~~Nh
+lässt/~~hV
 lästere/~~Nh
 lästern/~~Nh
 lästert/~~NXh
@@ -33524,7 +33524,7 @@ läufer/~~Mh
 läufern/~~Nh
 läufers/~~Nh
 läufig/~~RJOQRSTUWqh
-läuft/~~Nh
+läuft/~~hV
 läuse/~~Nh
 läusen/~~V # auto-added
 läute/~~Nh
@@ -33644,7 +33644,7 @@ machers/~~Nh
 machete/~~Nh
 machnow/~~Nh
 macho/~~Nbh
-macht/~~NXh
+macht/~~hV
 machtet/~~Nh
 macke/~~Nh
 macken/~~V # auto-added
@@ -33678,7 +33678,7 @@ magerem/~~Nh
 mager/~~Vej # REPLACES mageren
 magerer/~~Mh
 mageres/~~Nh
-magern/~~Nh
+magern/~~rh # adverb gladly
 magert/~~NXh
 maghreb/~~Nh
 magie/~~Nh
@@ -33810,7 +33810,7 @@ mammuts/~~Nh
 mampf/~~NXh
 mampf/~~Vej # REPLACES mampfen
 mampft/~~NXh
-man/~~Nh
+man/~~hI
 manag/~~Vej # REPLACES managen
 manager/~~Mh
 managt/~~NXh
@@ -33999,7 +33999,7 @@ maxi/~~Nh
 maxima/~~Nh
 maxime/~~Nh
 maximen/~~V # auto-added
-maximum/~~Za #  auto-added
+maximum/~~Zah  # preposition um #  auto-added
 maya/~~Nbh
 mayotte/~~Nh
 mazurka/~~Nh
@@ -34023,7 +34023,7 @@ medians/~~Nh
 medien/~~V # auto-added
 medien/~~Nh
 medina/~~Nh
-medium/~~Za #  auto-added
+medium/~~Zah  # preposition um #  auto-added
 mediums/~~Nh
 medizin/~~Nh
 meer/~~Mh
@@ -34074,7 +34074,7 @@ meinung/~~Fh
 meiose/~~Nh
 meiosen/~~V # auto-added
 meis/~~Vej # REPLACES meisen
-meist/~~Nh
+meist/~~hr
 meiste/~~Nh
 meistre/~~Nh
 meißele/~~Nh
@@ -34187,7 +34187,7 @@ metier/~~Mh
 metiers/~~Nh
 metren/~~V # auto-added
 metrik/~~Nh
-metrum/~~Za #  auto-added
+metrum/~~Zah  # preposition um #  auto-added
 metrums/~~Nh
 mets/~~Nh
 mett/~~NXh
@@ -34309,7 +34309,7 @@ miniere/~~Nh
 miniert/~~Nh
 minima/~~Nh
 minimal/~~NXh
-minimum/~~Za #  auto-added
+minimum/~~Zah  # preposition um #  auto-added
 minne/~~Nh
 minoer/~~Mh
 minoern/~~Nh
@@ -34344,7 +34344,7 @@ miss/~~Vcej # REPLACES missen
 mission/~~Nhi
 missmut/~~Nh
 missrät/~~Nh
-misst/~~Nh
+misst/~~hV
 misste/~~Nh
 misstet/~~Nh
 misston/~~Nh
@@ -34367,7 +34367,7 @@ mitaßt/~~Nh
 mitbaut/~~NXh
 mitbot/~~Nh
 mitböte/~~Nh
-mitdarf/~~Nh
+mitdarf/~~Vt # 3rd person singular of dürfen
 mitesse/~~Nh
 mitesst/~~Nh
 mitfing/~~Nh
@@ -34399,7 +34399,7 @@ mithört/~~NXh
 mitisst/~~Nh
 mitkam/~~Nh
 mitkamt/~~Nh
-mitkann/~~Nh
+mitkann/~~Vt # 3rd person singular of können
 mitkäme/~~Nh
 mitkämt/~~Nh
 mitlas/~~Nh
@@ -34412,7 +34412,7 @@ mitläse/~~Nh
 mitmag/~~Nh
 mitmaß/~~Nh
 mitmaßt/~~Nh
-mitmuss/~~Nh
+mitmuss/~~Vt # 3rd person singular of müssen
 mitmäße/~~Nh
 mitmöge/~~Nh
 mitnahm/~~Nh
@@ -34431,7 +34431,7 @@ mittat/~~Nh
 mitte/~~Nh
 mittele/~~Nh
 mitteln/~~V # auto-added
-mittels/~~Nh
+mittels/~~hr
 mittelt/~~NXh
 mitten/~~V # auto-added
 mittig/~~RJOQRSTUWqh
@@ -34798,7 +34798,7 @@ muschi/~~Nbh
 museal/~~NXh
 museen/~~V # auto-added
 musen/~~V # auto-added
-museum/~~Za #  auto-added
+museum/~~Zah  # preposition um #  auto-added
 museums/~~Nh
 musical/~~Nh
 musik/~~Nh
@@ -34810,7 +34810,7 @@ muskels/~~Nh
 muskete/~~Nh
 muslim/~~NXh
 muslims/~~Nh
-muss/~~Nh
+muss/~~Vt # 3rd person singular of müssen
 mussehe/~~Nh
 musste/~~Nh
 mussten/~~V # auto-added
@@ -35106,7 +35106,7 @@ nag/~~Vcej # REPLACES nagen
 nagende/~~Nh
 nager/~~Mh
 nagerin/~~Nh
-nagern/~~Nh
+nagern/~~rh # adverb gladly
 nagers/~~Nh
 nagle/~~Nh
 naglung/~~Fh
@@ -35124,9 +35124,9 @@ nahende/~~Nh
 naher/~~Mh
 nahes/~~Nh
 nahetal/~~Nh
-nahezu/~~Nh
+nahezu/~~hr
 nahfeld/~~Nh
-nahm/~~NXh
+nahm/~~hV
 nahmen/~~V # auto-added
 nahmt/~~Nh
 nahost/~~Nh
@@ -35146,12 +35146,12 @@ naives/~~Nh
 naivste/~~Nh
 name/~~Mh
 namen/~~V # auto-added
-namens/~~Nh
+namens/~~hr
 namhaft/~~JOQRSTUWqh
 namibia/~~Nbh
 namur/~~Nh
 namurs/~~Nh
-nannte/~~Nh
+nannte/~~hV
 nannten/~~V # auto-added
 nanntet/~~Nh
 nano/~~Nh
@@ -35194,7 +35194,7 @@ nativem/~~Nh
 nativen/~~V # auto-added
 nativer/~~Mh
 natives/~~Nh
-natrium/~~Za #  auto-added
+natrium/~~Zah  # preposition um #  auto-added
 natron/~~Nh
 natrons/~~Nh
 natter/~~Mh
@@ -35230,7 +35230,7 @@ neffe/~~Nh
 neffen/~~V # auto-added
 neger/~~Mh
 negerin/~~Nh
-negern/~~Nh
+negern/~~rh # adverb gladly
 negers/~~Nh
 negev/~~Nh
 negiert/~~NXh
@@ -35312,7 +35312,7 @@ nestes/~~Nh
 nestle/~~Nh
 nests/~~Nh
 netbook/~~Nh
-nett/~~NXh
+nett/~~hJ
 nettem/~~Nh
 netten/~~V # auto-added
 netter/~~Mh
@@ -35326,13 +35326,13 @@ netzes/~~Nh
 netznah/~~NXh
 neuerem/~~Nh
 neueren/~~V # auto-added
-neuerer/~~Mh
+neuerer/~~Jh  # newer (adjective)
 neueres/~~Nh
 neuest/~~Nh
 neueste/~~Nh
 neuheit/~~Fh
 neuling/~~Mh
-neun/~~Nh
+neun/~~hJ
 neuneck/~~NXh
 neunmal/~~Nh
 neunt/~~NXh
@@ -35371,8 +35371,8 @@ nicotin/~~Nh
 nie/~~Nh
 nieder/~~Mh
 niedere/~~Nh
-niedrig/~~NJOQRSTUWq #adjective and noun
-niemals/~~Nh
+niedrig/~~JOQRSTUWq #adjective and noun
+niemals/~~hr
 niemand/~~Nh
 niere/~~Nh
 nieren/~~V # auto-added
@@ -35406,7 +35406,7 @@ niltals/~~Nh
 nilufer/~~Mh
 nimbus/~~Nh
 nimm/~~Nh
-nimmer/~~Mh
+nimmer/~~rh  # adverb always
 nimmt/~~Nh
 niob/~~Nh
 niobs/~~Nh
@@ -35508,7 +35508,7 @@ novität/~~Nh
 novize/~~Nh
 novizen/~~V # auto-added
 novizin/~~Nh
-novum/~~Za #  auto-added
+novum/~~Zah  # preposition um #  auto-added
 nsec/~~Nh
 nuance/~~Nh
 nuancen/~~V # auto-added
@@ -35548,7 +35548,7 @@ nummere/~~Nh
 nummern/~~Nh
 nummert/~~NXh
 nummre/~~Nh
-nun/~~Nh
+nun/~~hr
 nunavut/~~Nh
 nunmehr/~~Nh
 nurmehr/~~Nh
@@ -35567,7 +35567,7 @@ nutzer/~~Mh
 nutzern/~~Nh
 nutzers/~~Nh
 nutzlos/~~NXh
-nutzt/~~NXh
+nutzt/~~hV
 nutztet/~~Nh
 nutzung/~~Fh
 nylon/~~Nh
@@ -35589,7 +35589,7 @@ näher/~~Vej # REPLACES näheren
 näherer/~~Mh
 näheres/~~Nh
 näherin/~~Nh
-nähern/~~Nh
+nähern/~~hV
 nähernd/~~Nh
 näherns/~~Nh
 nähers/~~Nh
@@ -35660,7 +35660,7 @@ obenan/~~Nh
 obenauf/~~Nh
 obenher/~~Mh
 obenhin/~~Nh
-obenrum/~~Za #  auto-added
+obenrum/~~Zah  # preposition um #  auto-added
 oberau/~~Nbh
 obere/~~Nh
 oberem/~~Nh
@@ -35723,7 +35723,7 @@ odertal/~~Nh
 odessa/~~Nbh
 odeur/~~Nh
 odeurs/~~Nh
-odium/~~Za #  auto-added
+odium/~~Zah  # preposition um #  auto-added
 odyssee/~~Nh
 ofen/~~V # auto-added
 ofens/~~Nh
@@ -35735,7 +35735,7 @@ office/~~Nh
 offline/~~Nh
 offset/~~Nh
 offsets/~~Nh
-oft/~~Nah
+oft/~~rh  # adverb often
 oftmals/~~Nh
 oheim/~~Nh
 oheims/~~Nh
@@ -35828,7 +35828,7 @@ opfert/~~NXh
 opfre/~~Nh
 opiate/~~Nh
 opiaten/~~V # auto-added
-opium/~~Za #  auto-added
+opium/~~Zah  # preposition um #  auto-added
 opteron/~~Nh
 optiert/~~NXh
 optik/~~Nh
@@ -35836,7 +35836,7 @@ optiken/~~V # auto-added
 optiker/~~Mh
 optima/~~Nh
 optimal/~~NXh
-optimum/~~Za #  auto-added
+optimum/~~Zah  # preposition um #  auto-added
 option/~~Nh
 options/~~Nh
 opulent/~~NXh
@@ -35889,7 +35889,7 @@ organ/~~Nh
 organe/~~Nh
 organen/~~V # auto-added
 organs/~~Nh
-organum/~~Za #  auto-added
+organum/~~Zah  # preposition um #  auto-added
 orgel/~~Nh
 orgeln/~~V # auto-added
 orgie/~~Nh
@@ -35927,7 +35927,7 @@ ortsnah/~~NXah
 ortung/~~Fh
 ortungs/~~Nh
 oslo/~~Nbh
-osmium/~~Za #  auto-added
+osmium/~~Zah  # preposition um #  auto-added
 osmiums/~~Nh
 osmose/~~Nh
 osmosen/~~V # auto-added
@@ -36120,7 +36120,7 @@ parasit/~~Nh
 parat/~~Nh
 pardon/~~Nh
 parfait/~~Nh
-parfum/~~Za #  auto-added
+parfum/~~Zah  # preposition um #  auto-added
 parfums/~~Nh
 parfüm/~~Nh
 parfüms/~~Nh
@@ -36296,7 +36296,7 @@ penners/~~Nh
 pennt/~~NXh
 penntet/~~Nh
 pension/~~Nh
-pensum/~~Za #  auto-added
+pensum/~~Zah  # preposition um #  auto-added
 pensums/~~Nh
 pentan/~~Nh
 pentans/~~Nh
@@ -36553,7 +36553,7 @@ piktet/~~Nh
 pilates/~~Nh
 pilger/~~Mh
 pilgere/~~Nh
-pilgern/~~Nh
+pilgern/~~rh # adverb gladly
 pilgers/~~Nh
 pilgert/~~NXh
 pilgre/~~Nh
@@ -36714,7 +36714,7 @@ plebses/~~Nh
 pleite/~~Nh
 pleiten/~~V # auto-added
 plena/~~Nh
-plenum/~~Za #  auto-added
+plenum/~~Zah  # preposition um #  auto-added
 plenums/~~Nh
 plethi/~~Nbh
 pleuel/~~Nh
@@ -36743,7 +36743,7 @@ plumps/~~Nh
 plunder/~~Mh
 plurale/~~Nh
 plurals/~~Nh
-plus/~~Nh
+plus/~~hP
 pluspol/~~NXh
 pluster/~~Mh
 plustre/~~Nh
@@ -36777,7 +36777,7 @@ podest/~~Nh
 podeste/~~Nh
 podests/~~Nh
 podien/~~V # auto-added
-podium/~~Zai #  auto-added
+podium/~~Zah  # preposition umi #  auto-added
 podiums/~~Nh
 podsol/~~Nh
 podsols/~~Nh
@@ -36967,7 +36967,7 @@ ppm/~~Nh
 pracht/~~Nh
 prado/~~Nh
 prag/~~Nah
-pragern/~~Nh
+pragern/~~rh # adverb gladly
 prags/~~Nh
 prahl/~~Vej # REPLACES prahlen
 prahlt/~~NXh
@@ -37001,7 +37001,7 @@ prell/~~Vej # REPLACES prellen
 preller/~~Mh
 prellt/~~NXh
 premier/~~Mh
-premium/~~Za #  auto-added
+premium/~~Zah  # preposition um #  auto-added
 presch/~~NYXh
 prescht/~~NXh
 press/~~NXh
@@ -37030,7 +37030,7 @@ primere/~~Nh
 primers/~~Nh
 primiz/~~Nh
 primus/~~Nh
-primär/~~NXh
+primär/~~hJ
 printe/~~Nh
 printen/~~V # auto-added
 printer/~~Mh
@@ -37048,7 +37048,7 @@ prisen/~~V # auto-added
 prisma/~~Nbh
 prismen/~~V # auto-added
 privat/~~NXh
-pro/~~Nh
+pro/~~hP
 proband/~~Nh
 probat/~~NXh
 prob/~~Vcej # REPLACES proben
@@ -37113,7 +37113,7 @@ präfix/~~NXh
 präge/~~Nh
 präg/~~Vcej # REPLACES prägen
 prägens/~~Nh
-prägern/~~Nh
+prägern/~~rh # adverb gladly
 prägers/~~Nh
 prägst/~~Nh
 prägt/~~NXh
@@ -37225,7 +37225,7 @@ punkten/~~V # auto-added
 punktes/~~Nh
 punktet/~~NXh
 punkts/~~Nh
-punktum/~~Za #  auto-added
+punktum/~~Zah  # preposition um #  auto-added
 punsch/~~NYXh
 punschs/~~Nh
 pupille/~~Nh
@@ -37375,7 +37375,7 @@ quanten/~~Nh
 quanten/~~V # auto-added
 quantor/~~Nh
 quants/~~Nh
-quantum/~~Za #  auto-added
+quantum/~~Zah  # preposition um #  auto-added
 quark/~~Nh
 quarks/~~Nh
 quart/~~NXh # auto-added
@@ -37437,7 +37437,7 @@ quoll/~~Nh
 quollen/~~V # auto-added
 quollt/~~Nh
 quoren/~~V # auto-added
-quorum/~~Za #  auto-added
+quorum/~~Zah  # preposition um #  auto-added
 quorums/~~Nh
 quota/~~Nbh
 quote/~~Nh
@@ -37490,7 +37490,7 @@ radiant/~~Nh
 radien/~~V # auto-added
 radiert/~~NXh
 radio/~~Nbh
-radium/~~Za #  auto-added
+radium/~~Zah  # preposition um #  auto-added
 radius/~~Nh
 radle/~~Nh
 radler/~~Mh
@@ -37569,7 +37569,7 @@ rangeln/~~V # auto-added
 rangelt/~~NXh
 rangen/~~V # auto-added
 ranger/~~Mh
-rangern/~~Nh
+rangern/~~rh # adverb gladly
 rangers/~~Nh
 ranges/~~Nh
 rangle/~~Nh
@@ -37891,7 +37891,7 @@ regstes/~~Nh
 regt/~~NXh
 regtest/~~Nh
 regtet/~~Nh
-regulär/~~NXh
+regulär/~~hJ
 regung/~~Fh
 reh/~~NXh
 rehbein/~~Nh
@@ -37910,7 +37910,7 @@ reibung/~~Fh
 reichre/~~Nh
 reichs/~~Nh
 reichst/~~Nh
-reicht/~~NXh
+reicht/~~hV
 reif/~~Vcej # REPLACES reifen
 reift/~~NXh
 reiftet/~~Nh
@@ -37923,7 +37923,7 @@ reihern/~~Nh
 reihers/~~Nh
 reiht/~~NXh
 reihtet/~~Nh
-reihum/~~Za #  auto-added
+reihum/~~Zah  # preposition um #  auto-added
 reihung/~~Fh
 reim/~~NXh
 reim/~~Vcej # REPLACES reimen
@@ -38120,10 +38120,10 @@ rhagade/~~Nh
 rhe/~~Nh
 rhein/~~Nh
 rheins/~~Nh
-rhenium/~~Za #  auto-added
+rhenium/~~Zah  # preposition um #  auto-added
 rhesus/~~Nh
 rheuma/~~Nbh
-rhodium/~~Za #  auto-added
+rhodium/~~Zah  # preposition um #  auto-added
 rhodos/~~Nh
 rhomben/~~V # auto-added
 rhombus/~~Nh
@@ -38143,7 +38143,7 @@ richt/~~NXh
 richten/~~V # auto-added
 richter/~~Mh
 richtet/~~NXh
-richtig/~~NJOQRSTUWq #adjective and noun
+richtig/~~JOQRSTUWq #adjective and noun
 ricke/~~Nh
 ricken/~~V # auto-added
 rico/~~Nh
@@ -38217,12 +38217,12 @@ ringeln/~~V # auto-added
 ringelt/~~NXh
 ring/~~Vcj # REPLACES ringen
 ringer/~~Mh
-ringern/~~Nh
+ringern/~~rh # adverb gladly
 ringers/~~Nh
 ringes/~~Nh
 ringle/~~Nh
 rings/~~Nh
-ringsum/~~Za #  auto-added
+ringsum/~~Zah  # preposition um #  auto-added
 rinn/~~Vcj # REPLACES rinnen
 rinnsal/~~NXh
 rio/~~Nbh
@@ -38393,7 +38393,7 @@ rostet/~~NXh
 rostig/~~NXh
 rostock/~~Nh
 rostrot/~~NXh
-rot/~~NJOQRSTUWq #adjective and noun
+rot/~~JOQRSTUWq #adjective and noun
 rotativ/~~NXh
 rotator/~~Nh
 rotblau/~~NXh
@@ -38500,7 +38500,7 @@ ruine/~~Nh
 ruinen/~~V # auto-added
 ruins/~~Nh
 ruinös/~~NXh
-rum/~~Za #  auto-added
+rum/~~Zah  # preposition um #  auto-added
 rumba/~~Nh
 rumdüse/~~Nh
 rumdüst/~~Nh
@@ -38537,7 +38537,7 @@ rundere/~~Nh
 rundes/~~Nh
 rundet/~~NXh
 rundste/~~Nh
-rundum/~~Za #  auto-added
+rundum/~~Zah  # preposition um #  auto-added
 rundung/~~Fh
 rundweg/~~Nh
 rune/~~Nh
@@ -38815,7 +38815,7 @@ sag/~~NXh
 saga/~~Nh
 sag/~~Vcej # REPLACES sagen
 sagende/~~Nh
-sagt/~~NXh
+sagt/~~hV
 sagtest/~~Nh
 sagtet/~~Nh
 sah/~~NYh
@@ -38990,7 +38990,7 @@ saug/~~NXah
 saugeil/~~NXh
 saug/~~Vcej # REPLACES saugen
 sauger/~~Mh
-saugern/~~Nh
+saugern/~~rh # adverb gladly
 saugers/~~Nh
 saugt/~~NXh
 saugtet/~~Nh
@@ -38998,7 +38998,7 @@ saugut/~~NXh
 sauheiß/~~NXh
 saukalt/~~NXh
 saulgau/~~Nbh
-saum/~~Za #  auto-added
+saum/~~Zah  # preposition um #  auto-added
 saumes/~~Nh
 saums/~~Nh
 sauna/~~Nbh
@@ -39072,7 +39072,7 @@ schart/~~NXh # auto-added
 schasst/~~Nh
 schatz/~~Nah
 schau/~~Vej # REPLACES schauen
-schaum/~~Za #  auto-added
+schaum/~~Zah  # preposition um #  auto-added
 schaums/~~Nh
 schaure/~~Nh
 schaut/~~NXh
@@ -39085,7 +39085,7 @@ scheide/~~Nh
 schein/~~Nh
 scheine/~~Nh
 scheins/~~Nh
-scheint/~~Nh
+scheint/~~hV
 scheit/~~FXh
 scheiß/~~NXh
 scheißt/~~Nh
@@ -39165,7 +39165,7 @@ schlimm/~~NXh
 schlips/~~NXh
 schliss/~~NXh
 schlitz/~~NXh
-schloss/~~Nah
+schloss/~~hV
 schlot/~~NXh
 schlots/~~Nh
 schlug/~~Nh
@@ -39250,14 +39250,14 @@ schrein/~~Nh
 schreis/~~Nh
 schreit/~~NXh
 schrie/~~Nh
-schrieb/~~NXh
+schrieb/~~hV
 schrien/~~V # auto-added
 schriet/~~Nh
 schrift/~~Nh
 schrot/~~NXh
 schub/~~Nh
 schubs/~~NXh
-schuf/~~Nh
+schuf/~~hV
 schuft/~~NXh
 schuh/~~NXh
 schuhs/~~Nh
@@ -39272,7 +39272,7 @@ schutt/~~Nah
 schutz/~~NXah
 schwach/~~JOQRSTUWq
 schwan/~~Nh
-schwarz/~~NJOQRSTUWq #adjective and noun
+schwarz/~~JOQRSTUWq #adjective and noun
 schwester/~~Fh
 schwor/~~Nh
 schwur/~~Nh
@@ -39292,7 +39292,7 @@ score/~~Nh
 scotch/~~Nh
 scoute/~~Nh
 script/~~NXh
-sechs/~~Nh
+sechs/~~hJ
 sechst/~~Nh
 see/~~Mh
 seele/~~Nh
@@ -39318,9 +39318,9 @@ sehers/~~Nh
 sehn/~~Vcej # REPLACES sehnen
 sehnig/~~RJOQRSTUWqh
 sehnt/~~NXh
-sei/~~Nh
+sei/~~hV
 seicht/~~NXh
-seid/~~NXh
+seid/~~Vt # 2nd person plural of sein
 seidel/~~Nh
 seiden/~~V # auto-added
 seidig/~~RJOQRSTUWqh
@@ -39404,7 +39404,7 @@ serin/~~Nh
 serine/~~Nh
 serins/~~Nh
 seriös/~~NXh
-serum/~~Za #  auto-added
+serum/~~Zah  # preposition um #  auto-added
 serums/~~Nh
 server/~~Mh
 servus/~~Nh
@@ -39418,7 +39418,7 @@ setup/~~Nh
 setups/~~Nh
 setz/~~Vcej # REPLACES setzen
 setzer/~~Mh
-setzt/~~NXh
+setzt/~~hV
 seuche/~~Nh
 seufzt/~~NXh
 sex/~~Nh
@@ -39446,7 +39446,7 @@ shows/~~Nh
 shrimp/~~Nh
 siam/~~Nh
 siams/~~Nh
-sich/~~Nh
+sich/~~Ih # reflexive pronoun
 sichel/~~NXh
 sichle/~~Nh
 sichre/~~Nh
@@ -39470,7 +39470,7 @@ siegle/~~Nh
 siegs/~~Nh
 siegt/~~NXh
 sieh/~~NXh
-sieht/~~Nh
+sieht/~~hV
 siel/~~NXh
 sielen/~~V # auto-added
 sieles/~~Nh
@@ -39500,7 +39500,7 @@ simses/~~Nh
 simst/~~Nh
 simste/~~Nh
 sinai/~~Nh
-sind/~~Nh
+sind/~~Vt # 1st/3rd person plural of sein
 sing/~~Nh
 sing/~~Vcj # REPLACES singen
 single/~~Nh
@@ -39567,7 +39567,7 @@ slips/~~Nh
 slogan/~~Nh
 slot/~~Nh
 slots/~~Nh
-slum/~~Za #  auto-added
+slum/~~Zah  # preposition um #  auto-added
 slums/~~Nh
 smart/~~NXh # auto-added
 smashe/~~Nh
@@ -39593,7 +39593,7 @@ sodass/~~Nh
 sodom/~~Nh
 soeben/~~V # auto-added
 sofa/~~Nbh
-sofern/~~Nh
+sofern/~~hr
 soff/~~Nh
 soffen/~~V # auto-added
 sofft/~~Nh
@@ -39605,7 +39605,7 @@ soften/~~V # auto-added
 softer/~~Mh
 softes/~~Nh
 softie/~~Nh
-sogar/~~Nh
+sogar/~~hr
 soge/~~Nh
 sogen/~~V # auto-added
 soges/~~Nh
@@ -39631,11 +39631,11 @@ sole/~~Nh
 solei/~~Nbh
 soli/~~Nh
 solide/~~Nh
-soll/~~NXah
+soll/~~Vh  # 3rd person singular of sollen
 sollt/~~NXh
 solo/~~Nbh
 somali/~~Nbh
-somit/~~Nh
+somit/~~hr
 sommer/~~Mh
 sonach/~~Nh
 sonate/~~Nh
@@ -39649,7 +39649,7 @@ sonn/~~Vej # REPLACES sonnen
 sonnig/~~NXh
 sonnt/~~NXh
 sonor/~~NXh
-sonst/~~Nh
+sonst/~~hr
 sooft/~~Nh
 sopran/~~Nh
 sorbe/~~Nh
@@ -39779,7 +39779,7 @@ sprech/~~NXh
 sprechen/~~V # auto-added
 spreiz/~~NXh
 spreu/~~Nh
-sprich/~~Nh
+sprich/~~hV
 spring/~~Nh
 sprint/~~NXh
 sprit/~~Nh
@@ -39807,7 +39807,7 @@ spurts/~~Nh
 spute/~~Nh
 sputen/~~V # auto-added
 sputet/~~NXh
-sputum/~~Za #  auto-added
+sputum/~~Zah  # preposition um #  auto-added
 späh/~~NXh
 späh/~~Vcej # REPLACES spähen
 späher/~~Mh
@@ -39858,8 +39858,8 @@ stall/~~Nh
 stalls/~~Nh
 stamm/~~NXh
 stamms/~~Nh
-stammt/~~NXh
-stand/~~Nh
+stammt/~~hV
+stand/~~hV
 stande/~~Nh
 stands/~~Nh
 stange/~~Nh
@@ -39917,7 +39917,7 @@ steins/~~Nh
 steiß/~~NXh
 stele/~~Nh
 stelen/~~V # auto-added
-stellt/~~NXh
+stellt/~~hV
 stelzt/~~NXh
 stemm/~~NXh
 stemmt/~~NXh
@@ -39938,7 +39938,7 @@ steten/~~V # auto-added
 steter/~~Mh
 stetes/~~Nh
 stetig/~~NXh
-stets/~~Nh
+stets/~~hr
 steure/~~Nh
 stiche/~~Nh
 stichs/~~Nh
@@ -39946,7 +39946,7 @@ sticht/~~Nh
 sticks/~~Nh
 stickt/~~NXh
 stiebt/~~NXh
-stieg/~~NXh
+stieg/~~hV
 stiegt/~~Nh
 stiehl/~~Nh
 stiel/~~NXh
@@ -39962,7 +39962,7 @@ stilen/~~V # auto-added
 stiles/~~Nh
 stillt/~~NXh
 stils/~~Nh
-stimmt/~~NXh
+stimmt/~~hV
 stink/~~NXh
 stinkt/~~Nh
 stippt/~~NXh
@@ -40100,7 +40100,7 @@ sub/~~Nh
 sublim/~~NXh
 suchen/~~XZ #  auto-added
 sucher/~~Mh
-sucht/~~NXh
+sucht/~~hV
 sud/~~Nh
 sudan/~~Nh
 sudans/~~Nh
@@ -40337,7 +40337,7 @@ talgig/~~RJOQRSTUWqh
 talgs/~~Nh
 talk/~~Nh
 talks/~~Nh
-talkum/~~Za #  auto-added
+talkum/~~Zah  # preposition um #  auto-added
 talnah/~~NXh
 talon/~~Nh
 talons/~~Nh
@@ -40399,7 +40399,7 @@ taste/~~Nh
 tasten/~~V # auto-added
 taster/~~Mh
 tastet/~~NXh
-tat/~~Nah
+tat/~~hV
 tatar/~~Nh
 tatars/~~Nh
 taten/~~V # auto-added
@@ -40415,7 +40415,7 @@ tauben/~~V # auto-added
 tauber/~~Mh
 taubes/~~Nh
 tauch/~~NYXh
-taucht/~~NXh
+taucht/~~hV
 tau/~~Vcej # REPLACES tauen
 tauf/~~NXah
 tauf/~~Vcej # REPLACES taufen
@@ -40464,8 +40464,8 @@ teigs/~~Nh
 teil/~~Vcej # REPLACES teilen
 teiler/~~Mh
 teiles/~~Nh
-teils/~~Nh
-teilt/~~NXh
+teils/~~hr
+teilt/~~hV
 tein/~~Nh
 teine/~~Nh
 teinen/~~V # auto-added
@@ -40569,7 +40569,7 @@ tieres/~~Nh
 tiers/~~Nh
 tiger/~~Mh
 tigere/~~Nh
-tigern/~~Nh
+tigern/~~rh # adverb gladly
 tigers/~~Nh
 tigert/~~NXh
 tigre/~~Nh
@@ -40746,7 +40746,7 @@ trapez/~~NXh
 trappe/~~Nh
 trapst/~~Nh
 trasse/~~Nh
-trat/~~Nh
+trat/~~hV
 traten/~~V # auto-added
 tratet/~~Nh
 tratte/~~Nh
@@ -40754,7 +40754,7 @@ traube/~~Nh
 trau/~~Vcej # REPLACES trauen
 trauer/~~Mh
 traufe/~~Nh
-traum/~~Za # auto-added
+traum/~~Zah  # preposition um # auto-added
 trauma/~~Nbh
 traums/~~Nh
 traun/~~Nh
@@ -40772,7 +40772,7 @@ trend/~~Nh
 trende/~~Nh
 trends/~~Nh
 trenn/~~Nh
-trennt/~~NXh
+trennt/~~hV
 trense/~~Nh
 treppe/~~Nh
 tresen/~~V # auto-added
@@ -40800,7 +40800,7 @@ triers/~~Nh
 triest/~~Nh
 triezt/~~Nh
 triff/~~Nh
-trifft/~~Nh
+trifft/~~hV
 trikot/~~Nh
 trimmt/~~NXh
 trink/~~NXh
@@ -40840,7 +40840,7 @@ trotzt/~~NXh
 trubel/~~Nh
 trudel/~~NXh
 trudle/~~Nh
-trug/~~Nh
+trug/~~hV
 trugen/~~V # auto-added
 trugt/~~Nh
 truhe/~~Nh
@@ -40858,7 +40858,7 @@ träge/~~Nh
 trägem/~~Nh
 trägen/~~V # auto-added
 träges/~~Nh
-trägt/~~Nh
+trägt/~~hV
 träne/~~Nh
 trän/~~Vcej # REPLACES tränen
 tränke/~~Nh
@@ -41129,7 +41129,7 @@ umsaht/~~Nh
 umsatz/~~Nh
 umsehe/~~Nh
 umseht/~~Nh
-umso/~~Nh
+umso/~~hr
 umsäge/~~Nh
 umsägt/~~NXh
 umsähe/~~Nh
@@ -41172,14 +41172,14 @@ unfrei/~~Nh
 unfug/~~Nh
 unfugs/~~Nh
 ungar/~~NYh
-ungern/~~Nh
+ungern/~~rh # adverb gladly
 ungut/~~Nh
 unheil/~~Nh
 unhold/~~Nh
 uni/~~Nh
 unikal/~~NXh
 unikat/~~Nh
-unikum/~~Za #  auto-added
+unikum/~~Zah  # preposition um #  auto-added
 union/~~Nhi
 unions/~~Nh
 unitär/~~NXh
@@ -41293,7 +41293,7 @@ vagina/~~Nbh
 vakant/~~NXh
 vakanz/~~Nh
 vakuen/~~V # auto-added
-vakuum/~~Za #  auto-added
+vakuum/~~Zah  # preposition um #  auto-added
 valenz/~~Nh
 valgus/~~Nh
 valid/~~NXh
@@ -41330,7 +41330,7 @@ verbis/~~Nh
 verbog/~~Nh
 verbot/~~NXh
 verbs/~~Nh
-verbum/~~Za #  auto-added
+verbum/~~Zah  # preposition um #  auto-added
 verdun/~~Nh
 vergab/~~NXh
 vergaß/~~Nh
@@ -41338,7 +41338,7 @@ vergor/~~Nh
 verhob/~~Nh
 verkam/~~Nh
 verlag/~~NXh
-verlor/~~Nh
+verlor/~~hV
 verlud/~~Nh
 vermin/~~Nh
 verona/~~Nbh
@@ -41379,7 +41379,7 @@ viehs/~~Nh
 viel/~~NXh
 vielem/~~Nh
 vielen/~~V # auto-added
-vieler/~~Mh
+vieler/~~Jh  # many (adjective genitive plural)
 vieles/~~Nh
 vier/~~Vej # REPLACES vieren
 vierer/~~Mh
@@ -41442,7 +41442,7 @@ voller/~~Mh
 volles/~~Nh
 volley/~~Nh
 volt/~~Nh
-vom/~~Nh
+vom/~~hP
 vor/~~Pi # preposition
 Vorwissen/~~Nh # prior knowledge, from hunspell
 vorab/~~Nh
@@ -41454,7 +41454,7 @@ vordem/~~Nh
 vorder/~~Mh
 vorgab/~~Nh
 vorhat/~~Nh
-vorher/~~Mh
+vorher/~~rh  # before (adverb)
 vorhin/~~Nh
 vorig/~~RJOQRSTUWqh
 vorkam/~~Nh
@@ -41473,7 +41473,7 @@ vote/~~Nh
 voten/~~V # auto-added
 votend/~~Nh
 votet/~~NXh
-votum/~~Za #  auto-added
+votum/~~Zah  # preposition um #  auto-added
 votums/~~Nh
 voyeur/~~NXh
 vulgo/~~Nh
@@ -41574,7 +41574,7 @@ wangen/~~V # auto-added
 wank/~~NXh
 wank/~~Vcej # REPLACES wanken
 wankt/~~NXh
-wann/~~Nh
+wann/~~hr
 wanne/~~Nh
 wannen/~~V # auto-added
 wanst/~~Nh
@@ -41599,11 +41599,11 @@ wartes/~~Nh
 wartet/~~NXh
 wartin/~~Nh
 warts/~~Nh
-warum/~~Za #  auto-added
+warum/~~r #  auto-added
 warze/~~Nh
 warzen/~~V # auto-added
 warzig/~~RJOQRSTUWqh
-was/~~Nh
+was/~~hI
 wasch/~~NYXah
 wascht/~~Nh
 wassre/~~Nh
@@ -41687,8 +41687,8 @@ weisem/~~Nh
 weis/~~Vcj # REPLACES weisen
 weiser/~~Mh
 weises/~~Nh
-weist/~~Nh
-weit/~~NJOQRSTUWq #adjective and noun
+weist/~~hV
+weit/~~JOQRSTUWq #adjective and noun
 weitab/~~Nh
 weitet/~~NXh
 weizen/~~V # auto-added
@@ -41698,7 +41698,7 @@ weiß/~~Vcej # REPLACES weißen
 weißer/~~NJOQRSTUWq
 weißes/~~Nh
 weißt/~~NXh
-welch/~~NYXh
+welch/~~YhI
 welkem/~~Nh
 welk/~~Vcej # REPLACES welken
 welker/~~Mh
@@ -41714,7 +41714,7 @@ welsch/~~NYXh
 welt/~~Fh
 weltweit/~~RJOQRSTUWqh
 welten/~~V # auto-added
-wem/~~Nh
+wem/~~hI
 wen/~~V # auto-added
 wend/~~Nh
 wende/~~Nh
@@ -41724,7 +41724,7 @@ wendet/~~NXh
 wendig/~~NXh
 wenig/~~RJOQRSTUWqh
 wenns/~~Nh
-wer/~~Mh
+wer/~~hI
 werb/~~Vcj # REPLACES werben
 werber/~~Mh
 werd/~~NXh
@@ -41810,7 +41810,7 @@ wilds/~~Nh
 will/~~NXh
 willen/~~V # auto-added
 wimmel/~~NXh
-wimmer/~~Mh
+wimmer/~~rh  # adverb always
 wimmle/~~Nh
 wimmre/~~Nh
 wimpel/~~Nh
@@ -41838,7 +41838,7 @@ wippt/~~NXh
 wirb/~~Nh
 wirble/~~Nh
 wirbt/~~Nh
-wird/~~Nh
+wird/~~Vt # 3rd person singular of werden
 wirf/~~Nh
 wirft/~~Nh
 wirk/~~Vcej # REPLACES wirken
@@ -41877,7 +41877,7 @@ witzle/~~Nh
 wizard/~~Nh
 wob/~~Nh
 wobble/~~Nh
-wobei/~~Nh
+wobei/~~hr
 woben/~~V # auto-added
 wobt/~~Nh
 woche/~~Nh
@@ -41890,7 +41890,7 @@ wog/~~Vcej # REPLACES wogen
 wogt/~~NXh
 wogtet/~~Nh
 woher/~~Mh
-wohin/~~Nh
+wohin/~~hr
 wohle/~~Nh
 wohlem/~~Nh
 wohlen/~~V # auto-added
@@ -41912,14 +41912,14 @@ woll/~~NXh
 wollig/~~NXh
 wollt/~~NXh
 wombat/~~Nh
-womit/~~Nh
+womit/~~hr
 wonach/~~Nh
 wonne/~~Nh
 wonnen/~~V # auto-added
 wonnig/~~NXh
 woran/~~Nh
 worauf/~~Nh
-woraus/~~Nh
+woraus/~~hr
 word/~~Nh
 worden/~~V # auto-added
 worein/~~Nh
@@ -41929,7 +41929,7 @@ wort/~~NXah
 worten/~~V # auto-added
 wortes/~~Nh
 worts/~~Nh # auto-added
-worum/~~Za #  auto-added
+worum/~~Zah  # preposition um #  auto-added
 wotan/~~Nh
 wovon/~~Nh
 wovor/~~Nh
@@ -41944,7 +41944,7 @@ wringe/~~Nh
 wringt/~~Nh
 wränge/~~Nh
 wuchre/~~Nh
-wuchs/~~Nh
+wuchs/~~hV
 wuchst/~~Nh
 wucht/~~NXh
 wuff/~~Nh
@@ -42156,7 +42156,7 @@ zehs/~~Nh
 zeig/~~NXh
 zeig/~~Vcej # REPLACES zeigen
 zeiger/~~Mh
-zeigt/~~NXh
+zeigt/~~hV
 zeih/~~Vcj # REPLACES zeihen
 zeile/~~Nh
 zeilen/~~V # auto-added
@@ -42213,7 +42213,7 @@ ziehrt/~~NXh
 ziel/~~Vcej # REPLACES zielen
 zieles/~~Nh
 ziels/~~Nh
-zielt/~~NXh
+zielt/~~hV
 ziem/~~Vcej # REPLACES ziemen
 ziemer/~~Mh
 ziemt/~~NXh
@@ -42337,7 +42337,7 @@ zufror/~~Nh
 zufuhr/~~Nh
 zufüge/~~Nh
 zufügt/~~NXh
-zug/~~MXh
+zug/~~hV
 zugab/~~NXh
 zugabt/~~Nh
 zugang/~~Nh
@@ -42377,7 +42377,7 @@ zulost/~~Nh
 zuluft/~~Nh
 zulädt/~~Nh
 zulöte/~~Nh
-zum/~~Za #  auto-added
+zum/~~P #  auto-added
 zumal/~~Nh
 zumaß/~~Nh
 zumaßt/~~Nh
@@ -42395,7 +42395,7 @@ zupass/~~NXh
 zupf/~~NXh
 zupf/~~Vcej # REPLACES zupfen
 zupft/~~NXh
-zur/~~Nh
+zur/~~hP
 zurast/~~Nh
 zurate/~~Nh
 zurede/~~Nh
@@ -42408,7 +42408,7 @@ zuruf/~~NXh
 zurufs/~~Nh
 zuruft/~~Nh
 zurät/~~Nh
-zurück/~~Nh
+zurück/~~hr
 zusagt/~~NXh
 zusah/~~Nh
 zusaht/~~Nh
@@ -42427,7 +42427,7 @@ zutrat/~~Nh
 zutrug/~~Nh
 zutun/~~Nh
 zutuns/~~Nh
-zuvor/~~Nh
+zuvor/~~hr
 zuwarf/~~Nh
 zuwege/~~Nh
 zuweht/~~NXh
@@ -42447,10 +42447,10 @@ zwackt/~~NXh
 zwang/~~Nhi
 zwangs/~~Nh
 zwangt/~~Nh
-zwar/~~Nh
+zwar/~~hr
 zweck/~~NXh
 zwecks/~~Nh
-zwei/~~Nh
+zwei/~~hJ
 zwei/~~Vej # REPLACES zweien
 zweier/~~Mh
 zweig/~~NXh
@@ -42473,7 +42473,7 @@ zwo/~~Nh
 zwäng/~~Nh
 zwänge/~~Nh
 zwängt/~~NXh
-zwölf/~~Nh
+zwölf/~~hJ
 zwölft/~~NXh
 zyanid/~~Nh
 zygote/~~Nh
@@ -42497,7 +42497,7 @@ zähle/~~Nh
 zähl/~~Vcej # REPLACES zählen
 zähler/~~Mh
 zählst/~~Nh
-zählt/~~NXh
+zählt/~~hV
 zähm/~~NXh
 zähm/~~Vcej # REPLACES zähmen
 zähmst/~~Nh
@@ -42509,7 +42509,7 @@ zähnt/~~NXh
 zähre/~~Nh
 zähren/~~V # auto-added
 zähste/~~Nh
-zäsium/~~Za #  auto-added
+zäsium/~~Zah  # preposition um #  auto-added
 zäsur/~~Nh
 zäume/~~Nh
 zäum/~~Vej # REPLACES zäumen
@@ -42522,7 +42522,7 @@ zäunt/~~NXh
 zöge/~~Nh
 zögen/~~V # auto-added
 zögere/~~Nh
-zögern/~~Nh
+zögern/~~rh # adverb gladly
 zögert/~~NXh
 zöget/~~Nh
 zögre/~~Nh
@@ -42582,7 +42582,7 @@ zürnt/~~NXh
 ähm/~~Nh
 ähnele/~~Nh
 ähneln/~~V # auto-added
-ähnelt/~~NXh
+ähnelt/~~hV
 ähnle/~~Nh
 ähre/~~Nh
 ähren/~~V # auto-added
@@ -42594,7 +42594,7 @@ zürnt/~~NXh
 änder/~~Mh
 ändere/~~Nh
 ändern/~~Nh
-ändert/~~NXh
+ändert/~~hV
 ändre/~~Nh
 ängste/~~Nh
 äonen/~~V # auto-added
@@ -42602,7 +42602,7 @@ zürnt/~~NXh
 äpfeln/~~V # auto-added
 ära/~~Nh
 ärgere/~~Nh
-ärgern/~~Nh
+ärgern/~~rh # adverb gladly
 ärgers/~~Nh
 ärgert/~~NXh
 ärgre/~~Nh
@@ -42712,7 +42712,7 @@ zürnt/~~NXh
 überaß/~~Nh
 überm/~~Nh
 übern/~~Nh
-übers/~~Nh
+übers/~~hP
 üble/~~Nh
 üblem/~~Nh
 üblen/~~V # auto-added
@@ -42919,7 +42919,7 @@ aftershave/~~Nh
 agalaktie/~~Nh
 agalaktien/~~V # auto-added
 agamosperm/~~Nh
-agarmedium/~~Za #  auto-added
+agarmedium/~~Zah  # preposition um #  auto-added
 agarosegel/~~Nh
 agarplatte/~~Nh
 agarrest/~~Nh
@@ -43094,7 +43094,7 @@ aktenscan/~~Nh
 aktenscans/~~Nh
 akteuren/~~V # auto-added
 akteurin/~~Nh
-aktinium/~~Za #  auto-added
+aktinium/~~Zah  # preposition um #  auto-added
 aktiniums/~~Nh
 aktintyp/~~Nh # auto-added
 aktintypen/~~V # auto-added
@@ -43224,7 +43224,7 @@ albertet/~~Nh
 albinismus/~~Mh
 albtalbahn/~~Nh # auto-added
 albtales/~~Nh
-albtraum/~~Za #  auto-added
+albtraum/~~Zah  # preposition um #  auto-added
 albtraumes/~~Nh
 albtraums/~~Nh
 albträume/~~Nh
@@ -43302,7 +43302,7 @@ allenfalls/~~Nh
 allerart/~~Nh # auto-added
 allerbest/~~Nh
 allerbeste/~~Nh
-allerdings/~~Nh
+allerdings/~~hr
 allererste/~~Nh
 allergen/~~V # auto-added
 allergene/~~Nh
@@ -43404,7 +43404,7 @@ alpinisten/~~V # auto-added
 alpinistin/~~Nh
 alpinski/~~Nbh
 alpinsport/~~Nh
-alptraum/~~Za #  auto-added
+alptraum/~~Zah  # preposition um #  auto-added
 alptraumes/~~Nh
 alptraums/~~Nh
 alpträume/~~Nh
@@ -43431,7 +43431,7 @@ alterprobt/~~Nh
 alterten/~~V # auto-added
 altertest/~~Nh
 altertet/~~Nh
-altertum/~~Za #  auto-added
+altertum/~~Zah  # preposition um #  auto-added
 altertums/~~Nh
 altertümer/~~Mh # auto-added
 altertümle/~~Nh
@@ -43468,7 +43468,7 @@ altweißer/~~Mh
 altweißes/~~Nh
 alufarben/~~V # auto-added
 alufarbene/~~Nh
-aluminium/~~Za #  auto-added
+aluminium/~~Zah  # preposition um #  auto-added
 aluminiums/~~Nh
 alveolar/~~NXh
 alveolarem/~~Nh
@@ -43481,7 +43481,7 @@ alveolärem/~~Nh
 alveolären/~~V # auto-added
 alveolärer/~~Mh
 alveoläres/~~Nh
-am/~~Nh
+am/~~hP
 amalgams/~~Nh
 amarantrot/~~Nh
 amaretto/~~Nbh
@@ -43494,7 +43494,7 @@ amazonas/~~Nh
 amazonen/~~V # auto-added
 amazonien/~~V # auto-added
 amazoniens/~~Nh
-amberbaum/~~Za #  auto-added
+amberbaum/~~Zah  # preposition um #  auto-added
 amberbaums/~~Nh
 amberbäume/~~Nh
 ambiente/~~Nh
@@ -43527,7 +43527,7 @@ ambösschen/~~XZ #  auto-added
 amendment/~~Nh
 amendments/~~Nh
 amenorrhö/~~NYh
-americium/~~Za #  auto-added
+americium/~~Zah  # preposition um #  auto-added
 americiums/~~Nh
 amerikaner/~~Mh
 amethyst/~~Nh
@@ -43550,7 +43550,7 @@ ammoniak/~~Nh
 ammoniaks/~~Nh
 ammoniten/~~V # auto-added
 ammonits/~~Nh
-ammonium/~~Za #  auto-added
+ammonium/~~Zah  # preposition um #  auto-added
 ammoniums/~~Nh
 amnesien/~~V # auto-added
 amnestie/~~Nh
@@ -43660,7 +43660,7 @@ anabolen/~~V # auto-added
 anaboler/~~Mh
 anaboles/~~Nh
 anabolika/~~Nh
-anabolikum/~~Za #  auto-added
+anabolikum/~~Zah  # preposition um #  auto-added
 anachoret/~~Nh
 anadromem/~~Nh
 anadromen/~~V # auto-added
@@ -43977,7 +43977,7 @@ andernorts/~~Nh # auto-added
 anderntags/~~Nh
 anderorts/~~Nh # auto-added
 anderseits/~~Nh
-andersrum/~~Za #  auto-added
+andersrum/~~Zah  # preposition um #  auto-added
 anderssein/~~Nh
 anderswie/~~Nh
 anderswo/~~Nh
@@ -44103,7 +44103,7 @@ anerbotet/~~Nh
 anerböte/~~Nh
 anerböten/~~V # auto-added
 anerbötet/~~Nh
-anerkannt/~~NXh
+anerkannt/~~hV
 anerkenne/~~Nh
 anerkennen/~~V # auto-added
 anerkennst/~~Nh
@@ -44406,7 +44406,7 @@ angefügten/~~V # auto-added
 angefügter/~~Mh
 angefügtes/~~Nh
 angefühlt/~~Nh
-angeführt/~~NXh
+angeführt/~~hV
 angefüllt/~~NXh
 angegafft/~~NXh
 angegangen/~~V # auto-added
@@ -44681,7 +44681,7 @@ angetreten/~~V # auto-added
 angetönt/~~Nh
 angetönten/~~V # auto-added
 angetörnt/~~Nh
-angewandt/~~NXh
+angewandt/~~hV
 angewankt/~~Nh
 angeweht/~~NXh
 angewehtem/~~Nh
@@ -44737,7 +44737,7 @@ anginöses/~~Nh
 angiologie/~~Nh
 angiomen/~~V # auto-added
 angleiche/~~Nh
-angleichen/~~XZ #  auto-added
+angleichen/~~Vh  # to equal / same (inflected) #  auto-added
 angleichst/~~Nh
 angleicht/~~Nh
 anglerin/~~Nh
@@ -45465,7 +45465,7 @@ anneliden/~~V # auto-added
 annexbau/~~Nbh
 annexion/~~Nhi
 annexionen/~~V # auto-added
-annexraum/~~Za #  auto-added
+annexraum/~~Zah  # preposition um #  auto-added
 annexraums/~~Nh
 annexräume/~~Nh
 annies/~~Vej # REPLACES anniesen
@@ -47072,7 +47072,7 @@ aquamarine/~~Nh
 aquamarins/~~Nh
 aquarells/~~Nh
 aquarien/~~V # auto-added
-aquarium/~~Za #  auto-added
+aquarium/~~Zah  # preposition um #  auto-added
 aquariums/~~Nh
 aquatile/~~Nh
 aquatilem/~~Nh
@@ -47139,7 +47139,7 @@ ardennen/~~V # auto-added
 arealkarte/~~Nh
 areallücke/~~Nh
 areligiös/~~NXh
-arganbaum/~~Za #  auto-added
+arganbaum/~~Zah  # preposition um #  auto-added
 arganbaums/~~Nh
 arganbäume/~~Nh
 arginase/~~Nh
@@ -47508,7 +47508,7 @@ athenerin/~~Nh
 athenern/~~V # auto-added
 atheners/~~Nh
 athenäen/~~V # auto-added
-athenäum/~~Za #  auto-added
+athenäum/~~Zah  # preposition um #  auto-added
 athenäums/~~Nh
 athleten/~~V # auto-added
 athletik/~~Nh
@@ -47593,7 +47593,7 @@ auditiven/~~V # auto-added
 auditiver/~~Mh
 auditives/~~Nh
 auditorien/~~V # auto-added
-auditorium/~~Za #  auto-added
+auditorium/~~Zah  # preposition um #  auto-added
 auelehmes/~~Nh
 auelehms/~~Nh
 auenboden/~~V # auto-added
@@ -48018,7 +48018,7 @@ aufgangs/~~Nh
 aufgasung/~~Fh
 aufgeatmet/~~Nh
 aufgebahrt/~~Nh
-aufgebaut/~~NXh
+aufgebaut/~~hV
 aufgebebt/~~Nh
 aufgeben/~~V # auto-added
 aufgebend/~~Nh
@@ -48041,7 +48041,7 @@ aufgedickt/~~Nh
 aufgedockt/~~Nh
 aufgedreht/~~Nh
 aufgedüngt/~~Nh
-aufgefasst/~~Nh
+aufgefasst/~~hV
 aufgefegt/~~NXh
 aufgeflext/~~Nh
 aufgeführt/~~Nh
@@ -48118,7 +48118,7 @@ aufgeragt/~~Nh
 aufgeraut/~~NXh
 aufgereckt/~~Nh
 aufgeregt/~~NXh
-aufgereiht/~~Nh
+aufgereiht/~~hV
 aufgereizt/~~Nh
 aufgerollt/~~Nh
 aufgerufen/~~V # auto-added
@@ -48206,7 +48206,7 @@ aufgriffen/~~V # auto-added
 aufgrifft/~~Nh
 aufgruben/~~V # auto-added
 aufgrubt/~~Nh
-aufgrund/~~Nh
+aufgrund/~~hr
 aufgräbst/~~Nh
 aufgräbt/~~Nh
 aufgrübe/~~Nh
@@ -49340,7 +49340,7 @@ aufweisen/~~V # auto-added
 aufweisend/~~Nh
 aufweises/~~Nh
 aufweisest/~~Nh
-aufweist/~~Nh
+aufweist/~~hV
 aufweite/~~Nh
 aufweiten/~~V # auto-added
 aufweitend/~~Nh
@@ -49605,7 +49605,7 @@ ausbildens/~~Nh
 ausbilder/~~Mh
 ausbildern/~~V # auto-added
 ausbilders/~~Nh
-ausbildet/~~NXh
+ausbildet/~~Vh  # 3rd person of bilden
 ausbildung/~~Fh
 ausbissen/~~V # auto-added
 ausbissest/~~Nh
@@ -50023,7 +50023,7 @@ ausgeheckt/~~Nh
 ausgeheilt/~~Nh
 ausgeheizt/~~Nh
 ausgehen/~~V # auto-added
-ausgehend/~~Nh
+ausgehend/~~hJ
 ausgehende/~~Nh
 ausgeheult/~~Nh
 ausgehoben/~~V # auto-added
@@ -50096,7 +50096,7 @@ ausgesamt/~~Nh
 ausgesandt/~~Nh
 ausgesaugt/~~Nh
 ausgesehen/~~V # auto-added
-ausgesetzt/~~Nh
+ausgesetzt/~~hV
 ausgesiebt/~~Nh
 ausgesogen/~~V # auto-added
 ausgesorgt/~~Nh
@@ -50131,7 +50131,7 @@ ausgezehrt/~~Nh
 ausgezogen/~~V # auto-added
 ausgezoomt/~~Nh
 ausgezählt/~~Nh
-ausgeübt/~~NXh
+ausgeübt/~~hV
 ausgeübtem/~~Nh
 ausgeübten/~~V # auto-added
 ausgeübter/~~Mh
@@ -50678,7 +50678,7 @@ ausmache/~~Nh
 ausmachen/~~XZ #  auto-added
 ausmachend/~~Nh
 ausmachst/~~Nh
-ausmacht/~~NXh
+ausmacht/~~hV
 ausmachten/~~V # auto-added
 ausmachtet/~~Nh
 ausmagere/~~Nh
@@ -51718,7 +51718,7 @@ außenasts/~~Nh
 außenbord/~~Nh
 außenbords/~~Nh
 außerdem/~~Nh
-außerhalb/~~Nh
+außerhalb/~~hr
 außerorts/~~Nh # auto-added
 außerstand/~~Nh
 avanciere/~~Nh
@@ -51871,7 +51871,7 @@ bajonetts/~~Nh
 bakerzyste/~~Nh
 bakterie/~~Nh
 bakterien/~~V # auto-added
-bakterium/~~Za #  auto-added
+bakterium/~~Zah  # preposition um #  auto-added
 bakteriums/~~Nh
 baktrien/~~V # auto-added
 baktriens/~~Nh
@@ -51953,7 +51953,7 @@ balsamiert/~~Nh
 balsamöl/~~NXh
 balsamölen/~~V # auto-added
 balsamöls/~~Nh
-baltikum/~~Za #  auto-added
+baltikum/~~Zah  # preposition um #  auto-added
 baltikums/~~Nh
 baltimore/~~Nh
 baltimores/~~Nh
@@ -52067,7 +52067,7 @@ bariumkalk/~~Nh
 bariumoxid/~~Nh
 bariumsalz/~~Nh
 barkengrab/~~Nh
-barkenraum/~~Za #  auto-added
+barkenraum/~~Zah  # preposition um #  auto-added
 barockem/~~Nh
 barocken/~~V # auto-added
 barocker/~~Mh
@@ -52135,7 +52135,7 @@ basiertet/~~Nh
 basilika/~~Nh
 basilikale/~~Nh
 basilikata/~~Nh
-basilikum/~~Za #  auto-added
+basilikum/~~Zah  # preposition um #  auto-added
 basisnahe/~~Nh
 basisnahem/~~Nh
 basisnahen/~~V # auto-added
@@ -52211,7 +52211,7 @@ bauendem/~~Nh
 bauender/~~Mh
 bauendes/~~Nh
 bauernkate/~~Nh
-bauerntum/~~Za #  auto-added
+bauerntum/~~Zah  # preposition um #  auto-added
 bauerntums/~~Nh
 bauersfrau/~~Nh
 bauersmann/~~Nh
@@ -52330,7 +52330,7 @@ beackerter/~~Mh
 beackertes/~~Nh
 beackertet/~~Nh
 beaglerüde/~~Nh
-beamtentum/~~Za #  auto-added
+beamtentum/~~Zah  # preposition um #  auto-added
 beamtetem/~~Nh
 beamteten/~~V # auto-added
 beamteter/~~Mh
@@ -52492,7 +52492,7 @@ bedenkzeit/~~Nh
 bedeuten/~~V # auto-added
 bedeutende/~~Jq
 bedeutens/~~Nh
-bedeutet/~~NXh
+bedeutet/~~Vh  # 3rd person of bedeuten
 bedeuteten/~~V # auto-added
 bedeutetet/~~Nh
 bedeutsame/~~Nh
@@ -53057,7 +53057,7 @@ begehung/~~Fh
 begehungen/~~V # auto-added
 begeistere/~~Nh
 begeistern/~~V # auto-added
-begeistert/~~Nh
+begeistert/~~hV
 begeistre/~~Nh
 begeißelt/~~NXh
 begeselle/~~Nh
@@ -53072,13 +53072,13 @@ begießende/~~Nh
 beginenhof/~~Nh
 begingen/~~V # auto-added
 beginnen/~~V # auto-added
-beginnend/~~Nh
+beginnend/~~hJ
 beginnende/~~Nh
 beginnzeit/~~Nh
 beglaubige/~~Nh
 beglaubigt/~~Nh
 begleiche/~~Nh
-begleichen/~~XZ #  auto-added
+begleichen/~~Vh  # to equal / same (inflected) #  auto-added
 begleichst/~~Nh
 begleicht/~~Nh
 begleiten/~~V # auto-added
@@ -53160,7 +53160,7 @@ begrenzens/~~Nh
 begrenzer/~~Mh
 begrenzern/~~V # auto-added
 begrenzers/~~Nh
-begrenzt/~~NXh
+begrenzt/~~hV
 begrenztem/~~Nh
 begrenzter/~~Mh
 begrenztes/~~Nh
@@ -53266,7 +53266,7 @@ behandele/~~Nh
 behandeln/~~Vcej #  auto-added | treat, handle - needs conjugation for Partizipien
 behandelnd/~~Nh
 behandelns/~~Nh
-behandelt/~~NXh
+behandelt/~~hV
 behandle/~~Nh
 behandler/~~Mh
 behandlern/~~V # auto-added
@@ -53461,7 +53461,7 @@ beichtest/~~Nh
 beichtet/~~NXh
 beichteten/~~V # auto-added
 beichtetet/~~Nh
-beiderlei/~~Nh
+beiderlei/~~hJ
 beidreh/~~Vej # REPLACES beidrehen
 beidreht/~~NXh
 beidrehtet/~~Nh
@@ -54813,7 +54813,7 @@ berittenem/~~Nh
 berittenen/~~V # auto-added
 berittener/~~Mh
 berittenes/~~Nh
-berkelium/~~Za #  auto-added
+berkelium/~~Zah  # preposition um #  auto-added
 berkeliums/~~Nh
 berkhölzer/~~Mh
 berlinale/~~Nh
@@ -54864,7 +54864,7 @@ beruhigung/~~Fh
 beruhtest/~~Nh
 beruhtet/~~Nh
 berußten/~~V # auto-added
-beryllium/~~Za #  auto-added
+beryllium/~~Zah  # preposition um #  auto-added
 berylliums/~~Nh
 beräum/~~Vej # REPLACES beräumen
 beräumst/~~Nh
@@ -55082,7 +55082,7 @@ beschreien/~~V # auto-added
 beschreist/~~Nh
 beschreit/~~NXh
 beschrie/~~Nh
-beschrieb/~~NXh
+beschrieb/~~hV
 beschriebt/~~Nh
 beschriee/~~Nh
 beschrieen/~~V # auto-added
@@ -55091,7 +55091,7 @@ beschriet/~~Nh
 beschrifte/~~Nh
 beschritt/~~NXh
 beschränke/~~Nh
-beschränkt/~~Nh
+beschränkt/~~hV
 beschuh/~~Vej # REPLACES beschuhen
 beschuht/~~NXh
 beschuhtet/~~Nh
@@ -55252,7 +55252,7 @@ besitzerin/~~Nh
 besitzern/~~V # auto-added
 besitzers/~~Nh
 besitzes/~~Nh
-besitztum/~~Za #  auto-added
+besitztum/~~Zah  # preposition um #  auto-added
 besitztums/~~Nh
 besitzung/~~Fh
 besoffen/~~V # auto-added
@@ -55449,7 +55449,7 @@ bestecktem/~~Nh
 besteckter/~~Mh
 bestecktes/~~Nh
 bestehen/~~V # auto-added
-bestehend/~~Nh
+bestehend/~~hV
 bestehende/~~Nh
 bestehens/~~Nh
 bestehle/~~Nh
@@ -55833,7 +55833,7 @@ betreibens/~~Nh
 betreiber/~~Mh
 betreibern/~~V # auto-added
 betreibers/~~Nh
-betreibt/~~Nh
+betreibt/~~hV
 betreibung/~~Fh
 betresst/~~Nh
 betresste/~~Nh
@@ -56098,7 +56098,7 @@ bevorteilt/~~Nh
 bevorzuge/~~Nh
 bevorzugen/~~V # auto-added
 bevorzugst/~~Nh
-bevorzugt/~~NXh
+bevorzugt/~~hV
 bevölkere/~~Nh
 bevölkern/~~V # auto-added
 bevölkernd/~~Nh
@@ -56388,7 +56388,7 @@ bezaubre/~~Nh
 bezeichne/~~Nh
 bezeichnen/~~Vcej #  auto-added | designate, denote - needs conjugation
 bezeichner/~~Mh
-bezeichnet/~~Nh
+bezeichnet/~~hV
 bezeig/~~Vej # REPLACES bezeigen
 bezeigtem/~~Nh
 bezeigter/~~Mh
@@ -56814,7 +56814,7 @@ bipolares/~~Nh
 birkenau/~~Nbh
 birkengrün/~~Nh
 birmingham/~~Nh
-birnbaum/~~Za #  auto-added
+birnbaum/~~Zah  # preposition um #  auto-added
 birnbaumes/~~Nh
 birnbaums/~~Nh
 birnbäume/~~Nh
@@ -57966,7 +57966,7 @@ brauches/~~Nh
 brauchten/~~V # auto-added
 brauchtest/~~Nh
 brauchtet/~~Nh
-brauchtum/~~Za #  auto-added
+brauchtum/~~Zah  # preposition um #  auto-added
 brauchtums/~~Nh
 brauende/~~Nh
 brauendem/~~Nh
@@ -58118,7 +58118,7 @@ brilliere/~~Nh
 brillieren/~~V # auto-added
 brillierst/~~Nh
 brilliert/~~NXh
-brimborium/~~Za #  auto-added
+brimborium/~~Zah  # preposition um #  auto-added
 bringende/~~Nh
 bringendem/~~Nh
 bringender/~~Mh
@@ -58437,7 +58437,7 @@ buchende/~~Nh
 buchendem/~~Nh
 buchender/~~Mh
 buchendes/~~Nh
-buchsbaum/~~Za #  auto-added
+buchsbaum/~~Zah  # preposition um #  auto-added
 buchsbaums/~~Nh
 buchsbäume/~~Nh
 buchstabe/~~Nh
@@ -58914,7 +58914,7 @@ bürgernahe/~~Nh
 bürgerten/~~V # auto-added
 bürgertest/~~Nh
 bürgertet/~~Nh
-bürgertum/~~Za #  auto-added
+bürgertum/~~Zah  # preposition um #  auto-added
 bürgertums/~~Nh
 bürgtest/~~Nh
 bürointern/~~V # auto-added
@@ -59092,7 +59092,7 @@ ceranfeld/~~Nh
 ceranfelds/~~Nh
 cercarie/~~Nh
 cercarien/~~V # auto-added
-cerebellum/~~Za #  auto-added
+cerebellum/~~Zah  # preposition um #  auto-added
 ceroxiden/~~V # auto-added
 ceroxids/~~Nh
 cerussit/~~Nh
@@ -59204,7 +59204,7 @@ chemotaxis/~~Nh
 cherusker/~~Mh
 cheruskern/~~V # auto-added
 cheruskers/~~Nh
-chewinggum/~~Za #  auto-added
+chewinggum/~~Zah  # preposition um #  auto-added
 cheyenne/~~Nh
 chicerem/~~Nh
 chiceren/~~V # auto-added
@@ -59541,7 +59541,7 @@ committe/~~Nh
 committen/~~V # auto-added
 committend/~~Nh
 committet/~~NXh
-commodum/~~Za #  auto-added
+commodum/~~Zah  # preposition um #  auto-added
 compagnie/~~Nh
 compagnien/~~V # auto-added
 compiler/~~Mh
@@ -59708,7 +59708,7 @@ curiumion/~~Nh
 curiumione/~~Nh
 curiumions/~~Nh
 curricular/~~Nh
-curriculum/~~Za #  auto-added
+curriculum/~~Zah  # preposition um #  auto-added
 cursorspur/~~Nh
 cutaways/~~Nh
 cuttende/~~Nh
@@ -59811,7 +59811,7 @@ daddeltest/~~Nh
 dafürhalte/~~Nh
 dafürhielt/~~Nh
 dafürhält/~~Nh
-dafürkann/~~Nh
+dafürkann/~~Vt # 3rd person singular of können
 dafürstand/~~Nh
 dafürstehe/~~Nh
 dafürsteht/~~Nh
@@ -60055,7 +60055,7 @@ daransetze/~~Nh
 daransetzt/~~Nh
 daraufhaue/~~Nh
 daraufhaut/~~Nh
-daraufhin/~~Nh
+daraufhin/~~hr
 darauflege/~~Nh
 darauflegt/~~Nh
 darbende/~~Nh
@@ -60118,7 +60118,7 @@ darrtest/~~Nh
 darstelle/~~Nh
 darstellen/~~V # auto-added
 darsteller/~~Mh
-darstellt/~~NXh
+darstellt/~~hV
 darstrecke/~~Nh
 darstreckt/~~Nh
 dartaten/~~V # auto-added
@@ -60354,7 +60354,7 @@ dazuhaben/~~V # auto-added
 dazuhocken/~~V # auto-added
 dazukamen/~~V # auto-added
 dazukamt/~~Nh
-dazukann/~~Nh
+dazukann/~~Vt # 3rd person singular of können
 dazukaufe/~~Nh
 dazukaufen/~~V # auto-added
 dazukaufst/~~Nh
@@ -60458,7 +60458,7 @@ debuggtest/~~Nh
 debuggtet/~~Nh
 debuglevel/~~Nh
 debütalben/~~V # auto-added
-debütalbum/~~Za #  auto-added
+debütalbum/~~Zah  # preposition um #  auto-added
 debütant/~~Nh
 debütanten/~~V # auto-added
 debütantin/~~Nh
@@ -60549,7 +60549,7 @@ defiliert/~~NXh
 definiere/~~Nh
 definieren/~~V # auto-added
 definierst/~~Nh
-definiert/~~NXh
+definiert/~~hV
 definitem/~~Nh
 definiten/~~V # auto-added
 definiter/~~Mh
@@ -60718,7 +60718,7 @@ deliriere/~~Nh
 delirieren/~~V # auto-added
 delirierst/~~Nh
 deliriert/~~NXh
-delirium/~~Za #  auto-added
+delirium/~~Zah  # preposition um #  auto-added
 deliriums/~~Nh
 deliziös/~~NXh
 deliziösem/~~Nh
@@ -60999,7 +60999,7 @@ deutendes/~~Nh
 deuteriere/~~Nh
 deuteriert/~~Nh
 deuterin/~~Nh
-deuterium/~~Za #  auto-added
+deuterium/~~Zah  # preposition um #  auto-added
 deuteriums/~~Nh
 deuteron/~~Nh
 deuteronen/~~V # auto-added
@@ -61498,7 +61498,7 @@ diskutable/~~Nh
 diskutant/~~Nh
 diskutier/~~Mh
 diskutiere/~~Nh
-diskutiert/~~Nh
+diskutiert/~~hV
 disloziere/~~Nh
 disloziert/~~Nh
 disparat/~~NXh
@@ -61547,7 +61547,7 @@ distaler/~~Mh
 distales/~~Nh
 distanzen/~~V # auto-added
 distanzier/~~Mh
-distelbaum/~~Za #  auto-added
+distelbaum/~~Zah  # preposition um #  auto-added
 distelfink/~~Nh
 distelsame/~~Nh
 distelöl/~~Nh
@@ -62147,7 +62147,7 @@ drittbest/~~Nh
 drittbeste/~~Nh
 dritteln/~~V # auto-added
 drittels/~~Nh
-drittens/~~Nh
+drittens/~~hJ
 drogerie/~~Nh
 drogerien/~~V # auto-added
 drogisten/~~V # auto-added
@@ -62209,7 +62209,7 @@ drudenfüße/~~Nh
 drugstore/~~Nh
 drugstores/~~Nh
 druidinnen/~~V # auto-added
-drumherum/~~Za #  auto-added
+drumherum/~~Zah  # preposition um #  auto-added
 drummerin/~~Nh
 drummern/~~V # auto-added
 drummers/~~Nh
@@ -62698,7 +62698,7 @@ durchpaust/~~Nh
 durchplane/~~Nh
 durchplant/~~Nh
 durchquere/~~Nh
-durchquert/~~Nh
+durchquert/~~hV
 durchrang/~~Nh
 durchrangt/~~Nh
 durchranke/~~Nh
@@ -62885,7 +62885,7 @@ dysphonie/~~Nh
 dysphonien/~~V # auto-added
 dysplasie/~~Nh
 dysplasien/~~V # auto-added
-dysprosium/~~Za #  auto-added
+dysprosium/~~Zah  # preposition um #  auto-added
 dyssomnie/~~Nh
 dyssomnien/~~V # auto-added
 dysstress/~~NXh
@@ -63110,19 +63110,19 @@ ebenbilds/~~Nh
 ebendaher/~~Mh
 ebendahin/~~Nh
 ebendann/~~Nh
-ebendarum/~~Za #  auto-added
+ebendarum/~~Zah  # preposition um #  auto-added
 ebendies/~~Nh
 ebendiese/~~Nh
 ebendiesem/~~Nh
 ebendiesen/~~V # auto-added
-ebendieser/~~Mh
+ebendieser/~~Dh  # demonstrative determiner
 ebendieses/~~Nh
 ebendort/~~Nh
 ebenerem/~~Nh
 ebeneren/~~V # auto-added
 ebenerer/~~Mh
 ebeneres/~~Nh
-ebenfalls/~~Nh
+ebenfalls/~~hr
 ebenheit/~~Fh
 ebenholz/~~Nh
 ebenholzes/~~Nh
@@ -63284,7 +63284,7 @@ egressivem/~~Nh
 egressiven/~~V # auto-added
 egressiver/~~Mh
 egressives/~~Nh
-eh/~~Nh
+eh/~~hr
 ehebedingt/~~Nh
 ehebreche/~~Nh
 ehebrechen/~~XZ #  auto-added
@@ -63409,7 +63409,7 @@ eifeldorf/~~Nh
 eifeldorfs/~~Nh
 eifelhöhe/~~Nh
 eifelhöhen/~~V # auto-added
-eifelraum/~~Za #  auto-added
+eifelraum/~~Zah  # preposition um #  auto-added
 eifelraums/~~Nh
 eifeltor/~~Nh
 eifelweit/~~RJOQRSTUWqh
@@ -63543,7 +63543,7 @@ einbilde/~~Nh
 einbilden/~~V # auto-added
 einbildend/~~Nh
 einbildens/~~Nh
-einbildet/~~NXh
+einbildet/~~Vh  # 3rd person of bilden
 einbildung/~~Fh
 einbinde/~~Nh
 einbinden/~~V # auto-added
@@ -63731,7 +63731,7 @@ einerkajak/~~Nh
 einerlei/~~Nh
 einerliste/~~Nh
 einermenge/~~Nh
-einerseits/~~Nh
+einerseits/~~hr
 einesteils/~~Nh
 einfachst/~~Nh
 einfahr/~~Vej # REPLACES einfahren
@@ -63936,7 +63936,7 @@ eingefugt/~~NXh
 eingefärbt/~~Nh
 eingefügt/~~NXh
 eingefühlt/~~Nh
-eingeführt/~~Nh
+eingeführt/~~hV
 eingefüllt/~~Nh
 eingegeben/~~V # auto-added
 eingegipst/~~Nh
@@ -64817,7 +64817,7 @@ einräume/~~Nh
 einräum/~~Vej # REPLACES einräumen
 einräumend/~~Nh
 einräumst/~~Nh
-einräumt/~~NXh
+einräumt/~~hV
 einräumtet/~~Nh
 einrücke/~~Nh
 einrück/~~Vej # REPLACES einrücken
@@ -65740,7 +65740,7 @@ elbefluten/~~V # auto-added
 elbegebiet/~~Nh
 elbekreis/~~Nh
 elberadweg/~~Nh
-elberaum/~~Za #  auto-added
+elberaum/~~Zah  # preposition um #  auto-added
 elberaumes/~~Nh
 elberaums/~~Nh
 elbestadt/~~Nh
@@ -66237,7 +66237,7 @@ enggemacht/~~Nh
 englands/~~Nh
 englische/~~Nh
 englischem/~~Nh
-englischen/~~XZ #  auto-added
+englischen/~~Jh  # English (adjective)
 englischer/~~Mh
 englisches/~~Nh
 englischst/~~Nh
@@ -66390,7 +66390,7 @@ entdeckens/~~Nh
 entdecker/~~Mh
 entdeckern/~~V # auto-added
 entdeckers/~~Nh
-entdeckt/~~NXh
+entdeckt/~~hV
 entdecktem/~~Nh
 entdeckter/~~Mh
 entdecktes/~~Nh
@@ -66498,7 +66498,7 @@ entfernens/~~Nh
 entferner/~~Mh
 entfernern/~~V # auto-added
 entferners/~~Nh
-entfernt/~~NXh
+entfernt/~~hV
 entferntem/~~Nh
 entfernter/~~Mh
 entferntes/~~Nh
@@ -66730,7 +66730,7 @@ enthüller/~~Mh
 enthüllern/~~V # auto-added
 enthüllers/~~Nh
 enthüllst/~~Nh
-enthüllt/~~NXh
+enthüllt/~~hV
 enthülltem/~~Nh
 enthüllter/~~Mh
 enthülltes/~~Nh
@@ -67194,7 +67194,7 @@ entsannt/~~Nh
 entsatzes/~~Nh
 entscheide/~~Nh
 entscheids/~~Nh
-entschied/~~NXh
+entschied/~~hV
 entschlafe/~~Nh
 entschlaft/~~Nh
 entschlief/~~Nh
@@ -67281,7 +67281,7 @@ entsprang/~~Nh
 entsprangt/~~Nh
 entspreche/~~Nh
 entsprecht/~~Nh
-entspricht/~~Nh
+entspricht/~~hV
 entsprieße/~~Nh
 entsprießt/~~Nh
 entspringe/~~Nh
@@ -67297,7 +67297,7 @@ entstamme/~~Nh
 entstammen/~~V # auto-added
 entstammst/~~Nh
 entstammt/~~NXh
-entstand/~~Nh
+entstand/~~hV
 entstanden/~~V # auto-added
 entstandet/~~Nh
 entstaube/~~Nh
@@ -67309,7 +67309,7 @@ entstehen/~~Vcej #  auto-added | arise, emerge - needs conjugation
 entstehend/~~Nh
 entstehens/~~Nh
 entstehst/~~Nh
-entsteht/~~Nh
+entsteht/~~hV
 entstehung/~~Fh
 entsteige/~~Nh
 entsteigen/~~V # auto-added
@@ -67438,7 +67438,7 @@ entwichest/~~Nh
 entwicht/~~Nh
 entwickele/~~Nh
 entwickeln/~~Vcej #  auto-added | ENHANCED: verb - develop
-entwickelt/~~Nh
+entwickelt/~~hV
 entwickelten/~~Nh
 entwickle/~~Nh
 entwickler/~~Mh
@@ -67633,12 +67633,12 @@ epitaxie/~~Nh
 epitaxien/~~V # auto-added
 epithelie/~~Nh
 epithelien/~~V # auto-added
-epithelium/~~Za #  auto-added
+epithelium/~~Zah  # preposition um #  auto-added
 epithels/~~Nh
 epitopen/~~V # auto-added
 epitopes/~~Nh
 epizentren/~~V # auto-added
-epizentrum/~~Za #  auto-added
+epizentrum/~~Zah  # preposition um #  auto-added
 epizootie/~~Nh
 epizootien/~~V # auto-added
 epochale/~~Nh
@@ -68078,7 +68078,7 @@ erfordre/~~Nh
 erforsche/~~Nh
 erforschen/~~XZ #  auto-added
 erforscher/~~Mh
-erforscht/~~NXh
+erforscht/~~hV
 erfrag/~~Vej # REPLACES erfragen
 erfragende/~~Nh
 erfragens/~~Nh
@@ -68505,7 +68505,7 @@ erinnern/~~Vcej #  auto-added | remind, recall - needs conjugation
 erinnernd/~~Nh
 erinnernde/~~Nh
 erinnerns/~~Nh
-erinnert/~~NXh
+erinnert/~~hV
 erinnertem/~~Nh
 erinnerten/~~V # auto-added
 erinnerter/~~Mh
@@ -68954,7 +68954,7 @@ ernennens/~~Nh
 ernennst/~~Nh
 ernennung/~~Fh
 erneuere/~~Nh
-erneuerer/~~Mh
+erneuerer/~~Jh  # newer (adjective)
 erneuerern/~~V # auto-added
 erneuerers/~~Nh
 erneuern/~~V # auto-added
@@ -69189,7 +69189,7 @@ errichte/~~Nh
 errichten/~~V # auto-added
 errichtend/~~Nh
 errichtens/~~Nh
-errichtet/~~NXh
+errichtet/~~hV
 errichtung/~~Fh
 errieten/~~V # auto-added
 errietest/~~Nh
@@ -69244,7 +69244,7 @@ erschaure/~~Nh
 erscheine/~~Nh
 erscheinen/~~V # auto-added
 erscheinst/~~Nh
-erscheint/~~Nh
+erscheint/~~hV
 erschien/~~V # auto-added
 erschiene/~~Nh
 erschienen/~~V # auto-added
@@ -69491,7 +69491,7 @@ erstling/~~Mhi
 erstlinge/~~Nh
 erstlingen/~~V # auto-added
 erstlings/~~Nh
-erstmals/~~Nh
+erstmals/~~hr
 erstochen/~~XZ #  auto-added
 erstochene/~~Nh
 erstorben/~~V # auto-added
@@ -69995,7 +69995,7 @@ eröffnen/~~V # auto-added
 eröffnend/~~Nh
 eröffnende/~~Nh
 eröffnens/~~Nh
-eröffnet/~~NXh
+eröffnet/~~hV
 eröffnetem/~~Nh
 eröffneten/~~V # auto-added
 eröffneter/~~Mh
@@ -70110,11 +70110,11 @@ estraden/~~V # auto-added
 estragon/~~Nh
 estragons/~~Nh
 estrichs/~~Nh
-et/~~Nh
+et/~~hP
 etabliere/~~Nh
 etablieren/~~V # auto-added
 etablierst/~~Nh
-etabliert/~~NXh
+etabliert/~~hV
 etatisiere/~~Nh
 etatisiert/~~Nh
 etepetete/~~Nh
@@ -70199,7 +70199,7 @@ europidem/~~Nh
 europiden/~~V # auto-added
 europider/~~Mh
 europides/~~Nh
-europium/~~Za #  auto-added
+europium/~~Zah  # preposition um #  auto-added
 europiums/~~Nh
 europäerin/~~Nh
 europäern/~~V # auto-added
@@ -70207,7 +70207,7 @@ europäers/~~Nh
 eurypotent/~~Nh
 eurytherm/~~NXh
 eurythmie/~~Nh
-eutektikum/~~Za #  auto-added
+eutektikum/~~Zah  # preposition um #  auto-added
 euthanasie/~~Nh
 euthymem/~~Nh
 euthymen/~~V # auto-added
@@ -70244,7 +70244,7 @@ evaneszent/~~Nh
 evangeliar/~~Nh
 evangelien/~~V # auto-added
 evangelist/~~Nh
-evangelium/~~Za #  auto-added
+evangelium/~~Zah  # preposition um #  auto-added
 evaporiere/~~Nh
 evaporiert/~~Nh
 evaporit/~~NXh
@@ -70360,7 +70360,7 @@ existenzen/~~V # auto-added
 existiere/~~Nh
 existieren/~~V # auto-added
 existierst/~~Nh
-existiert/~~NXh
+existiert/~~hV
 exitcode/~~Nh
 exitcodes/~~Nh
 exkaiser/~~Mh
@@ -70462,7 +70462,7 @@ expertise/~~Nh
 expertisen/~~V # auto-added
 expliziere/~~Nh
 expliziert/~~Nh
-explizit/~~NXh
+explizit/~~hJ
 explizitem/~~Nh
 expliziten/~~V # auto-added
 expliziter/~~Mh
@@ -70567,7 +70567,7 @@ extremstem/~~Nh
 extremsten/~~V # auto-added
 extremster/~~Mh
 extremstes/~~Nh
-extremum/~~Za #  auto-added
+extremum/~~Zah  # preposition um #  auto-added
 extremums/~~Nh
 extrudiere/~~Nh
 extrudiert/~~Nh
@@ -71168,7 +71168,7 @@ faszialen/~~V # auto-added
 faszialer/~~Mh
 fasziales/~~Nh
 fasziniere/~~Nh
-fasziniert/~~Nh
+fasziniert/~~hV
 fatalere/~~Nh
 fatalerem/~~Nh
 fataleren/~~V # auto-added
@@ -71188,7 +71188,7 @@ fauchender/~~Mh
 fauchendes/~~Nh
 fauchtest/~~Nh
 fauchtet/~~Nh
-faulbaum/~~Za #  auto-added
+faulbaum/~~Zah  # preposition um #  auto-added
 faulbaums/~~Nh
 faulbrand/~~Nh
 faulbrands/~~Nh
@@ -71720,7 +71720,7 @@ festführen/~~V # auto-added
 festführet/~~Nh
 festgefügt/~~Nh
 festgehakt/~~Nh
-festgelegt/~~Nh
+festgelegt/~~hV
 festgenäht/~~Nh
 festhak/~~Vej # REPLACES festhaken
 festhakt/~~NXh
@@ -71975,7 +71975,7 @@ feuchtest/~~Nh
 feuchteste/~~Nh
 feuchtet/~~Nh
 feuchtkalt/~~Nh
-feuchtraum/~~Za #  auto-added
+feuchtraum/~~Zah  # preposition um #  auto-added
 feuchtwald/~~Nh
 feuchtwarm/~~Nh
 feuchtzone/~~Nh
@@ -72198,7 +72198,7 @@ filmsujet/~~Nh
 filmsujets/~~Nh
 filmtest/~~Nh
 filopodien/~~V # auto-added
-filopodium/~~Za #  auto-added
+filopodium/~~Zah  # preposition um #  auto-added
 filterfein/~~Nh
 filternd/~~Nh
 filternde/~~Nh
@@ -72487,7 +72487,7 @@ flackertet/~~Nh
 fladenbrot/~~Nh
 flagelle/~~Nh
 flagellen/~~V # auto-added
-flagellum/~~Za #  auto-added
+flagellum/~~Zah  # preposition um #  auto-added
 flaggende/~~Nh
 flaggendem/~~Nh
 flaggender/~~Mh
@@ -72688,7 +72688,7 @@ flenntest/~~Nh
 flenntet/~~Nh
 flensburg/~~Nh
 flensburgs/~~Nh
-flerovium/~~Za #  auto-added
+flerovium/~~Zah  # preposition um #  auto-added
 fleroviums/~~Nh
 fletsche/~~Nh
 fletschen/~~XZ #  auto-added
@@ -73112,7 +73112,7 @@ fokussiere/~~Nh
 fokussiert/~~Nh
 folgende/~~Nh
 folgendem/~~Nh
-folgender/~~Mh
+folgender/~~Jh  # following (adjective)
 folgendes/~~Nh
 folgernd/~~Nh
 folgernde/~~Nh
@@ -73733,7 +73733,7 @@ foveales/~~Nh
 foxterrier/~~Mh
 foxtrott/~~Nh
 foxtrotts/~~Nh
-foyerraum/~~Za #  auto-added
+foyerraum/~~Zah  # preposition um #  auto-added
 foyerraums/~~Nh
 foyerräume/~~Nh
 frachten/~~V # auto-added
@@ -73796,7 +73796,7 @@ framelänge/~~Nh
 frameword/~~Nh
 franchise/~~Nh
 francisco/~~Nbh
-francium/~~Za #  auto-added
+francium/~~Zah  # preposition um #  auto-added
 franciums/~~Nh
 frankenalb/~~Nh
 frankens/~~Nh
@@ -74537,7 +74537,7 @@ fundbildes/~~Nh
 fundbilds/~~Nh
 fundbüro/~~Nbh # auto-added
 funddaten/~~V # auto-added
-funddatum/~~Za #  auto-added
+funddatum/~~Zah  # preposition um #  auto-added
 funddatums/~~Nh
 funddetail/~~Nh
 funddichte/~~Nh
@@ -74815,7 +74815,7 @@ fäkalien/~~V # auto-added
 fällbades/~~Nh
 fällbads/~~Nh
 fälldaten/~~V # auto-added
-fälldatum/~~Za #  auto-added
+fälldatum/~~Zah  # preposition um #  auto-added
 fälldatums/~~Nh
 fällende/~~Nh
 fällendem/~~Nh
@@ -74855,7 +74855,7 @@ fängiges/~~Nh
 färbebad/~~Nah
 färbebades/~~Nh
 färbebads/~~Nh
-färbebaum/~~Za #  auto-added
+färbebaum/~~Zah  # preposition um #  auto-added
 färbebaums/~~Nh
 färbebäume/~~Nh
 färbefarbe/~~Nh
@@ -74864,7 +74864,7 @@ färbende/~~Nh
 färbendem/~~Nh
 färbender/~~Mh
 färbendes/~~Nh
-färberbaum/~~Za #  auto-added
+färberbaum/~~Zah  # preposition um #  auto-added
 färberei/~~Nh
 färbereien/~~V # auto-added
 färbergras/~~Nh
@@ -75062,7 +75062,7 @@ fürstabtei/~~Nh
 fürstabtes/~~Nh
 fürstabts/~~Nh
 fürstelekt/~~Nh
-fürstentum/~~Za #  auto-added
+fürstentum/~~Zah  # preposition um #  auto-added
 fürstinnen/~~V # auto-added
 fürststift/~~Nh
 fürstäbte/~~Nh
@@ -75122,7 +75122,7 @@ gackertest/~~Nh
 gackertet/~~Nh
 gadolinit/~~Nh
 gadolinits/~~Nh
-gadolinium/~~Za #  auto-added
+gadolinium/~~Zah  # preposition um #  auto-added
 gaffelrad/~~Nh
 gaffelrads/~~Nh
 gaffende/~~Nh
@@ -76697,7 +76697,7 @@ Gegenwart/~~Fh # feminine noun: present, current time
 gegenprüft/~~JOQRSTUWVg
 gegenrudre/~~Nh
 gegenwarts/~~Nh
-gegenüber/~~Mh
+gegenüber/~~P  # preposition
 gegerbtem/~~Nh
 gegerbten/~~V # auto-added
 gegerbter/~~Mh
@@ -77624,7 +77624,7 @@ geladenem/~~Nh
 geladenen/~~V # auto-added
 geladener/~~Mh
 geladenes/~~Nh
-gelageraum/~~Za #  auto-added
+gelageraum/~~Zah  # preposition um #  auto-added
 gelagert/~~JOQRSTUWVg
 gelagertem/~~Nh
 gelagerten/~~V # auto-added
@@ -78371,7 +78371,7 @@ generieren/~~V # auto-added
 generierst/~~JOQRSTUWVg
 generiert/~~JOQRSTUWVg
 generika/~~Nh
-generikum/~~Za #  auto-added
+generikum/~~Zah  # preposition um #  auto-added
 generikums/~~Nh
 genervtem/~~Nh
 genervten/~~V # auto-added
@@ -78896,7 +78896,7 @@ gequältem/~~Nh
 gequälten/~~V # auto-added
 gequälter/~~Mh
 gequältes/~~Nh
-geradeaus/~~Nh
+geradeaus/~~hr
 geradebog/~~Nh
 geradeböge/~~Nh
 geradehin/~~Nh
@@ -79148,7 +79148,7 @@ germanien/~~V # auto-added
 germaniens/~~Nh
 germanin/~~Nh
 germanist/~~JOQRSTUWVg
-germanium/~~Za #  auto-added
+germanium/~~Zah  # preposition um #  auto-added
 germaniums/~~Nh
 germknödel/~~Nh
 gernegroß/~~Nh
@@ -79222,7 +79222,7 @@ gerundetem/~~Nh
 gerundeten/~~V # auto-added
 gerundeter/~~Mh
 gerundetes/~~Nh
-gerundium/~~Za #  auto-added
+gerundium/~~Zah  # preposition um #  auto-added
 gerundiums/~~Nh
 gerungen/~~V # auto-added
 gerungene/~~Nh
@@ -80711,7 +80711,7 @@ geweideten/~~V # auto-added
 geweideter/~~Mh
 geweidetes/~~Nh
 geweigert/~~JOQRSTUWVg
-geweihbaum/~~Za #  auto-added
+geweihbaum/~~Zah  # preposition um #  auto-added
 geweih/~~Vej # REPLACES geweihen
 geweihes/~~Nh
 geweihfarn/~~Nh
@@ -81401,8 +81401,8 @@ gimpelfang/~~Nh
 gingerale/~~Nh
 gingerales/~~Nh
 gingivitis/~~Nh
-ginkgobaum/~~Za #  auto-added
-ginkobaum/~~Za #  auto-added
+ginkgobaum/~~Zah  # preposition um #  auto-added
+ginkobaum/~~Zah  # preposition um #  auto-added
 ginkobaums/~~Nh
 ginkoblatt/~~Nh
 ginkobäume/~~Nh
@@ -81565,7 +81565,7 @@ glazialsee/~~Nh
 glaziologe/~~Nh
 gleichauf/~~Nh
 gleichem/~~Nh
-gleichen/~~XZ #  auto-added
+gleichen/~~Vh  # to equal / same (inflected) #  auto-added
 gleichend/~~Nh
 gleichende/~~Nh
 gleichens/~~Nh
@@ -81633,7 +81633,7 @@ gliedern/~~V # auto-added
 gliedernd/~~Nh
 gliedernde/~~Nh
 gliederns/~~Nh
-gliedert/~~NXh
+gliedert/~~hV
 gliederten/~~V # auto-added
 gliedertet/~~Nh
 gliederung/~~Fh
@@ -82690,7 +82690,7 @@ grunztet/~~Nh
 gruppiere/~~Nh
 gruppieren/~~V # auto-added
 gruppierst/~~Nh
-gruppiert/~~NXh
+gruppiert/~~hV
 gruselnd/~~Nh
 gruselnde/~~Nh
 gruselndem/~~Nh
@@ -82738,7 +82738,7 @@ gräulicher/~~Mh
 gräuliches/~~Nh
 gräulichst/~~Nh
 gräzisiere/~~Nh
-gräzisiert/~~Nh
+gräzisiert/~~hV
 gröberem/~~Nh
 gröberen/~~V # auto-added
 gröberer/~~Mh
@@ -83028,7 +83028,7 @@ gußbedingt/~~Nh
 gymnasiale/~~Nh
 gymnasiast/~~Nh
 gymnasien/~~V # auto-added
-gymnasium/~~Za #  auto-added
+gymnasium/~~Zah  # preposition um #  auto-added
 gymnasiums/~~Nh
 gymnastik/~~Nh
 gynäkologe/~~Nh
@@ -83149,7 +83149,7 @@ gönnendem/~~Nh
 gönnender/~~Mh
 gönnendes/~~Nh
 gönnerin/~~Nh
-gönnertum/~~Za #  auto-added
+gönnertum/~~Zah  # preposition um #  auto-added
 gönnertums/~~Nh
 gönntest/~~Nh
 göteborg/~~Nh
@@ -83579,7 +83579,7 @@ halligen/~~V # auto-added
 hallihallo/~~Nh
 halloren/~~V # auto-added
 halloween/~~V # auto-added
-hallraum/~~Za #  auto-added
+hallraum/~~Zah  # preposition um #  auto-added
 hallraums/~~Nh
 halltest/~~Nh
 hallöchen/~~XZ #  auto-added
@@ -83813,7 +83813,7 @@ harmloser/~~Mh
 harmloses/~~Nh
 harmonie/~~Nh
 harmonien/~~V # auto-added
-harmonium/~~Za #  auto-added
+harmonium/~~Zah  # preposition um #  auto-added
 harnischs/~~Nh
 harpunen/~~V # auto-added
 harpunier/~~Mh
@@ -83974,7 +83974,7 @@ heaviside/~~Nh
 hebammen/~~V # auto-added
 hebearmen/~~V # auto-added
 hebearms/~~Nh
-hebebaum/~~Za #  auto-added
+hebebaum/~~Zah  # preposition um #  auto-added
 hebebaums/~~Nh
 hebebock/~~Nh
 hebebocks/~~Nh
@@ -84109,7 +84109,7 @@ heidekorn/~~Nh
 heidekrug/~~Nh
 heideland/~~Nh
 heidemoor/~~Nh
-heidentum/~~Za #  auto-added
+heidentum/~~Zah  # preposition um #  auto-added
 heidepark/~~Nh
 heiderand/~~Nh
 heiderose/~~Nh
@@ -84143,7 +84143,7 @@ heiligere/~~Nh
 heiliges/~~Nh
 heiligste/~~Nh
 heiligtet/~~Nh
-heiligtum/~~Za #  auto-added
+heiligtum/~~Zah  # preposition um #  auto-added
 heiligung/~~Fh
 heillosem/~~Nh
 heillosen/~~V # auto-added
@@ -84287,7 +84287,7 @@ hektikern/~~V # auto-added
 hektikers/~~Nh
 hektische/~~Nh
 hektowatt/~~Nh
-heldentum/~~Za #  auto-added
+heldentum/~~Zah  # preposition um #  auto-added
 heldinnen/~~V # auto-added
 helfende/~~Nh
 helfendem/~~Nh
@@ -84325,7 +84325,7 @@ helllicht/~~Nh
 helllila/~~Nh
 hellmache/~~Nh
 hellmacht/~~Nh
-hellraum/~~Za #  auto-added
+hellraum/~~Zah  # preposition um #  auto-added
 hellraums/~~Nh
 hellrosa/~~Nh
 hellrotem/~~Nh
@@ -84384,7 +84384,7 @@ heptanen/~~V # auto-added
 herabbat/~~Nh
 herabbog/~~Nh
 herabbogt/~~Nh
-herabdarf/~~Nh
+herabdarf/~~Vt # 3rd person singular of dürfen
 herabeile/~~Nh
 herabeilt/~~Nh
 herabfand/~~Nh
@@ -84399,10 +84399,10 @@ herabhole/~~Nh
 herabholt/~~Nh
 herabkam/~~Nh
 herabkamt/~~Nh
-herabkann/~~Nh
+herabkann/~~Vt # 3rd person singular of können
 herablief/~~Nh
 herabließ/~~Nh
-herabmuss/~~Nh
+herabmuss/~~Vt # 3rd person singular of müssen
 herabnahm/~~Nh
 herabrann/~~Nh
 herabrase/~~Nh
@@ -84423,7 +84423,7 @@ herabzog/~~Nh
 herabzogt/~~Nh
 herabzöge/~~Nh
 heraldik/~~Nh
-herandarf/~~Nh
+herandarf/~~Vt # 3rd person singular of dürfen
 heraneile/~~Nh
 heraneilt/~~Nh
 heranfuhr/~~Nh
@@ -84434,10 +84434,10 @@ heranhole/~~Nh
 heranholt/~~Nh
 herankam/~~Nh
 herankamt/~~Nh
-herankann/~~Nh
+herankann/~~Vt # 3rd person singular of können
 herankäme/~~Nh
 heranließ/~~Nh
-heranmuss/~~Nh
+heranmuss/~~Vt # 3rd person singular of müssen
 herannahe/~~Nh
 herannahm/~~Nh
 herannaht/~~Nh
@@ -84471,7 +84471,7 @@ heraustun/~~Nh
 herauszog/~~Nh
 heraußen/~~V # auto-added
 herbarien/~~V # auto-added
-herbarium/~~Za #  auto-added
+herbarium/~~Zah  # preposition um #  auto-added
 herbaten/~~V # auto-added
 herbatest/~~Nh
 herbatet/~~Nh
@@ -84712,7 +84712,7 @@ herrsche/~~Nh
 herrschen/~~XZ #  auto-added
 herrscher/~~Mh
 herrschst/~~Nh
-herrscht/~~NXh
+herrscht/~~hV
 herrufen/~~V # auto-added
 herrufend/~~Nh
 herrufst/~~Nh
@@ -84877,7 +84877,7 @@ herznahes/~~Nh
 herzockle/~~Nh
 herzogen/~~V # auto-added
 herzogin/~~Nh
-herzogtum/~~Za #  auto-added
+herzogtum/~~Zah  # preposition um #  auto-added
 herzrasen/~~V # auto-added
 herztest/~~Nh
 herzvolle/~~Nh
@@ -84993,7 +84993,7 @@ hienieden/~~V # auto-added
 hierblieb/~~Nh
 hierdurch/~~Nh
 hiergegen/~~V # auto-added
-hierherum/~~Za #  auto-added
+hierherum/~~Zah  # preposition um #  auto-added
 hierlasse/~~Nh
 hierlasst/~~Nh
 hierließ/~~NXh
@@ -85036,7 +85036,7 @@ himmeltet/~~Nh
 hinabbat/~~Nh
 hinabbog/~~Nh
 hinabbogt/~~Nh
-hinabdarf/~~Nh
+hinabdarf/~~Vt # 3rd person singular of dürfen
 hinabeile/~~Nh
 hinabeilt/~~Nh
 hinabfand/~~Nh
@@ -85049,10 +85049,10 @@ hinabhalf/~~Nh
 hinabhing/~~Nh
 hinabhole/~~Nh
 hinabholt/~~Nh
-hinabkann/~~Nh
+hinabkann/~~Vt # 3rd person singular of können
 hinablief/~~Nh
 hinabließ/~~Nh
-hinabmuss/~~Nh
+hinabmuss/~~Vt # 3rd person singular of müssen
 hinabrann/~~Nh
 hinabrase/~~Nh
 hinabrast/~~Nh
@@ -85471,7 +85471,7 @@ hintaten/~~V # auto-added
 hintatest/~~Nh
 hintatet/~~Nh
 hintenan/~~Nh
-hintenrum/~~Za #  auto-added
+hintenrum/~~Zah  # preposition um #  auto-added
 hinterem/~~Nh
 hinteren/~~V # auto-added
 hinterer/~~Mh
@@ -85629,7 +85629,7 @@ histonen/~~V # auto-added
 historie/~~Nh
 historien/~~V # auto-added
 historik/~~Nh
-hitlertum/~~Za #  auto-added
+hitlertum/~~Zah  # preposition um #  auto-added
 hitliste/~~Nh
 hitlisten/~~V # auto-added
 hitparade/~~Nh
@@ -86255,7 +86255,7 @@ hyperlink/~~Nh
 hyperopie/~~Nh
 hyperoxid/~~Nh
 hyperoxyd/~~Nh
-hyperraum/~~Za #  auto-added
+hyperraum/~~Zah  # preposition um #  auto-added
 hypertext/~~Nh # auto-added
 hyperton/~~Nh
 hypertone/~~Nh
@@ -86656,7 +86656,7 @@ ilmensees/~~Nh
 ilmkreis/~~Nh
 iltissen/~~V # auto-added
 iltisses/~~Nh
-im/~~Nh
+im/~~hP
 imaginär/~~NXh
 imbissen/~~V # auto-added
 imbisses/~~Nh
@@ -86713,7 +86713,7 @@ impedanz/~~Nh
 imperator/~~Nh
 imperiale/~~Nh
 imperien/~~V # auto-added
-imperium/~~Za #  auto-added
+imperium/~~Zah  # preposition um #  auto-added
 imperiums/~~Nh
 impfende/~~Nh
 impfendem/~~Nh
@@ -86739,7 +86739,7 @@ imposant/~~NXh
 impotent/~~NXh
 impotenz/~~Nh
 impressen/~~V # auto-added
-impressum/~~Za #  auto-added
+impressum/~~Zah  # preposition um #  auto-added
 impulsarm/~~Nh
 impulsen/~~V # auto-added
 impulses/~~Nh
@@ -86839,7 +86839,7 @@ infothek/~~Nh
 infrarot/~~NXh
 infusion/~~Nh
 ingenieur/~~Nh
-ingenium/~~Za #  auto-added
+ingenium/~~Zah  # preposition um #  auto-added
 ingeniums/~~Nh
 ingeniös/~~NXh
 inguinale/~~Nh
@@ -86914,7 +86914,7 @@ innehielt/~~Nh
 innehält/~~Nh
 innehätte/~~Nh
 innereien/~~V # auto-added
-innerhalb/~~Nh
+innerhalb/~~hr
 innerorts/~~Nh # auto-added
 innerste/~~Nh
 innerstem/~~Nh
@@ -86922,7 +86922,7 @@ innersten/~~V # auto-added
 innerster/~~Mh
 innerstes/~~Nh
 innewerde/~~Nh
-innewird/~~Nh
+innewird/~~Vt # 3rd person singular of werden
 innewirst/~~Nh
 innewohne/~~Nh
 innewohnt/~~Nh
@@ -86961,8 +86961,8 @@ inserent/~~Nh
 inseriere/~~Nh
 inseriert/~~Nh
 insertion/~~Nhi
-insgeheim/~~Nh
-insgesamt/~~Nh
+insgeheim/~~hr
+insgesamt/~~hr
 insiderin/~~Nh
 insidern/~~V # auto-added
 insiders/~~Nh
@@ -87267,7 +87267,7 @@ iteriert/~~NXh
 itzehoes/~~Nh
 ivorerin/~~Nh
 iwanplatz/~~Nh
-ja/~~Nh
+ja/~~hr
 jachtbau/~~Nbh
 jachtclub/~~Nh
 jachtklub/~~Nh
@@ -87360,7 +87360,7 @@ jeckestes/~~Nh
 jederart/~~Nh # auto-added
 jederlei/~~Nh
 jedermann/~~Nh
-jederzeit/~~Nh
+jederzeit/~~hr
 jedwedem/~~Nh
 jedweden/~~V # auto-added
 jedweder/~~Mh
@@ -87377,7 +87377,7 @@ jemeniten/~~V # auto-added
 jemenitin/~~Nh
 jenaplan/~~Nh
 jenaplans/~~Nh
-jenseits/~~Nh
+jenseits/~~hr
 jeremiade/~~Nh
 jerusalem/~~Nh
 jesuiten/~~V # auto-added
@@ -87496,7 +87496,7 @@ jubilier/~~Mh
 jubiliere/~~Nh
 jubiliert/~~Nh
 jubiläen/~~V # auto-added
-jubiläum/~~Za #  auto-added
+jubiläum/~~Zah  # preposition um #  auto-added
 jubiläums/~~Nh
 juchzende/~~Nh
 juchztest/~~Nh
@@ -87511,12 +87511,12 @@ judaismus/~~Mh
 judaisten/~~V # auto-added
 judaistik/~~Nh
 judaistin/~~Nh
-judasbaum/~~Za #  auto-added
+judasbaum/~~Zah  # preposition um #  auto-added
 judaskuss/~~Nh
 judaslohn/~~Nh
 judasohr/~~Nh
 judenrein/~~Nh
-judentum/~~Za #  auto-added
+judentum/~~Zah  # preposition um #  auto-added
 judentums/~~Nh
 judiziere/~~Nh
 judiziert/~~Nh
@@ -87537,7 +87537,7 @@ jungspund/~~Nh
 jungtest/~~Nh
 junioren/~~V # auto-added
 juniorin/~~Nh
-junkertum/~~Za #  auto-added
+junkertum/~~Zah  # preposition um #  auto-added
 junkfood/~~Nh
 junkfoods/~~Nh
 junktion/~~Nh
@@ -87566,9 +87566,9 @@ justieren/~~V # auto-added
 justierst/~~Nh
 justiert/~~NXh
 justitiar/~~Nh
-justitium/~~Za #  auto-added
+justitium/~~Zah  # preposition um #  auto-added
 justiziar/~~Nh
-justizium/~~Za #  auto-added
+justizium/~~Zah  # preposition um #  auto-added
 juvenile/~~Nh
 juvenilem/~~Nh
 juvenilen/~~V # auto-added
@@ -87679,9 +87679,9 @@ kaimauern/~~V # auto-added
 kainsmals/~~Nh
 kaischeck/~~Nh
 kaiserin/~~Nh
-kaisertum/~~Za #  auto-added
+kaisertum/~~Zah  # preposition um #  auto-added
 kajütboot/~~Nh
-kakaobaum/~~Za #  auto-added
+kakaobaum/~~Zah  # preposition um #  auto-added
 kakaoboom/~~Nh
 kakaofett/~~Nh
 kakaogott/~~Nh
@@ -87960,7 +87960,7 @@ kappnähte/~~Nh
 kappsäge/~~Nh
 kappsägen/~~V # auto-added
 kapptest/~~Nh
-kappzaum/~~Za #  auto-added
+kappzaum/~~Zah  # preposition um #  auto-added
 kappzaums/~~Nh
 kapregion/~~Nh
 kapriolen/~~V # auto-added
@@ -88327,7 +88327,7 @@ kehlköpfe/~~Nh
 kehllaut/~~NXh
 kehlnaht/~~Nh
 kehlnähte/~~Nh
-kehlraum/~~Za #  auto-added
+kehlraum/~~Zah  # preposition um #  auto-added
 kehlraums/~~Nh
 kehlsack/~~Nh
 kehlsacks/~~Nh
@@ -88486,7 +88486,7 @@ ketogenen/~~V # auto-added
 ketogener/~~Mh
 ketogenes/~~Nh
 ketosäure/~~Nh
-kettbaum/~~Za #  auto-added
+kettbaum/~~Zah  # preposition um #  auto-added
 kettbaums/~~Nh
 kettbäume/~~Nh
 kettchen/~~XZ #  auto-added
@@ -88818,9 +88818,9 @@ klarsähen/~~V # auto-added
 klarsähet/~~Nh
 klartest/~~Nh
 klartext/~~Nh # auto-added
-klartraum/~~Za #  auto-added
+klartraum/~~Zah  # preposition um #  auto-added
 klarwerde/~~Nh
-klarwird/~~Nh
+klarwird/~~Vt # 3rd person singular of werden
 klarwirst/~~Nh
 klarwurde/~~Nh
 klarwürde/~~Nh
@@ -88967,7 +88967,7 @@ klingend/~~Nh
 klingende/~~Nh
 klingens/~~Nh
 kliniken/~~V # auto-added
-klinikum/~~Za #  auto-added
+klinikum/~~Zah  # preposition um #  auto-added
 klinikums/~~Nh
 klinkende/~~Nh
 klinkern/~~V # auto-added
@@ -89484,7 +89484,7 @@ kollegen/~~V # auto-added
 kollegiat/~~Nh
 kollegien/~~V # auto-added
 kollegin/~~Nh
-kollegium/~~Za #  auto-added
+kollegium/~~Zah  # preposition um #  auto-added
 kollekte/~~Nh
 kollekten/~~V # auto-added
 kollektor/~~Nh
@@ -89511,8 +89511,8 @@ koloskops/~~Nh
 kolossale/~~Nh
 kolossen/~~V # auto-added
 kolosses/~~Nh
-kolosseum/~~Za #  auto-added
-kolostrum/~~Za #  auto-added
+kolosseum/~~Zah  # preposition um #  auto-added
+kolostrum/~~Zah  # preposition um #  auto-added
 kolumbien/~~V # auto-added
 kolumnen/~~V # auto-added
 kolumnist/~~Nh
@@ -89672,7 +89672,7 @@ konserven/~~V # auto-added
 konsolen/~~V # auto-added
 konsonant/~~Nh
 konsorten/~~V # auto-added
-konstant/~~NXh
+konstant/~~hJ
 konstanz/~~Nh
 konstrukt/~~Nh
 konsulare/~~Nh
@@ -89697,7 +89697,7 @@ kontieren/~~V # auto-added
 kontierst/~~Nh
 kontiert/~~Nh
 kontinent/~~Nh
-kontinuum/~~Za #  auto-added
+kontinuum/~~Zah  # preposition um #  auto-added
 kontoren/~~V # auto-added
 kontovers/~~Nh
 kontrakt/~~NXh
@@ -90019,7 +90019,7 @@ krassest/~~Nh
 krasseste/~~Nh
 kratersee/~~Nh
 kratzband/~~Nh
-kratzbaum/~~Za #  auto-added
+kratzbaum/~~Zah  # preposition um #  auto-added
 kratzende/~~Nh
 kratzern/~~V # auto-added
 kratzers/~~Nh
@@ -90212,7 +90212,7 @@ kriseltet/~~Nh
 kristall/~~NXh
 kristalls/~~Nh
 kriterien/~~Nh # plural of Kriterium
-kriterium/~~Zah #  auto-added
+kriterium/~~Zah  # preposition umh #  auto-added
 kritiken/~~V # auto-added
 kritiker/~~Mh
 kritikern/~~V # auto-added
@@ -90472,7 +90472,7 @@ kultorten/~~V # auto-added
 kultortes/~~Nh
 kultorts/~~Nh # auto-added
 kultplatz/~~Nh
-kultraum/~~Za #  auto-added
+kultraum/~~Zah  # preposition um #  auto-added
 kultraums/~~Nh
 kulträume/~~Nh
 kultstein/~~Nh
@@ -90581,7 +90581,7 @@ kuriosem/~~Nh
 kuriosen/~~V # auto-added
 kurioser/~~Mh
 kurioses/~~Nh
-kuriosum/~~Za #  auto-added
+kuriosum/~~Zah  # preposition um #  auto-added
 kurrentem/~~Nh
 kurrenten/~~V # auto-added
 kurrenter/~~Mh
@@ -90741,7 +90741,7 @@ kölschem/~~Nh
 kölschen/~~XZ #  auto-added
 kölscher/~~Mh
 kölsches/~~Nh
-königtum/~~Za #  auto-added
+königtum/~~Zah  # preposition um #  auto-added
 königtums/~~Nh
 könnende/~~Nh
 könnendem/~~Nh
@@ -91009,7 +91009,7 @@ laienbund/~~Nh
 laienchor/~~Nh
 laienhaus/~~Nh
 laienjury/~~Nh
-laientum/~~Za #  auto-added
+laientum/~~Zah  # preposition um #  auto-added
 laientums/~~Nh
 laienäbte/~~Nh
 laikalem/~~Nh
@@ -91323,7 +91323,7 @@ lautstand/~~Nh
 lautwerde/~~Nh
 lautwert/~~NXh
 lautwerts/~~Nh
-lautwird/~~Nh
+lautwird/~~Vt # 3rd person singular of werden
 lautwirst/~~Nh
 lautwurde/~~Nh
 lautwürde/~~Nh
@@ -91938,7 +91938,7 @@ limburgs/~~Nh
 limerick/~~Nh
 limesfall/~~Nh # auto-added
 limesholz/~~Nh
-limesraum/~~Za #  auto-added
+limesraum/~~Zah  # preposition um #  auto-added
 limestor/~~Nh
 limestors/~~Nh
 limesturm/~~Nh
@@ -91998,7 +91998,7 @@ linksgrün/~~Nh
 linkshin/~~Nh
 linktest/~~Nh
 linodurs/~~Nh
-linoleum/~~Za #  auto-added
+linoleum/~~Zah  # preposition um #  auto-added
 linoxine/~~Nh
 linoxinen/~~V # auto-added
 linoxins/~~Nh
@@ -92060,7 +92060,7 @@ lithograf/~~Nh
 liturgie/~~Nh
 liveacts/~~Nh
 livealben/~~V # auto-added
-livealbum/~~Za #  auto-added
+livealbum/~~Zah  # preposition um #  auto-added
 liveband/~~Nh
 livebands/~~Nh
 livebild/~~Nh
@@ -92173,7 +92173,7 @@ lohnendes/~~Nh
 lohnendst/~~Nh
 lohnplus/~~Nh
 lohntest/~~Nh
-loireraum/~~Za #  auto-added
+loireraum/~~Zah  # preposition um #  auto-added
 loiretals/~~Nh
 lokalität/~~Nh
 lokführer/~~Mh
@@ -92525,7 +92525,7 @@ lustloser/~~Mh
 lustloses/~~Nh
 lustreich/~~Nh
 lustvolle/~~Nh
-lutetium/~~Za #  auto-added
+lutetium/~~Zah  # preposition um #  auto-added
 lutetiums/~~Nh
 luthertag/~~Nh
 lutherweg/~~Nh
@@ -92866,7 +92866,7 @@ magmaseen/~~V # auto-added
 magnaten/~~V # auto-added
 magnesit/~~Nh
 magnesits/~~Nh
-magnesium/~~Za #  auto-added
+magnesium/~~Zah  # preposition um #  auto-added
 magneten/~~V # auto-added
 magnetes/~~Nh
 magnetik/~~Nh
@@ -93107,7 +93107,7 @@ mangelnd/~~Nh
 mangelnde/~~Nh
 mangelten/~~V # auto-added
 mangeltet/~~Nh
-mangobaum/~~Za #  auto-added
+mangobaum/~~Zah  # preposition um #  auto-added
 mangokern/~~V # auto-added
 mangolds/~~Nh
 mangrove/~~Nh
@@ -93193,7 +93193,7 @@ markhöhle/~~Nh
 markiere/~~Nh
 markieren/~~V # auto-added
 markierst/~~Nh
-markiert/~~NXh
+markiert/~~hV
 markigem/~~Nh
 markigen/~~V # auto-added
 markiger/~~Mh
@@ -93206,7 +93206,7 @@ markloser/~~Mh
 markloses/~~Nh
 marknagel/~~Nh
 marknägel/~~Nh
-markraum/~~Za #  auto-added
+markraum/~~Zah  # preposition um #  auto-added
 markraums/~~Nh
 markräume/~~Nh
 markröhre/~~Nh
@@ -93261,7 +93261,7 @@ martertet/~~Nh
 martertod/~~Nh
 marterung/~~Fh
 martyrien/~~V # auto-added
-martyrium/~~Za #  auto-added
+martyrium/~~Zah  # preposition um #  auto-added
 marxismus/~~Mh
 marxisten/~~V # auto-added
 marxistin/~~Nh
@@ -93417,7 +93417,7 @@ mausertet/~~Nh
 mausetot/~~NXh
 mausezahn/~~Nh
 mausgraue/~~Nh
-mausoleum/~~Za #  auto-added
+mausoleum/~~Zah  # preposition um #  auto-added
 mautfreie/~~Nh
 maxikleid/~~Nh
 maxillar/~~NXh
@@ -94661,7 +94661,7 @@ momentan/~~Nh
 momentane/~~Nh
 momenten/~~V # auto-added
 momentes/~~Nh
-momentum/~~Za #  auto-added
+momentum/~~Zah  # preposition um #  auto-added
 momentums/~~Nh
 monarchie/~~Nh
 monarchin/~~Nh
@@ -94864,7 +94864,7 @@ mormonen/~~V # auto-added
 morphine/~~Nh
 morphinen/~~V # auto-added
 morphins/~~Nh
-morphium/~~Za #  auto-added
+morphium/~~Zah  # preposition um #  auto-added
 morphiums/~~Nh
 morpholin/~~Nh
 morschem/~~Nh
@@ -95128,7 +95128,7 @@ myrrhenöl/~~Nh
 myrrheöl/~~Nh
 myrrheöls/~~Nh
 mysterien/~~V # auto-added
-mysterium/~~Za #  auto-added
+mysterium/~~Zah  # preposition um #  auto-added
 mysteriös/~~Nh
 mystiker/~~Mh
 mystikern/~~V # auto-added
@@ -95237,15 +95237,15 @@ möbliert/~~NXh
 mögendem/~~Nh
 mögender/~~Mh
 mögendes/~~Nh
-möglichst/~~Nh
+möglichst/~~hr
 möhnesee/~~Nh
 möhnesees/~~Nh
 möhrchen/~~XZ #  auto-added
 möhrchens/~~Nh
 mölltales/~~Nh
 mölltals/~~Nh
-mönchstum/~~Za #  auto-added
-mönchtum/~~Za #  auto-added
+mönchstum/~~Zah  # preposition um #  auto-added
+mönchtum/~~Zah  # preposition um #  auto-added
 mönchtums/~~Nh
 möpschen/~~XZ #  auto-added
 möpschens/~~Nh
@@ -95890,7 +95890,7 @@ nepalesin/~~Nh
 nephograf/~~Nh
 nephritis/~~Nh
 nepptest/~~Nh
-neptunium/~~Za #  auto-added
+neptunium/~~Zah  # preposition um #  auto-added
 neptuntag/~~Nh
 nerozeit/~~Nh
 nervalem/~~Nh
@@ -95925,7 +95925,7 @@ nerzstola/~~Nh
 nerzzucht/~~Nh
 nestbasis/~~Nh
 nestbaues/~~Nh
-nestbaum/~~Za #  auto-added
+nestbaum/~~Zah  # preposition um #  auto-added
 nestbaums/~~Nh
 nestbäume/~~Nh
 nestelnd/~~Nh
@@ -96128,7 +96128,7 @@ nippflut/~~Nh
 nipptest/~~Nh
 nirgends/~~Nh
 nirgendwo/~~Nh
-nistbaum/~~Za #  auto-added
+nistbaum/~~Zah  # preposition um #  auto-added
 nistbaums/~~Nh
 nistbäume/~~Nh
 nistende/~~Nh
@@ -96171,7 +96171,7 @@ nitrosen/~~V # auto-added
 nitroser/~~Mh
 nitroses/~~Nh
 niveauarm/~~Nh
-nobelium/~~Za #  auto-added
+nobelium/~~Zah  # preposition um #  auto-added
 nobeliums/~~Nh
 nobelste/~~Nh
 nobelstem/~~Nh
@@ -96475,7 +96475,7 @@ obelisken/~~V # auto-added
 obendrauf/~~Nh
 obendrein/~~Nh
 obendurch/~~Nh
-obenherum/~~Za #  auto-added
+obenherum/~~Zah  # preposition um #  auto-added
 oberaden/~~V # auto-added
 oberadens/~~Nh
 oberauer/~~Mh
@@ -96660,7 +96660,7 @@ oktanzahl/~~Nh
 oktavbass/~~Nh
 oktavchor/~~Nh
 oktavlage/~~Nh
-oktavraum/~~Za #  auto-added
+oktavraum/~~Zah  # preposition um #  auto-added
 oktavtöne/~~Nh
 oktobern/~~V # auto-added
 oktobers/~~Nh
@@ -96814,7 +96814,7 @@ orangenes/~~Nh
 orangerie/~~Nh
 orangeton/~~Nh
 oratorien/~~V # auto-added
-oratorium/~~Za #  auto-added
+oratorium/~~Zah  # preposition um #  auto-added
 orbitale/~~Nh
 orbitalem/~~Nh
 orbitalen/~~V # auto-added
@@ -97066,7 +97066,7 @@ palavert/~~NXh
 paletten/~~V # auto-added
 palisade/~~Nh
 palisaden/~~V # auto-added
-palladium/~~Za #  auto-added
+palladium/~~Zah  # preposition um #  auto-added
 palmblatt/~~Nh
 palmenart/~~Nh # auto-added
 palmfarn/~~Nh
@@ -97176,7 +97176,7 @@ pappsatt/~~NXh
 papptest/~~Nh
 papstnah/~~NXh
 papsttreu/~~Nh
-papsttum/~~Za #  auto-added
+papsttum/~~Zah  # preposition um #  auto-added
 papsttums/~~Nh
 parabeln/~~V # auto-added
 paradiere/~~Nh
@@ -97257,7 +97257,7 @@ partners/~~Nh
 partybild/~~Nh
 partygast/~~Nh
 partylied/~~Nh
-partyraum/~~Za #  auto-added
+partyraum/~~Zah  # preposition um #  auto-added
 parvenüs/~~Nh
 parzelle/~~Nh
 parzellen/~~V # auto-added
@@ -97296,7 +97296,7 @@ passiver/~~Mh
 passivere/~~Nh
 passives/~~Nh
 passivste/~~Nh
-passivum/~~Za #  auto-added
+passivum/~~Zah  # preposition um #  auto-added
 passungen/~~V # auto-added
 pastellen/~~V # auto-added
 pasteten/~~V # auto-added
@@ -97563,7 +97563,7 @@ peroxids/~~Nh
 peroxisom/~~Nh
 peroxyden/~~V # auto-added
 peroxyds/~~Nh
-perpetuum/~~Za #  auto-added
+perpetuum/~~Zah  # preposition um #  auto-added
 perplexem/~~Nh
 perplexen/~~V # auto-added
 perplexer/~~Mh
@@ -97615,7 +97615,7 @@ petition/~~Nh
 petritor/~~Nh
 petritors/~~Nh
 petrograf/~~Nh
-petroleum/~~Za #  auto-added
+petroleum/~~Zah  # preposition um #  auto-added
 petticoat/~~Nh
 petunien/~~V # auto-added
 petzende/~~Nh
@@ -97814,7 +97814,7 @@ phrasiert/~~Nh
 physiker/~~Mh
 physikern/~~V # auto-added
 physikers/~~Nh
-physikum/~~Za #  auto-added
+physikum/~~Zah  # preposition um #  auto-added
 physikums/~~Nh
 phytogen/~~V # auto-added
 phytogene/~~Nh
@@ -98135,7 +98135,7 @@ plebiszit/~~Nh
 pleiotrop/~~Nh
 pleitier/~~Mh
 pleitiers/~~Nh
-plektrum/~~Za #  auto-added
+plektrum/~~Zah  # preposition um #  auto-added
 plektrums/~~Nh
 plempern/~~V # auto-added
 plemplem/~~Nh
@@ -98188,7 +98188,7 @@ pluswerts/~~Nh
 plutobahn/~~Nh # auto-added
 plutogroß/~~Nh
 plutomond/~~Nh
-plutonium/~~Za #  auto-added
+plutonium/~~Zah  # preposition um #  auto-added
 plymouth/~~Nh
 plädiere/~~Nh
 plädieren/~~V # auto-added
@@ -98288,7 +98288,7 @@ poliswelt/~~Nh
 politesse/~~Nh
 politiken/~~V # auto-added
 politiker/~~Mh
-politikum/~~Za #  auto-added
+politikum/~~Zah  # preposition um #  auto-added
 polizeien/~~V # auto-added
 polizist/~~Mh
 pollinie/~~Nh
@@ -98303,7 +98303,7 @@ polnahes/~~Nh
 polohemd/~~Nh
 polohemds/~~Nh
 polonaise/~~Nh
-polonium/~~Za #  auto-added
+polonium/~~Zah  # preposition um #  auto-added
 poloniums/~~Nh
 polonäse/~~Nh
 polonäsen/~~V # auto-added
@@ -98559,7 +98559,7 @@ prahltet/~~Nh
 praktika/~~Nh
 praktiken/~~V # auto-added
 praktiker/~~Mh
-praktikum/~~Za #  auto-added
+praktikum/~~Zah  # preposition um #  auto-added
 pralinen/~~V # auto-added
 prallende/~~Nh
 prallere/~~Nh
@@ -98859,7 +98859,7 @@ prozesses/~~Nh
 prozessor/~~Nh
 prunkbau/~~Nbh
 prunkende/~~Nh
-prunkraum/~~Za #  auto-added
+prunkraum/~~Zah  # preposition um #  auto-added
 prunksäle/~~Nh
 prunktest/~~Nh
 prunktet/~~Nh
@@ -98897,7 +98897,7 @@ prägtest/~~Nh
 prägungen/~~V # auto-added
 präjudiz/~~NXh
 prälaten/~~V # auto-added
-präludium/~~Za #  auto-added
+präludium/~~Zah  # preposition um #  auto-added
 prämiere/~~Nh
 prämieren/~~V # auto-added
 prämierst/~~Nh
@@ -98919,7 +98919,7 @@ präsentes/~~Nh
 präsenzen/~~V # auto-added
 präsident/~~Nh
 präsidien/~~V # auto-added
-präsidium/~~Za #  auto-added
+präsidium/~~Zah  # preposition um #  auto-added
 präurban/~~Nh
 präurbane/~~Nh
 prävalent/~~Nh
@@ -98971,7 +98971,7 @@ publikem/~~Nh
 publiken/~~V # auto-added
 publiker/~~Mh
 publikes/~~Nh
-publikum/~~Za #  auto-added
+publikum/~~Zah  # preposition um #  auto-added
 publikums/~~Nh
 publizist/~~Nh
 puddings/~~Nh
@@ -99945,8 +99945,8 @@ rechtens/~~Nh
 rechtler/~~Mh
 rechtlern/~~V # auto-added
 rechtlers/~~Nh
-rechtsrum/~~Za #  auto-added
-rechtsum/~~Za #  auto-added
+rechtsrum/~~Zah  # preposition um #  auto-added
+rechtsum/~~Zah  # preposition um #  auto-added
 reckende/~~Nh
 reckendem/~~Nh
 reckender/~~Mh
@@ -100030,7 +100030,7 @@ reformers/~~Nh
 reformier/~~Mh
 refrains/~~Nh
 refraktär/~~Nh
-refugium/~~Za #  auto-added
+refugium/~~Zah  # preposition um #  auto-added
 regalien/~~V # auto-added
 regalwand/~~Nh
 regatten/~~V # auto-added
@@ -100469,7 +100469,7 @@ reliquiar/~~Nh
 reliquie/~~Nh
 reliquien/~~V # auto-added
 remanent/~~NXh
-remedium/~~Za #  auto-added
+remedium/~~Zah  # preposition um #  auto-added
 remediums/~~Nh
 remeduren/~~V # auto-added
 remisiere/~~Nh
@@ -100564,7 +100564,7 @@ residenz/~~Nh
 residiere/~~Nh
 residiert/~~Nh
 residuen/~~V # auto-added
-residuum/~~Za #  auto-added
+residuum/~~Zah  # preposition um #  auto-added
 residuums/~~Nh
 resilient/~~Nh
 resistent/~~Nh
@@ -100596,7 +100596,7 @@ resümees/~~Nh
 resümiere/~~Nh
 resümiert/~~Nh
 retikula/~~Nh
-retikulum/~~Za #  auto-added
+retikulum/~~Zah  # preposition um #  auto-added
 retikulär/~~Nh
 retinalem/~~Nh
 retinalen/~~V # auto-added
@@ -100828,7 +100828,7 @@ rissiges/~~Nh
 rissigste/~~Nh
 ritalins/~~Nh
 ritterin/~~Nh
-rittertum/~~Za #  auto-added
+rittertum/~~Zah  # preposition um #  auto-added
 rittigem/~~Nh
 rittigen/~~V # auto-added
 rittiger/~~Mh
@@ -100856,7 +100856,7 @@ roadmovie/~~Nh
 roamings/~~Nh
 roastbeef/~~Nh
 robbarien/~~V # auto-added
-robbarium/~~Za #  auto-added
+robbarium/~~Zah  # preposition um #  auto-added
 robbtest/~~Nh
 robotern/~~V # auto-added
 roboters/~~Nh
@@ -101107,7 +101107,7 @@ roulette/~~Nh
 routinen/~~V # auto-added
 routings/~~Nh
 routinier/~~Mh
-rowdytum/~~Za #  auto-added
+rowdytum/~~Zah  # preposition um #  auto-added
 rowdytums/~~Nh
 royalblau/~~Nh
 royalist/~~Nh
@@ -101120,7 +101120,7 @@ rubbelten/~~V # auto-added
 rubbeltet/~~Nh
 rubelkurs/~~Nh
 rubelnote/~~Nh
-rubidium/~~Za #  auto-added
+rubidium/~~Zah  # preposition um #  auto-added
 rubidiums/~~Nh
 rubinglas/~~Nh
 rubinrot/~~NXh
@@ -101371,7 +101371,7 @@ rundgeht/~~Nh
 rundging/~~Nh
 rundginge/~~Nh
 rundgingt/~~Nh
-rundherum/~~Za #  auto-added
+rundherum/~~Zah  # preposition um #  auto-added
 rundlaufe/~~Nh
 rundlauft/~~Nh
 rundlief/~~NXh
@@ -101418,7 +101418,7 @@ russland/~~Nh
 russlands/~~Nh
 russophob/~~Nh
 russophon/~~Nh
-ruthenium/~~Za #  auto-added
+ruthenium/~~Zah  # preposition um #  auto-added
 rutschen/~~XZ #  auto-added
 rutschend/~~Nh
 rutsches/~~Nh
@@ -101885,7 +101885,7 @@ salzärmer/~~Mh
 samaiten/~~V # auto-added
 samaitens/~~Nh
 samariter/~~Mh
-samarium/~~Za #  auto-added
+samarium/~~Zah  # preposition um #  auto-added
 samariums/~~Nh
 samarkand/~~Nh
 samenfest/~~Nh
@@ -101903,7 +101903,7 @@ samoanern/~~V # auto-added
 samoaners/~~Nh
 samojede/~~Nh
 samojeden/~~V # auto-added
-samowaren/~~V # auto-added
+samowaren/~~V  # 1st/3rd plural past of sein # auto-added
 samowars/~~Nh
 sampelnd/~~Nh
 sampelnde/~~Nh
@@ -102167,7 +102167,7 @@ saxofons/~~Nh
 saxophon/~~Nh
 saxophone/~~Nh
 saxophons/~~Nh
-scandium/~~Za #  auto-added
+scandium/~~Zah  # preposition um #  auto-added
 scandiums/~~Nh
 scannende/~~Nh
 scannern/~~V # auto-added
@@ -102483,7 +102483,7 @@ schimmele/~~Nh
 schimmeln/~~V # auto-added
 schimmels/~~Nh
 schimmelt/~~Nh
-schimmer/~~Mh
+schimmer/~~rh  # adverb always
 schimmere/~~Nh
 schimmern/~~V # auto-added
 schimmers/~~Nh
@@ -102632,7 +102632,7 @@ schlieren/~~V # auto-added
 schließe/~~Nh
 schließen/~~V # auto-added
 schließer/~~Mh
-schließt/~~Nh
+schließt/~~hV
 schliffe/~~Nh
 schliffen/~~V # auto-added
 schliffes/~~Nh
@@ -102640,7 +102640,7 @@ schliffs/~~Nh
 schlifft/~~Nh
 schlimmem/~~Nh
 schlimmen/~~V # auto-added
-schlimmer/~~Mh
+schlimmer/~~rh  # adverb always
 schlimmes/~~Nh
 schlinge/~~Nh
 schlingel/~~Nh
@@ -103090,7 +103090,7 @@ schrämtet/~~Nh
 schränke/~~Nh
 schränken/~~V # auto-added
 schränkst/~~Nh
-schränkt/~~NXh
+schränkt/~~hV
 schröpfe/~~Nh
 schröpfen/~~V # auto-added
 schröpfst/~~Nh
@@ -103285,7 +103285,7 @@ schwillst/~~Nh
 schwillt/~~Nh
 schwimm/~~NXh
 schwimmen/~~V # auto-added
-schwimmer/~~Mh
+schwimmer/~~rh  # adverb always
 schwimmt/~~Nh
 schwinde/~~Nh
 schwinden/~~V # auto-added
@@ -103597,7 +103597,7 @@ sechstem/~~Nh
 sechstens/~~Nh
 sechster/~~Mh
 sechstes/~~Nh
-sechzehn/~~Nh
+sechzehn/~~hJ
 sedantag/~~NXh
 sedantags/~~Nh
 sedier/~~Vej # REPLACES sedieren
@@ -104157,7 +104157,7 @@ sieches/~~Nh
 siechten/~~V # auto-added
 siechtest/~~Nh
 siechtet/~~Nh
-siechtum/~~Za #  auto-added
+siechtum/~~Zah  # preposition um #  auto-added
 siechtums/~~Nh
 siedegrad/~~Nh
 siedehaus/~~Nh
@@ -104266,7 +104266,7 @@ silicagel/~~Nh
 silicat/~~NXh
 silicaten/~~V # auto-added
 silicats/~~Nh
-silicium/~~Za #  auto-added
+silicium/~~Zah  # preposition um #  auto-added
 siliciums/~~Nh
 silicon/~~Nh
 silicone/~~Nh
@@ -104286,7 +104286,7 @@ silikonen/~~V # auto-added
 silikons/~~Nh
 silikose/~~Nh
 silikosen/~~V # auto-added
-silizium/~~Za #  auto-added
+silizium/~~Zah  # preposition um #  auto-added
 siliziums/~~Nh
 silofrei/~~NXh
 silomais/~~Nh
@@ -104523,7 +104523,7 @@ skythiens/~~Nh
 slaloms/~~Nh
 slangwort/~~Nh
 slapstick/~~Nh
-slawentum/~~Za #  auto-added
+slawentum/~~Zah  # preposition um #  auto-added
 slawinnen/~~V # auto-added
 slawofon/~~Nh
 slawofone/~~Nh
@@ -104606,7 +104606,7 @@ solarer/~~Mh
 solares/~~Nh
 solarien/~~V # auto-added
 solaris/~~Nh
-solarium/~~Za #  auto-added
+solarium/~~Zah  # preposition um #  auto-added
 solariums/~~Nh
 solchem/~~Nh
 solcher/~~Mh
@@ -104681,7 +104681,7 @@ sommern/~~V # auto-added
 sommers/~~Nh
 somnambul/~~Nh
 somnolent/~~Nh
-sonarraum/~~Za #  auto-added
+sonarraum/~~Zah  # preposition um #  auto-added
 sonaten/~~V # auto-added
 sondage/~~Nh
 sondagen/~~V # auto-added
@@ -104932,7 +104932,7 @@ speisung/~~Fh
 speiübel/~~Nh
 spektakel/~~Nh
 spektren/~~V # auto-added
-spektrum/~~Za #  auto-added
+spektrum/~~Zah  # preposition um #  auto-added
 spektrums/~~Nh
 spekulant/~~Nh
 spelunke/~~Nh
@@ -104994,7 +104994,7 @@ spiegeln/~~V # auto-added
 spiegelnd/~~Nh
 spiegelns/~~Nh
 spiegels/~~Nh
-spiegelt/~~NXh
+spiegelt/~~hV
 spiegle/~~Nh
 spieglung/~~Fh
 spielchen/~~XZ #  auto-added
@@ -105122,7 +105122,7 @@ sponsoren/~~V # auto-added
 sponsorin/~~Nh
 sponsors/~~Nh
 sponsre/~~Nh
-spontan/~~Nh
+spontan/~~hJ
 spontane/~~Nh
 spontanem/~~Nh
 spontanen/~~V # auto-added
@@ -105182,7 +105182,7 @@ sprechers/~~Nh
 sprecht/~~Nh
 spreearm/~~NXh
 spreearms/~~Nh
-spreeraum/~~Za #  auto-added
+spreeraum/~~Zah  # preposition um #  auto-added
 spreetals/~~Nh
 spreeufer/~~Mh
 spreewald/~~Nh
@@ -105206,7 +105206,7 @@ sprenkele/~~Nh
 sprenkeln/~~V # auto-added
 sprenkelt/~~Nh
 sprenkle/~~Nh
-spricht/~~Nh
+spricht/~~hV
 sprieße/~~Nh
 sprieß/~~Vej # REPLACES sprießen
 sprießend/~~Nh
@@ -105429,7 +105429,7 @@ stachus/~~Nh
 stadien/~~V # auto-added
 stadion/~~Nh
 stadions/~~Nh
-stadium/~~Za #  auto-added
+stadium/~~Zah  # preposition um #  auto-added
 stadiums/~~Nh
 stadtfein/~~Nh
 stadtnah/~~NXh
@@ -105473,7 +105473,7 @@ stalktet/~~Nh
 stalles/~~Nh
 stallgeld/~~Nh
 stallmist/~~Nh
-stallraum/~~Za #  auto-added
+stallraum/~~Zah  # preposition um #  auto-added
 stalltür/~~NXh
 stallung/~~Fh
 stammel/~~NXh
@@ -105616,7 +105616,7 @@ stattest/~~Nh
 stattet/~~NXh
 statteten/~~V # auto-added
 stattetet/~~Nh
-stattfand/~~Nh
+stattfand/~~hV
 stattgab/~~Nh
 stattgabt/~~Nh
 stattgebe/~~Nh
@@ -105677,7 +105677,7 @@ staunende/~~Nh
 stauntest/~~Nh
 stauntet/~~Nh
 staunässe/~~Nh
-stauraum/~~Za #  auto-added
+stauraum/~~Zah  # preposition um #  auto-added
 stauraums/~~Nh
 stauregen/~~V # auto-added
 staureich/~~Nh
@@ -106043,7 +106043,7 @@ stimmchen/~~XZ #  auto-added
 stimm/~~Vej # REPLACES stimmen
 stimmende/~~Nh
 stimmens/~~Nh
-stimmer/~~Mh
+stimmer/~~rh  # adverb always
 stimmern/~~V # auto-added
 stimmers/~~Nh
 stimmigst/~~Nh
@@ -106357,7 +106357,7 @@ stromert/~~NXh
 stromes/~~Nh
 stromfrei/~~Nh
 stromre/~~Nh
-strontium/~~Za #  auto-added
+strontium/~~Zah  # preposition um #  auto-added
 strophe/~~Nh
 strophen/~~V # auto-added
 strotz/~~Vej # REPLACES strotzen
@@ -106426,7 +106426,7 @@ studien/~~V # auto-added
 studiere/~~Nh
 studieren/~~Vcej #  auto-added | study - from Mediziner studiert
 studierst/~~Nh
-studiert/~~NXh
+studiert/~~hV
 studium/~~Zh #  auto-added
 studiums/~~Nh
 stufende/~~Nh
@@ -106897,7 +106897,7 @@ supporten/~~V # auto-added
 supportet/~~Nh
 supports/~~Nh # auto-added
 suprema/~~Nh
-supremum/~~Za #  auto-added
+supremum/~~Zah  # preposition um #  auto-added
 supremums/~~Nh
 surfboard/~~Nh
 surfbrett/~~Nh
@@ -106970,7 +106970,7 @@ sympathie/~~Nh
 symphonie/~~Nh
 symposien/~~V # auto-added
 symposion/~~Nh
-symposium/~~Za #  auto-added
+symposium/~~Zah  # preposition um #  auto-added
 symptom/~~NXh
 symptomen/~~V # auto-added
 symptoms/~~Nh
@@ -107012,7 +107012,7 @@ synthese/~~Nh
 synthesen/~~V # auto-added
 synthetik/~~Nh
 synzytien/~~V # auto-added
-synzytium/~~Za #  auto-added
+synzytium/~~Zah  # preposition um #  auto-added
 synäresis/~~Nh
 syphilis/~~Nh
 syratals/~~Nh
@@ -107028,7 +107028,7 @@ systems/~~Nh
 systemweit/~~RJOQRSTUWqh
 szenarien/~~V # auto-added
 szenario/~~Nbh
-szenarium/~~Za #  auto-added
+szenarium/~~Zah  # preposition um #  auto-added
 szenerie/~~Nh
 szenerien/~~V # auto-added
 säbelchen/~~XZ #  auto-added
@@ -107068,7 +107068,7 @@ säkularem/~~Nh
 säkularen/~~V # auto-added
 säkularer/~~Mh
 säkulares/~~Nh
-säkulum/~~Za #  auto-added
+säkulum/~~Zah  # preposition um #  auto-added
 sälchen/~~XZ #  auto-added
 sälchens/~~Nh
 sämerei/~~Nh
@@ -107722,7 +107722,7 @@ teaserten/~~V # auto-added
 technik/~~Nh
 techniken/~~V # auto-added
 techniker/~~Mh
-technikum/~~Za #  auto-added
+technikum/~~Zah  # preposition um #  auto-added
 technoid/~~NXh
 teckbahn/~~Nh # auto-added
 teckeln/~~V # auto-added
@@ -107785,7 +107785,7 @@ teigreste/~~Nh
 teigrests/~~Nh
 teigrolle/~~Nh
 teigware/~~Nh
-teigwaren/~~V # auto-added
+teigwaren/~~V  # 1st/3rd plural past of sein # auto-added
 teigzutat/~~Nh
 teilchen/~~XZ #  auto-added
 teilchens/~~Nh
@@ -107907,7 +107907,7 @@ tequila/~~Nbh
 terabyte/~~Nh
 terabytes/~~Nh
 teratogen/~~V # auto-added
-terbium/~~Za #  auto-added
+terbium/~~Zah  # preposition um #  auto-added
 terbiums/~~Nh
 terigem/~~Nh
 terigen/~~V # auto-added
@@ -107933,7 +107933,7 @@ terpentin/~~Nh
 terrain/~~Nh
 terrains/~~Nh
 terrarien/~~V # auto-added
-terrarium/~~Za #  auto-added
+terrarium/~~Zah  # preposition um #  auto-added
 terrasse/~~Nh
 terrassen/~~V # auto-added
 terrier/~~Mh
@@ -108043,7 +108043,7 @@ texturen/~~V # auto-added
 thaikatze/~~Nh
 thailand/~~Nh
 thailands/~~Nh
-thallium/~~Za #  auto-added
+thallium/~~Zah  # preposition um #  auto-added
 thalliums/~~Nh
 theater/~~Mh
 theatern/~~V # auto-added
@@ -108090,7 +108090,7 @@ thiopenen/~~V # auto-added
 thiopens/~~Nh
 thoraxen/~~V # auto-added
 thoraxes/~~Nh
-thorium/~~Za #  auto-added
+thorium/~~Zah  # preposition um #  auto-added
 thoriums/~~Nh
 thorsbild/~~Nh
 thrakien/~~V # auto-added
@@ -108114,7 +108114,7 @@ thronende/~~Nh
 thrones/~~Nh
 throntest/~~Nh
 throntet/~~Nh
-thulium/~~Za #  auto-added
+thulium/~~Zah  # preposition um #  auto-added
 thuliums/~~Nh
 thunersee/~~Nh
 thurgau/~~Nh
@@ -108643,7 +108643,7 @@ tourtest/~~Nh
 tourtet/~~Nh
 township/~~Nh
 townships/~~Nh
-toxikum/~~Za #  auto-added
+toxikum/~~Zah  # preposition um #  auto-added
 toxikums/~~Nh
 toxinen/~~V # auto-added
 toxintyp/~~Nh # auto-added
@@ -108678,7 +108678,7 @@ tradetest/~~Nh
 tradiere/~~Nh
 tradieren/~~V # auto-added
 tradierst/~~Nh
-tradiert/~~NXh
+tradiert/~~hV
 tradition/~~Nhi
 trafalgar/~~Nh
 trafest/~~Nh
@@ -109064,7 +109064,7 @@ tristeres/~~Nh
 tristes/~~Nh
 tristesse/~~Nh
 tristeste/~~Nh
-tritium/~~Za #  auto-added
+tritium/~~Zah  # preposition um #  auto-added
 tritiums/~~Nh
 tritten/~~V # auto-added
 trittes/~~Nh
@@ -109484,7 +109484,7 @@ tutorials/~~Nh
 tutorien/~~V # auto-added
 tutoriert/~~Nh
 tutorin/~~Nh
-tutorium/~~Za #  auto-added
+tutorium/~~Zah  # preposition um #  auto-added
 tutoriums/~~Nh
 twitter/~~Mh
 twittere/~~Nh
@@ -109702,7 +109702,7 @@ türkende/~~Nh
 türkendem/~~Nh
 türkender/~~Mh
 türkendes/~~Nh
-türkentum/~~Za #  auto-added
+türkentum/~~Zah  # preposition um #  auto-added
 türkheim/~~Nh
 türkheims/~~Nh
 türkinnen/~~V # auto-added
@@ -109777,7 +109777,7 @@ ulkigstes/~~Nh
 ulktest/~~Nh
 ulmenholz/~~Nh
 ultimaten/~~V # auto-added
-ultimatum/~~Za #  auto-added
+ultimatum/~~Zah  # preposition um #  auto-added
 ultradünn/~~Nh
 ultrafein/~~Nh
 ultrahart/~~Nh # auto-added
@@ -109786,7 +109786,7 @@ ultrakurz/~~Nh
 ultralang/~~Nh
 ultrarein/~~Nh
 ulzerogen/~~V # auto-added
-um/~~Za #  auto-added
+um/~~Ph  # preposition um
 umarbeite/~~Nh
 umarm/~~Vej # REPLACES umarmen
 umarmende/~~Nh
@@ -109840,7 +109840,7 @@ umbilde/~~Nh
 umbilden/~~V # auto-added
 umbildend/~~Nh
 umbildens/~~Nh
-umbildet/~~NXh
+umbildet/~~Vh  # 3rd person of bilden
 umbildung/~~Fh
 umbinde/~~Nh
 umbinden/~~V # auto-added
@@ -109967,7 +109967,7 @@ umfangs/~~Nh
 umfangt/~~Nh
 umfass/~~Vej # REPLACES umfassen
 umfassens/~~Nh
-umfasst/~~Nh
+umfasst/~~hV
 umfasste/~~Nh
 umfasstem/~~Nh
 umfasster/~~Mh
@@ -110214,7 +110214,7 @@ umherzogt/~~Nh
 umherzöge/~~Nh
 umhinkam/~~Nh
 umhinkamt/~~Nh
-umhinkann/~~Nh
+umhinkann/~~Vt # 3rd person singular of können
 umhinkäme/~~Nh
 umhäkelt/~~NXh
 umhänge/~~Nh
@@ -110938,7 +110938,7 @@ unbedacht/~~Nh
 unbedarft/~~Nh
 unbedeckt/~~Nh
 unbedient/~~Nh
-unbedingt/~~Nh
+unbedingt/~~hJ
 unbedroht/~~Nh
 unbeendet/~~Nh
 unbefugt/~~Nh
@@ -110985,7 +110985,7 @@ unbewehrt/~~Nh
 unbeweibt/~~Nh
 unbeweint/~~Nh
 unbewohnt/~~Nh
-unbewusst/~~Nh
+unbewusst/~~hJ
 unbewährt/~~Nh
 unbewölkt/~~Nh
 unbezahlt/~~Nh
@@ -111227,7 +111227,7 @@ unitäres/~~Nh
 univariat/~~Nh
 Universums/~~Z
 universen/~~V # auto-added
-Universum/~~Za #  auto-added
+Universum/~~Zah  # preposition um #  auto-added
 unixoid/~~NXh
 unixoidem/~~Nh
 unixoiden/~~V # auto-added
@@ -111302,7 +111302,7 @@ unsegens/~~Nh
 unsereins/~~Nh
 unserem/~~Nh
 unseren/~~V # auto-added
-unserer/~~Mh
+unserer/~~Ih  # possessive determiner genitive plural
 unseres/~~Nh
 unseriös/~~Nh
 unsicher/~~Mh
@@ -111329,7 +111329,7 @@ untaten/~~V # auto-added
 untenan/~~Nh
 untenher/~~Mh
 untenhin/~~Nh
-untenrum/~~Za #  auto-added
+untenrum/~~Zah  # preposition um #  auto-added
 unterau/~~Nbh
 unterauer/~~Mh
 unterband/~~Nh
@@ -111364,7 +111364,7 @@ unterkam/~~Nh
 unterkamt/~~Nh
 unterkäme/~~Nh
 unterkühl/~~Nh
-unterlag/~~Nh
+unterlag/~~hV
 unterlagt/~~Nh
 unterlass/~~Nh
 unterlege/~~Nh
@@ -111655,7 +111655,7 @@ vanadat/~~NXh
 vanadaten/~~V # auto-added
 vanadats/~~Nh
 vanadinit/~~Nh
-vanadium/~~Za #  auto-added
+vanadium/~~Zah  # preposition um #  auto-added
 vanadiums/~~Nh
 vanadocen/~~V # auto-added
 vancouver/~~Mh
@@ -111800,7 +111800,7 @@ verbalere/~~Nh
 verbales/~~Nh
 verballre/~~Nh
 verbalste/~~Nh
-verband/~~Nh
+verband/~~hV
 verbandes/~~Nh
 verbands/~~Nh
 verbanne/~~Nh
@@ -112154,7 +112154,7 @@ verfangt/~~Nh
 verfasse/~~Nh
 verfassen/~~V # auto-added
 verfasser/~~Mh
-verfasst/~~Nh
+verfasst/~~hV
 verfasste/~~Nh
 verfaule/~~Nh
 verfaulen/~~V # auto-added
@@ -112205,7 +112205,7 @@ verfolge/~~Nh
 verfolgen/~~V # auto-added
 verfolger/~~Mh
 verfolgst/~~Nh
-verfolgt/~~NXh
+verfolgt/~~hV
 verforme/~~Nh
 verformen/~~V # auto-added
 verformst/~~Nh
@@ -112279,7 +112279,7 @@ vergebe/~~Nh
 vergeben/~~V # auto-added
 vergebend/~~Nh
 vergebene/~~Nh
-vergebens/~~Nh
+vergebens/~~hV
 vergeber/~~Mh
 vergebern/~~V # auto-added
 vergebers/~~Nh
@@ -112579,7 +112579,7 @@ verkaufe/~~Nh
 verkaufen/~~V # auto-added
 verkaufes/~~Nh
 verkaufs/~~Nh
-verkauft/~~NXh
+verkauft/~~hV
 verkehre/~~Nh
 verkehren/~~V # auto-added
 verkehres/~~Nh
@@ -112781,7 +112781,7 @@ verletzt/~~NXh
 verleugne/~~Nh
 verleumde/~~Nh
 verlieben/~~V # auto-added
-verliebt/~~NXh
+verliebt/~~hV
 verlief/~~Nh
 verlieh/~~Nh
 verlieht/~~Nh
@@ -112789,7 +112789,7 @@ verlier/~~Mh
 verliere/~~Nh
 verlieren/~~V # auto-added
 verlierer/~~Mh
-verliert/~~Nh
+verliert/~~hV
 verliese/~~Nh
 verliesen/~~V # auto-added
 verlieses/~~Nh
@@ -112834,7 +112834,7 @@ verlängre/~~Nh
 verlässt/~~Nh
 verlästre/~~Nh
 verläufe/~~Nh
-verläuft/~~Nh
+verläuft/~~hV
 verlöbnis/~~Nh
 verlöre/~~Nh
 verlören/~~V # auto-added
@@ -113365,7 +113365,7 @@ verspüren/~~V # auto-added
 verspürst/~~Nh
 verspürt/~~NXh
 versroman/~~Nh
-verstand/~~Nh
+verstand/~~hV
 verstands/~~Nh
 verstarb/~~Nh
 verstarbt/~~Nh
@@ -113377,8 +113377,8 @@ verstaust/~~Nh
 verstaut/~~NXh
 verstecke/~~Nh
 verstecks/~~Nh
-versteckt/~~Nh
-versteht/~~Nh
+versteckt/~~hV
+versteht/~~hV
 versteife/~~Nh
 versteift/~~Nh
 versteigt/~~Nh
@@ -113429,7 +113429,7 @@ versuchen/~~XZ #  auto-added
 versucher/~~Mh
 versuches/~~Nh
 versuchs/~~Nh
-versucht/~~NXh
+versucht/~~hV
 versumpfe/~~Nh
 versumpft/~~Nh
 versungen/~~V # auto-added
@@ -113481,7 +113481,7 @@ vertaubt/~~NXh
 verteile/~~Nh
 verteilen/~~V # auto-added
 verteiler/~~Mh
-verteilt/~~NXh
+verteilt/~~hV
 verteuere/~~Nh
 verteuern/~~V # auto-added
 verteuert/~~Nh
@@ -113521,7 +113521,7 @@ vertrags/~~Nh
 vertragt/~~Nh
 vertrank/~~Nh
 vertrankt/~~Nh
-vertrat/~~Nh
+vertrat/~~hV
 vertrauen/~~V # auto-added
 vertraut/~~NXh
 vertrete/~~Nh
@@ -113716,7 +113716,7 @@ verziehen/~~V # auto-added
 verzieht/~~Nh
 verziere/~~Nh
 verzieren/~~V # auto-added
-verziert/~~NXh
+verziert/~~hV
 verzinke/~~Nh
 verzinken/~~V # auto-added
 verzinkst/~~Nh
@@ -113870,11 +113870,11 @@ vieleck/~~NXh
 vielecken/~~V # auto-added
 vieleckes/~~Nh
 vielerlei/~~Nh
-vielfach/~~NXh # auto-added
+vielfach/~~hr # auto-added
 vielfalt/~~Nh
 vielheit/~~Fh
 vielmals/~~Nh
-vielmehr/~~Nh
+vielmehr/~~hr
 vierakter/~~Mh
 viereck/~~NXh
 vierecken/~~V # auto-added
@@ -114044,7 +114044,7 @@ volieren/~~V # auto-added
 volkreich/~~Nh
 volksfern/~~V # auto-added
 volksnah/~~NXh
-volkstum/~~Za #  auto-added
+volkstum/~~Zah  # preposition um #  auto-added
 volkstums/~~Nh
 vollarid/~~NXh
 vollauf/~~Nh
@@ -114138,7 +114138,7 @@ volltankt/~~Nh
 volltrank/~~Nh
 vollzieh/~~NXh
 vollzieht/~~Nh
-vollzog/~~Nh
+vollzog/~~hV
 vollzogen/~~V # auto-added
 vollzogt/~~Nh
 vollzugs/~~Nh
@@ -114262,7 +114262,7 @@ vorgeht/~~Nh
 vorgehört/~~Nh
 vorgekaut/~~Nh
 vorgelebt/~~Nh
-vorgelegt/~~Nh
+vorgelegt/~~hV
 vorgelöst/~~Nh
 vorgesagt/~~Nh
 vorgewagt/~~Nh
@@ -114318,7 +114318,7 @@ vorkocht/~~NXh
 vorkomme/~~Nh
 vorkommen/~~V # auto-added
 vorkommst/~~Nh
-vorkommt/~~Nh
+vorkommt/~~hV
 vorkoste/~~Nh
 vorkosten/~~V # auto-added
 vorkoster/~~Mh
@@ -114534,7 +114534,7 @@ vorstehen/~~V # auto-added
 vorstehst/~~Nh
 vorsteht/~~Nh
 vorstelle/~~Nh
-vorstellt/~~Nh
+vorstellt/~~hV
 vorstieß/~~Nh
 vorstießt/~~Nh
 vorstoße/~~Nh
@@ -114758,7 +114758,7 @@ wachste/~~Nh
 wachstem/~~Nh
 wachster/~~Mh
 wachstes/~~Nh
-wachstum/~~Za #  auto-added
+wachstum/~~Zah  # preposition um #  auto-added
 wachstums/~~Nh
 wachtel/~~Nh
 wachtelei/~~Nh
@@ -114767,7 +114767,7 @@ wachtest/~~Nh
 wachtet/~~Nh
 wachtturm/~~Nh
 wachwerde/~~Nh
-wachwird/~~Nh
+wachwird/~~Vt # 3rd person singular of werden
 wachwirst/~~Nh
 wachwurde/~~Nh
 wachwürde/~~Nh
@@ -115059,7 +115059,7 @@ warmmache/~~Nh
 warmmacht/~~Nh
 warmweiß/~~NXh
 warmwerde/~~Nh
-warmwird/~~Nh
+warmwird/~~Vt # 3rd person singular of werden
 warmwirst/~~Nh
 warmwurde/~~Nh
 warmwürde/~~Nh
@@ -115156,7 +115156,7 @@ webendem/~~Nh
 webender/~~Mh
 webendes/~~Nh
 weberbach/~~Nh
-weberbaum/~~Za #  auto-added
+weberbaum/~~Zah  # preposition um #  auto-added
 weberei/~~Nh
 webereien/~~V # auto-added
 weberhaus/~~Nh
@@ -115498,7 +115498,7 @@ wegmachst/~~Nh
 wegmacht/~~NXh
 wegmittle/~~Nh
 wegmobben/~~V # auto-added
-wegmuss/~~Nh
+wegmuss/~~Vt # 3rd person singular of müssen
 wegmusste/~~Nh
 wegmüssen/~~V # auto-added
 wegmüsst/~~Nh
@@ -115798,7 +115798,7 @@ weichstes/~~Nh
 weichten/~~V # auto-added
 weichtest/~~Nh
 weichtet/~~Nh
-weichwird/~~Nh
+weichwird/~~Vt # 3rd person singular of werden
 weidende/~~Nh
 weidendem/~~Nh
 weidender/~~Mh
@@ -115820,7 +115820,7 @@ weigern/~~V # auto-added
 weigernd/~~Nh
 weigernde/~~Nh
 weigerns/~~Nh
-weigert/~~NXh
+weigert/~~hV
 weigerten/~~V # auto-added
 weigertet/~~Nh
 weigerung/~~Fh
@@ -115907,10 +115907,10 @@ weitchors/~~Nh
 weitere/~~Nh
 weiterem/~~Nh
 weiteren/~~V # auto-added
-weiterer/~~Mh
+weiterer/~~Jh  # further (adjective)
 weiteres/~~Nh
 weitergab/~~Nh
-weiterhin/~~Nh
+weiterhin/~~hr
 weiterkam/~~Nh
 weiterlas/~~Nh
 weiters/~~Nh
@@ -115926,7 +115926,7 @@ weiteten/~~V # auto-added
 weitetest/~~Nh
 weitetet/~~Nh
 weither/~~Mh
-weithin/~~Nh
+weithin/~~hr
 weitwurf/~~Nh
 weitwurfs/~~Nh
 weitwürfe/~~Nh
@@ -116142,7 +116142,7 @@ wesertals/~~Nh
 wesertor/~~Nh
 wesertors/~~Nh
 weserufer/~~Mh
-weshalb/~~Nh
+weshalb/~~hr
 wesiramt/~~Nh
 wesiramts/~~Nh
 wesiren/~~V # auto-added
@@ -116280,7 +116280,7 @@ wiederhat/~~Nh
 wiederkam/~~Nh
 wiederruf/~~Nh
 wiedersah/~~Nh
-wiederum/~~Za #  auto-added
+wiederum/~~r #  auto-added
 wiegeln/~~V # auto-added
 wiegelnd/~~Nh
 wiegelnde/~~Nh
@@ -116529,7 +116529,7 @@ wirsing/~~Nh
 wirsings/~~Nh
 wirtinnen/~~V # auto-added
 wirtsart/~~Nh # auto-added
-wirtsbaum/~~Za #  auto-added
+wirtsbaum/~~Zah  # preposition um #  auto-added
 wirtshaus/~~Nh
 wirtsholz/~~Nh
 wirtspilz/~~Nh
@@ -116601,7 +116601,7 @@ witzigere/~~Nh
 witziges/~~Nh
 witzigste/~~Nh
 wizards/~~Nh
-wo/~~Nh
+wo/~~hr
 woanders/~~Nh
 wobbele/~~Nh
 wobbeln/~~V # auto-added
@@ -116618,7 +116618,7 @@ wogendem/~~Nh
 wogender/~~Mh
 wogendes/~~Nh
 wogtest/~~Nh
-woherum/~~Za #  auto-added
+woherum/~~Zah  # preposition um #  auto-added
 wohinauf/~~Nh
 wohinaus/~~Nh
 wohinein/~~Nh
@@ -117136,9 +117136,9 @@ yohimbin/~~Nh
 yohimbins/~~Nh
 yokohama/~~Nh
 youngplan/~~Nh
-ytterbium/~~Za #  auto-added
+ytterbium/~~Zah  # preposition um #  auto-added
 yttererde/~~Nh
-yttrium/~~Za #  auto-added
+yttrium/~~Zah  # preposition um #  auto-added
 yttriums/~~Nh
 yucatan/~~Nh
 yucatans/~~Nh
@@ -117417,7 +117417,7 @@ zentriert/~~Nh
 zentriole/~~Nh
 zentromer/~~Mh
 zentrosom/~~Nh
-zentrum/~~Za #  auto-added
+zentrum/~~Zah  # preposition um #  auto-added
 zentrums/~~Nh
 zeolith/~~NXh
 zeolithen/~~V # auto-added
@@ -117449,7 +117449,7 @@ zerbracht/~~Nh
 zerbreche/~~Nh
 zerbrecht/~~Nh
 zerbrich/~~Nh
-zerbricht/~~Nh
+zerbricht/~~hV
 zerbräche/~~Nh
 zerbrösle/~~Nh
 zerbärste/~~Nh
@@ -117462,7 +117462,7 @@ zerdeppre/~~Nh
 zerdrück/~~NXh
 zerdrückt/~~Nh
 zerealien/~~V # auto-added
-zerebrum/~~Za #  auto-added
+zerebrum/~~Zah  # preposition um #  auto-added
 zerebrums/~~Nh
 zeremonie/~~Nh
 zerfahren/~~V # auto-added
@@ -117923,7 +117923,7 @@ zipfels/~~Nh
 zipptest/~~Nh
 zipptet/~~Nh
 zirbeln/~~V # auto-added
-zirconium/~~Za #  auto-added
+zirconium/~~Zah  # preposition um #  auto-added
 zirkadian/~~Nh
 zirkele/~~Nh
 zirkeln/~~V # auto-added
@@ -117933,7 +117933,7 @@ zirkels/~~Nh
 zirkelt/~~NXh
 zirkelten/~~V # auto-added
 zirkeltet/~~Nh
-zirkonium/~~Za #  auto-added
+zirkonium/~~Zah  # preposition um #  auto-added
 zirkons/~~Nh
 zirkular/~~NXh
 zirkulars/~~Nh
@@ -118337,7 +118337,7 @@ zugeeilt/~~NXh
 zugefasst/~~Nh
 zugefaxt/~~NXh
 zugefügt/~~NXh
-zugeführt/~~Nh
+zugeführt/~~hV
 zugefüllt/~~Nh
 zugegeben/~~V # auto-added
 zugegen/~~V # auto-added
@@ -118450,7 +118450,7 @@ zuginge/~~Nh
 zugingen/~~V # auto-added
 zugingt/~~Nh
 zugintern/~~V # auto-added
-zugleich/~~Nh
+zugleich/~~hr
 zugliedre/~~Nh
 zugossen/~~V # auto-added
 zugossest/~~Nh
@@ -118690,7 +118690,7 @@ zumauert/~~NXh
 zumaure/~~Nh
 zumaßen/~~V # auto-added
 zumaßest/~~Nh
-zumeist/~~Nh
+zumeist/~~hr
 zumesse/~~Nh
 zumessen/~~V # auto-added
 zumessend/~~Nh
@@ -118730,7 +118730,7 @@ zundern/~~V # auto-added
 zunders/~~Nh
 zunehme/~~Nh
 zunehmen/~~V # auto-added
-zunehmend/~~Nh
+zunehmend/~~hJ
 zunehmt/~~Nh
 zuneig/~~Vej # REPLACES zuneigen
 zuneigens/~~Nh
@@ -118749,7 +118749,7 @@ zunicktet/~~Nh
 zunimmst/~~Nh
 zunimmt/~~Nh
 zunutze/~~Nh
-zunächst/~~Nh
+zunächst/~~hr
 zunäh/~~Vej # REPLACES zunähen
 zunähend/~~Nh
 zunähende/~~Nh
@@ -119306,7 +119306,7 @@ zweifele/~~Nh
 zweifeln/~~V # auto-added
 zweifelnd/~~Nh
 zweifels/~~Nh
-zweifelt/~~NXh
+zweifelt/~~hV
 zweifle/~~Nh
 zweifler/~~Mh
 zweiflern/~~V # auto-added
@@ -119323,7 +119323,7 @@ zweitbest/~~Nh
 zweiteile/~~Nh
 zweiteilt/~~Nh
 zweitem/~~Nh
-zweitens/~~Nh
+zweitens/~~hJ
 zweiter/~~Mh
 zweitere/~~Nh
 zweiterem/~~Nh
@@ -120015,7 +120015,7 @@ zürntet/~~Nh
 überhand/~~Nh
 überhart/~~NXh # auto-added
 überhaste/~~Nh
-überhaupt/~~Nh
+überhaupt/~~hr
 überhebe/~~Nh
 überheben/~~V # auto-added
 überhebst/~~Nh
@@ -120131,7 +120131,7 @@ zürntet/~~Nh
 übermodre/~~Nh
 übermüden/~~V # auto-added
 übermüdet/~~Nh
-übernahm/~~NXh
+übernahm/~~hV
 übernahmt/~~Nh
 übernehme/~~Nh
 übernehmt/~~Nh
@@ -120144,7 +120144,7 @@ zürntet/~~Nh
 überordne/~~Nh
 überprägt/~~Nh
 überprüf/~~NXh
-überprüft/~~Nh
+überprüft/~~hV
 überprüfbar/~~JOQRSTUWqh # adjective, checkable
 überputze/~~Nh
 überputzt/~~Nh
@@ -120269,7 +120269,7 @@ zürntet/~~Nh
 überwölbt/~~Nh
 überzahlt/~~Nh
 überzeuge/~~Nh
-überzeugt/~~Nh
+überzeugt/~~hV
 überzieh/~~NXh
 überzieht/~~Nh
 überzog/~~Nh
@@ -124513,7 +124513,7 @@ herumtönen/~~Nh
 herumwirft/~~Nh
 herumwände/~~Fh
 herumwüten/~~Nh
-hervorging/~~Nh
+hervorging/~~hV
 hervorhöbe/~~Fh
 hervorkäme/~~Fh
 hervorrief/~~Nh
@@ -124635,7 +124635,7 @@ hinaushöbe/~~Fh
 hinauskäme/~~Fh
 hinauslief/~~Nh
 hinausließ/~~Nh
-hinausmuss/~~Nh
+hinausmuss/~~Vt # 3rd person singular of müssen
 hinausrief/~~Nh
 hinausritt/~~Nh
 hinaussähe/~~Fh
@@ -124658,7 +124658,7 @@ hindukusch/~~Nh
 hindustani/~~Nh
 hindämmern/~~Nh
 hineinbäte/~~Fh
-hineindarf/~~Nh
+hineindarf/~~Vt # 3rd person singular of dürfen
 hineinfand/~~Nh
 hineinfiel/~~Nh
 hineinflog/~~Nh
@@ -124674,7 +124674,7 @@ hineinkäme/~~Fh
 hineinlief/~~Nh
 hineinließ/~~Nh
 hineinläse/~~Fh
-hineinmuss/~~Nh
+hineinmuss/~~Vt # 3rd person singular of müssen
 hineinnahm/~~Nh
 hineinrief/~~Nh
 hineinriss/~~Nh
@@ -124843,7 +124843,7 @@ hochkantig/~~RJOQRSTUWqh
 hochkochen/~~Nh
 hochkommen/~~Nh
 hochkämmen/~~Nh
-hochlagern/~~Nh
+hochlagern/~~rh # adverb gladly
 hochlagert/~~Nh
 hochmodern/~~Nh
 hochmontan/~~Nh
@@ -125045,7 +125045,7 @@ igelmutter/~~Nh
 igelmütter/~~Nh
 igittigitt/~~Nh
 ignorieren/~~Nh
-ihrerseits/~~Nh
+ihrerseits/~~hr
 ihresteils/~~Nh
 ihretwegen/~~Nh # auto-added
 ijsselmeer/~~Nh
@@ -126737,7 +126737,7 @@ massekabel/~~Nh
 massenhaft/~~Nh
 massestück/~~Nh
 masseärmer/~~Nh
-massivwird/~~Nh
+massivwird/~~Vt # 3rd person singular of werden
 masterband/~~Nh
 mastermind/~~Nh
 masterplan/~~Nh
@@ -126953,7 +126953,7 @@ millionärs/~~Nh
 minderheit/~~Fh
 minderwert/~~Nh
 minderzahl/~~Nh
-mindestens/~~Nh
+mindestens/~~hr
 mineralarm/~~Nh
 mineralien/~~Nh
 mineraloge/~~Fh
@@ -127311,7 +127311,7 @@ mäusekönig/~~Nh
 mäuseplage/~~Fh
 mäusezähne/~~Fh
 möbiusband/~~Nh
-möchtegern/~~Nh
+möchtegern/~~rh # adverb gladly
 möhrensaft/~~Nh
 mönchsberg/~~Nh
 mönchschor/~~Nh
@@ -127601,7 +127601,7 @@ netzförmig/~~RJOQRSTUWqh
 netzintern/~~Nh
 netzseitig/~~RJOQRSTUWqh
 netzwerken/~~Nh
-neuerdings/~~Nh
+neuerdings/~~hr
 neuernannt/~~Nh
 neuerwacht/~~Nh
 neuflügler/~~Nh
@@ -129391,7 +129391,7 @@ schlesisch/~~RJOQRSTUWqh
 schleudern/~~Nh
 schlichten/~~Nh
 schlifftyp/~~Nh # auto-added
-schlingern/~~Nh
+schlingern/~~rh # adverb gladly
 schlittern/~~Nh
 schlitzohr/~~Nh
 schlohweiß/~~Nh
@@ -129527,7 +129527,7 @@ schwurhand/~~Nh
 schwäbisch/~~RJOQRSTUWqh
 schwächeln/~~Nh
 schwägerin/~~Nh
-schwängern/~~Nh
+schwängern/~~rh # adverb gladly
 schwänzeln/~~Nh
 schwülheiß/~~Nh
 schwülstig/~~RJOQRSTUWqh
@@ -129592,7 +129592,7 @@ seilschaft/~~Fh
 seiltanzen/~~Nh
 seilwinder/~~Nh
 seineinsel/~~Nh
-seinerzeit/~~Nh
+seinerzeit/~~hr
 seinlassen/~~Nh
 seinsfrage/~~Fh
 seinslehre/~~Fh
@@ -130913,7 +130913,7 @@ umzuhängen/~~Nh # auto-added
 umzukehren/~~Nh
 umzukippen/~~Nh
 umzukommen/~~Nh
-umzulagern/~~Nh
+umzulagern/~~rh # adverb gladly
 umzulaufen/~~Nh
 umzuleiten/~~Nh
 umzulenken/~~Nh
@@ -131067,7 +131067,7 @@ unterseits/~~Nh
 untersetzt/~~Nh
 unterspree/~~Fh
 unterstand/~~Nh
-untersucht/~~Nh
+untersucht/~~hV
 untertrieb/~~Nh
 untertägig/~~Nh
 untertänig/~~Nh
@@ -131270,7 +131270,7 @@ verheerend/~~Nh
 verheerung/~~Fh
 verhindern/~~Nh
 verhornend/~~Nh
-verhungern/~~Nh
+verhungern/~~rh # adverb gladly
 verhutzelt/~~Nh
 verhältnis/~~Nh
 verhängnis/~~Nh
@@ -131315,7 +131315,7 @@ verlockend/~~Nh
 verlottern/~~Nh
 verlustarm/~~Nh
 verlustlos/~~Nh
-verlängern/~~Nh
+verlängern/~~rh # adverb gladly
 verlästern/~~Nh
 verlöschen/~~Nh
 vermarkten/~~Nh
@@ -131348,7 +131348,7 @@ verquirlen/~~Nh
 verrauchen/~~Nh
 verrausche/~~Fh
 verrauscht/~~Nh
-verringern/~~Nh
+verringern/~~rh # adverb gladly
 verrunzelt/~~Nh
 verrutscht/~~Nh
 verräumend/~~Nh
@@ -131655,7 +131655,7 @@ vorkämpfen/~~Nh
 vorlageweg/~~Nh
 vormittags/~~Nh
 vornehmend/~~Nh
-vornherein/~~Nh
+vornherein/~~hr
 vorortbahn/~~Nh # auto-added
 vorortnetz/~~Nh
 vorprellen/~~Nh
@@ -131680,7 +131680,7 @@ vorstülpen/~~Nh
 vorstürmen/~~Nh
 vorwegnahm/~~Nh
 vorweisbar/~~JOQRSTUWqh
-vorwiegend/~~Nh
+vorwiegend/~~hr
 vorzubeten/~~Nh
 vorzueilen/~~Nh
 vorzukauen/~~Nh
@@ -131972,7 +131972,7 @@ weitersang/~~Nh
 weitersähe/~~Fh
 weitertrug/~~Nh
 weiterzöge/~~Fh
-weitgehend/~~Nh
+weitgehend/~~hr
 weitläufig/~~Nh
 weiträumig/~~Nh
 weitschuss/~~Nh
@@ -132014,7 +132014,7 @@ wendeplatz/~~Nh
 wendepunkt/~~Nh
 wendeschuh/~~Nh
 wendigkeit/~~Fh
-wenigstens/~~Nh
+wenigstens/~~hJ
 wenngleich/~~Nh
 werbemäßig/~~Nh
 werfthalle/~~Fh
@@ -132529,11 +132529,11 @@ zurückgibt/~~Nh
 zurückging/~~Nh
 zurückgäbe/~~Fh
 zurückhalf/~~Nh
-zurückkann/~~Nh
+zurückkann/~~Vt # 3rd person singular of können
 zurückkäme/~~Fh
 zurücklief/~~Nh
 zurückließ/~~Nh
-zurückmuss/~~Nh
+zurückmuss/~~Vt # 3rd person singular of müssen
 zurücknahm/~~Nh
 zurückrief/~~Nh
 zurückritt/~~Nh
@@ -132568,7 +132568,7 @@ zusprechen/~~Nh
 zuspringen/~~Nh # auto-added
 zustöpseln/~~Nh
 zusätzlich/~~JOQRSTUWqh
-zuteilwird/~~Nh
+zuteilwird/~~Vt # 3rd person singular of werden
 zutraulich/~~JOQRSTUWqh
 zutreffend/~~Nh
 zuträgerei/~~Nh
@@ -132661,7 +132661,7 @@ zweibändig/~~Nh
 zweidecker/~~Nh
 zweideckig/~~Nh
 zweideutig/~~Nh
-zweifarbig/~~Nh
+zweifarbig/~~hJ
 zweifellos/~~Nh
 zweifältig/~~Nh
 zweigängig/~~Nh
@@ -132832,7 +132832,7 @@ zürichberg/~~Nh
 überkommen/~~Nh
 überkronen/~~Nh
 überkrönen/~~Nh
-überlagern/~~Nh
+überlagern/~~rh # adverb gladly
 überlagert/~~Nh
 überlappen/~~Nh
 überlassen/~~Nh
@@ -133144,7 +133144,7 @@ angedonnert/~~Nh
 angedrungen/~~Nh # auto-added
 angedünstet/~~Nh
 angefeindet/~~Nh
-angefertigt/~~Nh
+angefertigt/~~hV
 angeflirtet/~~Nh
 angefochten/~~Nh
 angefordert/~~Nh
@@ -133353,7 +133353,7 @@ anverwandte/~~Fh
 anwandelung/~~Fh
 anwerbeland/~~Nh
 anwesenheit/~~Fh
-anzubaggern/~~Nh
+anzubaggern/~~rh # adverb gladly
 anzubandeln/~~Nh
 anzubelfern/~~Nh
 anzubetteln/~~Nh
@@ -133801,7 +133801,7 @@ aufzukommen/~~Nh
 aufzukorken/~~Nh
 aufzukämmen/~~Nh
 aufzulachen/~~Nh
-aufzulagern/~~Nh
+aufzulagern/~~rh # adverb gladly
 aufzulassen/~~Nh
 aufzulasten/~~Nh
 aufzulauern/~~Nh
@@ -133924,7 +133924,7 @@ ausgebügelt/~~Nh
 ausgecheckt/~~Nh
 ausgedeutet/~~Nh
 ausgedruckt/~~Nh
-ausgedrückt/~~Nh
+ausgedrückt/~~hV
 ausgefahren/~~Nh
 ausgeflickt/~~Nh
 ausgeflippt/~~Nh
@@ -134189,7 +134189,7 @@ auszukugeln/~~Nh
 auszukämmen/~~Nh
 auszukühlen/~~Nh
 auszulachen/~~Nh
-auszulagern/~~Nh
+auszulagern/~~rh # adverb gladly
 auszulassen/~~Nh
 auszulasten/~~Nh
 auszulaufen/~~Nh
@@ -134203,7 +134203,7 @@ auszulisten/~~Nh
 auszuloggen/~~Nh # auto-added
 auszulüften/~~Nh
 auszumachen/~~Nh
-auszumagern/~~Nh
+auszumagern/~~rh # adverb gladly
 auszumauern/~~Nh
 auszumelken/~~Nh
 auszumerzen/~~Nh
@@ -134480,7 +134480,7 @@ bekanntgabe/~~Fh
 bekanntgibt/~~Nh
 bekanntgäbe/~~Fh
 bekanntheit/~~Fh
-bekanntwird/~~Nh
+bekanntwird/~~Vt # 3rd person singular of werden
 beklatschen/~~Nh
 bekleidungs/~~Nh
 bekreuzigen/~~Nh # auto-added
@@ -134622,7 +134622,7 @@ bevorteilen/~~Nh
 beweggründe/~~Fh
 bewusstheit/~~Fh
 bewusstsein/~~Nh
-bewusstwird/~~Nh
+bewusstwird/~~Vt # 3rd person singular of werden
 bezichtigen/~~Nh # auto-added
 bezierkurve/~~Fh
 bezirksweit/~~RJOQRSTUWqh
@@ -135120,7 +135120,7 @@ dareinreden/~~Nh
 dareiosbild/~~Nh
 dargebracht/~~Nh
 dargereicht/~~Nh
-dargestellt/~~Nh
+dargestellt/~~hV
 darstrecken/~~Nh
 dartscheibe/~~Fh
 darumgelegt/~~Nh
@@ -135513,7 +135513,7 @@ dreschplatz/~~Nh
 driftströme/~~Fh
 drillbohrer/~~Nh
 drinstecken/~~Nh
-drittgrößte/~~Fh
+drittgrößte/~~Jh  # third-largest (adjective)
 drittletzte/~~Fh
 drittmittel/~~Nh
 drittrangig/~~Nh
@@ -135796,7 +135796,7 @@ eingebildet/~~Nh
 eingeblasen/~~Nh
 eingeblutet/~~Nh
 eingeborene/~~Fh
-eingebracht/~~Nh
+eingebracht/~~hV
 eingebrannt/~~Nh
 eingebremst/~~Nh
 eingebrockt/~~Nh
@@ -136067,7 +136067,7 @@ einzukommen/~~Nh
 einzukremen/~~Nh
 einzukühlen/~~Nh
 einzukürzen/~~Nh
-einzulagern/~~Nh
+einzulagern/~~rh # adverb gladly
 einzulangen/~~Nh # auto-added
 einzulassen/~~Nh
 einzulaufen/~~Nh
@@ -136392,7 +136392,7 @@ erlebnisbad/~~Nh
 erlebnishof/~~Nh
 erlebnistag/~~Nh
 erlebnisweg/~~Nh
-erleichtern/~~Nh
+erleichtern/~~hV
 erlenbrüche/~~Fh
 erlenhölzer/~~Nh
 erlenkränze/~~Fh
@@ -136980,7 +136980,7 @@ fortgerollt/~~Nh
 fortgeräumt/~~Nh
 fortgesaust/~~Nh
 fortgesehnt/~~Nh
-fortgesetzt/~~Nh
+fortgesetzt/~~hV
 fortgespült/~~Nh
 fortgewirkt/~~Nh
 fortgewälzt/~~Nh
@@ -137048,7 +137048,7 @@ frankfurter/~~Nh
 frankofonie/~~Fh
 franktireur/~~Nh
 franzstraße/~~Fh
-französisch/~~NJOQRSTUWq #adjective and noun
+französisch/~~JOQRSTUWq #adjective and noun
 fraternität/~~Fh
 fratzenhaft/~~Nh
 fraustädter/~~Nh
@@ -137495,7 +137495,7 @@ geschächtet/~~JOQRSTUWVg
 geschüttelt/~~JOQRSTUWVg
 gesetzblatt/~~JOQRSTUWVg
 gesetzgeber/~~Nh
-gesetzmäßig/~~Nh
+gesetzmäßig/~~hJ
 gesichtslos/~~Nh
 gesimsfigur/~~Nh
 gesimsstein/~~Nh
@@ -137805,7 +137805,7 @@ grotesktanz/~~Nh
 grottenwerk/~~Nh
 großbrüstig/~~Nh
 großdenkend/~~Nh
-großenteils/~~Nh
+großenteils/~~hr
 großfigurig/~~Nh
 großflügler/~~Nh
 großgezogen/~~Nh # auto-added
@@ -138349,7 +138349,7 @@ hergerissen/~~Nh
 hergeschaut/~~Nh
 hergespielt/~~Nh
 hergestammt/~~Nh
-hergestellt/~~Nh
+hergestellt/~~hV
 hergetragen/~~Nh # auto-added
 hergewunken/~~Nh
 heringsfang/~~Nh
@@ -138460,7 +138460,7 @@ herumzetern/~~Nh
 herumzetert/~~Nh
 herumzicken/~~Nh
 herumziehen/~~Nh
-herumärgern/~~Nh
+herumärgern/~~rh # adverb gladly
 herunterbat/~~Nh
 herunterbog/~~Nh
 heruntergab/~~Nh
@@ -138541,7 +138541,7 @@ herübergibt/~~Nh
 herüberging/~~Nh
 herüberhalf/~~Nh
 herüberhing/~~Nh
-herüberkann/~~Nh
+herüberkann/~~Vt # 3rd person singular of können
 herüberkäme/~~Fh
 herüberlief/~~Nh
 herüberließ/~~Nh
@@ -140161,7 +140161,7 @@ kranklachen/~~Nh
 krankmachen/~~Nh
 krankmelden/~~Nh
 krankschoss/~~Nh
-krankärgern/~~Nh
+krankärgern/~~rh # adverb gladly
 kranzförmig/~~RJOQRSTUWqh
 kraterartig/~~RJOQRSTUWqh
 kraterboden/~~Nh
@@ -141016,7 +141016,7 @@ malatgehalt/~~Nh
 maledivisch/~~Nh
 maleinsäure/~~Fh
 malerarbeit/~~Nh
-malerbedarf/~~Nh
+malerbedarf/~~Vt # 3rd person singular of dürfen
 malereistil/~~Nh
 malerfertig/~~Nh
 malerfirmen/~~Nh
@@ -141459,7 +141459,7 @@ mitschwänge/~~Fh
 mitschwömme/~~Fh
 mitsprechen/~~Nh
 mitspringen/~~Nh # auto-added
-mitsteigern/~~Nh
+mitsteigern/~~rh # adverb gladly
 mitsuchtest/~~Nh
 mittagessen/~~Nh
 mitteilungs/~~Nh
@@ -141891,7 +141891,7 @@ nahebrachte/~~Fh
 nahebringen/~~Nh # auto-added
 nahebrächte/~~Fh
 nahegelegen/~~Nh # auto-added
-naheliegend/~~Nh
+naheliegend/~~hJ
 nahestehend/~~Nh
 nahezugehen/~~Nh
 nahezulegen/~~Nh # auto-added
@@ -142927,7 +142927,7 @@ problemfrei/~~Nh
 probritisch/~~Nh
 produktions/~~Nh
 produzieren/~~Nh
-produziert/~~Nh
+produziert/~~hV
 profanieren/~~Nh
 professoral/~~Nh
 professoren/~~Nh
@@ -144188,7 +144188,7 @@ schwabenzug/~~Nh
 schwachheit/~~Fh
 schwachkopf/~~Nh
 schwachsinn/~~Nh
-schwachwird/~~Nh
+schwachwird/~~Vt # 3rd person singular of werden
 schwagerehe/~~Fh
 schwallwand/~~Nh
 schwammriff/~~Nh
@@ -144202,7 +144202,7 @@ schwarzgrau/~~Nh
 schwarzsähe/~~Fh
 schwarzwald/~~Nh
 schwarzweiß/~~Nh
-schwarzwird/~~Nh
+schwarzwird/~~Vt # 3rd person singular of werden
 schwatzbase/~~Fh
 schwatzbude/~~Fh
 schwatzhaft/~~Nh
@@ -144344,7 +144344,7 @@ seilgehüpft/~~Nh
 seilgetanzt/~~Nh
 seilzugpoti/~~Nh
 seinebrücke/~~Fh
-seinerseits/~~Nh
+seinerseits/~~hr
 seinetwegen/~~Nh # auto-added
 seinsdenken/~~Nh
 seinsentzug/~~Nh
@@ -145303,7 +145303,7 @@ thaleskreis/~~Nh
 themenfremd/~~Nh
 theologisch/~~Nh
 theoretiker/~~Nh
-theoretisch/~~Nh
+theoretisch/~~hJ
 therapeutik/~~Nh
 therapieren/~~Nh
 thermalsalz/~~Nh
@@ -145446,7 +145446,7 @@ totzulachen/~~Nh
 totzulaufen/~~Nh
 totzumachen/~~Nh
 totzutreten/~~Nh
-totzuärgern/~~Nh
+totzuärgern/~~rh # adverb gladly
 touchscreen/~~Nh
 tourauftakt/~~Nh
 tourengeher/~~Nh
@@ -145502,7 +145502,7 @@ treidelpfad/~~Nh
 tremolieren/~~Nh
 trendfolger/~~Nh
 trendsetter/~~Nh
-trennscharf/~~Nh
+trennscharf/~~hJ
 tresordatei/~~Nh
 treubrüchig/~~Nh
 treudeutsch/~~Nh
@@ -145727,7 +145727,7 @@ umstandslos/~~Nh
 umstellungs/~~Nh
 umsturzplan/~~Nh
 umständlich/~~JOQRSTUWqh
-umverlagern/~~Nh
+umverlagern/~~rh # adverb gladly
 umverteilen/~~Nh
 umwandelung/~~Fh
 umwandlungs/~~Nh
@@ -145876,7 +145876,7 @@ unterkühlen/~~Nh
 unterkünfte/~~Fh
 unterlabien/~~Nh
 unterlabium/~~Nh
-unterlagern/~~Nh
+unterlagern/~~rh # adverb gladly
 unterlassen/~~Nh
 unterlaufen/~~Nh
 unterliegen/~~Vcej #  auto-added | FIXED: verb - be subject to
@@ -145889,7 +145889,7 @@ unterordnen/~~Nh
 unterqueren/~~Nh
 unterrichts/~~Nh
 unterrühren/~~Nh
-unterschied/~~Nh
+unterschied/~~hV
 unterschlug/~~Nh
 unterschöbe/~~Fh
 unterseitig/~~Nh
@@ -146306,7 +146306,7 @@ vollschlägt/~~Nh
 vollschlüge/~~Fh
 vollschrieb/~~Nh
 vollstopfen/~~Nh
-vollständig/~~Nh
+vollständig/~~hJ
 volltrinken/~~Nh
 volltrunken/~~Nh
 vollzuessen/~~Nh
@@ -146447,7 +146447,7 @@ vorzukochen/~~Nh
 vorzukosten/~~Nh
 vorzukragen/~~Nh # auto-added
 vorzukühlen/~~Nh
-vorzulagern/~~Nh
+vorzulagern/~~rh # adverb gladly
 vorzuliegen/~~Nh # auto-added
 vorzumachen/~~Nh
 vorzumerken/~~Nh
@@ -147870,7 +147870,7 @@ anbindestall/~~Nh
 andenpflanze/~~Fh
 andenschakal/~~Nh
 anderenfalls/~~Nh
-andererseits/~~Nh
+andererseits/~~hr
 andersfarbig/~~RJOQRSTUWqh
 andockstelle/~~Fh
 andonnertest/~~Nh
@@ -148071,7 +148071,7 @@ anzupflaumen/~~Nh
 anzupflocken/~~Nh
 anzupfropfen/~~Nh
 anzupirschen/~~Nh
-anzuprangern/~~Nh
+anzuprangern/~~rh # adverb gladly
 anzureichern/~~Nh
 anzuschaffen/~~Nh
 anzuschalten/~~Nh
@@ -148268,7 +148268,7 @@ aufgewiegelt/~~Nh
 aufgewirbelt/~~Nh
 aufgezwungen/~~Nh # auto-added
 aufgezüchtet/~~Nh
-aufholbedarf/~~Nh
+aufholbedarf/~~Vt # 3rd person singular of dürfen
 aufhängeband/~~Nh
 aufklatschen/~~Nh
 aufkratztest/~~Nh
@@ -148492,7 +148492,7 @@ ausgekoppelt/~~Nh
 ausgekuppelt/~~Nh
 ausgelatscht/~~Nh
 ausgelichtet/~~Nh
-ausgeliefert/~~Nh
+ausgeliefert/~~hJ
 ausgelutscht/~~Nh
 ausgelöffelt/~~Nh
 ausgemeißelt/~~Nh
@@ -148528,7 +148528,7 @@ ausgesteuert/~~Nh
 ausgestiegen/~~Nh # auto-added
 ausgestochen/~~Nh
 ausgestorben/~~Nh
-ausgestrahlt/~~Nh
+ausgestrahlt/~~hV
 ausgestreckt/~~Nh
 ausgetauscht/~~Nh
 ausgetrickst/~~Nh
@@ -148627,7 +148627,7 @@ ausziehknopf/~~Nh
 ausziehtisch/~~Nh
 auszischtest/~~Nh
 auszuagieren/~~Nh
-auszubaggern/~~Nh
+auszubaggern/~~rh # adverb gladly
 auszubessern/~~Nh
 auszubleiben/~~Nh
 auszublenden/~~Nh
@@ -148638,7 +148638,7 @@ auszubrennen/~~Nh
 auszubringen/~~Nh # auto-added
 auszubuchten/~~Nh
 auszubuddeln/~~Nh
-auszubürgern/~~Nh
+auszubürgern/~~rh # adverb gladly
 auszubürsten/~~Nh
 auszuchecken/~~Nh
 auszudrucken/~~Nh
@@ -148664,7 +148664,7 @@ auszugsweise/~~Fh
 auszuhandeln/~~Nh
 auszuhauchen/~~Nh
 auszuhorchen/~~Nh
-auszuhungern/~~Nh
+auszuhungern/~~rh # adverb gladly
 auszuklappen/~~Nh
 auszukleiden/~~Nh
 auszuklingen/~~Nh # auto-added
@@ -150376,7 +150376,7 @@ einzubringen/~~Nh # auto-added
 einzubrocken/~~Nh
 einzubuchten/~~Nh
 einzubuddeln/~~Nh
-einzubürgern/~~Nh
+einzubürgern/~~rh # adverb gladly
 einzuchecken/~~Nh
 einzudampfen/~~Nh
 einzudeichen/~~Nh
@@ -151979,7 +151979,7 @@ gleichstufig/~~Nh
 gleichstände/~~Fh
 gleichstünde/~~Fh
 gleichwertig/~~Nh
-gleichzeitig/~~Nh
+gleichzeitig/~~hr
 gleichziehen/~~Nh
 gleisnerisch/~~Nh
 gleisquerung/~~Fh
@@ -152694,7 +152694,7 @@ herauswürgen/~~Nh # auto-added
 herauszerren/~~Nh
 herausziehen/~~Nh
 herauszoomen/~~Nh
-herauszögern/~~Nh
+herauszögern/~~rh # adverb gladly
 herbefördern/~~Nh
 herbegleiten/~~Nh
 herbeiflehen/~~Nh
@@ -152825,7 +152825,7 @@ herumdoktern/~~Nh
 herumdrängen/~~Nh # auto-added
 herumdrücken/~~Nh
 herumdümpeln/~~Nh
-herumfingern/~~Nh
+herumfingern/~~rh # adverb gladly
 herumflegeln/~~Nh
 herumflicken/~~Nh
 herumfliegen/~~Nh # auto-added
@@ -152879,7 +152879,7 @@ herumkriegen/~~Nh # auto-added
 herumlabernd/~~Nh
 herumlaberst/~~Nh
 herumlaberte/~~Fh
-herumlungern/~~Nh
+herumlungern/~~rh # adverb gladly
 herumlästern/~~Nh
 herummeckern/~~Nh
 herummurksen/~~Nh
@@ -153244,7 +153244,7 @@ hinauswollen/~~Nh
 hinauswächst/~~Nh
 hinauswüchse/~~Fh
 hinausziehen/~~Nh
-hinauszögern/~~Nh
+hinauszögern/~~rh # adverb gladly
 hinbegleiten/~~Nh
 hinbestellen/~~Nh
 hinduistisch/~~Nh
@@ -153253,7 +153253,7 @@ hindurchfraß/~~Nh
 hindurchfuhr/~~Nh
 hindurchging/~~Nh
 hindurchlief/~~Nh
-hindurchmuss/~~Nh
+hindurchmuss/~~Vt # 3rd person singular of müssen
 hindurchsähe/~~Fh
 hindurchzöge/~~Fh
 hinduschrift/~~Nh
@@ -153906,7 +153906,7 @@ innungswesen/~~Nh
 innungszwang/~~Nh
 inobhutnahme/~~Fh
 insassenzahl/~~Nh
-insbesondere/~~Fh
+insbesondere/~~rh  # adverb especially
 insektenhaft/~~Nh
 inselendemit/~~Nh
 inselheilige/~~Fh
@@ -154598,7 +154598,7 @@ kommanditist/~~Nh
 kommandobyte/~~Fh
 kommasetzung/~~Fh
 kommenlassen/~~Nh
-kommentarlos/~~Nh
+kommentarlos/~~hr
 kommentieren/~~Nh
 kommentkampf/~~Nh
 kommissariat/~~Nh
@@ -155628,7 +155628,7 @@ mandatorisch/~~Nh
 mandatsmacht/~~Nh
 mandelförmig/~~Nh
 mangalorisch/~~RJOQRSTUWqh
-manganbedarf/~~Nh
+manganbedarf/~~Vt # 3rd person singular of dürfen
 manganblende/~~Fh
 manganbronze/~~Fh
 mangandioxid/~~Nh
@@ -156061,7 +156061,7 @@ mittenlöcher/~~Nh
 mittensignal/~~Nh
 mitternachts/~~Nh
 mittlerrolle/~~Fh
-mittlerweile/~~Fh
+mittlerweile/~~hr
 mitverdienen/~~Nh
 mitverfassen/~~Nh
 mitverfeuern/~~Nh
@@ -156386,7 +156386,7 @@ nachspringen/~~Nh # auto-added
 nachtblühend/~~Nh
 nachtexpress/~~Nh
 nachtgleiche/~~Fh
-nachtriggern/~~Nh
+nachtriggern/~~rh # adverb gladly
 nachträglich/~~JOQRSTUWqh
 nachtränkung/~~Fh
 nachträufeln/~~Nh
@@ -157992,7 +157992,7 @@ reinrational/~~Nh
 reinschneist/~~Nh
 reinschneite/~~Fh
 reinsteigere/~~Fh
-reinsteigern/~~Nh
+reinsteigern/~~rh # adverb gladly
 reinsteigert/~~Nh
 reinstellend/~~Nh
 reinstelltet/~~Nh
@@ -160462,7 +160462,7 @@ ungarnabwehr/~~Nh
 ungarngefahr/~~Nh
 ungegliedert/~~Nh
 ungekünstelt/~~Nh
-ungepolstert/~~Nh
+ungepolstert/~~hJ
 ungeschlacht/~~Nh
 ungeschweißt/~~Nh
 ungeschwärzt/~~Nh
@@ -160591,7 +160591,7 @@ unverabredet/~~Nh
 unverbraucht/~~Nh
 unverjährbar/~~JOQRSTUWqh
 unverkennbar/~~JOQRSTUWqh
-unverkrampft/~~Nh
+unverkrampft/~~hJ
 unverkürzbar/~~JOQRSTUWqh
 unverlierbar/~~JOQRSTUWqh
 unverlängert/~~Nh
@@ -161860,7 +161860,7 @@ zungenfertig/~~Nh
 zungenförmig/~~RJOQRSTUWqh
 zungenpfeife/~~Fh
 zungenseitig/~~RJOQRSTUWqh
-zunichtewird/~~Nh
+zunichtewird/~~Vt # 3rd person singular of werden
 zupasskommen/~~Nh
 zurechtfände/~~Fh
 zurechtlegen/~~Nh # auto-added
@@ -162210,7 +162210,7 @@ zündunwillig/~~RJOQRSTUWqh
 überspringen/~~Nh # auto-added
 übersprudeln/~~Nh
 übersprungen/~~Nh # auto-added
-übersteigern/~~Nh
+übersteigern/~~rh # adverb gladly
 überstrahlen/~~Nh
 überstrecken/~~Nh
 überstreifen/~~Nh
@@ -162332,7 +162332,7 @@ allalingruppe/~~Fh
 alleinbegeher/~~Nh
 alleinlebende/~~Fh
 alleinreisend/~~Nh
-alleinstehend/~~Nh
+alleinstehend/~~hJ
 allelfrequenz/~~Nh
 allergiestoff/~~Nh
 allergnädigst/~~Nh
@@ -164404,7 +164404,7 @@ eingeschnitzt/~~Nh
 eingeschossen/~~Nh
 eingeschossig/~~RJOQRSTUWqh
 eingeschraubt/~~Nh
-eingeschränkt/~~Nh
+eingeschränkt/~~hV
 eingeschweißt/~~Nh
 eingeschwenkt/~~Nh
 eingeschworen/~~Nh
@@ -165989,7 +165989,7 @@ glucoselösung/~~Fh
 glucoseumsatz/~~Nh
 glucuronidase/~~Fh
 glucuronsäure/~~Fh
-glukosebedarf/~~Nh
+glukosebedarf/~~Vt # 3rd person singular of dürfen
 glukosegehalt/~~Nh
 glukosehaltig/~~RJOQRSTUWqh
 glukoselösung/~~Fh
@@ -166898,7 +166898,7 @@ herumzuzerren/~~Nh
 herumzuzetern/~~Nh
 herumzuzicken/~~Nh
 herumzuziehen/~~Nh
-herumzuärgern/~~Nh
+herumzuärgern/~~rh # adverb gladly
 herunterbegab/~~Nh
 herunterbeten/~~Nh
 herunterbrach/~~Nh
@@ -168679,7 +168679,7 @@ konkavspiegel/~~Nh
 konkurrenzarm/~~Nh
 konkurrenzlos/~~Nh
 konnektivität/~~Fh
-konsensbedarf/~~Nh
+konsensbedarf/~~Vt # 3rd person singular of dürfen
 konsenslösung/~~Fh
 konsensmodell/~~Nh
 konsolenfries/~~Nh
@@ -168793,7 +168793,7 @@ krankzufeiern/~~Nh
 krankzulachen/~~Nh
 krankzumachen/~~Nh
 krankzumelden/~~Nh
-krankzuärgern/~~Nh
+krankzuärgern/~~rh # adverb gladly
 kranzschlinge/~~Fh
 kraterbildung/~~Fh
 krateröffnung/~~Fh
@@ -169928,7 +169928,7 @@ mitzuschicken/~~Nh
 mitzuschießen/~~Nh
 mitzusprechen/~~Nh
 mitzuspringen/~~Nh # auto-added
-mitzusteigern/~~Nh
+mitzusteigern/~~rh # adverb gladly
 mitübernehmen/~~Nh
 mitübernommen/~~Nh
 mitübertragen/~~Nh # auto-added
@@ -170155,7 +170155,7 @@ nachgestalten/~~Nh
 nachgestanden/~~Nh
 nachgestiegen/~~Nh # auto-added
 nachgewachsen/~~Nh
-nachholbedarf/~~Nh
+nachholbedarf/~~Vt # 3rd person singular of dürfen
 nachhomerisch/~~Nh
 nachhutführer/~~Nh
 nachjustieren/~~Nh
@@ -171294,7 +171294,7 @@ privilegieren/~~Nh
 probandenzahl/~~Nh
 probenbedingt/~~Nh
 probiergläser/~~Nh
-problematisch/~~Nh
+problematisch/~~hJ
 problemlösend/~~Nh
 prochinesisch/~~Nh
 produktivität/~~Fh
@@ -172479,7 +172479,7 @@ schwarzhalsig/~~RJOQRSTUWqh
 schwarzhäutig/~~RJOQRSTUWqh
 schwarzwerden/~~Nh
 schwarzwälder/~~Nh
-schwarzärgern/~~Nh
+schwarzärgern/~~rh # adverb gladly
 schwedenkönig/~~Nh
 schwedenspiel/~~Nh
 schwedentrunk/~~Nh
@@ -174051,7 +174051,7 @@ umzuschnallen/~~Nh
 umzuschreiben/~~Nh
 umzuschwenken/~~Nh
 umzusortieren/~~Nh
-umzuverlagern/~~Nh
+umzuverlagern/~~rh # adverb gladly
 umzuverteilen/~~Nh
 unachtsamkeit/~~Fh
 unangekündigt/~~Nh
@@ -175786,7 +175786,7 @@ zürichseeufer/~~Nh
 überzusiedeln/~~Nh
 überzustülpen/~~Nh
 überängstlich/~~JOQRSTUWqh
-üblicherweise/~~Fh
+üblicherweise/~~rh  # adverb usually
 übriggelassen/~~Nh
 übrigzulassen/~~Nh
 adjazenzmatrix/~~Nh
@@ -176525,7 +176525,7 @@ beiseiteschöbe/~~Fh
 beiseitesprang/~~Nh
 beisetzungsort/~~Nh
 beispielgebend/~~Nh
-beispielsweise/~~Fh
+beispielsweise/~~rh  # adverb for example
 beitrittsfähig/~~Nh
 beizupflichten/~~Nh
 bejagungsdruck/~~Nh
@@ -176585,7 +176585,7 @@ berufsgebunden/~~Nh
 berufsrelevant/~~Nh
 berufungsfähig/~~Nh
 berylliumstaub/~~Nh
-berücksichtigt/~~Nh
+berücksichtigt/~~hV
 besatzstreifen/~~Nh
 beschaffenheit/~~Fh
 bescheidenheit/~~Fh
@@ -179547,7 +179547,7 @@ herauszuwollen/~~Nh
 herauszuwürgen/~~Nh # auto-added
 herauszuzerren/~~Nh
 herauszuziehen/~~Nh
-herauszuzögern/~~Nh
+herauszuzögern/~~rh # adverb gladly
 herbarexemplar/~~Nh
 herbarmaterial/~~Nh
 herbeigebracht/~~Nh
@@ -179746,7 +179746,7 @@ herumzubrüllen/~~Nh
 herumzudoktern/~~Nh
 herumzudrücken/~~Nh
 herumzudümpeln/~~Nh
-herumzufingern/~~Nh
+herumzufingern/~~rh # adverb gladly
 herumzuflicken/~~Nh
 herumzufliegen/~~Nh # auto-added
 herumzufummeln/~~Nh
@@ -179756,7 +179756,7 @@ herumzuknobeln/~~Nh
 herumzukratzen/~~Nh
 herumzukreisen/~~Nh
 herumzukriegen/~~Nh # auto-added
-herumzulungern/~~Nh
+herumzulungern/~~rh # adverb gladly
 herumzunörgeln/~~Nh
 herumzupaddeln/~~Nh
 herumzureichen/~~Nh
@@ -180130,7 +180130,7 @@ hinauszuweisen/~~Nh
 hinauszuwerfen/~~Nh
 hinauszuwollen/~~Nh
 hinauszuziehen/~~Nh
-hinauszuzögern/~~Nh
+hinauszuzögern/~~rh # adverb gladly
 hindurchfahren/~~Nh
 hindurchflösse/~~Fh
 hindurchfrisst/~~Nh
@@ -180219,7 +180219,7 @@ hineinschwömme/~~Fh
 hineinschütten/~~Nh
 hineinspringen/~~Nh # auto-added
 hineinspritzen/~~Nh
-hineinsteigern/~~Nh
+hineinsteigern/~~rh # adverb gladly
 hineinträufele/~~Fh
 hineinträufeln/~~Nh
 hineinträufelt/~~Nh
@@ -181344,7 +181344,7 @@ klumpenauswahl/~~Nh
 klumpenbildung/~~Fh
 klumpenrisiken/~~Nh
 kluniazensisch/~~RJOQRSTUWqh
-klärungsbedarf/~~Nh
+klärungsbedarf/~~Vt # 3rd person singular of dürfen
 klärungsgewinn/~~Nh
 klüngelsitzung/~~Fh
 kneippkurhotel/~~Nh
@@ -182821,7 +182821,7 @@ nachzupolieren/~~Nh
 nachzurutschen/~~Nh
 nachzuschenken/~~Nh
 nachzusprengen/~~Nh # auto-added
-nachzutriggern/~~Nh
+nachzutriggern/~~rh # adverb gladly
 nachzuzeichnen/~~Nh
 nackengefieder/~~Nh
 nackenscheitel/~~Nh
@@ -183854,7 +183854,7 @@ protonenanzahl/~~Nh
 protonenstrahl/~~Nh
 prototypstatus/~~Nh
 proventivtrieb/~~Nh
-proviantbedarf/~~Nh
+proviantbedarf/~~Vt # 3rd person singular of dürfen
 proviantschiff/~~Nh
 providergebühr/~~Nh
 provinzbänkler/~~Nh
@@ -183983,7 +183983,7 @@ quantoraussage/~~Fh
 quantorenlogik/~~Nh
 quantorenregel/~~Nh
 quantorklammer/~~Nh
-quartierbedarf/~~Nh
+quartierbedarf/~~Vt # 3rd person singular of dürfen
 quartierfläche/~~Fh
 quartierschein/~~Nh
 quarzgesteuert/~~Nh
@@ -184165,7 +184165,7 @@ reinschnuppern/~~Nh
 reinstallieren/~~Nh
 reinstsilicium/~~Nh
 reinzuschneien/~~Nh
-reinzusteigern/~~Nh
+reinzusteigern/~~rh # adverb gladly
 reisealtärchen/~~Nh
 reismehlkuchen/~~Nh
 reizunabhängig/~~Nh
@@ -184718,7 +184718,7 @@ schlummertrunk/~~Nh
 schlundknochen/~~Nh
 schlundvolumen/~~Nh
 schlussendlich/~~JOQRSTUWqh
-schlussfolgern/~~Nh
+schlussfolgern/~~rh # adverb gladly
 schläfenbänder/~~Nh
 schläfenmuskel/~~Nh
 schläfenregion/~~Fh
@@ -186654,7 +186654,7 @@ verzweifeltste/~~Fh
 verzwicktestem/~~Nh
 verzwicktester/~~Nh
 veräußerlichen/~~Nh
-veröffentlicht/~~Nh
+veröffentlicht/~~hV
 vesuvausbrüche/~~Fh
 veteranenbünde/~~Fh
 veteranenhilfe/~~Fh
@@ -187751,7 +187751,7 @@ zusammenklänge/~~Fh
 zusammenkommen/~~Nh
 zusammenkünfte/~~Fh
 zusammenkürzen/~~Nh
-zusammenlagern/~~Nh
+zusammenlagern/~~rh # adverb gladly
 zusammenlaufen/~~Nh
 zusammenleimen/~~Nh
 zusammenliegen/~~Nh # auto-added
@@ -187803,7 +187803,7 @@ zusammenzwänge/~~Fh
 zusammenzählen/~~Nh
 zuschauerreich/~~Nh
 zuschussantrag/~~Nh
-zuschussbedarf/~~Nh
+zuschussbedarf/~~Vt # 3rd person singular of dürfen
 zuschussbetrag/~~Nh
 zuschussgebiet/~~Nh
 zuschusszusage/~~Fh
@@ -187868,7 +187868,7 @@ zwetschgenbaum/~~Nh
 zwetschgenkern/~~Nh
 zwingerhaltung/~~Fh
 zwirnhandschuh/~~Nh
-zwischenlagern/~~Nh
+zwischenlagern/~~rh # adverb gladly
 zwischenlanden/~~Nh
 zwischentanken/~~Nh
 zwischenzeitig/~~Nh
@@ -190062,7 +190062,7 @@ flohmarktstände/~~Fh
 floppyabdeckung/~~Fh
 floppydisketten/~~Nh
 florenbeziehung/~~Fh
-floristenbedarf/~~Nh
+floristenbedarf/~~Vt # 3rd person singular of dürfen
 floristenschule/~~Fh
 flossenfilament/~~Nh
 flottillenärzte/~~Fh
@@ -192849,7 +192849,7 @@ kurzzuschließen/~~Nh
 kurzzuschneiden/~~Nh
 kyffhäuserkreis/~~Nh
 käferproduktion/~~Fh
-käppchenträgern/~~Nh
+käppchenträgern/~~rh # adverb gladly
 köcherwindmühle/~~Fh
 königinnenbüste/~~Fh
 königinnenlarve/~~Fh
@@ -193199,7 +193199,7 @@ magervegetation/~~Fh
 magistratseigen/~~Nh # auto-added
 magnesiaglimmer/~~Nh
 magnesiumanteil/~~Nh
-magnesiumbedarf/~~Nh
+magnesiumbedarf/~~Vt # 3rd person singular of dürfen
 magnesiumfackel/~~Nh
 magnesiumgehalt/~~Nh
 magnesiumhaltig/~~Nh
@@ -193788,7 +193788,7 @@ nachfahrentafel/~~Nh
 nachfasswerbung/~~Fh
 nachfolgerfrage/~~Fh
 nachfolgerserie/~~Fh
-nachfragebedarf/~~Nh
+nachfragebedarf/~~Vt # 3rd person singular of dürfen
 nachfrageeffekt/~~Nh
 nachfrageimpuls/~~Nh
 nachfrageniveau/~~Nh
@@ -195029,7 +195029,7 @@ revierverhalten/~~Nh
 revisionistisch/~~Nh
 revisionsantrag/~~Nh
 revisionsarbeit/~~Nh
-revisionsbedarf/~~Nh
+revisionsbedarf/~~Vt # 3rd person singular of dürfen
 revisionsgesuch/~~Nh
 revisionsgründe/~~Fh
 revisionsnummer/~~Nh
@@ -195511,7 +195511,7 @@ schwarzmeerraum/~~Nh
 schwarzzufahren/~~Nh
 schwarzzufärben/~~Nh
 schwarzzuwerden/~~Nh
-schwarzzuärgern/~~Nh
+schwarzzuärgern/~~rh # adverb gladly
 schwebstofffrei/~~Nh
 schwebungsdauer/~~Nh
 schwebungswelle/~~Fh
@@ -196822,7 +196822,7 @@ unwiderstehlich/~~JOQRSTUWqh
 unzergliederbar/~~JOQRSTUWqh
 unzufriedenheit/~~Fh
 unübertrefflich/~~JOQRSTUWqh
-unüblicherweise/~~Fh
+unüblicherweise/~~rh  # adverb usually
 uracilnukleotid/~~Nh
 ureinwohnervolk/~~Nh
 urgeschichtlich/~~JOQRSTUWqh
@@ -197794,7 +197794,7 @@ zurückschwimmen/~~Nh
 zurückschwingen/~~Nh # auto-added
 zurückspeichern/~~Nh
 zurückverfolgen/~~Nh # auto-added
-zurückverlagern/~~Nh
+zurückverlagern/~~rh # adverb gladly
 zurückverlangen/~~Nh # auto-added
 zurückversetzen/~~Nh
 zurückverweisen/~~Nh
@@ -197870,7 +197870,7 @@ zusammenfummeln/~~Nh
 zusammengeballt/~~Nh
 zusammengeborgt/~~Nh
 zusammengebraut/~~Nh
-zusammengefasst/~~Nh
+zusammengefasst/~~hV
 zusammengeführt/~~Nh
 zusammengehauen/~~Nh
 zusammengeheilt/~~Nh
@@ -198280,7 +198280,7 @@ aneinandergeriet/~~Nh
 aneinanderheften/~~Nh
 aneinanderhängen/~~Nh # auto-added
 aneinanderkleben/~~Nh
-aneinanderlagern/~~Nh
+aneinanderlagern/~~rh # adverb gladly
 aneinanderliegen/~~Nh # auto-added
 aneinanderreiben/~~Nh
 aneinanderreihen/~~Nh
@@ -200953,7 +200953,7 @@ hineinzuschlagen/~~Nh # auto-added
 hineinzuschütten/~~Nh
 hineinzuspringen/~~Nh # auto-added
 hineinzuspritzen/~~Nh
-hineinzusteigern/~~Nh
+hineinzusteigern/~~rh # adverb gladly
 hineinzuträufeln/~~Nh
 hineinzuwechseln/~~Nh
 hinführungsphase/~~Fh
@@ -202686,7 +202686,7 @@ mobbingforschung/~~Fh
 mobbingsituation/~~Fh
 mobiliarpfändung/~~Fh
 mobiliarvermögen/~~Nh # auto-added
-mobilitätsbedarf/~~Nh
+mobilitätsbedarf/~~Vt # 3rd person singular of dürfen
 mobilitätskosten/~~Nh
 modeillustrierte/~~Fh
 modellnachbauten/~~Nh
@@ -203285,7 +203285,7 @@ pfadfinderarbeit/~~Nh
 pfadfinderführer/~~Nh
 pfadfindergesetz/~~Nh
 pfadfindergruppe/~~Fh
-pfadfinderlagern/~~Nh
+pfadfinderlagern/~~rh # adverb gladly
 pfadfinderschaft/~~Fh
 pfadfinderstämme/~~Fh
 pfadfindertracht/~~Nh
@@ -204162,7 +204162,7 @@ schlittschuhbahn/~~Nh # auto-added
 schlundzahnmühle/~~Fh
 schlussgefolgert/~~Nh
 schlussgerechnet/~~Nh
-schlusszufolgern/~~Nh
+schlusszufolgern/~~rh # adverb gladly
 schlägerkommando/~~Nh
 schlösserkatalog/~~Nh
 schmelzbadbreite/~~Fh
@@ -206329,7 +206329,7 @@ zwischenrassisch/~~RJOQRSTUWqh
 zwischenräumlich/~~JOQRSTUWqh
 zwischenschalten/~~Nh
 zwischenzeitlich/~~JOQRSTUWqh
-zwischenzulagern/~~Nh
+zwischenzulagern/~~rh # adverb gladly
 zwischenzulanden/~~Nh
 zwölfmeilenlinie/~~Fh
 zypressengewächs/~~Nh
@@ -206560,9 +206560,9 @@ shell-toes/~~Nh #English loanword
 Muschel-Zehen/~~Fh #compound noun with hyphen
 1970er/~~Nh #decade
 NBA-Spieler/~~Mh #compound noun
-ausgeliefert/~~NJOQRSTUWq #adjective or participle
+ausgeliefert/~~JOQRSTUWq #adjective or participle
 beschwerten/~~V # verb
-begehrt/~~NJOQRSTUWq #adjective
+begehrt/~~JOQRSTUWq #adjective
 Schuhunternehmen/~~Nh #compound noun
 1949/~~Nh #year
 wurde/~~V # verb (past tense of werden)
@@ -206572,7 +206572,7 @@ hochwertige/~~JOQRSTUWq #adjective
 Damenschuhe/~~Fh #compound noun
 Schuhen/~~Nh #dative plural of Schuh
 Pumps/~~Mh #plural noun
-bezeichnet/~~NJOQRSTUWq #adjective or participle
+bezeichnet/~~JOQRSTUWqV #adjective or participle
 Antike/~~Fh #feminine noun
 Britannien/~~Nh #proper noun
 Tamar/~~Nh #proper noun
@@ -208493,7 +208493,7 @@ komplexverbindung/~~F
 kompositpanzerung/~~F
 kompostiertechnik/~~N
 kompromisslerisch/~~J
-konditorbackwaren/~~V
+konditorbackwaren/~~V  # 1st/3rd plural past of sein
 konnektionistisch/~~J
 konstituentensatz/~~N
 konsumsüchtigkeit/~~F
@@ -211553,7 +211553,7 @@ pule/~~N
 pute/~~N
 rede/~~N
 reue/~~N
-rose/~~N
+rose/~~Fh # feminine noun die Rose
 rosé/~~N
 ruhe/~~N
 räte/~~N
@@ -211571,7 +211571,7 @@ vorn/~~N
 ware/~~Fh
 wehe/~~N
 woge/~~N
-zehn/~~N
+zehn/~~J
 äsen/~~V
 ölen/~~V
 üben/~~N
@@ -211613,8 +211613,8 @@ unken/~~V
 voilà/~~N
 wagen/~~Mh
 wagen/~~V
-waren/~~Fh
-waren/~~V
+waren/~~Fh  # plural of die Ware (goods)
+waren/~~V  # 1st/3rd plural past of sein
 weben/~~V
 wehen/~~V
 wesen/~~N
@@ -215171,7 +215171,7 @@ sache/~~N
 seife/~~N
 seite/~~N
 sense/~~N
-sonne/~~N
+sonne/~~Fh # feminine noun die Sonne
 sorge/~~N
 spule/~~N
 stufe/~~N
@@ -215181,7 +215181,7 @@ taufe/~~N
 wache/~~N
 walze/~~N
 weihe/~~N
-weite/~~N
+weite/~~Fh # feminine noun die Weite
 welle/~~N
 werft/~~N
 wette/~~N
@@ -215196,7 +215196,7 @@ eiche/~~N
 fahrt/~~N
 falte/~~N
 folge/~~N
-frage/~~N
+frage/~~Fh # feminine noun die Frage
 juras/~~N
 kippe/~~N
 klage/~~N
@@ -215210,7 +215210,7 @@ miete/~~N
 morse/~~N
 nacht/~~N
 nahme/~~N
-probe/~~N
+probe/~~Fh  # feminine noun die Probe
 quere/~~N
 reise/~~N
 rinne/~~N
@@ -215246,7 +215246,7 @@ safte/~~N
 tagge/~~N
 forte/~~N
 gurte/~~N
-heute/~~N
+heute/~~rh  # adverb today
 joine/~~N
 likst/~~N
 likte/~~N
@@ -215331,7 +215331,7 @@ blaffe/~~N
 cachte/~~N
 greise/~~J
 kackte/~~N
-kannst/~~N
+kannst/~~V
 kiekse/~~N
 luchse/~~N
 längst/~~J
@@ -219875,31 +219875,31 @@ affi/~~N
 work/~~N
 xfel/~~N
 vdek/~~N
-liegt/~~N
+liegt/~~V
 große/~~N
-viele/~~N
-steht/~~N
+viele/~~J  # many (adjective)
+steht/~~V
 neuen/~~V
-siehe/~~N
+siehe/~~Vh  # imperative of sehen
 lange/~~N
-kommt/~~N
+kommt/~~V
 floor/~~N
 neues/~~N
 infos/~~N
 world/~~N
 roten/~~V
 width/~~N
-zieht/~~N
+zieht/~~V
 sites/~~N
-nennt/~~N
-darin/~~N
+nennt/~~V
+darin/~~r
 gross/~~N
 gruen/~~V
 werke/~~N
 regob/~~N
 rotem/~~N
-werde/~~N
-etwas/~~N
+werde/~~Vt  # 1st person singular of werden
+etwas/~~I
 focus/~~N
 fowid/~~N
 remid/~~N
@@ -219958,7 +219958,7 @@ rdnov/~~N
 rddez/~~N
 guide/~~N
 echte/~~N
-einst/~~N
+einst/~~r
 guten/~~V
 unibe/~~N
 pilze/~~N
@@ -220028,7 +220028,7 @@ peace/~~N
 draft/~~N
 study/~~N
 enste/~~N
-kennt/~~N
+kennt/~~V
 globe/~~N
 guter/~~N
 shift/~~N
@@ -220039,18 +220039,18 @@ those/~~N
 hoehe/~~N
 texte/~~N
 büßte/~~N
-sitzt/~~N
+sitzt/~~V
 watch/~~N
 holte/~~N
 today/~~N
-hause/~~N
+hause/~~Zh  # neuter noun das Haus (dative)
 citat/~~N
 ische/~~N
 kieze/~~N
 color/~~N
 wehte/~~N
 inter/~~N
-sozio/~~N
+sozio/~~r
 abisz/~~N
 dipbt/~~N
 shtml/~~N
@@ -220162,8 +220162,8 @@ acxiom/~~N
 origin/~~N
 langem/~~N
 servat/~~N
-erhebt/~~N
-solche/~~I
+erhebt/~~V
+
 plante/~~N
 scholz/~~N
 dejure/~~N
@@ -220274,7 +220274,7 @@ gdpbay/~~N
 prison/~~N
 rueckt/~~N
 langer/~~N
-bringt/~~N
+bringt/~~V
 téchnē/~~N
 vufind/~~N
 module/~~N
@@ -220354,7 +220354,7 @@ düdesch/~~N
 þeudisk/~~N
 koennte/~~N
 laender/~~N
-verhält/~~N
+verhält/~~V
 strikte/~~N
 stanzon/~~N
 hoehlen/~~V
@@ -220545,7 +220545,7 @@ schnelle/~~N
 schmähte/~~N
 vertraue/~~N
 lockerte/~~N
-zdfheute/~~N
+zdfheute/~~rh  # adverb today
 timeline/~~N
 schweren/~~V
 kuendigt/~~N
@@ -220844,7 +220844,7 @@ praeambel/~~N
 einzahlte/~~N
 jeweiligen/~~V
 staatliche/~~N
-gegründete/~~N
+gegründete/~~Vh  # founded (past tense)
 westlichen/~~V
 städtische/~~N
 kommunalen/~~V
@@ -220869,7 +220869,7 @@ sortbottom/~~N
 ansässigen/~~V
 mstatistik/~~N
 anerkannte/~~N
-begründete/~~N
+begründete/~~Vh  # founded (past tense)
 erweiterte/~~N
 unabhängig/~~JOQRSTUWqh
 berufliche/~~N
@@ -220892,11 +220892,11 @@ veränderte/~~N
 wehrdienst/~~N
 jährlichen/~~V
 technische/~~N
-zurückgeht/~~N
+zurückgeht/~~V
 foundation/~~F
 profitiert/~~N
 realisiert/~~N
-informiert/~~N
+informiert/~~V
 angewandte/~~N
 kolonialen/~~V
 souveränen/~~V
@@ -220912,7 +220912,7 @@ verkündete/~~N
 schlechter/~~N
 darstellte/~~N
 zeitlichen/~~V
-kritisiert/~~N
+kritisiert/~~V
 innovative/~~N
 existierte/~~N
 arkenberge/~~N
@@ -220975,7 +220975,7 @@ employment/~~N
 verzichtet/~~N
 operativen/~~V
 dominierte/~~N
-kombiniert/~~N
+kombiniert/~~V
 geförderte/~~N
 mobilitaet/~~N
 wikisource/~~N
@@ -221062,7 +221062,7 @@ gefaehrdet/~~JOQRSTUWVg
 chronische/~~N
 zuständige/~~N
 riverbreak/~~N
-vermittelt/~~N
+vermittelt/~~V
 τεχνολογία/~~N
 vergleiche/~~N
 abgedeicht/~~N
@@ -221095,7 +221095,7 @@ verdoppelt/~~N
 technology/~~N
 wichtigsten/~~V
 öffentliche/~~N
-überwiegend/~~N
+überwiegend/~~J
 entwickelte/~~N
 preußischen/~~V
 staatlichen/~~V
@@ -221104,7 +221104,7 @@ contentblob/~~N
 katholische/~~N
 bayerischen/~~V
 europäische/~~N
-beschäftigt/~~N
+beschäftigt/~~V
 showdoccase/~~N
 zahlreicher/~~N
 verzeichnet/~~N
@@ -221314,7 +221314,7 @@ ausgeprägte/~~N
 anerkannter/~~N
 vielseitige/~~N
 eurasischen/~~V
-latinisiert/~~N
+latinisiert/~~V
 phönizische/~~N
 akkadischen/~~V
 semitischen/~~V
@@ -221397,7 +221397,7 @@ populärsten/~~V
 glücklicher/~~N
 öffentlichen/~~V
 europäischen/~~V
-dokumentiert/~~N
+dokumentiert/~~V
 historischen/~~V
 bevoelkerung/~~F
 katholischen/~~V
@@ -221405,7 +221405,7 @@ bekanntesten/~~V
 verzeichnete/~~N
 französische/~~N
 menschlichen/~~V
-entsprechend/~~N
+entsprechend/~~J
 wesentlichen/~~V
 toptextcells/~~N
 entstandenen/~~V
@@ -221487,7 +221487,7 @@ vierstellige/~~N
 geschaffenen/~~V
 angenommenen/~~V
 deskriptiven/~~V
-konstituiert/~~N
+konstituiert/~~V
 ostdeutscher/~~N
 ostdeutschen/~~V
 palenzgreven/~~V
@@ -221676,7 +221676,7 @@ italienischen/~~V
 buergerschaft/~~J
 westdeutscher/~~N
 gemeindlichen/~~V
-vorübergehend/~~N
+vorübergehend/~~r
 schutzgebiete/~~N
 repräsentiert/~~N
 grossstaedten/~~V
@@ -221974,7 +221974,7 @@ wolfratshausen/~~V
 foerderschulen/~~V
 foerderzentren/~~V
 toytowngermany/~~N
-vernachlässigt/~~N
+vernachlässigt/~~V
 unterzeichnete/~~N
 buddhistischen/~~V
 neulateinische/~~N
@@ -222549,4 +222549,12 @@ kleidungsstücke/~~Nh # clothing items
 sonnenkönigs/~~M # sun king's
 industriezeitalters/~~Nh # industrial age
 
-
+unterstützt/~~Vh # separable-prefix verb 3sg
+unterschätzt/~~Vh # separable-prefix verb 3sg
+widerspiegelt/~~Vh # separable-prefix verb 3sg
+hervorbringt/~~Vh # separable-prefix verb 3sg
+durchfließt/~~Vh # separable-prefix verb 3sg
+vorausgeht/~~Vh # separable-prefix verb 3sg
+mitbehandelt/~~Vh # separable-prefix verb 3sg
+einschließt/~~Vh # separable-prefix verb 3sg
+kontrastiert/~~Vh # separable-prefix verb 3sg
