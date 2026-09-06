@@ -588,6 +588,28 @@ impl DictWordMetadata {
         }
     }
 
+    pub fn is_singular_noun_only(&self) -> bool {
+        if let Some(noun) = self.noun {
+            matches!(
+                (noun.is_singular, noun.is_plural),
+                (Some(true), None | Some(false))
+            )
+        } else {
+            false
+        }
+    }
+
+    pub fn is_plural_noun_only(&self) -> bool {
+        if let Some(noun) = self.noun {
+            matches!(
+                (noun.is_singular, noun.is_plural),
+                (None | Some(false), Some(true))
+            )
+        } else {
+            false
+        }
+    }
+
     // Most mass nouns also have countable senses. Match those that are only mass nouns.
     pub fn is_mass_noun_only(&self) -> bool {
         if let Some(noun) = self.noun {
