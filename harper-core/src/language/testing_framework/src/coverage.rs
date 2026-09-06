@@ -166,27 +166,6 @@ fn count_base_entries(dict_path: &str) -> Result<usize, Box<dyn std::error::Erro
     Ok(count)
 }
 
-/// Count total words in expanded dictionary file
-fn count_expanded_words(expanded_dict_path: &str) -> Result<usize, Box<dyn std::error::Error>> {
-    use std::fs::File;
-    use std::io::BufReader;
-    use flate2::read::GzDecoder;
-    
-    let file = File::open(expanded_dict_path)?;
-    let decoder = GzDecoder::new(BufReader::new(file));
-    let reader = io::BufReader::new(decoder);
-    
-    let mut count = 0;
-    for line in reader.lines() {
-        let line = line?;
-        let trimmed = line.trim();
-        if !trimmed.is_empty() {
-            count += 1;
-        }
-    }
-    Ok(count)
-}
-
 /// Run coverage analysis with a pre-loaded dictionary (more efficient)
 pub fn run_coverage_analysis_with_dict(
     language: &str,

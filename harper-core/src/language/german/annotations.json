@@ -823,6 +823,24 @@
 				}
 			}
 		},
+		"4": {
+			"#": "Determiner (German): articles and other determiners. Collision-free digit flag; the letter 'D' is also the -ung affix and would generate junk forms.",
+			"metadata": {
+				"determiner": {}
+			}
+		},
+		"5": {
+			"#": "Pronoun (German). Collision-free digit flag; the letter 'I' is also the noun+s compound interfix affix.",
+			"metadata": {
+				"pronoun": {}
+			}
+		},
+		"6": {
+			"#": "Conjunction (German). Collision-free digit flag; the letter 'C' is also the -keit suffix affix.",
+			"metadata": {
+				"conjunction": {}
+			}
+		},
 		"A": {
 			"#": "adjective property (German) - alias for J",
 			"metadata": {

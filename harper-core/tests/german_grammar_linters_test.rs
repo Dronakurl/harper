@@ -275,12 +275,12 @@ mod tests {
         );
         assert_eq!(metadata.get_determiner_case(), None);
 
-        // The entry carries *both* z (neuter) and M (masculine), so the merged
-        // noun gender is whichever flag wins -- the dictionary contradicts
-        // itself here. Assert only that a noun gender arrived, not which one.
+        // 'der' is an article, not a noun. The entry used to carry M and z as
+        // well, claiming both a masculine and a neuter noun reading, which is
+        // what made GermanNounCapitalization treat function words as nouns.
         assert!(
-            metadata.get_noun_gender().is_some(),
-            "the M/z flags should give 'der' some noun gender"
+            !metadata.is_noun(),
+            "'der' is an article and must not carry a noun reading"
         );
     }
 
