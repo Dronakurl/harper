@@ -1,13 +1,30 @@
 use crate::{
-    Token, TokenStringExt,
+    Token, TokenKind, TokenStringExt,
     document::Document,
     linting::{Lint, LintKind, Linter, Suggestion},
     spell::Dictionary,
 };
-use harper_brill::UPOS;
 
 /// A linter that checks to make sure German nouns are capitalized.
 /// In German, all nouns must be capitalized (not just proper nouns like in English).
+///
+/// # Noun / verb (and noun / adjective) homographs
+///
+/// Many German words are a noun in one context and a verb or adjective in
+/// another: *"Der **Fang** ist groß"* (noun) vs *"..., **fang** an"* (verb),
+/// *"der **Halt**"* vs *"**halt** still"*. The dictionary cannot tell the two
+/// apart on its own — worse, Harper's `WordId` lower-cases spellings, so the
+/// lowercase verb reading is merged with the capitalized noun entry and almost
+/// every candidate ends up carrying *both* a noun and a verb reading.
+///
+/// This linter therefore only asks the dictionary for a noun reading and then
+/// decides using **syntactic context**:
+///
+/// * A word with a clean, unambiguous noun reading (noun, but no verb /
+///   adjective / adverb reading) is flagged wherever it appears.
+/// * A word that is *also* a verb / adjective / adverb is flagged only when the
+///   token to its left licenses a noun phrase — an article, another determiner,
+///   a possessive, a preposition or a spelled-out number.
 pub struct GermanNounCapitalization<T>
 where
     T: Dictionary,
@@ -50,25 +67,59 @@ const GERMAN_NON_NOUNS: &[&str] = &[
     "euch",
     "ihnen",
     "ihm",
+    "dessen",
+    "deren",
+    "denen",
+    "man",
+    "wer",
+    "wen",
+    "wem",
+    "was",
     // Possessives
     "mein",
     "dein",
     "sein",
     "unser",
     "euer",
-    // Demonstratives / relative
+    // Demonstratives / relative / quantifiers
     "dieser",
     "diese",
     "dieses",
+    "diesen",
+    "diesem",
     "jener",
     "jene",
     "jenes",
+    "welch",
     "welcher",
     "welche",
     "welches",
+    "welchen",
+    "welchem",
     "jeder",
     "jede",
     "jedes",
+    "jeden",
+    "jedem",
+    "manch",
+    "mancher",
+    "manche",
+    "manches",
+    "manchen",
+    "manchem",
+    "solch",
+    "solche",
+    "solcher",
+    "solches",
+    "solchen",
+    "solchem",
+    "sämtliche",
+    "sämtlichen",
+    "jegliche",
+    "jeglichen",
+    "beide",
+    "beiden",
+    "beider",
     // Prepositions
     "in",
     "ins",
@@ -125,6 +176,14 @@ const GERMAN_NON_NOUNS: &[&str] = &[
     "während",
     "sobald",
     "solange",
+    "sowie",
+    "sowohl",
+    "bzw",
+    "usw",
+    "etc",
+    "vgl",
+    "ebd",
+    "dgl",
     // Adverbs
     "nicht",
     "auch",
@@ -137,6 +196,12 @@ const GERMAN_NON_NOUNS: &[&str] = &[
     "hier",
     "dort",
     "da",
+    "darin",
+    "davon",
+    "dazu",
+    "daran",
+    "darauf",
+    "dabei",
     "immer",
     "nie",
     "oft",
@@ -151,6 +216,24 @@ const GERMAN_NON_NOUNS: &[&str] = &[
     "so",
     "ganz",
     "gar",
+    "heutzutage",
+    "also",
+    "fast",
+    "bald",
+    "her",
+    "hin",
+    "quasi",
+    "zuerst",
+    "zunächst",
+    "bereits",
+    "etwa",
+    "circa",
+    "ca",
+    "sogar",
+    "sowie",
+    "teils",
+    "ebenso",
+    "ebenfalls",
     // Common verbs (incl. conjugated forms often lowercase in text)
     "ist",
     "sind",
@@ -164,6 +247,7 @@ const GERMAN_NON_NOUNS: &[&str] = &[
     "werden",
     "wurde",
     "wurden",
+    "worden",
     "bezieht",
     "kann",
     "können",
@@ -185,6 +269,11 @@ const GERMAN_NON_NOUNS: &[&str] = &[
     "wollte",
     "sein",
     "gewesen",
+    "sei",
+    "seien",
+    "wäre",
+    "wären",
+    "siehe",
     // Common verb forms that end in -e (1st person singular)
     "schreibe",
     "lerne",
@@ -226,6 +315,294 @@ const GERMAN_NON_NOUNS: &[&str] = &[
     "lag",
 ];
 
+/// Spelled-out German cardinal numbers. In running text these are lower case
+/// (the noun *"die Drei"* is rare and always keeps its article), so they are
+/// never flagged; used attributively they *license* a following noun
+/// (*"die drei Streifen"*).
+const GERMAN_NUMBER_WORDS: &[&str] = &[
+    "null",
+    "eins",
+    "zwei",
+    "drei",
+    "vier",
+    "fünf",
+    "sechs",
+    "sieben",
+    "acht",
+    "neun",
+    "zehn",
+    "elf",
+    "zwölf",
+    "dreizehn",
+    "vierzehn",
+    "fünfzehn",
+    "sechzehn",
+    "siebzehn",
+    "achtzehn",
+    "neunzehn",
+    "zwanzig",
+    "dreißig",
+    "vierzig",
+    "fünfzig",
+    "sechzig",
+    "siebzig",
+    "achtzig",
+    "neunzig",
+    "hundert",
+    "tausend",
+    "million",
+    "millionen",
+    "milliarde",
+    "milliarden",
+    "dutzend",
+];
+
+/// Unit abbreviations that are written lower case and must not be "corrected".
+const UNIT_ABBREVS: &[&str] = &[
+    "km", "kg", "mg", "cm", "mm", "dm", "ml", "cl", "dl", "ha", "qm", "kwh", "kw", "mw", "gw",
+    "hz", "khz", "mhz", "ghz", "psi", "mio", "mrd",
+];
+
+/// Words that, standing immediately to the left of a candidate, mark it as the
+/// head or a modifier of a noun phrase: articles, other determiners,
+/// possessives, demonstratives, quantifiers and the common prepositions
+/// (including the usual contracted forms). Kept as an explicit surface list
+/// because the German dictionary mislabels many of these forms.
+const NOUN_PHRASE_LICENSORS: &[&str] = &[
+    // definite / indefinite articles, all cases
+    "der",
+    "die",
+    "das",
+    "dem",
+    "den",
+    "des",
+    "ein",
+    "eine",
+    "einen",
+    "einem",
+    "einer",
+    "eines",
+    "kein",
+    "keine",
+    "keinen",
+    "keinem",
+    "keiner",
+    "keines",
+    // possessives
+    "mein",
+    "meine",
+    "meinen",
+    "meinem",
+    "meiner",
+    "meines",
+    "dein",
+    "deine",
+    "deinen",
+    "deinem",
+    "deiner",
+    "deines",
+    "sein",
+    "seine",
+    "seinen",
+    "seinem",
+    "seiner",
+    "seines",
+    "ihr",
+    "ihre",
+    "ihren",
+    "ihrem",
+    "ihrer",
+    "ihres",
+    "unser",
+    "unsere",
+    "unseren",
+    "unserem",
+    "unserer",
+    "unseres",
+    "euer",
+    "eure",
+    "euren",
+    "eurem",
+    "eurer",
+    "eures",
+    // demonstratives / relatives / quantifiers
+    "dies",
+    "dieser",
+    "diese",
+    "dieses",
+    "diesen",
+    "diesem",
+    "jen",
+    "jener",
+    "jene",
+    "jenes",
+    "jenen",
+    "jenem",
+    "jed",
+    "jeder",
+    "jede",
+    "jedes",
+    "jeden",
+    "jedem",
+    "manch",
+    "mancher",
+    "manche",
+    "manches",
+    "manchen",
+    "manchem",
+    "solch",
+    "solcher",
+    "solche",
+    "solches",
+    "solchen",
+    "solchem",
+    "welch",
+    "welcher",
+    "welche",
+    "welches",
+    "welchen",
+    "welchem",
+    "all",
+    "alle",
+    "allen",
+    "aller",
+    "alles",
+    "allem",
+    "beide",
+    "beiden",
+    "beider",
+    "sämtliche",
+    "sämtlichen",
+    "jegliche",
+    "jeglichen",
+    "mehrere",
+    "mehreren",
+    "einige",
+    "einigen",
+    "einiger",
+    "viele",
+    "vielen",
+    "wenige",
+    "wenigen",
+    // prepositions (incl. contracted forms)
+    "in",
+    "im",
+    "ins",
+    "an",
+    "am",
+    "ans",
+    "auf",
+    "aufs",
+    "aus",
+    "bei",
+    "beim",
+    "mit",
+    "nach",
+    "von",
+    "vom",
+    "vor",
+    "zu",
+    "zum",
+    "zur",
+    "über",
+    "übers",
+    "unter",
+    "unters",
+    "durch",
+    "durchs",
+    "für",
+    "fürs",
+    "gegen",
+    "ohne",
+    "um",
+    "ums",
+    "seit",
+    "während",
+    "wegen",
+    "trotz",
+    "statt",
+    "anstatt",
+    "innerhalb",
+    "außerhalb",
+    "oberhalb",
+    "unterhalb",
+    "entlang",
+    "gegenüber",
+    "bis",
+    "per",
+    "pro",
+    "via",
+    "samt",
+    "nebst",
+    "laut",
+    "gemäß",
+    "mittels",
+    "anhand",
+    "aufgrund",
+    "infolge",
+    "zwischen",
+    "neben",
+    "hinter",
+];
+
+/// Separable / directional verb prefixes. A lowercase word that starts with one
+/// of these and ends in a finite-verb shape (`herausrückt`, `hinausläuft`) is a
+/// verb, not a noun — even if the compound-aware dictionary decomposes it.
+const SEPARABLE_VERB_PREFIXES: &[&str] = &[
+    "heraus",
+    "herein",
+    "hinaus",
+    "hinein",
+    "hervor",
+    "hinauf",
+    "hinab",
+    "herauf",
+    "herab",
+    "herunter",
+    "hinunter",
+    "herüber",
+    "hinüber",
+    "zurück",
+    "zusammen",
+    "auseinander",
+    "entgegen",
+    "empor",
+    "voran",
+    "voraus",
+    "vorbei",
+    "vorüber",
+];
+
+/// Adjective / adverb / participle final segments that a lowercase common noun
+/// essentially never ends with. Used to veto a noun reading even when the
+/// compound-aware dictionary hands one back — decomposable adjective compounds
+/// such as `massenproduzierbar` otherwise resolve to a bare noun.
+fn has_non_noun_ending(s: &str) -> bool {
+    let n = s.chars().count();
+    // Adjective / adverb / participle suffixes.
+    (s.ends_with("bar") && n >= 5)          // machbar, produzierbar, nachprüfbar
+        || (s.ends_with("sam") && n >= 6)   // langsam, gemeinsam
+        || (s.ends_with("haft") && n >= 6)  // dauerhaft, lebhaft
+        || (s.ends_with("los") && n >= 6)   // arbeitslos, hilflos
+        || (s.ends_with("lich") && n >= 6)  // eigentlich, wesentlich
+        || s.ends_with("weise")             // schrittweise, teilweise, beziehungsweise
+        || s.ends_with("wärts")             // rückwärts, vorwärts
+        || (s.ends_with("isch") && n >= 7)  // technisch, kritisch (not "Tisch", "Fisch")
+        || (s.ends_with("end") && n >= 8)   // schwimmend, abschließend (not "Abend", "Jugend")
+        || (s.ends_with("ig") && n >= 10)   // modellabhängig, temperaturabhängig
+        || (s.ends_with("nahe") && n >= 6)  // zeitnahe, praxisnahe
+        || (s.ends_with("uelle") && n >= 6) // rituelle, aktuelle, individuelle
+        || (s.ends_with("öse") && n >= 6)   // amouröse, nervöse, grandiose
+        // High-precision finite-verb / participle endings. Corpus mining added
+        // many of these to the dictionary as bare "~~Nh" nouns.
+        || (s.ends_with("iert") && n >= 6)  // funktioniert, existiert, studiert
+        || (s.ends_with("ßt") && n >= 5)    // fließt, heißt, genießt, schießt
+        || (s.ends_with("mmt") && n >= 5)   // kommt, bestimmt, stimmt
+        || (s.ends_with("nnt") && n >= 5)   // kennt, brennt, erkennt, benennt
+        || (s.ends_with("elt") && n >= 7 && !s.ends_with("welt")) // entwickelt, behandelt
+        || (s.ends_with("ert") && n >= 8 && !s.ends_with("wert")) // erläutert, geändert, gefördert (not "Konzert")
+}
+
 impl<T: Dictionary> GermanNounCapitalization<T> {
     pub fn new(dictionary: T) -> Self {
         let noun_suffixes = vec![
@@ -251,381 +628,186 @@ impl<T: Dictionary> GermanNounCapitalization<T> {
         GERMAN_NON_NOUNS.contains(&s.as_str())
     }
 
-    /// Check if a word is likely a German noun based on dictionary metadata
-    /// and suffix heuristics, while excluding known function words.
-    fn is_likely_noun(&self, word: &[char], word_token: &Token, _document: &Document) -> bool {
-        let lower: Vec<char> = word
+    /// Does the token immediately to the left mark this position as inside a
+    /// noun phrase (determiner / preposition / possessive / spelled-out
+    /// number)? This is what separates *"der **Fang**"* (capitalize) from
+    /// *"..., **fang** an"* (leave as verb).
+    fn is_licensed_by_context(&self, prev: Option<&Token>, document: &Document) -> bool {
+        let Some(prev) = prev else {
+            return false;
+        };
+        // Punctuation, numbers, whitespace, symbols to the left never license a
+        // noun. Only a genuine word can.
+        if !matches!(prev.kind, TokenKind::Word(_)) {
+            return false;
+        }
+
+        if prev.kind.is_preposition() || prev.kind.is_determiner() {
+            return true;
+        }
+
+        let prev_chars = document.get_span_content(&prev.span);
+        let prev_lower: String = prev_chars
             .iter()
             .map(|c| c.to_lowercase().next().unwrap_or(*c))
             .collect();
 
-        // Never flag known function words
-        if Self::is_non_noun(&lower) {
-            return false;
-        }
-
-        // Heuristic overrides for common verb/adjective/adverb patterns
-        // These help override incorrect dictionary metadata
-        let word_str: String = lower.iter().collect();
-
-        // Common verb endings (infinitive and conjugated forms)
-        if word_str.ends_with("en")
-            || word_str.ends_with("est")
-            || word_str.ends_with("et")
-            || word_str.ends_with("t")
-            || word_str.ends_with("te")
-            || word_str.ends_with("ten")
-        {
-            return false;
-        }
-
-        // Common adjective endings
-        if word_str.ends_with("e")
-            || word_str.ends_with("er")
-            || word_str.ends_with("es")
-            || word_str.ends_with("em")
-            || word_str.ends_with("en")
-            || word_str.ends_with("ste")
-            || word_str.ends_with("ere")
-            || word_str.ends_with("tes")
-        {
-            return false;
-        }
-
-        // Common adverb endings
-        if word_str.ends_with("lich") || word_str.ends_with("weise") || word_str.ends_with("wärts")
-        {
-            return false;
-        }
-
-        // Check dictionary metadata first - most reliable
-        // Check both the word and its lowercase form
-        let word_metadata = self.dictionary.get_word_metadata(word);
-        let lower_metadata = self.dictionary.get_word_metadata(&lower);
-
-        // If word is explicitly marked as a noun in dictionary, it's a noun
-        if word_metadata.as_ref().is_some_and(|m| m.noun.is_some())
-            || lower_metadata.as_ref().is_some_and(|m| m.noun.is_some())
-        {
-            return true;
-        }
-
-        // If word is explicitly marked as a NON-noun (verb, adjective, adverb, etc.)
-        // in the dictionary, it should NOT be treated as a noun
-        // This prevents false positives like "schreibe" (verb) or "fehlgeschlagen" (participle)
-        let has_noun_metadata = word_metadata
-            .as_ref()
-            .and_then(|m| m.noun.as_ref())
-            .is_some()
-            || lower_metadata
-                .as_ref()
-                .and_then(|m| m.noun.as_ref())
-                .is_some();
-
-        let has_non_noun_metadata = word_metadata.as_ref().is_some_and(|m| {
-            m.verb.is_some()
-                || m.adjective.is_some()
-                || m.adverb.is_some()
-                || m.conjunction.is_some()
-                || m.determiner.is_some()
-                || m.pronoun.is_some()
-                || m.preposition
-        }) || lower_metadata.as_ref().is_some_and(|m| {
-            m.verb.is_some()
-                || m.adjective.is_some()
-                || m.adverb.is_some()
-                || m.conjunction.is_some()
-                || m.determiner.is_some()
-                || m.pronoun.is_some()
-                || m.preposition
-        });
-
-        if has_non_noun_metadata && !has_noun_metadata {
-            return false;
-        }
-
-        // Check for common noun suffixes (with minimum length guards)
-        // Only apply suffix heuristics if we don't have explicit dictionary info
-        for (suffix, min_len) in &self.noun_suffixes {
-            if lower.len() >= *min_len && &lower[lower.len() - suffix.len()..] == suffix {
-                return true;
-            }
-        }
-
-        // Use Brill POS tagging as a fallback for words not clearly identified by dictionary metadata
-        // This helps distinguish between ambiguous words like "hält" (verb) vs "Halt" (noun)
-        // Also use Brill tagger to override incorrect dictionary metadata
-        if word_token.kind.is_upos(UPOS::NOUN) {
-            return true;
-        } else if word_token.kind.is_upos(UPOS::VERB)
-            || word_token.kind.is_upos(UPOS::ADJ)
-            || word_token.kind.is_upos(UPOS::ADV)
-        {
-            // Brill tagger says this is not a noun, so override dictionary metadata
-            return false;
-        }
-
-        false
+        NOUN_PHRASE_LICENSORS.contains(&prev_lower.as_str())
+            || GERMAN_NUMBER_WORDS.contains(&prev_lower.as_str())
     }
 
-    /// Optimized method that checks if a word is a German noun, consolidating all heuristic
-    /// and dictionary checks to avoid redundant computations.
+    /// Decide whether a lowercase, alphabetic, non-sentence-initial word should
+    /// be flagged as a miscapitalized noun.
     fn check_if_word_is_noun(
         &self,
         word_chars: &[char],
-        word_token: &Token,
-        _document: &Document,
+        prev: Option<&Token>,
+        document: &Document,
     ) -> bool {
-        // Early exit: cache lowercase conversion to avoid redundant computation
         let lower: Vec<char> = word_chars
             .iter()
             .map(|c| c.to_lowercase().next().unwrap_or(*c))
             .collect();
-        let word_str: String = lower.iter().collect();
-        let word_len = word_str.len();
+        let s: String = lower.iter().collect();
+        let nchars = lower.len();
 
-        // Fast path 1: early rejection for known function words (most common case)
-        if Self::is_non_noun(&lower) {
+        if nchars < 2 {
             return false;
         }
 
-        // Fast path 2: early rejection for common verb/adjective/adverb patterns
-        // Reordered to check most common patterns first for better cache locality
-
-        // Common verb endings (infinitive and conjugated forms) - check length first for performance
-        if word_len > 3
-            && (word_str.ends_with("en")
-                || word_str.ends_with("est")
-                || word_str.ends_with("et")
-                || word_str.ends_with("te")
-                || word_str.ends_with("ten"))
+        // Foreign etymology terms (téchnē, lógos, eurýs, ʕarab, ...) carry
+        // letters outside the German alphabet. They are quoted Latin/Greek, not
+        // miscapitalized German nouns.
+        if !lower
+            .iter()
+            .all(|c| c.is_ascii_lowercase() || matches!(c, 'ä' | 'ö' | 'ü' | 'ß'))
         {
             return false;
         }
 
-        // Common adjective endings - include all common endings to prevent false positives.
-        // `-e` is handled separately below: it is the last letter of many genuine
-        // feminine nouns (Blume, Sonne, Frage) as well as 1st-person verb forms, so it
-        // can only be classified reliably via dictionary gender evidence.
-        if word_str.ends_with("er")
-            || word_str.ends_with("es")
-            || word_str.ends_with("em")
-            || word_str.ends_with("en")
-            || word_str.ends_with("ste")
-            || word_str.ends_with("ere")
-            || word_str.ends_with("tes")
+        // Hard non-noun classes.
+        if Self::is_non_noun(&lower)
+            || GERMAN_NUMBER_WORDS.contains(&s.as_str())
+            || UNIT_ABBREVS.contains(&s.as_str())
         {
             return false;
         }
 
-        // Words ending in bare `-e`: flag only when the dictionary confirms a real
-        // feminine/neuter noun (gender or number set), e.g. `Blume`, `Sonne`, `Frage`.
-        // Otherwise it is a 1st-person verb or inflected adjective and is not a noun.
-        if word_str.ends_with("e") {
-            let e_metadata = self.dictionary.get_word_metadata(word_chars);
-            let e_lower_metadata = self.dictionary.get_word_metadata(&lower);
-            let is_gendered_noun = e_metadata.as_ref().is_some_and(|m| {
-                m.noun
-                    .as_ref()
-                    .is_some_and(|n| n.gender.is_some() || n.number.is_some())
-            }) || e_lower_metadata.as_ref().is_some_and(|m| {
+        // A number immediately to the left → unit or list item ("45 km",
+        // "Forderung 2 weg"), not a noun.
+        if let Some(p) = prev
+            && matches!(p.kind, TokenKind::Number(_) | TokenKind::Decade)
+        {
+            return false;
+        }
+
+        // Adjective / adverb / participle shape → not a noun, even if the
+        // compound-aware dictionary decomposed it into one.
+        if has_non_noun_ending(&s) {
+            return false;
+        }
+
+        // Separable-prefix finite verb forms (herausrückt, zurückgeht, ...).
+        if SEPARABLE_VERB_PREFIXES
+            .iter()
+            .any(|p| s.starts_with(p) && nchars > p.chars().count() + 2)
+            && (s.ends_with('t') || s.ends_with("te") || s.ends_with("st") || s.ends_with('n'))
+        {
+            return false;
+        }
+
+        // Verb-form shape (infinitive / conjugated): "-en/-eln/-ern", "-est",
+        // "-et", "-te", "-ten". Also inflected-adjective / plural shape "-er",
+        // "-es", "-em". None of the strong noun suffixes below end this way, so
+        // this is a safe blanket reject and matches the rule's historical
+        // false-negative profile (lowercase "-en" plurals are not chased).
+        if nchars > 3
+            && (s.ends_with("en")
+                || s.ends_with("eln")
+                || s.ends_with("ern")
+                || s.ends_with("est")
+                || s.ends_with("et")
+                || s.ends_with("te")
+                || s.ends_with("ten")
+                || s.ends_with("er")
+                || s.ends_with("es")
+                || s.ends_with("em"))
+        {
+            return false;
+        }
+
+        let word_meta = self.dictionary.get_word_metadata(word_chars);
+        let lower_meta = self.dictionary.get_word_metadata(&lower);
+
+        let any = |f: &dyn Fn(&crate::DictWordMetadata) -> bool| -> bool {
+            if let Some(m) = word_meta.as_deref()
+                && f(m)
+            {
+                return true;
+            }
+            if let Some(m) = lower_meta.as_deref()
+                && f(m)
+            {
+                return true;
+            }
+            false
+        };
+
+        let has_noun = any(&|m| m.noun.is_some());
+        let has_verb = any(&|m| m.verb.is_some());
+        let has_adjective = any(&|m| m.adjective.is_some());
+        let has_adverb = any(&|m| m.adverb.is_some());
+        let has_closed_class = any(&|m| {
+            m.pronoun.is_some()
+                || m.determiner.is_some()
+                || m.conjunction.is_some()
+                || m.preposition
+        });
+
+        // A recognized derivational noun suffix (-ung, -heit, -keit, -schaft,
+        // -tät, -ion, -nis, -tum, -ling) is a near-certain noun. This is meant
+        // to catch nouns the dictionary is missing entirely, so only trust it
+        // for out-of-vocabulary words or ones the dictionary already calls a
+        // noun — not for entries deliberately tagged POS-neutral (Latin terms
+        // like "terminis" that merely happen to end in "-nis").
+        let in_dictionary = word_meta.is_some() || lower_meta.is_some();
+        let has_strong_noun_suffix = self
+            .noun_suffixes
+            .iter()
+            .any(|(suffix, min_len)| nchars >= *min_len && lower.ends_with(suffix.as_slice()));
+        if has_strong_noun_suffix && !has_verb && (!in_dictionary || has_noun) {
+            return true;
+        }
+
+        if !has_noun || has_closed_class {
+            return false;
+        }
+
+        // Bare "-e": genuine feminine/neuter nouns (Blume, Sonne, Frage) carry
+        // gender or number metadata; 1st-person verb forms and inflected
+        // adjectives do not.
+        if s.ends_with('e') {
+            let gendered = any(&|m| {
                 m.noun
                     .as_ref()
                     .is_some_and(|n| n.gender.is_some() || n.number.is_some())
             });
-            if is_gendered_noun {
-                return true;
-            }
-            return false;
-        }
-
-        // Common adverb endings
-        if word_str.ends_with("lich") || word_str.ends_with("weise") || word_str.ends_with("wärts")
-        {
-            return false;
-        }
-
-        // Specific common function words that are often misclassified
-        if word_str == "zuerst"
-            || word_str == "hält"
-            || word_str == "genutzte"
-            || word_str == "ältere"
-        {
-            return false;
-        }
-
-        // Fast path 3: check Brill POS tagging first (cheaper than dictionary lookups)
-        // Use Brill tagger to override incorrect dictionary metadata
-        // Only trust Brill tagger for non-noun classifications, as noun classification
-        // can be inaccurate for words not in the dictionary
-        if word_token.kind.is_upos(UPOS::VERB)
-            || word_token.kind.is_upos(UPOS::ADJ)
-            || word_token.kind.is_upos(UPOS::ADV)
-        {
-            return false;
-        }
-        // Note: We don't return true for UPOS::NOUN here because Brill tagger
-        // can misclassify words not in dictionary as nouns
-
-        // Dictionary metadata checks - most reliable but more expensive
-        // Check both the word and its lowercase form in a single pass
-        let word_metadata = self.dictionary.get_word_metadata(word_chars);
-        let lower_metadata = self.dictionary.get_word_metadata(&lower);
-
-        // If word is explicitly marked as a noun in dictionary, it's a noun
-        if word_metadata.as_ref().is_some_and(|m| m.noun.is_some())
-            || lower_metadata.as_ref().is_some_and(|m| m.noun.is_some())
-        {
-            return true;
-        }
-
-        // If word is explicitly marked as a NON-noun (verb, adjective, adverb, etc.)
-        // in the dictionary, it should NOT be treated as a noun
-        let has_non_noun_metadata = word_metadata.as_ref().is_some_and(|m| {
-            m.verb.is_some()
-                || m.adjective.is_some()
-                || m.adverb.is_some()
-                || m.conjunction.is_some()
-                || m.determiner.is_some()
-                || m.pronoun.is_some()
-                || m.preposition
-        }) || lower_metadata.as_ref().is_some_and(|m| {
-            m.verb.is_some()
-                || m.adjective.is_some()
-                || m.adverb.is_some()
-                || m.conjunction.is_some()
-                || m.determiner.is_some()
-                || m.pronoun.is_some()
-                || m.preposition
-        });
-
-        if has_non_noun_metadata {
-            return false;
-        }
-
-        // Conservative approach: only flag as noun if we have strong evidence
-        // For compound words without explicit metadata, we don't flag them as nouns
-        // This prevents false positives for compound adjectives, verbs, etc.
-        false
-    }
-
-    /// Comprehensive heuristic analysis for ambiguous cases (fallback only)
-    fn is_likely_noun_comprehensive(
-        &self,
-        lower: &[char],
-        word_token: &Token,
-        _document: &Document,
-    ) -> bool {
-        let word_str: String = lower.iter().collect();
-
-        // Never flag known function words
-        if Self::is_non_noun(lower) {
-            return false;
-        }
-
-        // Heuristic overrides for common verb/adjective/adverb patterns
-        // These help override incorrect dictionary metadata
-        let _word_len = word_str.len();
-
-        // Common verb endings (infinitive and conjugated forms)
-        if word_str.ends_with("en")
-            || word_str.ends_with("est")
-            || word_str.ends_with("et")
-            || word_str.ends_with("te")
-            || word_str.ends_with("ten")
-        {
-            return false;
-        }
-
-        // Common adjective endings
-        if word_str.ends_with("e")
-            || word_str.ends_with("er")
-            || word_str.ends_with("es")
-            || word_str.ends_with("em")
-            || word_str.ends_with("en")
-            || word_str.ends_with("ste")
-            || word_str.ends_with("ere")
-            || word_str.ends_with("tes")
-        {
-            return false;
-        }
-
-        // Common adverb endings
-        if word_str.ends_with("lich") || word_str.ends_with("weise") || word_str.ends_with("wärts")
-        {
-            return false;
-        }
-
-        // Check dictionary metadata first - most reliable
-        // Check both the word and its lowercase form
-        let word_metadata = self
-            .dictionary
-            .get_word_metadata(&word_str.chars().collect::<Vec<_>>());
-        let lower_metadata = self.dictionary.get_word_metadata(lower);
-
-        // If word is explicitly marked as a noun in dictionary, it's a noun
-        if word_metadata.as_ref().is_some_and(|m| m.noun.is_some())
-            || lower_metadata.as_ref().is_some_and(|m| m.noun.is_some())
-        {
-            return true;
-        }
-
-        // If word is explicitly marked as a NON-noun (verb, adjective, adverb, etc.)
-        // in the dictionary, it should NOT be treated as a noun
-        // This prevents false positives like "schreibe" (verb) or "fehlgeschlagen" (participle)
-        let has_noun_metadata = word_metadata
-            .as_ref()
-            .and_then(|m| m.noun.as_ref())
-            .is_some()
-            || lower_metadata
-                .as_ref()
-                .and_then(|m| m.noun.as_ref())
-                .is_some();
-
-        let has_non_noun_metadata = word_metadata.as_ref().is_some_and(|m| {
-            m.verb.is_some()
-                || m.adjective.is_some()
-                || m.adverb.is_some()
-                || m.conjunction.is_some()
-                || m.determiner.is_some()
-                || m.pronoun.is_some()
-                || m.preposition
-        }) || lower_metadata.as_ref().is_some_and(|m| {
-            m.verb.is_some()
-                || m.adjective.is_some()
-                || m.adverb.is_some()
-                || m.conjunction.is_some()
-                || m.determiner.is_some()
-                || m.pronoun.is_some()
-                || m.preposition
-        });
-
-        if has_non_noun_metadata && !has_noun_metadata {
-            return false;
-        }
-
-        // Check for common noun suffixes (with minimum length guards)
-        // Only apply suffix heuristics if we don't have explicit dictionary info
-        for (suffix, min_len) in &self.noun_suffixes {
-            if lower.len() >= *min_len && &lower[lower.len() - suffix.len()..] == suffix {
-                return true;
+            if !gendered {
+                return false;
             }
         }
 
-        // Use Brill POS tagging as a fallback for words not clearly identified by dictionary metadata
-        // This helps distinguish between ambiguous words like "hält" (verb) vs "Halt" (noun)
-        // Also use Brill tagger to override incorrect dictionary metadata
-        if word_token.kind.is_upos(UPOS::NOUN) {
+        let ambiguous = has_verb || has_adjective || has_adverb;
+
+        if !ambiguous {
+            // Clean, unambiguous noun reading (noun, but no verb / adjective /
+            // adverb reading): flag it wherever it appears.
             return true;
-        } else if word_token.kind.is_upos(UPOS::VERB)
-            || word_token.kind.is_upos(UPOS::ADJ)
-            || word_token.kind.is_upos(UPOS::ADV)
-        {
-            // Brill tagger says this is not a noun, so override dictionary metadata
-            return false;
         }
 
-        false
+        // Ambiguous noun / verb (or noun / adjective) homograph: only a noun
+        // here if the left context licenses a noun phrase.
+        self.is_licensed_by_context(prev, document)
     }
 }
 
@@ -635,46 +817,51 @@ impl<T: Dictionary> Linter for GermanNounCapitalization<T> {
 
         for paragraph in document.iter_paragraphs() {
             for sentence in paragraph.iter_sentences() {
-                // Get the first word of this sentence to skip it
-                let _first_word = sentence.first_non_whitespace();
+                let first_word_span = sentence.first_non_whitespace().map(|t| t.span);
+                let mut prev: Option<&Token> = None;
 
-                for word in sentence.iter_words() {
-                    let word_chars = document.get_span_content(&word.span);
-
-                    // Skip words that are already capitalized
-                    if word_chars
-                        .first()
-                        .is_some_and(|first_char| first_char.is_uppercase())
-                    {
+                for token in sentence.iter() {
+                    if token.kind.is_whitespace() {
                         continue;
                     }
 
-                    // Skip non-alphabetic words
-                    if !word_chars.iter().all(|c| c.is_alphabetic()) {
-                        continue;
-                    }
+                    if matches!(token.kind, TokenKind::Word(_)) {
+                        let word_chars = document.get_span_content(&token.span);
 
-                    // Check if word is a noun using optimized heuristic and dictionary lookup
-                    // This consolidates all the checks to avoid redundant computations
-                    let should_flag = self.check_if_word_is_noun(word_chars, word, document);
+                        let already_capitalized = word_chars
+                            .first()
+                            .is_some_and(|first_char| first_char.is_uppercase());
+                        let all_alphabetic = word_chars.iter().all(|c| c.is_alphabetic());
+                        // The first word of a sentence is handled by
+                        // `GermanSentenceCapitalization`; noun-vs-verb cannot be
+                        // told apart there anyway ("Fang an!").
+                        let is_sentence_initial = Some(token.span) == first_word_span;
 
-                    if should_flag {
-                        let mut replacement: Vec<char> = word_chars.to_vec();
-                        if let Some(first_char) = replacement.first_mut() {
-                            *first_char = first_char.to_uppercase().next().unwrap_or(*first_char);
+                        if !already_capitalized
+                            && all_alphabetic
+                            && !is_sentence_initial
+                            && self.check_if_word_is_noun(word_chars, prev, document)
+                        {
+                            let mut replacement: Vec<char> = word_chars.to_vec();
+                            if let Some(first_char) = replacement.first_mut() {
+                                *first_char =
+                                    first_char.to_uppercase().next().unwrap_or(*first_char);
+                            }
+
+                            lints.push(Lint {
+                                span: token.span,
+                                lint_kind: LintKind::Capitalization,
+                                suggestions: vec![Suggestion::ReplaceWith(replacement)],
+                                priority: 25, // High priority for German
+                                message: format!(
+                                    "In German, all nouns must be capitalized. \"{}\" appears to be a noun.",
+                                    word_chars.iter().collect::<String>()
+                                ),
+                            });
                         }
-
-                        lints.push(Lint {
-                            span: word.span,
-                            lint_kind: LintKind::Capitalization,
-                            suggestions: vec![Suggestion::ReplaceWith(replacement)],
-                            priority: 25, // High priority for German
-                            message: format!(
-                                "In German, all nouns must be capitalized. \"{}\" appears to be a noun.",
-                                word_chars.iter().collect::<String>()
-                            ),
-                        });
                     }
+
+                    prev = Some(token);
                 }
             }
         }
@@ -793,5 +980,53 @@ mod tests {
         let lint = &lints[0];
         let word: String = document.get_span_content(&lint.span).iter().collect();
         assert_eq!(word, "mondlandung");
+    }
+
+    #[test]
+    fn test_noun_verb_homograph_uses_context() {
+        let mut linter = test_linter();
+
+        // Licensed by the article "der" -> noun -> flag.
+        let doc = create_document("der fang ist groß");
+        let lints = linter.lint(&doc);
+        assert_eq!(
+            lints.len(),
+            1,
+            "\"der fang\" should be flagged as a noun ({:?})",
+            lints
+                .iter()
+                .map(|l| document_word(&doc, l))
+                .collect::<Vec<_>>()
+        );
+        assert_eq!(document_word(&doc, &lints[0]), "fang");
+
+        // Not licensed (imperative after a comma) -> verb -> no flag.
+        let doc = create_document("ich sage dir, fang an");
+        let lints = linter.lint(&doc);
+        assert_eq!(
+            lints.len(),
+            0,
+            "\"..., fang an\" should not be flagged ({:?})",
+            lints
+                .iter()
+                .map(|l| document_word(&doc, l))
+                .collect::<Vec<_>>()
+        );
+    }
+
+    #[test]
+    fn test_numbers_and_units_are_not_flagged() {
+        let mut linter = test_linter();
+        let doc = create_document("Die Strecke ist etwa 45 km lang und hat drei Abschnitte");
+        let lints = linter.lint(&doc);
+        let flagged: Vec<String> = lints.iter().map(|l| document_word(&doc, l)).collect();
+        assert!(
+            !flagged.iter().any(|w| w == "km" || w == "drei"),
+            "units and number words should not be flagged, got {flagged:?}"
+        );
+    }
+
+    fn document_word(document: &Document, lint: &Lint) -> String {
+        document.get_span_content(&lint.span).iter().collect()
     }
 }

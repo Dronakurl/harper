@@ -14411,7 +14411,7 @@ detailgetreu/~~RJOQRSTUWqh #frequency: 7
 detailreich/~~RJOQRSTUWqh #frequency: 7
 differential/~~RJOQRSTUWqh #frequency: 7
 doof/~~RJOQRSTUWqh #frequency: 7
-drang/~Nhpuvw #frequency: 7
+drang/~NhpuvwtV #frequency: 7
 dreh/~Nhpuvw #frequency: 7
 drill/~Nhpuvw #frequency: 7
 droh/~Nhpuvw #frequency: 7
@@ -17529,7 +17529,7 @@ halophob/~Nh #frequency: 6
 halsbrecherisch/~Jq #adjective root, frequency: 6
 halsnah/~Nh #frequency: 6
 haltbar/~Jq #adjective root, frequency: 6
-halt/~Nh #frequency: 6
+halt/~Nhr #frequency: 6
 hammergeil/~Nh #frequency: 6
 hamster/~Nh #frequency: 6
 handflächengroß/~Nh #frequency: 6
@@ -19125,7 +19125,7 @@ algarve/~~Nh
 alge/~~Nh
 algebra/~~Nh
 algen/~~V # auto-added
-alias/~~NXh
+alias/~~r # retag: was NXh
 alibi/~~Nbh
 alien/~~V # auto-added
 aliens/~~Nh
@@ -19194,7 +19194,7 @@ alpines/~~Nh
 als/~~Nh
 alsbald/~~Nh
 alsdann/~~Nh
-also/~~Nh
+also/~~r # retag: adverb/verb, was noun (corpus-mined)
 alster/~~Mh
 altait/~~Nh
 altaits/~~Nh
@@ -20567,7 +20567,7 @@ bake/~~Nh
 baken/~~V # auto-added
 balance/~~Nh
 balboa/~~Nh
-bald/~~Nh
+bald/~~r # retag: adverb/verb, was noun (corpus-mined)
 baldige/~~Nh
 balg/~~Vcej # REPLACES balgen
 balges/~~Nh
@@ -25398,7 +25398,7 @@ fackele/~~Nh
 fackeln/~~V # auto-added
 fackelt/~~NXh
 fackle/~~Nh
-facto/~~Nh
+facto/~~h # retag: was Nh
 fade/~~Nh
 fadem/~~Nh
 faden/~~V # auto-added
@@ -25558,7 +25558,7 @@ fasst/~~Nh
 fasste/~~Nh
 fasstet/~~Nh
 fassung/~~Fh
-fast/~~Nh
+fast/~~r # retag: adverb/verb, was noun (corpus-mined)
 faste/~~Nh
 fasten/~~V # auto-added
 fastend/~~Nh
@@ -29164,7 +29164,7 @@ henne/~~Nh
 hennen/~~V # auto-added
 heptan/~~Nh
 heptans/~~Nh
-her/~~Mh
+her/~~r # retag: adverb/verb, was noun (corpus-mined)
 herab/~~Nh
 heran/~~Nh
 herat/~~Nh
@@ -29470,7 +29470,7 @@ Historia/~~N
 histon/~~Nh
 histone/~~Nh
 histons/~~Nh
-magistra/~~N
+magistra/~~h # retag: was N
 vitae/~~N
 hit/~~Nh
 hits/~~Nh
@@ -33686,7 +33686,7 @@ magier/~~Mh
 magiern/~~Nh
 magiers/~~Nh
 magma/~~Nbh
-magna/~~Nh
+magna/~~h # retag: was Nh
 magnat/~~Nh
 magnet/~~NXh
 magnets/~~Nh
@@ -34517,7 +34517,7 @@ modular/~~NXh
 modulen/~~V # auto-added
 modulo/~~Nh
 moduls/~~Nh
-modus/~~Nh
+modus/~~h # retag: was Nh
 moesien/~~V # auto-added
 mofa/~~Nbh
 mogel/~~NXh
@@ -35201,7 +35201,7 @@ natter/~~Mh
 nattern/~~Nh
 natur/~~Nh
 naturstoff/~~Mh
-natura/~~Nh
+natura/~~h # retag: was Nh
 natural/~~NXh
 naturen/~~V # auto-added
 nautik/~~Nh
@@ -37387,7 +37387,7 @@ quarz/~~Vej # REPLACES quarzen
 quarzes/~~Nh
 quarzt/~~NXh
 quasar/~~Nh
-quasi/~~Nh
+quasi/~~r # retag: adverb/verb, was noun (corpus-mined)
 quassle/~~Nh
 quaste/~~Nh
 quasten/~~V # auto-added
@@ -38931,7 +38931,7 @@ santa/~~Nh
 sao/~~Nh
 saphir/~~NXh
 saphirs/~~Nh
-sapiens/~~Nh
+sapiens/~~h # retag: was Nh
 sarde/~~Nh
 sarden/~~V # auto-added
 sardes/~~Nh
@@ -39469,7 +39469,7 @@ sieges/~~Nh
 siegle/~~Nh
 siegs/~~Nh
 siegt/~~NXh
-sieh/~~NXh
+sieh/~~Vh # retag: imperative of sehen (was NXh, generated "siehe" as a plural noun)
 sieht/~~hV
 siel/~~NXh
 sielen/~~V # auto-added
@@ -41585,7 +41585,7 @@ wappne/~~Nh
 warb/~~Nh
 warben/~~V # auto-added
 warbt/~~Nh
-ward/~~Nh
+ward/~~V # retag: adverb/verb, was noun (corpus-mined)
 war/~~Vej # REPLACES waren
 warf/~~Nh
 warfen/~~V # auto-added
@@ -41633,7 +41633,7 @@ wedels/~~Nh
 wedelt/~~NXh
 weder/~~Mh
 wedle/~~Nh
-weg/~~MXh
+weg/~~MXhr # +homograph reading (was MXh)
 wegbog/~~Nh
 wegen/~~V # auto-added
 weges/~~Nh
@@ -41698,7 +41698,7 @@ weiß/~~Vcej # REPLACES weißen
 weißer/~~NJOQRSTUWq
 weißes/~~Nh
 weißt/~~NXh
-welch/~~YhI
+welch/~~I # retag: was YhI
 welkem/~~Nh
 welk/~~Vcej # REPLACES welken
 welker/~~Mh
@@ -42328,7 +42328,7 @@ zuckre/~~Nh
 zuckt/~~NXh
 zudem/~~Nh
 zueilt/~~NXh
-zuerst/~~Nh
+zuerst/~~r # retag: adverb/verb, was noun (corpus-mined)
 zufall/~~NXh # auto-added
 zufaxt/~~NXh
 zufiel/~~Nh
@@ -42593,7 +42593,7 @@ zürnt/~~NXh
 ämtern/~~Nh
 änder/~~Mh
 ändere/~~Nh
-ändern/~~Nh
+ändern/~~V # retag: was Nh
 ändert/~~hV
 ändre/~~Nh
 ängste/~~Nh
@@ -124562,7 +124562,7 @@ heuerampel/~~Nh
 heuerleute/~~Fh
 heuerplatz/~~Nh
 heuschober/~~Nh
-heutzutage/~~Fh
+heutzutage/~~r # retag: was Fh
 heverstrom/~~Nh
 hexansäure/~~Fh
 hexenartig/~~RJOQRSTUWqh
@@ -139902,7 +139902,7 @@ knäuelkraut/~~Nh
 knöchelband/~~Nh
 knöchelbein/~~Nh
 knöchelhoch/~~Nh # auto-added
-knöchelhohe/~~Fh
+knöchelhohe/~~JOQRSTUWq # retag: was Fh
 knöchelhöhe/~~Fh
 knöchelödem/~~Nh
 knüpfarbeit/~~Nh
@@ -158741,7 +158741,7 @@ schreikrampf/~~Nh
 schreinsbuch/~~Nh
 schrifttümer/~~Nh
 schritthielt/~~Nh
-schrittweise/~~Fh
+schrittweise/~~r # retag: was Fh
 schrotflinte/~~Fh
 schrotgewehr/~~Nh
 schrotkörner/~~Nh
@@ -188672,7 +188672,7 @@ bezahlfernsehen/~~Nh
 bezahlverfahren/~~Nh
 bezeichnerlänge/~~Fh
 beziehungsfähig/~~Nh
-beziehungsweise/~~Fh
+beziehungsweise/~~C # retag: was Fh
 bezirkstagswahl/~~Nh
 biathlonstadion/~~Fh
 biathlonstrecke/~~Fh
@@ -190822,7 +190822,7 @@ heidegrashüpfer/~~Nh
 heidelandschaft/~~Fh
 heidelbeeranbau/~~Nh
 heidelbeerkraut/~~Nh
-heidelbergensis/~~Nh
+heidelbergensis/~~h # retag: was Nh
 heidenspektakel/~~Nh
 heilbuttschnitt/~~Nh
 heiligenfenster/~~Nh
@@ -220062,9 +220062,9 @@ mcfit/~~N
 rennt/~~N
 maakt/~~N
 εὐρύς/~~N
-eurýs/~~N
-ʕarab/~~N
-ʕerob/~~N
+eurýs/~~h # retag: was N
+ʕarab/~~h # retag: was N
+ʕerob/~~h # retag: was N
 münch/~~N
 foehn/~~N
 warme/~~N
@@ -220100,7 +220100,7 @@ david/~~N
 games/~~N
 τέχνη/~~N
 λόγος/~~N
-lógos/~~N
+lógos/~~h # retag: was N
 logie/~~N
 vgrdl/~~N
 earth/~~N
@@ -220251,7 +220251,7 @@ haengt/~~N
 flache/~~N
 comedy/~~N
 dining/~~N
-ʕerebu/~~N
+ʕerebu/~~h # retag: was N
 ˈmʏnçn/~~N
 münich/~~N
 münech/~~N
@@ -220275,7 +220275,7 @@ prison/~~N
 rueckt/~~N
 langer/~~N
 bringt/~~V
-téchnē/~~N
+téchnē/~~h # retag: was N
 vufind/~~N
 module/~~N
 cityid/~~N
@@ -220519,7 +220519,7 @@ français/~~N
 hosttown/~~N
 eurovelo/~~N
 modische/~~N
-scientia/~~N
+scientia/~~h # retag: was N
 obsolete/~~N
 thiutisk/~~N
 xaveropp/~~N
@@ -220618,7 +220618,7 @@ berichte/~~N
 esmunich/~~N
 gianotti/~~N
 litterae/~~N
-terminis/~~N
+terminis/~~h # retag: was N
 ˈhambʊʁk/~~N
 ˈhambɔʁχ/~~N
 infoline/~~N
@@ -220828,7 +220828,7 @@ ereignete/~~N
 klinische/~~N
 angehörte/~~N
 fahrzeuge/~~N
-technicis/~~N
+technicis/~~h # retag: was N
 kampflose/~~N
 templates/~~N
 mündliche/~~N
@@ -221354,7 +221354,7 @@ entwicklung/~~FY
 kanonischen/~~V
 erheblichem/~~N
 städtischer/~~N
-technología/~~N
+technología/~~h # retag: was N
 regiolektal/~~N
 gebaendigte/~~N
 gemittelten/~~V
@@ -222493,7 +222493,7 @@ umfassenden/~~RJOQRSTUWqh # comprehensive (adjective)
 unheilbaren/~~RJOQRSTUWqh # incurable (adjective)
 wiederherzustellen/~~V # to restore
 zusammensetzungen/~~F # compositions, compounds, plural of Zusammensetzung
-ars/~~Fh # art (Latin, used in German)
+ars/~~h # art (Latin, used in German)
 berufsordnungen/~~F # professional regulations, plural of Berufsordnung
 datenschutz/~~Mh # data protection
 patientarztbeziehung/~~Fh # patient-doctor relationship

@@ -601,7 +601,7 @@
 			"rename_ok": true
 		},
 		"h": {
-			"#": "Verb present -st (lern-st)",
+			"#": "Verb present -st (lern-st). NOTE: in the German dictionary 'h' is also the near-universal 'vetted / compound-capable' bookkeeping marker appended to ~96% of noun and many adjective entries, so it MUST NOT inject a part of speech. It only generates the -st surface form for spell checking; the verb reading comes from the 'V' property and the 'j'/'f'/'d'/'e' affixes.",
 			"kind": "suffix",
 			"cross_product": true,
 			"replacements": [
@@ -612,13 +612,11 @@
 				}
 			],
 			"target": [],
-			"base_metadata": {
-				"verb": {}
-			},
+			"base_metadata": {},
 			"rename_ok": true
 		},
 		"i": {
-			"#": "Verb present -t (lern-t)",
+			"#": "Verb present -t (lern-t). NOTE: like 'h', 'i' is also used as a bookkeeping marker on noun entries, so it must not inject a part of speech. It only generates the -t surface form; the verb reading comes from 'V'/'j'/'f'/'d'/'e'.",
 			"kind": "suffix",
 			"cross_product": true,
 			"replacements": [
@@ -629,9 +627,7 @@
 				}
 			],
 			"target": [],
-			"base_metadata": {
-				"verb": {}
-			},
+			"base_metadata": {},
 			"rename_ok": true
 		},
 		"j": {
