@@ -60,6 +60,7 @@ pub use irregular_verbs::IrregularVerbs;
 #[cfg(feature = "language-module")]
 pub use language::{Language, LanguageFamily};
 use linting::Lint;
+#[cfg(feature = "language-module")]
 pub use linting::{LintGroup, Linter};
 pub use mask::{Mask, Masker, RegexMasker};
 pub use number::{Number, OrdinalSuffix};
@@ -213,16 +214,14 @@ mod tests {
     use itertools::Itertools;
     use quickcheck_macros::quickcheck;
 
-    use crate::Span;
-    use crate::expr::{AnchorStart, SequenceExpr};
     use crate::linting::{Lint, create_test_pool};
-    use crate::remove_lints_overlapping_expr;
     use crate::remove_overlaps_map;
     use crate::spell::FstDictionary;
     use crate::{
-        Dialect, Document,
+        Dialect, Document, Span,
+        expr::{AnchorStart, SequenceExpr},
         linting::{LintGroup, Linter},
-        remove_overlaps,
+        remove_lints_overlapping_expr, remove_overlaps,
     };
 
     create_test_pool!(
