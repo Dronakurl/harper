@@ -52,7 +52,7 @@ Options:
 | `--hunspell` | Compare results against system Hunspell. |
 | `--coverage` | Measure recognition against `--expanded-dict`. |
 | `--expanded-dict <path>` | Gzipped reference word list for `--coverage`. |
-| `--sample-size <n>` | Words sampled for coverage (default 10000). |
+| `--sample-size <n>` | Words sampled for coverage. `0` (default) checks every word. |
 | `--min-coverage <pct>` | Exit non-zero if coverage falls below this. |
 
 ## Coverage
@@ -60,10 +60,18 @@ Options:
 `--coverage` compares Harper's expanded dictionary against an external reference
 list (`<lang>_dictionary.dict.gz`). Only German currently ships one.
 
-The sample is drawn with a fixed seed so repeated runs on an unchanged tree give
-an identical number — without that, a 10,000-word random sample varies by around
-±0.5%, which is too noisy to gate on. Use `--sample-size` for a tighter estimate
-at the cost of runtime.
+By default **every** word in the reference list is checked — 258k words for
+German, about two seconds. That is both representative and reproducible, so a
+change in the number means a real change in the dictionary.
+
+`--sample-size <n>` takes a random sample instead, for a quicker estimate while
+iterating. Do not gate CI on one: a 10,000-word sample carries roughly ±0.5% of
+sampling noise.
+
+Note that sampling also stops reading early once it has enough lines. Because
+reference word lists are sorted alphabetically, a small sample is drawn from the
+front of the alphabet rather than the whole list, so its absolute value is not
+comparable to the exhaustive figure.
 
 ## German specifics
 

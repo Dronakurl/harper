@@ -53,8 +53,11 @@ struct Args {
     #[arg(short, long)]
     expanded_dict: Option<PathBuf>,
 
-    /// Sample size for coverage analysis (default: 10000)
-    #[arg(short, long, default_value_t = 10000)]
+    /// Number of words to sample for coverage analysis.
+    /// 0 (the default) checks every word in the reference list, which is both
+    /// exhaustive and reproducible. Set a value only for a quick estimate while
+    /// iterating -- a 10k sample carries roughly +/-0.5% of noise.
+    #[arg(short, long, default_value_t = 0)]
     sample_size: usize,
 
     /// Fail with a non-zero exit code if coverage falls below this percentage.

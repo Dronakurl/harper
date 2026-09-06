@@ -4,17 +4,17 @@ use std::time::Instant;
 use harper_core::spell::Dictionary;
 
 
-/// Seed for the reservoir sample.
+/// Load the reference word list, optionally down to a random sample.
 ///
-/// Fixed on purpose. With `thread_rng` the same tree scored anywhere between
-/// 89.8% and 90.7% across consecutive runs, which is far too noisy to gate CI on.
-/// A fixed seed makes the figure reproducible, so a change in coverage means a
-/// real change in the dictionary.
-const SAMPLE_SEED: u64 = 0xA9E7_C0FF_EE00_1234;
-
-/// Load expanded dictionary from gzip file and filter on-the-fly
-/// Uses reservoir sampling to efficiently select a deterministic sample without
-/// loading all data
+/// `sample_size == 0` means "every word", which is the default. The German
+/// reference list is ~258k words and checking all of them takes well under a
+/// second, so there is no reason to sample: the result is both exhaustive and
+/// reproducible, and a change in the number means a real change in the
+/// dictionary rather than a different draw.
+///
+/// A non-zero `sample_size` takes a reservoir sample with a fresh random seed,
+/// for a quick estimate while iterating. Note that a 10k sample carries roughly
+/// +/-0.5% of sampling noise, so do not gate CI on one.
 fn load_and_filter_expanded_dictionary(
     path: &str,
     sample_size: usize,
@@ -22,19 +22,18 @@ fn load_and_filter_expanded_dictionary(
     use std::fs::File;
     use std::io::BufReader;
     use flate2::read::GzDecoder;
-    use rand::SeedableRng;
-    use rand::rngs::StdRng;
     use rand::Rng;
 
     let file = File::open(path)?;
     let decoder = GzDecoder::new(BufReader::new(file));
     let reader = io::BufReader::new(decoder);
 
-    // Use reservoir sampling: keep a sample of size sample_size from the stream
-    let mut reservoir: Vec<String> = Vec::with_capacity(sample_size);
+    // sample_size == 0 keeps every word; otherwise reservoir-sample the stream.
+    let take_all = sample_size == 0;
+    let mut reservoir: Vec<String> = Vec::with_capacity(if take_all { 1 << 16 } else { sample_size });
     let mut line_count: usize = 0;
     let mut valid_count: usize = 0;
-    let mut rng = StdRng::seed_from_u64(SAMPLE_SEED);
+    let mut rng = rand::thread_rng();
     
     for line in reader.lines() {
         let line = line?;
@@ -90,7 +89,7 @@ fn load_and_filter_expanded_dictionary(
         }
         
         // Reservoir sampling algorithm
-        if reservoir.len() < sample_size {
+        if take_all || reservoir.len() < sample_size {
             reservoir.push(clean_word.to_string());
         } else {
             // Randomly replace elements with decreasing probability
@@ -100,10 +99,12 @@ fn load_and_filter_expanded_dictionary(
             }
         }
         valid_count += 1;
-        
-        // Early exit if we've processed enough lines (5x sample size) or enough valid words (3x sample size)
-        // This ensures we don't read the entire large file
-        if line_count >= sample_size * 5 {
+
+        // Only stop early when explicitly sampling. The previous unconditional
+        // `line_count >= sample_size * 5` break meant coverage never looked past
+        // the first 50k lines of a 258k-word list -- and the list is sorted, so
+        // it was really measuring coverage of roughly A through F.
+        if !take_all && line_count >= sample_size * 50 {
             break;
         }
     }
@@ -206,7 +207,17 @@ pub fn run_coverage_analysis_with_dict(
     // Load and filter expanded dictionary on-the-fly to save memory
     println!("📖 Loading and filtering expanded dictionary...");
     let test_words = load_and_filter_expanded_dictionary(expanded_dict_path, sample_size)?;
-    println!("   Using {} words for coverage testing", test_words.len());
+    if sample_size == 0 {
+        println!(
+            "   Using all {} words from the reference list",
+            test_words.len()
+        );
+    } else {
+        println!(
+            "   Using a random sample of {} words (+/-0.5% noise; omit --sample-size for all)",
+            test_words.len()
+        );
+    }
 
     // Test words with Harper (in-memory, no subprocess overhead)
     println!("🧪 Testing words with Harper...");
