@@ -29,8 +29,11 @@
 			"target": [
 				{
 					"metadata": {
-						"noun": {
-							"gender": "Feminine"
+						"noun": {},
+						"morphology": {
+							"noun": {
+								"gender": "Feminine"
+							}
 						}
 					}
 				}
@@ -52,8 +55,11 @@
 			"target": [
 				{
 					"metadata": {
-						"noun": {
-							"gender": "Feminine"
+						"noun": {},
+						"morphology": {
+							"noun": {
+								"gender": "Feminine"
+							}
 						}
 					}
 				}
@@ -75,8 +81,11 @@
 			"target": [
 				{
 					"metadata": {
-						"noun": {
-							"gender": "Feminine"
+						"noun": {},
+						"morphology": {
+							"noun": {
+								"gender": "Feminine"
+							}
 						}
 					}
 				}
@@ -113,8 +122,11 @@
 			"target": [
 				{
 					"metadata": {
-						"noun": {
-							"gender": "Neuter"
+						"noun": {},
+						"morphology": {
+							"noun": {
+								"gender": "Neuter"
+							}
 						}
 					}
 				}
@@ -136,8 +148,11 @@
 			"target": [
 				{
 					"metadata": {
-						"noun": {
-							"gender": "Neuter"
+						"noun": {},
+						"morphology": {
+							"noun": {
+								"gender": "Neuter"
+							}
 						}
 					}
 				}
@@ -437,8 +452,11 @@
 			"target": [
 				{
 					"metadata": {
-						"noun": {
-							"number": "Plural"
+						"noun": {},
+						"morphology": {
+							"noun": {
+								"number": "Plural"
+							}
 						}
 					}
 				}
@@ -467,8 +485,11 @@
 			"target": [
 				{
 					"metadata": {
-						"noun": {
-							"number": "Plural"
+						"noun": {},
+						"morphology": {
+							"noun": {
+								"number": "Plural"
+							}
 						}
 					}
 				}
@@ -492,8 +513,11 @@
 			"target": [
 				{
 					"metadata": {
-						"noun": {
-							"number": "Plural"
+						"noun": {},
+						"morphology": {
+							"noun": {
+								"number": "Plural"
+							}
 						}
 					}
 				}
@@ -517,8 +541,11 @@
 			"target": [
 				{
 					"metadata": {
-						"noun": {
-							"number": "Plural"
+						"noun": {},
+						"morphology": {
+							"noun": {
+								"number": "Plural"
+							}
 						}
 					}
 				}
@@ -773,24 +800,33 @@
 		"M": {
 			"#": "masculine noun property (German)",
 			"metadata": {
-				"noun": {
-					"gender": "Masculine"
+				"noun": {},
+				"morphology": {
+					"noun": {
+						"gender": "Masculine"
+					}
 				}
 			}
 		},
 		"F": {
 			"#": "feminine noun property (German)",
 			"metadata": {
-				"noun": {
-					"gender": "Feminine"
+				"noun": {},
+				"morphology": {
+					"noun": {
+						"gender": "Feminine"
+					}
 				}
 			}
 		},
 		"Z": {
 			"#": "neuter noun property (German)",
 			"metadata": {
-				"noun": {
-					"gender": "Neuter"
+				"noun": {},
+				"morphology": {
+					"noun": {
+						"gender": "Neuter"
+					}
 				}
 			}
 		},
@@ -821,8 +857,11 @@
 		"z": {
 			"#": "neuter noun property (German - alternative)",
 			"metadata": {
-				"noun": {
-					"gender": "Neuter"
+				"noun": {},
+				"morphology": {
+					"noun": {
+						"gender": "Neuter"
+					}
 				}
 			}
 		},
@@ -865,32 +904,44 @@
 		"X": {
 			"#": "noun plural -e (German)",
 			"metadata": {
-				"noun": {
-					"number": "Plural"
+				"noun": {},
+				"morphology": {
+					"noun": {
+						"number": "Plural"
+					}
 				}
 			}
 		},
 		"Y": {
 			"#": "noun plural -n/-en (German)",
 			"metadata": {
-				"noun": {
-					"number": "Plural"
+				"noun": {},
+				"morphology": {
+					"noun": {
+						"number": "Plural"
+					}
 				}
 			}
 		},
 		"a": {
 			"#": "noun plural -er with umlaut (German)",
 			"metadata": {
-				"noun": {
-					"number": "Plural"
+				"noun": {},
+				"morphology": {
+					"noun": {
+						"number": "Plural"
+					}
 				}
 			}
 		},
 		"b": {
 			"#": "noun plural -s (German)",
 			"metadata": {
-				"noun": {
-					"number": "Plural"
+				"noun": {},
+				"morphology": {
+					"noun": {
+						"number": "Plural"
+					}
 				}
 			}
 		},
@@ -951,7 +1002,8 @@
 		"x": {
 			"#": "Imperative mood flag (German)",
 			"metadata": {
-				"verb": {
+				"verb": {},
+				"morphology": {
 					"mood": "Imperative"
 				}
 			}
@@ -959,7 +1011,8 @@
 		"y": {
 			"#": "Subjunctive I mood flag (German - Konjunktiv I)",
 			"metadata": {
-				"verb": {
+				"verb": {},
+				"morphology": {
 					"mood": "SubjunctiveI"
 				}
 			}

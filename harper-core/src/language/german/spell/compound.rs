@@ -152,17 +152,7 @@ pub fn generate_compound_words(words: &[AnnotatedWord], word_map: &mut WordMap) 
 
                 // Create metadata for the compound
                 let compound_meta = DictWordMetadata {
-                    noun: Some(NounData {
-                        is_proper: None,
-                        is_singular: None,
-                        is_plural: None,
-                        is_countable: None,
-                        is_mass: None,
-                        is_possessive: None,
-                        case: None,
-                        gender: None,
-                        number: None,
-                    }),
+                    noun: Some(NounData::default()),
                     ..Default::default()
                 };
 

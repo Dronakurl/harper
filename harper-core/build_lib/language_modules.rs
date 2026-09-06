@@ -130,6 +130,7 @@ pub fn generate_language_modules(_out_dir: &Path) {
     code.push_str("pub mod dialects;\n");
     code.push_str("pub mod languages;\n");
     code.push_str("pub mod module;\n");
+    code.push_str("pub mod morphology;\n");
     code.push_str("pub mod registry;\n\n");
 
     // English is always included
@@ -149,6 +150,9 @@ pub fn generate_language_modules(_out_dir: &Path) {
     // Re-exports
     code.push_str("pub use languages::{Language, LanguageFamily, parse_language};\n");
     code.push_str("pub use module::{LanguageDetector, LanguageModule};\n");
+    code.push_str(
+        "pub use morphology::{Agreement, Case, Gender, Mood, Morphology, MorphologyExt, Number};\n",
+    );
     code.push_str("pub use registry::{\n");
     code.push_str(
         "    ProseLanguage, add_language_specific_linters, detect_language, dictionary,\n",

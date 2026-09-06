@@ -1,6 +1,7 @@
 use crate::{
     Token, TokenKind, TokenStringExt,
     document::Document,
+    language::morphology::MorphologyExt,
     linting::{Lint, LintKind, Linter, Suggestion},
     spell::Dictionary,
 };
@@ -814,11 +815,7 @@ impl<T: Dictionary> GermanNounCapitalization<T> {
         // gender or number metadata; 1st-person verb forms and inflected
         // adjectives do not.
         if s.ends_with('e') {
-            let gendered = any(&|m| {
-                m.noun
-                    .as_ref()
-                    .is_some_and(|n| n.gender.is_some() || n.number.is_some())
-            });
+            let gendered = any(&|m| m.is_noun() && m.has_noun_agreement());
             if !gendered {
                 return false;
             }

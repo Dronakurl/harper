@@ -9,6 +9,7 @@ mod tests {
     use harper_core::language::german::linting::new_curated_german;
     use harper_core::language::german::parsers::PlainGerman;
     use harper_core::language::german::spell::curated_german_dictionary;
+    use harper_core::language::morphology::{Gender, MorphologyExt, Number};
     use harper_core::linting::Linter;
     /// Test 1: GermanCaseUsage - Basic preposition + noun case validation
     #[test]
@@ -227,16 +228,19 @@ mod tests {
             "Should be able to get metadata for 'Mann'"
         );
 
-        if let Some(metadata) = metadata {
-            // Check if noun data exists and has case information
-            if let Some(noun_data) = metadata.noun {
-                // With the p flag added, the case should be Some(Nominative)
-                // For now, just validate that we can access the fields
-                let _case = noun_data.case;
-                let _gender = noun_data.gender;
-                let _number = noun_data.number;
-            }
-        }
+        let metadata = metadata.unwrap();
+        assert!(metadata.is_noun(), "'Mann' should have a noun reading");
+
+        // `Mann/~~MhY`: the M flag carries masculine gender, Y carries plural.
+        assert_eq!(
+            metadata.get_noun_gender(),
+            Some(Gender::Masculine),
+            "the M flag should give 'Mann' masculine noun gender"
+        );
+        assert_eq!(metadata.get_noun_number(), Some(Number::Plural));
+
+        // The case flags (p/u/v/w) carry no metadata yet, so case stays unset.
+        assert_eq!(metadata.get_noun_case(), None);
     }
 
     /// Test 10: Metadata access for articles
@@ -254,14 +258,30 @@ mod tests {
             "Should be able to get metadata for 'der'"
         );
 
-        if let Some(metadata) = metadata {
-            // Check if determiner data exists and has case information
-            if let Some(determiner_data) = metadata.determiner {
-                // With the p flag added, the case should be Some(Nominative)
-                let _case = determiner_data.case;
-                let _gender = determiner_data.gender;
-            }
-        }
+        let metadata = metadata.unwrap();
+        assert!(
+            metadata.is_determiner(),
+            "'der' should have a determiner reading"
+        );
+
+        // `der/~~DzMpY` carries noun gender via M/z, but the determiner reading
+        // itself has no agreement features -- no flag sets them. The two must
+        // stay separate: if the noun gender leaked into the determiner reading,
+        // GermanNounDeclension would compare a value against itself and never fire.
+        assert_eq!(
+            metadata.get_determiner_gender(),
+            None,
+            "noun gender must not leak into the determiner reading"
+        );
+        assert_eq!(metadata.get_determiner_case(), None);
+
+        // The entry carries *both* z (neuter) and M (masculine), so the merged
+        // noun gender is whichever flag wins -- the dictionary contradicts
+        // itself here. Assert only that a noun gender arrived, not which one.
+        assert!(
+            metadata.get_noun_gender().is_some(),
+            "the M/z flags should give 'der' some noun gender"
+        );
     }
 
     /// Test 11: Metadata access for pronouns
@@ -279,14 +299,14 @@ mod tests {
             "Should be able to get metadata for 'er'"
         );
 
-        if let Some(metadata) = metadata {
-            // Check if pronoun data exists and has case information
-            if let Some(pronoun_data) = metadata.pronoun {
-                // With the p flag added, the case should be Some(Nominative)
-                let _case = pronoun_data.case;
-                let _gender = pronoun_data.gender;
-                let _number = pronoun_data.number;
-            }
-        }
+        let metadata = metadata.unwrap();
+        assert!(metadata.is_pronoun(), "'er' should have a pronoun reading");
+
+        // `er/~~Ip`: I marks the pronoun, p is a case flag that carries no
+        // metadata yet. Nothing in annotations.json sets pronoun agreement, so
+        // these are all None -- GermanPronounAgreement is dormant until it does.
+        assert_eq!(metadata.get_pronoun_case(), None);
+        assert_eq!(metadata.get_pronoun_gender(), None);
+        assert_eq!(metadata.get_pronoun_number(), None);
     }
 }

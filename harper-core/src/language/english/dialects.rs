@@ -15,6 +15,21 @@ pub type EnglishDialect = Dialect;
 /// Type alias for the original English DialectFlags bitflags.
 pub type EnglishDialectFlags = DialectFlags;
 
+// The language module system needs a default dialect per language, but the core
+// `Dialect` enum deliberately has no inherent notion of one. Supplying it here
+// rather than deriving `Default` in `dict_word_metadata.rs` keeps the core file
+// identical to upstream.
+//
+// Clippy suggests deriving this instead. Doing so would mean adding
+// `#[derive(Default)]` and `#[default]` to the enum in `dict_word_metadata.rs`,
+// which is precisely the upstream churn this impl exists to avoid.
+#[allow(clippy::derivable_impls)]
+impl Default for Dialect {
+    fn default() -> Self {
+        Dialect::American
+    }
+}
+
 // Implement the Dialect trait from dialect_trait.rs for the legacy Dialect type
 // This allows English to work with the LanguageModule system
 impl DialectTrait for Dialect {

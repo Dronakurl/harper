@@ -15,6 +15,7 @@
 use crate::{
     Token,
     document::Document,
+    language::morphology::{Case, Gender, MorphologyExt, Number},
     linting::{Lint, Linter},
     spell::Dictionary,
 };
@@ -34,11 +35,7 @@ impl<T: Dictionary> GermanPronounAgreement<T> {
     }
 
     /// Check if a pronoun has case metadata
-    fn get_pronoun_case(
-        &self,
-        token: &Token,
-        document: &Document,
-    ) -> Option<crate::dict_word_metadata::Case> {
+    fn get_pronoun_case(&self, token: &Token, document: &Document) -> Option<Case> {
         let token_chars = document.get_span_content(&token.span);
         self.dictionary
             .get_word_metadata(token_chars)
@@ -46,11 +43,7 @@ impl<T: Dictionary> GermanPronounAgreement<T> {
     }
 
     /// Check if a pronoun has gender metadata
-    fn get_pronoun_gender(
-        &self,
-        token: &Token,
-        document: &Document,
-    ) -> Option<crate::dict_word_metadata::Gender> {
+    fn get_pronoun_gender(&self, token: &Token, document: &Document) -> Option<Gender> {
         let token_chars = document.get_span_content(&token.span);
         self.dictionary
             .get_word_metadata(token_chars)
@@ -58,11 +51,7 @@ impl<T: Dictionary> GermanPronounAgreement<T> {
     }
 
     /// Check if a pronoun has number metadata
-    fn get_pronoun_number(
-        &self,
-        token: &Token,
-        document: &Document,
-    ) -> Option<crate::dict_word_metadata::Number> {
+    fn get_pronoun_number(&self, token: &Token, document: &Document) -> Option<Number> {
         let token_chars = document.get_span_content(&token.span);
         self.dictionary
             .get_word_metadata(token_chars)

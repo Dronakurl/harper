@@ -17,6 +17,7 @@
 use crate::{
     Token,
     document::Document,
+    language::morphology::{Case, MorphologyExt},
     linting::{Lint, LintKind, Linter},
     spell::Dictionary,
 };
@@ -36,11 +37,7 @@ impl<T: Dictionary> GermanCaseUsage<T> {
     }
 
     /// Check if a noun has case metadata that can be validated
-    fn get_noun_case(
-        &self,
-        token: &Token,
-        document: &Document,
-    ) -> Option<crate::dict_word_metadata::Case> {
+    fn get_noun_case(&self, token: &Token, document: &Document) -> Option<Case> {
         let token_chars = document.get_span_content(&token.span);
         self.dictionary
             .get_word_metadata(token_chars)
@@ -48,11 +45,7 @@ impl<T: Dictionary> GermanCaseUsage<T> {
     }
 
     /// Check if a pronoun has case metadata that can be validated  
-    fn get_pronoun_case(
-        &self,
-        token: &Token,
-        document: &Document,
-    ) -> Option<crate::dict_word_metadata::Case> {
+    fn get_pronoun_case(&self, token: &Token, document: &Document) -> Option<Case> {
         let token_chars = document.get_span_content(&token.span);
         self.dictionary
             .get_word_metadata(token_chars)
@@ -60,11 +53,7 @@ impl<T: Dictionary> GermanCaseUsage<T> {
     }
 
     /// Check if a determiner has case metadata that can be validated
-    fn get_determiner_case(
-        &self,
-        token: &Token,
-        document: &Document,
-    ) -> Option<crate::dict_word_metadata::Case> {
+    fn get_determiner_case(&self, token: &Token, document: &Document) -> Option<Case> {
         let token_chars = document.get_span_content(&token.span);
         self.dictionary
             .get_word_metadata(token_chars)
@@ -72,29 +61,24 @@ impl<T: Dictionary> GermanCaseUsage<T> {
     }
 
     /// Check if a word is a preposition that requires a specific case
-    fn get_preposition_case_requirement(
-        &self,
-        preposition: &str,
-    ) -> Option<crate::dict_word_metadata::Case> {
+    fn get_preposition_case_requirement(&self, preposition: &str) -> Option<Case> {
         // Common German prepositions and their required cases
         // Based on standard German grammar rules
         match preposition.to_lowercase().as_str() {
             // Accusative-only prepositions
             // These always require the accusative case
-            "durch" | "für" | "gegen" | "ohne" | "um" | "wider" | "bis" => {
-                Some(crate::dict_word_metadata::Case::Accusative)
-            }
+            "durch" | "für" | "gegen" | "ohne" | "um" | "wider" | "bis" => Some(Case::Accusative),
             // Dative-only prepositions
             // These always require the dative case
             "aus" | "außer" | "bei" | "mit" | "nach" | "seit" | "von" | "zu" | "entgegen"
-            | "gemäß" | "laut" => Some(crate::dict_word_metadata::Case::Dative),
+            | "gemäß" | "laut" => Some(Case::Dative),
             // Genitive-only prepositions
             // These always require the genitive case
             "abseits" | "an Stelle" | "an Statt" | "auf Grund" | "aufgrund" | "dank" | "halber"
             | "innerhalb" | "kraft" | "längs" | "mangels" | "trotz" | "während" | "wegen"
             | "anhand" | "anlässlich" | "behufs" | "dienlich" | "entsprechend" | "oberhalb"
             | "unterhalb" | "diesseits" | "jenseits" | "mittels" | "tagsüber" | "nachtsüber" => {
-                Some(crate::dict_word_metadata::Case::Genitive)
+                Some(Case::Genitive)
             }
             // Two-way prepositions (Wechselpräpositionen)
             // These can be either accusative or dative depending on context:
@@ -149,10 +133,10 @@ impl<T: Dictionary> GermanCaseUsage<T> {
         // Check for case mismatch
         if actual_case != required_case {
             let case_name = match required_case {
-                crate::dict_word_metadata::Case::Accusative => "Accusative",
-                crate::dict_word_metadata::Case::Dative => "Dative",
-                crate::dict_word_metadata::Case::Genitive => "Genitive",
-                crate::dict_word_metadata::Case::Nominative => "Nominative",
+                Case::Accusative => "Accusative",
+                Case::Dative => "Dative",
+                Case::Genitive => "Genitive",
+                Case::Nominative => "Nominative",
             };
 
             Some(Lint {

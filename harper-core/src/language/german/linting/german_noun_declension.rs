@@ -17,6 +17,7 @@
 use crate::{
     Token,
     document::Document,
+    language::morphology::{Case, Gender, MorphologyExt, Number},
     linting::{Lint, LintKind, Linter, Suggestion},
     spell::Dictionary,
 };
@@ -36,11 +37,7 @@ impl<T: Dictionary> GermanNounDeclension<T> {
     }
 
     /// Check if a noun has gender metadata
-    fn get_noun_gender(
-        &self,
-        token: &Token,
-        document: &Document,
-    ) -> Option<crate::dict_word_metadata::Gender> {
+    fn get_noun_gender(&self, token: &Token, document: &Document) -> Option<Gender> {
         let token_chars = document.get_span_content(&token.span);
         self.dictionary
             .get_word_metadata(token_chars)
@@ -48,11 +45,7 @@ impl<T: Dictionary> GermanNounDeclension<T> {
     }
 
     /// Check if a noun has number metadata
-    fn get_noun_number(
-        &self,
-        token: &Token,
-        document: &Document,
-    ) -> Option<crate::dict_word_metadata::Number> {
+    fn get_noun_number(&self, token: &Token, document: &Document) -> Option<Number> {
         let token_chars = document.get_span_content(&token.span);
         self.dictionary
             .get_word_metadata(token_chars)
@@ -60,11 +53,7 @@ impl<T: Dictionary> GermanNounDeclension<T> {
     }
 
     /// Check if a determiner has gender metadata
-    fn get_determiner_gender(
-        &self,
-        token: &Token,
-        document: &Document,
-    ) -> Option<crate::dict_word_metadata::Gender> {
+    fn get_determiner_gender(&self, token: &Token, document: &Document) -> Option<Gender> {
         let token_chars = document.get_span_content(&token.span);
         self.dictionary
             .get_word_metadata(token_chars)
@@ -72,11 +61,7 @@ impl<T: Dictionary> GermanNounDeclension<T> {
     }
 
     /// Check if a determiner has case metadata
-    fn get_determiner_case(
-        &self,
-        token: &Token,
-        document: &Document,
-    ) -> Option<crate::dict_word_metadata::Case> {
+    fn get_determiner_case(&self, token: &Token, document: &Document) -> Option<Case> {
         let token_chars = document.get_span_content(&token.span);
         self.dictionary
             .get_word_metadata(token_chars)
@@ -105,12 +90,12 @@ impl<T: Dictionary> GermanNounDeclension<T> {
             if art_gender != noun_gender {
                 let expected_article = match (noun_gender, noun_text.chars().next().unwrap_or(' '))
                 {
-                    (crate::dict_word_metadata::Gender::Masculine, c) if c.is_uppercase() => "Der",
-                    (crate::dict_word_metadata::Gender::Masculine, _) => "der",
-                    (crate::dict_word_metadata::Gender::Feminine, c) if c.is_uppercase() => "Die",
-                    (crate::dict_word_metadata::Gender::Feminine, _) => "die",
-                    (crate::dict_word_metadata::Gender::Neuter, c) if c.is_uppercase() => "Das",
-                    (crate::dict_word_metadata::Gender::Neuter, _) => "das",
+                    (Gender::Masculine, c) if c.is_uppercase() => "Der",
+                    (Gender::Masculine, _) => "der",
+                    (Gender::Feminine, c) if c.is_uppercase() => "Die",
+                    (Gender::Feminine, _) => "die",
+                    (Gender::Neuter, c) if c.is_uppercase() => "Das",
+                    (Gender::Neuter, _) => "das",
                 };
 
                 Some(Lint {
@@ -122,9 +107,9 @@ impl<T: Dictionary> GermanNounDeclension<T> {
                         article_text,
                         expected_article,
                         match noun_gender {
-                            crate::dict_word_metadata::Gender::Masculine => "masculine",
-                            crate::dict_word_metadata::Gender::Feminine => "feminine",
-                            crate::dict_word_metadata::Gender::Neuter => "neuter",
+                            Gender::Masculine => "masculine",
+                            Gender::Feminine => "feminine",
+                            Gender::Neuter => "neuter",
                         },
                         noun_text
                     ),
