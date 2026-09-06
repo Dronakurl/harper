@@ -470,6 +470,11 @@ check-rust: audit-dictionary
 
   cargo hack check --each-feature
 
+  # Language module checks: feature consistency across manifests, per-language
+  # test suites, the out-of-workspace testing framework, and the German coverage
+  # gate. Invoked here rather than as its own CI job so it needs no workflow change.
+  just check-languages
+
 # Perform format and type checking.
 check: check-rust check-js
 

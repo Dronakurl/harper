@@ -1,104 +1,72 @@
-# Harper Language Testing Framework
+# Harper Language Testing Framework (`harper-lang-test`)
 
-This framework allows testing language dictionaries and annotations without recompiling the main Harper binary.
+A development binary for iterating on language dictionaries and annotations
+without recompiling Harper itself. It loads `dictionary.dict` and
+`annotations.json` from disk at runtime, so a dictionary edit is testable
+immediately.
 
-## Overview
-
-The framework provides a way to:
-1. Load dictionary and annotation files dynamically at runtime
-2. Test spell checking functionality for any language
-3. Run basic validation tests
-4. Iterate rapidly during language development
-
-## Files
-
-- `Cargo.toml` - Project configuration
-- `src/main.rs` - Main testing application
-- `README.md` - This file
+This crate declares its own `[workspace]`, so `cargo test --workspace` does not
+build it. `just check-languages` runs `cargo check` against it so it cannot rot
+unnoticed.
 
 ## Usage
 
-### Build the testing binary
+You normally do not invoke the binary directly — the `just language-*` recipes
+wrap it and pass the right paths:
 
 ```bash
-cd /home/konrad/gallery/harper/harper-core/src/language/testing_framework
-cargo build --release
+just --list | grep language-
 ```
 
-### Test a specific language
+To build it once:
 
 ```bash
-# For German
-./target/release/harper-lang-test --language german --test
-
-# For English
-./target/release/harper-lang-test --language english --test
-
-# For Portuguese
-./target/release/harper-lang-test --language portuguese --test
+just language-build
 ```
 
-### Spell check text with a specific language
+The recipes cover: spell-checking arbitrary text, showing metadata for a word or
+a whole sentence, dictionary self-tests, coverage and affix-efficiency analysis,
+and Hunspell comparison.
+
+## Direct invocation
 
 ```bash
-./target/release/harper-lang-test --language german --text "Hallo Welt"
+./target/release/harper-lang-test \
+  --language german \
+  --dict        ../german/dictionary.dict \
+  --annotations ../german/annotations.json \
+  --text "die mondlandung ist wieder fehlgeschlagen"
 ```
 
-### Specify custom file paths (optional)
+Options:
 
-```bash
-./target/release/harper-lang-test --language german --dict path/to/dictionary.dict --annotations path/to/annotations.json --test
-```
+| Flag | Meaning |
+|------|---------|
+| `--language <name>` | Language directory name (`german`, `portuguese`, ...). Required. |
+| `--dict <path>` | Word list. Defaults to `../../language/<lang>/dictionary.dict`. |
+| `--annotations <path>` | Annotation file. Defaults alongside the dictionary. |
+| `--text <str>` | Spell-check this text. |
+| `--word <str>` | Show metadata for a single word. |
+| `--metadata` | With `--text`, show metadata for every word. |
+| `--test` | Run the built-in dictionary self-tests. |
+| `--hunspell` | Compare results against system Hunspell. |
+| `--coverage` | Measure recognition against `--expanded-dict`. |
+| `--expanded-dict <path>` | Gzipped reference word list for `--coverage`. |
+| `--sample-size <n>` | Words sampled for coverage (default 10000). |
+| `--min-coverage <pct>` | Exit non-zero if coverage falls below this. |
 
-## Language Support
+## Coverage
 
-The framework automatically looks for language files in:
-- Dictionary: `../../language/{language}/dictionary.dict`
-- Annotations: `../../language/{language}/annotations-{language}.json`
+`--coverage` compares Harper's expanded dictionary against an external reference
+list (`<lang>_dictionary.dict.gz`). Only German currently ships one.
 
-## Workflow
+The sample is drawn with a fixed seed so repeated runs on an unchanged tree give
+an identical number — without that, a 10,000-word random sample varies by around
+±0.5%, which is too noisy to gate on. Use `--sample-size` for a tighter estimate
+at the cost of runtime.
 
-1. **Edit files**: Modify dictionary and annotation files in the language directory
-2. **Run tests**: Use the testing binary to validate changes
-3. **Analyze results**: Check which words are missing or have issues
-4. **Iterate**: Add missing words and refine annotations
-5. **Deploy**: When satisfied, the files are already in the correct location for Harper core
+## German specifics
 
-## Example
-
-```bash
-# Test current German dictionary
-./target/release/harper-lang-test --language german --test
-
-# Check specific German text
-./target/release/harper-lang-test --language german --text "Der schnelle braune Fuchs springt über den faulen Hund"
-
-# Test with custom files
-./target/release/harper-lang-test --language german --dict ../../language/german/test_dict.dict --annotations ../../language/german/test_annotations.json --test
-```
-
-## Technical Details
-
-The testing binary uses Harper's `MutableDictionary::from_rune_files()` method to load dictionaries dynamically from file content. This avoids the need to recompile the main Harper binary during development.
-
-## Performance Note
-
-Dynamic file loading is slower than the compiled-in dictionaries used in production. This is intentional - the testing framework prioritizes development flexibility over runtime performance.
-
-## Adding Support for New Languages
-
-To add support for a new language:
-
-1. Create the language directory: `mkdir ../../language/{new_language}`
-2. Add dictionary file: `dictionary.dict`
-3. Add annotations file: `annotations-{new_language}.json`
-4. Use the framework: `./target/release/harper-lang-test --language {new_language} --test`
-
-## Future Enhancements
-
-- Add more sophisticated grammar checking tests
-- Support for testing affix rule application
-- Integration with LanguageTool rules
-- Performance benchmarking
-- Batch processing of text files
-- Multi-language comparison tests
+For German the tool builds a `CompoundAwareDictionary` rather than a plain FST,
+so compound recognition (`Donaudampfschifffahrtsgesellschaft`) is exercised the
+same way it is at runtime.

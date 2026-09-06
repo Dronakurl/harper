@@ -37,12 +37,43 @@ language-dict-test language:
 	if [ ! -f "harper-core/src/language/testing_framework/target/release/harper-lang-test" ]; then just language-build; fi
 	harper-core/src/language/testing_framework/target/release/harper-lang-test --language "{{language}}" --dict "harper-core/src/language/{{language}}/dictionary.dict" --annotations "harper-core/src/language/{{language}}/annotations.json" --test
 
-# Analyze language coverage against expanded dictionary
+# Analyze language coverage against an expanded reference dictionary.
+# Skips cleanly for languages that ship no reference word list.
 # Usage: just language-coverage german
-language-coverage language:
-	if [ ! -f "harper-core/src/language/testing_framework/target/release/harper-lang-test" ]; then just language-build; fi
-	# English is a special case - dictionary is at root level, not in language/ directory
-	sh -c 'case "{{language}}" in english) harper-core/src/language/testing_framework/target/release/harper-lang-test --language "english" --dict "harper-core/dictionary.dict" --annotations "harper-core/annotations.json" --coverage --expanded-dict "harper-core/english_dictionary.dict.gz" 2>/dev/null || harper-core/src/language/testing_framework/target/release/harper-lang-test --language "english" --dict "harper-core/dictionary.dict" --annotations "harper-core/annotations.json" --coverage --expanded-dict "/tmp/english_dictionary.dict.gz" ;; *) harper-core/src/language/testing_framework/target/release/harper-lang-test --language "{{language}}" --dict "harper-core/src/language/{{language}}/dictionary.dict" --annotations "harper-core/src/language/{{language}}/annotations.json" --coverage --expanded-dict "harper-core/src/language/{{language}}/{{language}}_dictionary.dict.gz" 2>/dev/null || harper-core/src/language/testing_framework/target/release/harper-lang-test --language "{{language}}" --dict "harper-core/src/language/{{language}}/dictionary.dict" --annotations "harper-core/src/language/{{language}}/annotations.json" --coverage --expanded-dict "/tmp/{{language}}_dictionary.dict.gz" ;; esac'
+#        just language-coverage german 90   # fail below 90%
+language-coverage language minimum="":
+	#!/usr/bin/env bash
+	set -eo pipefail
+
+	if [ ! -f "harper-core/src/language/testing_framework/target/release/harper-lang-test" ]; then
+		just language-build
+	fi
+	bin="harper-core/src/language/testing_framework/target/release/harper-lang-test"
+
+	# English is a special case: its dictionary lives at the crate root rather
+	# than under language/.
+	if [ "{{language}}" = "english" ]; then
+		dict="harper-core/dictionary.dict"
+		annotations="harper-core/annotations.json"
+	else
+		dict="harper-core/src/language/{{language}}/dictionary.dict"
+		annotations="harper-core/src/language/{{language}}/annotations.json"
+	fi
+
+	# Prefer the reference list committed alongside the language; fall back to
+	# /tmp so a large one can be supplied locally without committing it.
+	expanded="harper-core/src/language/{{language}}/{{language}}_dictionary.dict.gz"
+	if [ ! -f "${expanded}" ]; then
+		expanded="/tmp/{{language}}_dictionary.dict.gz"
+	fi
+
+	args=(--language "{{language}}" --dict "${dict}" --annotations "${annotations}" \
+	      --coverage --expanded-dict "${expanded}")
+	if [ -n "{{minimum}}" ]; then
+		args+=(--min-coverage "{{minimum}}")
+	fi
+
+	"${bin}" "${args[@]}"
 
 # Analyze language efficiency (Harper word count vs base entries)
 # Usage: just language-efficiency german
@@ -222,3 +253,31 @@ language-add-word language word flags *args:
 	
 	# Show the new entry
 	tail -1 "$DICT_FILE"
+
+# Full language-module check: feature consistency across manifests, the
+# per-language test suites, the German coverage gate, and a compile check of the
+# out-of-workspace testing framework.
+#
+# Called from `check-rust`, so this also runs in CI.
+check-languages:
+	#!/usr/bin/env bash
+	set -eo pipefail
+
+	echo "🔗 Validating language feature consistency across Cargo.toml files"
+	python3 "{{justfile_directory()}}/scripts/check_language_features.py"
+
+	echo
+	echo "🧪 Running per-language test suites"
+	python3 "{{justfile_directory()}}/scripts/run_all_language_tests.py"
+
+	echo
+	echo "🛠️  Type-checking the language testing framework"
+	# It declares its own [workspace], so `cargo test --workspace` never builds
+	# it and it would otherwise rot unnoticed.
+	cd "{{justfile_directory()}}/harper-core/src/language/testing_framework" && cargo check --quiet
+	cd "{{justfile_directory()}}"
+
+	echo
+	echo "📊 Checking German dictionary coverage"
+	# Coverage uses a fixed sample seed, so this number is reproducible.
+	just language-coverage german 88

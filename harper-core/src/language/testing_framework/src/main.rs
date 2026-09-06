@@ -56,6 +56,11 @@ struct Args {
     /// Sample size for coverage analysis (default: 10000)
     #[arg(short, long, default_value_t = 10000)]
     sample_size: usize,
+
+    /// Fail with a non-zero exit code if coverage falls below this percentage.
+    /// Intended for CI; without it coverage is only reported.
+    #[arg(long)]
+    min_coverage: Option<f64>,
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -138,14 +143,38 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             None => format!("../../language/{}/{}_dictionary.dict.gz", args.language, args.language),
         };
 
+        // Only German currently ships a reference word list. Skip cleanly for
+        // the others rather than dying on a raw `NotFound` io error.
+        if !std::path::Path::new(&expanded_dict_path).exists() {
+            println!(
+                "\n\u{23ed}\u{fe0f}  Skipping coverage for {}: no reference dictionary at {}",
+                args.language, expanded_dict_path
+            );
+            println!(
+                "   Coverage needs a gzipped reference word list ({}_dictionary.dict.gz).",
+                args.language
+            );
+            return Ok(());
+        }
+
         // Run coverage analysis with already-loaded dictionary
-        coverage::run_coverage_analysis_with_dict(
+        let coverage_percentage = coverage::run_coverage_analysis_with_dict(
             &args.language,
             &*dict,
             &dict_path.to_string_lossy(),
             &expanded_dict_path,
             args.sample_size,
         )?;
+
+        if let Some(minimum) = args.min_coverage {
+            if coverage_percentage < minimum {
+                eprintln!(
+                    "\n\u{274c} Coverage {:.1}% is below the required minimum of {:.1}% for {}.",
+                    coverage_percentage, minimum, args.language
+                );
+                std::process::exit(1);
+            }
+        }
     } else if args.hunspell {
         compare_with_hunspell(&args.language, &*dict, &args.text.clone().unwrap_or_default());
     } else if let Some(text) = args.text {

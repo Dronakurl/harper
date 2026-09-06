@@ -4,8 +4,17 @@ use std::time::Instant;
 use harper_core::spell::Dictionary;
 
 
+/// Seed for the reservoir sample.
+///
+/// Fixed on purpose. With `thread_rng` the same tree scored anywhere between
+/// 89.8% and 90.7% across consecutive runs, which is far too noisy to gate CI on.
+/// A fixed seed makes the figure reproducible, so a change in coverage means a
+/// real change in the dictionary.
+const SAMPLE_SEED: u64 = 0xA9E7_C0FF_EE00_1234;
+
 /// Load expanded dictionary from gzip file and filter on-the-fly
-/// Uses reservoir sampling to efficiently select a random sample without loading all data
+/// Uses reservoir sampling to efficiently select a deterministic sample without
+/// loading all data
 fn load_and_filter_expanded_dictionary(
     path: &str,
     sample_size: usize,
@@ -13,6 +22,8 @@ fn load_and_filter_expanded_dictionary(
     use std::fs::File;
     use std::io::BufReader;
     use flate2::read::GzDecoder;
+    use rand::SeedableRng;
+    use rand::rngs::StdRng;
     use rand::Rng;
 
     let file = File::open(path)?;
@@ -23,7 +34,7 @@ fn load_and_filter_expanded_dictionary(
     let mut reservoir: Vec<String> = Vec::with_capacity(sample_size);
     let mut line_count: usize = 0;
     let mut valid_count: usize = 0;
-    let mut rng = rand::thread_rng();
+    let mut rng = StdRng::seed_from_u64(SAMPLE_SEED);
     
     for line in reader.lines() {
         let line = line?;
@@ -182,7 +193,7 @@ pub fn run_coverage_analysis_with_dict(
     dict_path: &str,
     expanded_dict_path: &str,
     sample_size: usize,
-) -> Result<(), Box<dyn std::error::Error>> {
+) -> Result<f64, Box<dyn std::error::Error>> {
     let start_time = Instant::now();
 
     println!("🔍 {} Coverage Analysis", language.capitalize());
@@ -290,5 +301,5 @@ pub fn run_coverage_analysis_with_dict(
     println!("   Time elapsed: {:.2?}", start_time.elapsed());
     println!("{}", "=".repeat(50));
 
-    Ok(())
+    Ok(coverage_percentage)
 }
