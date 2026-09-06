@@ -208,6 +208,11 @@ fn discover_languages(language_dir: &Path) -> Vec<LanguageConfig> {
 /// exactly as written in `config.toml` -- Portuguese `PT`/`BR`/`AO` map to
 /// `European`/`Brazilian`/`African`, so the Rust variant names are never needed
 /// here.
+///
+/// `try_from_abbr` comes from the `Dialect` trait, which is called through
+/// fully-qualified syntax rather than a `use`. A plain import would be unused in
+/// a build with no dialect-bearing language compiled in (`--no-default-features`),
+/// and CI builds with `-D warnings`.
 fn generate_language_conversion(code: &mut String, languages: &[LanguageConfig]) {
     let with_dialects: Vec<&LanguageConfig> = languages
         .iter()
@@ -225,7 +230,6 @@ fn generate_language_conversion(code: &mut String, languages: &[LanguageConfig])
 
     code.push_str("impl From<Dialect> for harper_core::language::languages::Language {\n");
     code.push_str("    fn from(dialect: Dialect) -> Self {\n");
-    code.push_str("        use harper_core::language::dialects::dialect_trait::Dialect as _;\n");
     code.push_str("        use harper_core::language::languages::Language;\n\n");
     code.push_str("        match dialect {\n");
 
@@ -245,8 +249,10 @@ fn generate_language_conversion(code: &mut String, languages: &[LanguageConfig])
                 lang.feature
             ));
             code.push_str(&format!(
-                "            Dialect::{} => Language::{}({}Dialect::try_from_abbr(\"{}\").unwrap()),\n",
-                variant, lang.name, lang.name, dialect_name
+                "            Dialect::{} => Language::{}(<{}Dialect as \
+                 harper_core::language::dialects::dialect_trait::Dialect>::try_from_abbr(\"{}\")\n\
+                 {:16}.expect(\"dialect abbreviation comes from config.toml\")),\n",
+                variant, lang.name, lang.name, dialect_name, ""
             ));
         }
     }
