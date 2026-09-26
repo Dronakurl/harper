@@ -110,17 +110,17 @@ mod tests {
     /// Nothing but a verb gained a person: the axis is empty everywhere else,
     /// which is what keeps it from constraining the other rules.
     ///
-    /// `die` is left out, and the reason is a defect worth knowing about. The
-    /// verb root `dien` carries `f`, whose first replacement strips a final
-    /// `-en` because that is what an infinitive needs — `lernen` → `lerne`. A
-    /// root is not an infinitive, so `dien` becomes `di` + `e`, and the
-    /// definite article has carried a verb reading all along. Adding the person
-    /// axis only made it visible. The rule therefore cannot assume that a
-    /// person means a verb; it checks the part of speech and the position too.
+    /// `die` is in this list, and it took a fix to get there. The verb root
+    /// `dien` carried `f`, whose first replacement strips a final `-en`
+    /// because that is what an infinitive needs — `lernen` → `lerne`. A root is
+    /// not an infinitive, so `dien` became `di` + `e` and the definite article
+    /// had carried a verb reading all along; the person axis only made it
+    /// visible. `dienen` has an entry of its own and builds `diene` correctly,
+    /// so the root does not need the flag.
     #[test]
     fn only_verbs_carry_a_person() {
         let dictionary = curated_german_dictionary();
-        for word in ["Mann", "Frau", "Haus", "der", "dieses", "gelb"] {
+        for word in ["Mann", "Frau", "Haus", "der", "die", "dieses", "gelb"] {
             let metadata = dictionary
                 .get_word_metadata_str(word)
                 .unwrap_or_else(|| panic!("{word} is not in the German dictionary"));

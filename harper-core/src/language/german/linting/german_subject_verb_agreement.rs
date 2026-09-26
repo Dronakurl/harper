@@ -79,11 +79,12 @@ impl<T: Dictionary> GermanSubjectVerbAgreement<T> {
         // well, so they cannot declare their output a verb without turning
         // those into verbs too.
         //
-        // What the part of speech does here is rule things out. The article
-        // `die` carries a verb reading, because the root `dien` is inflected as
-        // if it were an infinitive — see `tests/verb_person_test.rs` — and the
-        // `-st` affix turns `selb` into `selbst`. A determiner, a pronoun or an
-        // adverb is not the finite verb of the clause.
+        // What the part of speech does here is rule things out. The `-st`
+        // affix is applied to pronoun and adjective roots, so `selbst` and
+        // `möglichst` arrive carrying a second person singular; a determiner, a
+        // pronoun or an adverb is not the finite verb of the clause. The
+        // article `die` used to need this too, until the root that built it
+        // lost the flag — see `tests/verb_person_test.rs`.
         if token.kind.is_determiner() || token.kind.is_pronoun() {
             return Vec::new();
         }
