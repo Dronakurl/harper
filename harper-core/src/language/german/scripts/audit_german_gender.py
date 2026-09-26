@@ -102,9 +102,16 @@ PHRASE = re.compile(
 )
 
 
-def collect_votes(corpus: pathlib.Path) -> dict[str, collections.Counter]:
+def collect_votes(corpora: list[pathlib.Path]) -> dict[str, collections.Counter]:
+    """Article votes pooled over every corpus directory given.
+
+    Several, because the two have different jobs. `corpus-prose` is the fixed
+    measuring stick every false positive number in `README.md` is against;
+    `corpus-bulk` is counting material and nothing else. Pooling them here keeps
+    the measurement corpus out of the decision to grow the other one.
+    """
     votes: dict[str, collections.Counter] = collections.defaultdict(collections.Counter)
-    for path in sorted(corpus.glob("*.md")):
+    for path in sorted(path for corpus in corpora for path in corpus.glob("*.md")):
         for cue, noun, after, then in PHRASE.findall(path.read_text(encoding="utf-8")):
             cue = cue.lower()
             if cue not in CUES:
@@ -199,7 +206,7 @@ def report_independent_check(votes, minimum: int) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--corpus", required=True, type=pathlib.Path)
+    parser.add_argument("--corpus", required=True, type=pathlib.Path, nargs="+")
     parser.add_argument(
         "--dictionary",
         type=pathlib.Path,
