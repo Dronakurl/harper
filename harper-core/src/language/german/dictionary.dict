@@ -1089,7 +1089,7 @@ aussiedelung/~~NFA
 aussiedlung/~~NYF
 aussig/~~NHA
 aussparen/~~NMZVdfij78ecGH # +verb reading (was noun-only)
-aussprache/~~MZE
+aussprache/~~FE # die Aussprache; Genus korrigiert
 ausspähen/~~NMZVdfij78ecGHx # +verb reading (was noun-only)
 ausstich/~~NTY0
 aussöhnen/~~NMZVdfij78ecGH # +verb reading (was noun-only)
@@ -1180,7 +1180,7 @@ bachelet/~~NHA
 bachschmerle/~~NE
 backes/~~NA
 badbergen/~~NH
-bade/~~NE
+bade/~~NEMZ
 baden/~~NMZVdefijcGH # +verb reading (was noun-only)
 badenradio/~~NHA
 badmöbel/~~NEH
@@ -1492,7 +1492,7 @@ beikircher/~~NH
 beilage/~~MZE
 beilegen/~~NMZVdfij78ecGH # +verb reading (was noun-only)
 beimengen/~~NMZVdfij78ecGH # +verb reading (was noun-only)
-bein/~~NY0HXz
+bein/~~NY0HXzMZ
 beinling/~~NYHX
 beisetzen/~~NMZVdfij78ecGH # +verb reading (was noun-only)
 beitag/~~Nr
@@ -1938,7 +1938,7 @@ aufschläger/~~NFEKLH
 aufseß/~~NA
 aufseßplatz/~~T0
 aufsprenkeln/~~NHA
-aufsprung/~~NT0A
+aufsprung/~~NT0AF
 aufspürer/~~NH
 aufstauen/~~NMZVdfij78ecGH # +verb reading (was noun-only)
 aufstocker/~~NFEKLH
@@ -2378,7 +2378,7 @@ anfrage/~~EF
 anfärbbarkeit/~~NFA
 anfügen/~~NMZVdfij78ecGHx # +verb reading (was noun-only)
 anführen/~~NMZVdfij78ecGH # +verb reading (was noun-only)
-angabe/~~MZE
+angabe/~~FE # die Angabe; Genus korrigiert
 angang/~~NHA
 angcor/~~NA
 angeben/~~rIVfijc # +verb reading (was noun-only)
@@ -2472,7 +2472,7 @@ anregen/~~NMZVdfij78ecGH # +verb reading (was noun-only)
 anreise/~~NE
 anrufen/~~rIXVfijcG # +verb reading (was noun-only)
 anröchte/~~NHA
-ansage/~~MZE
+ansage/~~FE # die Ansage; Genus korrigiert
 ansalben/~~NMZVdfij78ecGH # +verb reading (was noun-only)
 ansbacher/~~NFEKLH
 anschauen/~~NMZVdfij78ecGH # +verb reading (was noun-only)
@@ -6600,7 +6600,7 @@ abgruben/~~VijG # verb
 abgrubt/~~hGV # retag: preterite stem, was noun (hunspell SFX Z)
 abgrund/~~Nh0HA #noun
 abgrundes/~~Nh #noun
-abgrunds/~~Nh #noun
+abgrunds/~~NhMZ #noun
 abgrundtiefe/~~FhE #feminine noun
 abgrundtiefem/~~Nh #noun
 abgrundtiefen/~~Vfj # verb
@@ -6944,7 +6944,7 @@ abisolierendes/~~h #noun
 abisoliert/~~hG #noun
 abisoliertest/~~h #noun
 abisoliertet/~~hG #noun
-abitur/~~NXhYH #noun
+abitur/~~NXhYHZ #noun
 abituren/~~Vfj # verb
 abiturient/~~NhYKL #noun
 abiturientIn/~~Nh #noun
@@ -13862,7 +13862,7 @@ abduktions/~~NhA #noun (from coverage analysis)
 abduktoren/~~Vj # verb (from coverage analysis)
 abdunkelungs/~~NhA #noun (from coverage analysis)
 abduzens/~~NhA #noun (from coverage analysis)
-abend/~~NhYHX #noun (from coverage analysis)
+abend/~~NhYHXMZ #noun (from coverage analysis)
 abendmahl/~~NXh0HYZ #noun (from coverage analysis)
 abendmahls/~~NhA #noun (from coverage analysis)
 abenteuer/~~NhEH #noun (from coverage analysis)
@@ -13986,7 +13986,7 @@ näher/~~JOQRSTpuvwKL78 #frequency: 11 (adjective)
 reich/~~NJOQRSTUWqi78ZA #adjective and noun
 reif/~~NJOQRSTUWq978A #adjective and noun
 sicher/~~NJOQRSTUWq978 #adjective and noun
-wunder/~~NJqrEHx #adjective and noun
+wunder/~~NJqrEHxMZ #adjective and noun
 Ährchen/~~ZhH # from hunspell
 Ärzteschule/~~FhYE # medical school
 Ärzteschulen/~~F # plural of Ärzteschule
@@ -14042,7 +14042,7 @@ kühl/~~JOQRSTUWpuvw78x #frequency: 9 (adjective)
 lau/~~JOQRSTUWpuvw #frequency: 9 (adjective)
 lauer/~~Jpuvwr #frequency: 9 (adjective)
 leck/~~JOQRSTUpuvw #frequency: 9 (adjective)
-loch/~~NhY0aH78 #frequency: 9
+loch/~~NhY0aH78MZ #frequency: 9
 mein/~~5JOQRSTqh #frequency: 9
 nah/~~RJOQRSTqh #frequency: 9
 offenbar/~JqOQRST78n #adjective root, frequency: 9
@@ -14094,7 +14094,7 @@ beweg/~hpuvw78nx #frequency: 8
 bieder/~~JOQRSTqh #frequency: 8
 bild/~NhpuvwY0aH78zZ #frequency: 8
 billig/~JqOQRSTUW78 #adjective root, frequency: 8
-block/~NhpuvwY0H78x #frequency: 8
+block/~NhpuvwY0H78xMZ #frequency: 8
 bock/~NhpuvwY0H #frequency: 8
 brau/*~NhpuvwYE #frequency: 8
 brösel/~NhpuvwEH #frequency: 8
@@ -14131,7 +14131,7 @@ gar/~~rJOQRSTqh #frequency: 8
 geil/~~RJOQRSTUWqh #frequency: 8
 gelb/~~OQRSTqpuvwJ # retag: adjective, was noun (igerman98 SFX A)
 genial/~~RJOQRSTUWqh #frequency: 8
-gewinn/~NhpuvwY0HX #frequency: 8
+gewinn/~NhpuvwY0HXM #frequency: 8
 glück/~NhpuvwY0HZ #frequency: 8
 grau/~~RJOQRSTqh #frequency: 8
 graupel/~NhpuvwEH #frequency: 8
@@ -14238,7 +14238,7 @@ ton/~NhpuvwY0HXM #frequency: 8
 treu/~~JOQRSTUWqh9 #frequency: 8
 träg/~~JOQRSTUWqh #frequency: 8
 tätig/~JqOQRSTUW978 #adjective root, frequency: 8
-umbau/~NhpuvwY0H78n #frequency: 8
+umbau/~NhpuvwY0H78nMZ #frequency: 8
 ungelenk/~~JOQRSTqh #frequency: 8
 verbrauch/~NhpuvwY0Hn #frequency: 8
 verdächtig/~JqOQRSTUW978n #adjective root, frequency: 8
@@ -14320,7 +14320,7 @@ appellativ/~~RJOQRSTqh #frequency: 7
 arbeitsintensiv/~~RJOQRSTUWqh #frequency: 7
 arbeitsscheu/~~RJOQRSTUWqh #frequency: 7
 areal/~~NJOQRSTqZA #frequency: 7
-arm/~~NJOQRSTqpuvw0A #adjective and noun
+arm/~~NJOQRSTqpuvw0AMZ #adjective and noun
 artenreich/~~RJOQRSTUWqh #frequency: 7
 artifiziell/~~RJOQRSTUWqh #frequency: 7
 asozial/~~RJOQRSTUWqh #frequency: 7
@@ -14348,7 +14348,7 @@ auswander/~NhpuvwYE78 #frequency: 7
 autograf/~~NJOQRSTqA #frequency: 7
 autograph/~~RJOQRSTqh #frequency: 7
 automobil/~~NJOQRSTqA #frequency: 7
-bad/~NhpuvwY0H #frequency: 7
+bad/~NhpuvwY0HMZ #frequency: 7
 balg/~NhpuvwY0H #frequency: 7
 ballaststoffreich/~~RJOQRSTUWqh #frequency: 7
 banal/~~RJOQRSTUWqh #frequency: 7
@@ -14547,7 +14547,7 @@ geschmackvoll/~~JOQRSTUWqh #frequency: 7
 gestrüppreich/~~JOQRSTUWqh #frequency: 7
 getreu/~~JOQRSTqh #frequency: 7
 gewitterintensiv/~~JOQRSTUWqh #frequency: 7
-gipfel/~NhpuvwEH #frequency: 7
+gipfel/~NhpuvwEHMZ #frequency: 7
 glatthobel/~NhpuvwEH #frequency: 7
 glazial/~~NJOQRSTqA #frequency: 7
 glorreich/~~JOQRSTUWqh #frequency: 7
@@ -14695,7 +14695,7 @@ liberal/~~RJOQRSTUWqh #frequency: 7
 licht/~~RJOQRSTUWqh0a78 #frequency: 7
 liebediener/~NhpuvwEH #frequency: 7
 liebevoll/~~JOQRSTUWqh #frequency: 7
-lob/~NhpuvwY0H #frequency: 7
+lob/~NhpuvwY0HMZ #frequency: 7
 lokal/~~JOQRSTq # fixed from noun to adjective
 lukrativ/~~JOQRSTUWqh #frequency: 7
 lustvoll/~~JOQRSTUWqh #frequency: 7
@@ -14905,7 +14905,7 @@ spreng/~NhpuvwY78 #frequency: 7
 sprenkel/~NhpuvwEH #frequency: 7
 spröd/~~RJOQRSTUWqh #frequency: 7
 spuk/~NhpuvwYH #frequency: 7
-stab/~NhpuvwY0H #frequency: 7
+stab/~NhpuvwY0HMZ #frequency: 7
 stabil/~~RJOQRSTUWqh #frequency: 7
 starr/~~RJOQRSTUWqh9 #frequency: 7
 steck/~NhpuvwYx #frequency: 7
@@ -14944,7 +14944,7 @@ synonym/~~RJOQRSTqh #frequency: 7
 säuber/~hpuvw78 #frequency: 7
 säuer/~NhpuvwYE78 #frequency: 7
 sündig/~JqOQRST #adjective root, frequency: 7
-tafel/~NhpuvwE #frequency: 7
+tafel/~NhpuvwEF #frequency: 7
 tagaktiv/~~RJOQRSTUWqh #frequency: 7
 taktvoll/~~RJOQRSTUWqh #frequency: 7
 talentvoll/~~RJOQRSTUWqh #frequency: 7
@@ -15158,7 +15158,7 @@ abrasiv/~~JOQRSTqh #frequency: 6
 abriegel/~NhYE78 #frequency: 6
 abrissreif/~~hOQRSTJ # retag: adjective, was noun (igerman98 SFX A)
 abscheulich/~JqOQRSTUW #adjective root, frequency: 6
-abschied/~NhY0sHX #frequency: 6
+abschied/~NhY0sHXMZ #frequency: 6
 abschlag/~NhY0H #frequency: 6
 abschlagsfrei/~~hOQRSTJ # retag: adjective, was noun (igerman98 SFX A)
 abschlussschwach/~~hOQRSTJ # retag: adjective, was noun (igerman98 SFX A)
@@ -16271,7 +16271,7 @@ ditransitiv/~~JOQRSTqh #frequency: 6
 diurnal/~~JOQRSTqh #frequency: 6
 dividendenstark/~NhYE #frequency: 6
 divisional/~~JOQRSTqh #frequency: 6
-dock/~NhYH #frequency: 6
+dock/~NhYHZ #frequency: 6
 dokumentationsfaul/~NhYE #frequency: 6
 dokumentierfaul/~NhYE #frequency: 6
 doll/~~hOQRSTJ # retag: adjective, was noun (igerman98 SFX A)
@@ -18966,7 +18966,7 @@ affinen/~~Vfj # auto-added
 affiner/~~Mh
 affines/~~Nh
 affront/~~NhHA
-affäre/~~NhE
+affäre/~~NhEF
 affären/~~Nh # auto-added
 afghane/~~NhEKL
 afrika/~~NbhH
@@ -19765,7 +19765,7 @@ ansporn/~~NhYH
 anspüle/~~h # not a noun: no capitalized form
 anspült/~~hG # not a noun: no capitalized form
 anstach/~~hsV # retag: preterite stem, was noun (hunspell SFX Z)
-anstalt/~~NhY
+anstalt/~~NhYF
 anstand/~~NhY0sH
 anstatt/~~hP
 anstaut/~~hG # not a noun: no capitalized form
@@ -19967,7 +19967,7 @@ arbeits/~~NhA # auto-added
 arche/~~NhE
 archen/~~XZ #  auto-added
 archiv/~~NXhHYMZ
-archivs/~~Nh
+archivs/~~NhMZ
 areale/~~NhE
 arealem/~~Nh
 arealen/~~Nh # auto-added
@@ -20100,7 +20100,7 @@ astro/~~NhA
 asyl/~~NhHA
 asylant/~~NhYKL
 asyls/~~Nh
-atelier/~~MhH
+atelier/~~hHZ
 atem/~~NhHA
 atemlos/~~hOQRSTJ # retag: adjective, was noun (igerman98 SFX A)
 atems/~~Nh
@@ -20767,7 +20767,7 @@ bau/~~Vcej0x # REPLACES bauen
 bauende/~~NhEJ # +adjective reading (was noun-only)
 bauens/~~NhMZ
 bauer/~~MhEH
-bauern/~~Nh
+bauern/~~NhMZ
 bauers/~~Nh
 baues/~~Nh
 baum/~~MhX0H
@@ -21417,7 +21417,7 @@ betetet/~~hVG # retag: finite verb form, was noun (corpus-mined)
 beteure/~~h # not a noun: no capitalized form
 betitle/~~h # not a noun: no capitalized form
 beton/~~Vcej # REPLACES betonen
-betons/~~Nh
+betons/~~NhMZ
 betont/~~hVOQRSTG # retag: finite verb form, was noun (corpus-mined)
 betraf/~~hrsV # retag: preterite stem, was noun (hunspell SFX Z)
 betraft/~~hVG # retag: finite verb form, was noun (corpus-mined)
@@ -21539,7 +21539,7 @@ bezeigt/~~hVOQRSTG # retag: finite verb form, was noun (corpus-mined)
 bezeugt/~~hVOQRSTG # retag: finite verb form, was noun (corpus-mined)
 beziehe/~~h # not a noun: no capitalized form
 bezirke/~~NhE
-bezirks/~~NhA
+bezirks/~~NhAMZ
 bezirzt/~~hVOQRSTG # retag: finite verb form, was noun (corpus-mined)
 bezog/~~hV
 bezogen/~~VijOQRSTG # auto-added
@@ -21744,7 +21744,7 @@ blasses/~~Nh
 blasste/~~h # not a noun: no capitalized form
 blast/~~h # not a noun: no capitalized form
 blatt/~~Nh0HZA
-blattes/~~Nh
+blattes/~~NhMZ
 blatts/~~Nh
 blauem/~~Nh
 blau/~~VcjOQRST # REPLACES blauen
@@ -21780,7 +21780,7 @@ blichst/~~hV # retag: preterite stem, was noun (hunspell SFX Z)
 blicht/~~hGV # retag: preterite stem, was noun (hunspell SFX Z)
 blick/~~VcejX0 # REPLACES blicken
 blickes/~~Nh
-blicks/~~Nh
+blicks/~~NhMZ
 blickt/~~hVG # +verb reading (was noun-only)
 blieb/~~hVs
 blieben/~~VifjG # auto-added
@@ -22189,12 +22189,12 @@ bricht/~~hVG # +verb reading (was noun-only)
 bridge/~~NhA
 briefe/~~NhE
 briefen/~~Vfj # auto-added
-briefes/~~Nh
+briefes/~~NhMZ
 briefs/~~Nh
 briet/~~hsV # retag: preterite stem, was noun (hunspell SFX Z)
 brieten/~~VijG # auto-added
 brietet/~~hGV # retag: preterite stem, was noun (hunspell SFX Z)
-brigade/~~NhE
+brigade/~~NhEF
 brigg/~~NhHA
 briggs/~~Nh
 brikett/~~NXhHY
@@ -22340,7 +22340,7 @@ buddha/~~NbhHMZ
 buddle/~~h # not a noun: no capitalized form
 bude/~~NhE
 buden/~~Nh # auto-added
-budget/~~NhHA
+budget/~~NhHAMZ
 budgets/~~Nh
 buenos/~~NhA
 buffet/~~Nh0HA
@@ -22740,7 +22740,7 @@ chancen/~~Nh # auto-added
 chanson/~~NhHA
 chaoit/~~NXhHY
 chaoits/~~Nh
-chaos/~~NhA
+chaos/~~NhAMZ
 chaot/~~NhYKL
 chaoten/~~Nh # auto-added
 chaotin/~~Nh
@@ -22820,7 +22820,7 @@ cholera/~~Nh
 chor/~~Nh0HA
 choral/~~NhHA
 chorals/~~Nh
-chores/~~Nh
+chores/~~NhMZ
 chorist/~~NhYKL
 chorlos/~~hOQRSTJ # retag: adjective, was noun (igerman98 SFX A)
 chors/~~Nh
@@ -23034,7 +23034,7 @@ cäsiums/~~Nh
 dabei/~~hr
 dablieb/~~hsV # retag: preterite stem, was noun (hunspell SFX Z)
 dach/~~Nh0HZA
-daches/~~Nh
+daches/~~NhMZ
 dachlos/~~NXhOQRST
 dachs/~~NXh0Y
 dachsen/~~Nh # auto-added
@@ -23096,7 +23096,7 @@ damasts/~~Nh
 dame/~~NhE
 damen/~~Vfj # auto-added
 damit/~~h6
-damm/~~Nh0HX
+damm/~~Nh0HXMZ
 dammes/~~Nh
 damms/~~Nh
 dampf/~~Vcej0 # REPLACES dampfen
@@ -23224,7 +23224,7 @@ debilen/~~Vfj # auto-added
 debiler/~~Mh
 debiles/~~Nh
 debuggt/~~hG # not a noun: no capitalized form
-debüt/~~NhHA
+debüt/~~NhHAMZ
 debüts/~~Nh
 decalin/~~NhHA
 dechant/~~NhY
@@ -23280,7 +23280,7 @@ dekkan/~~NhHA
 dekkans/~~Nh
 dekor/~~NhHA
 dekors/~~Nh
-dekret/~~NXh0HY
+dekret/~~NXh0HYMZ
 dekrets/~~Nh
 delfin/~~NhYHX
 delfine/~~NhE
@@ -23313,7 +23313,7 @@ denkens/~~NhMZ
 denker/~~MhEKLH
 denkern/~~Nh
 denkers/~~Nh
-denkmal/~~NXhHY
+denkmal/~~NXhHYZ
 denn/~~h6
 dennoch/~~hr # +adverb reading (was noun-only)
 dentale/~~NhE
@@ -23402,7 +23402,7 @@ diadems/~~Nh
 diakon/~~NhYHX # auto-added
 diakone/~~NhE
 diakons/~~Nh
-dialekt/~~NXh0HY
+dialekt/~~NXh0HYMZ
 dialoge/~~NhE
 dialogs/~~NhMZ
 dialyse/~~NhE
@@ -23562,7 +23562,7 @@ dochten/~~Nh # auto-added
 dochtes/~~Nh
 dochts/~~Nh
 dock/~~Vej # REPLACES docken
-docks/~~Nh
+docks/~~NhMZ
 dockt/~~hG # not a noun: no capitalized form
 docktet/~~hG # not a noun: no capitalized form
 doge/~~NhE
@@ -23605,7 +23605,7 @@ domini/~~h # not a noun: no capitalized form
 domino/~~NbhH
 dominus/~~NhA
 domizil/~~NXhHY
-doms/~~Nh
+doms/~~NhMZ
 domäne/~~NhE
 domänen/~~Nh # auto-added
 don/~~NhA
@@ -23702,7 +23702,7 @@ draller/~~Mh
 dralles/~~Nh
 dralon/~~NhHA
 dralons/~~Nh
-drama/~~NbhH
+drama/~~NbhHMZ
 dramen/~~Nh # auto-added
 dran/~~hr # +adverb reading (was noun-only)
 drange/~~NhE
@@ -24147,7 +24147,7 @@ edukten/~~Nh # auto-added
 eduktes/~~Nh
 edukts/~~Nh
 efeu/~~NbhH
-effekt/~~NXh0HY
+effekt/~~NXh0HYMZ
 effekts/~~NhMZ
 effet/~~NhHA
 effets/~~Nh
@@ -24161,7 +24161,7 @@ eggen/~~Nh # auto-added
 ego/~~NbhHE
 egoist/~~NhYKL
 egomane/~~NhEKL
-ehe/~~NhEr # +adverb reading (was noun-only)
+ehe/~~NhErF # +adverb reading (was noun-only)
 ehec/~~NhA
 ehedem/~~h # not a noun: no capitalized form
 ehelos/~~hOQRSTJ # retag: adjective, was noun (igerman98 SFX A)
@@ -24574,7 +24574,7 @@ ellen/~~Vfj # auto-added
 ellipse/~~NhE
 eloge/~~NhE
 elogen/~~Nh # auto-added
-elsass/~~Nh0A
+elsass/~~Nh0AMZ
 elster/~~MhE
 elstern/~~Nh
 eltens/~~Nh
@@ -25320,7 +25320,7 @@ euter/~~MhEH
 eutern/~~Nh
 euters/~~Nh
 euthym/~~NXh
-event/~~NhHA
+event/~~NhHAMZ
 events/~~Nh
 evident/~~hOQRSTJ # retag: adjective, was noun (igerman98 SFX A)
 evidenz/~~NhA
@@ -25381,7 +25381,7 @@ fabeln/~~VdifjeGc # auto-added
 fabelnd/~~NhYOQRST
 fabelt/~~hG # not a noun: no capitalized form
 fable/~~h # not a noun: no capitalized form
-fabrik/~~NhY
+fabrik/~~NhYF
 fabulös/~~NXhOQRST
 facette/~~NhE
 fache/~~NhE
@@ -25468,7 +25468,7 @@ falke/~~NhE
 falken/~~Nh # auto-added
 fall/~~Vcj0 # REPLACES fallen
 fallens/~~Nh
-falles/~~Nh
+falles/~~NhMZ
 fallout/~~NhA
 falls/~~h6
 falt/~~NXh78
@@ -25697,7 +25697,7 @@ fell/~~NXh0HYZ
 fellen/~~Nh # auto-added
 felles/~~Nh
 fells/~~Nh
-fels/~~NhY
+fels/~~NhYMZ
 felsen/~~Vj # auto-added
 felsens/~~Nh
 felsige/~~NhE
@@ -25855,7 +25855,7 @@ filet/~~NhHA
 filets/~~Nh
 filiale/~~NhE
 film/~~Vcej0x # REPLACES filmen
-filmes/~~Nh
+filmes/~~NhMZ
 films/~~NhMZ
 filmt/~~hG # not a noun: no capitalized form
 filmtet/~~hG # not a noun: no capitalized form
@@ -25918,7 +25918,7 @@ finte/~~NhE
 finten/~~Nh # auto-added
 firefox/~~NhA
 firm/~~h78 # not a noun: no capitalized form
-firma/~~Nh
+firma/~~NhF
 firm/~~Vcej78 # REPLACES firmen
 firmt/~~NXh
 firmung/~~FhY
@@ -26111,9 +26111,9 @@ fluchen/~~XZVdfijecGH # auto-added; +verb reading (was noun-only)
 flucher/~~MhEKLH
 fluches/~~Nh
 fluchs/~~NhMZ
-flucht/~~NXhG
+flucht/~~NXhGF
 fluffig/~~JOQRSTqh
-flug/~~NXh0H
+flug/~~NXh0HMZ
 fluges/~~NhMZ
 flugs/~~NhA
 fluide/~~NhEJQRST # +adjective (igerman98 SFX A) reading (was noun-only)
@@ -26708,7 +26708,7 @@ führe/~~h # not a noun: no capitalized form
 führ/~~Vcej78 # REPLACES führen
 führens/~~Nh
 führern/~~Nh
-führers/~~Nh
+führers/~~NhMZ
 führst/~~hV
 führt/~~hVG
 führtet/~~hG # not a noun: no capitalized form
@@ -26883,7 +26883,7 @@ gast/~~Nh0A
 gastes/~~Nh
 gateway/~~NhHA
 gatte/~~NhEKL
-gatten/~~Nh # auto-added
+gatten/~~NhMZ # auto-added
 gatter/~~MhEH
 gattern/~~Nh
 gatters/~~Nh
@@ -27163,7 +27163,7 @@ gehabes/~~Nh
 gehabt/~~JOQRSTVgfj
 gehackt/~~JOQRSTVgfj
 gehakt/~~JOQRSTVgj
-gehalt/~~NXh0HY
+gehalt/~~NXh0HYMZ
 gehalts/~~NhA
 geharkt/~~JOQRSTVgj
 geharrt/~~JOQRSTVgj
@@ -27769,7 +27769,7 @@ gestaut/~~JOQRSTVgfj
 geste/~~NhE
 gestehe/~~h # not a noun: no capitalized form
 gesteht/~~JOQRSTVgjG
-gestein/~~NhY0HX
+gestein/~~NhY0HXMZ
 gesten/~~Nh # auto-added
 gestern/~~hr
 gestik/~~NhY
@@ -28159,7 +28159,7 @@ Globuli/~~M # homeopathic globules
 globine/~~NhE
 globins/~~Nh
 globus/~~NhA
-glocke/~~NhE
+glocke/~~NhEF
 glocken/~~Vfj # auto-added
 glockig/~~RJOQRSTqh
 glomm/~~h # not a noun: no capitalized form
@@ -28233,7 +28233,7 @@ goldner/~~Mh # not a noun: no capitalized form
 goldnes/~~h # not a noun: no capitalized form
 goldrot/~~hOQRSTJ # retag: adjective, was noun (igerman98 SFX A)
 golds/~~Nh
-golf/~~Nh0HA
+golf/~~Nh0HAMZ
 golfen/~~Vj # auto-added
 golfer/~~MhEKLH
 golfern/~~Nh
@@ -28299,7 +28299,7 @@ graf/~~NhY
 grafem/~~NhY0HX
 grafeme/~~NhE
 grafems/~~Nh
-grafen/~~Nh # auto-added
+grafen/~~NhMZ # auto-added
 grafik/~~NhY
 grafit/~~NXhHY
 grafits/~~Nh
@@ -28829,7 +28829,7 @@ hamburg/~~NhHA
 hammel/~~NhEH
 hammeln/~~Nh # auto-added
 hammer/~~MhEKLH
-hammers/~~Nh
+hammers/~~NhMZ
 hampele/~~h # not a noun: no capitalized form
 hampeln/~~VdifjeGc # auto-added
 hampelt/~~hG # not a noun: no capitalized form
@@ -28843,7 +28843,7 @@ handels/~~NhMZA
 handelt/~~hVG
 handle/~~h # not a noun: no capitalized form
 handout/~~NhHA
-handy/~~NhHA
+handy/~~NhHAZ
 handys/~~Nh
 hanf/~~Nh0HA
 hanfes/~~Nh
@@ -28950,7 +28950,7 @@ hauern/~~Nh
 hauers/~~Nh
 haufen/~~NhH # auto-added
 haufens/~~Nh
-haupt/~~Nh0HA
+haupt/~~Nh0HAMZ
 hauptes/~~Nh
 haupts/~~Nh
 hauruck/~~NhA
@@ -29132,7 +29132,7 @@ hellrot/~~hVOQRSTJ # retag: adjective, was noun (igerman98 SFX A)
 hellste/~~h # not a noun: no capitalized form
 hellt/~~hG # not a noun: no capitalized form
 helltet/~~hG # not a noun: no capitalized form
-helm/~~NXh0HY
+helm/~~NXh0HYMZ
 helmen/~~Nh # auto-added
 helmes/~~Nh
 helms/~~Nh
@@ -29932,7 +29932,7 @@ hüben/~~Vfj # auto-added
 hübsche/~~NhE
 hüft/~~NXh
 hüften/~~Nh # auto-added
-hügel/~~NhEHz
+hügel/~~NhEHzMZ
 hügelab/~~h # not a noun: no capitalized form
 hügelan/~~h # not a noun: no capitalized form
 hügelig/~~NXhOQRST
@@ -30499,7 +30499,7 @@ jordan/~~NhHA
 jordans/~~Nh
 jota/~~Nh
 joule/~~NhA
-journal/~~NXhHY
+journal/~~NXhHYMZ
 joviale/~~NhE
 jubele/~~h # not a noun: no capitalized form
 jubeln/~~VdifjeGc # auto-added
@@ -30778,7 +30778,7 @@ kanüle/~~NhE
 kanülen/~~Nh # auto-added
 kap/~~NhHA
 kapaun/~~NhY
-kapelle/~~NhEz
+kapelle/~~NhEzF
 kapere/~~h # not a noun: no capitalized form
 kapern/~~Nhdfij78eGHcA
 kapernd/~~NhYOQRST
@@ -30900,7 +30900,7 @@ kastens/~~Nh
 kastig/~~NXh
 kastrat/~~NhY
 kasus/~~NhMA
-katalog/~~NXh0HY
+katalog/~~NXh0HYMZ
 katarr/~~NXhHY
 katarrh/~~NXhHY
 katarrs/~~Nh
@@ -31402,13 +31402,13 @@ klopp/*~~Vej # REPLACES kloppen
 kloppt/~~hG # not a noun: no capitalized form
 klops/~~NhX
 klosett/~~NhA
-kloster/~~MhEH
+kloster/~~ZhEH # das Kloster; Genus korrigiert
 klotz/~~Vej0 # REPLACES klotzen
 klotzes/~~Nh
 klotzt/~~hG # not a noun: no capitalized form
 kloß/~~Nh0A
 kloßes/~~Nh
-klub/~~NhHA
+klub/~~NhHAMZ
 klubs/~~Nh
 kluft/~~NhY
 kluften/~~Nh # auto-added
@@ -31617,7 +31617,7 @@ koala/~~NbhH
 koautor/~~NhYH
 kobalt/~~NhA
 koblenz/~~NhA
-kobold/~~NXhHY
+kobold/~~NXhHYMZ
 kobolds/~~Nh
 kobra/~~Nh
 kochen/~~XZVdfijecGHx # auto-added; +verb reading (was noun-only)
@@ -31809,10 +31809,10 @@ koppelt/~~hG # not a noun: no capitalized form
 kopple/~~h # not a noun: no capitalized form
 koppler/~~MhEH
 koralle/~~NhE
-koran/~~NhYHX
+koran/~~NhYHXMZ
 korane/~~NhE
 koranen/~~Nh # auto-added
-korans/~~Nh
+korans/~~NhMZ
 korb/~~Nh0HA
 korbes/~~Nh
 korbs/~~Nh
@@ -31968,7 +31968,7 @@ krebses/~~Nh
 krebsig/~~RJOQRSTqh
 krebst/~~h # not a noun: no capitalized form
 krebste/~~h # not a noun: no capitalized form
-kredit/~~NXh0HY
+kredit/~~NXh0HYMZ
 kredits/~~NhMZ
 krefeld/~~NhHA
 kreide/~~NhE
@@ -32044,7 +32044,7 @@ krocht/~~hGV # retag: preterite stem, was noun (hunspell SFX Z)
 kroki/~~NbhH
 krokus/~~NhA
 kron/~~NhY
-krone/~~NhE
+krone/~~NhEF
 kronen/~~Nh # auto-added
 kropf/~~Nh0HA
 kropfes/~~Nh
@@ -32059,7 +32059,7 @@ krudem/~~Nh
 kruden/~~Vfj # auto-added
 kruder/~~Mh
 krudes/~~Nh
-krug/~~Nh0HA
+krug/~~Nh0HAMZ
 kruges/~~Nh
 krugs/~~Nh
 krume/~~NhE
@@ -32777,7 +32777,7 @@ leastet/~~hG # not a noun: no capitalized form
 leb/~~Vcej # REPLACES leben
 lebende/~~NhEJ # +adjective reading (was noun-only)
 lebens/~~NhMZA
-leber/~~MhE
+leber/~~FhE # die Leber; Genus korrigiert
 lebern/~~Nh
 lebhaft/~~JOQRSTUWqh
 leblos/~~hOQRSTJ # retag: adjective, was noun (igerman98 SFX A)
@@ -32857,7 +32857,7 @@ leguan/~~NhYHX
 leguane/~~NhE
 leguans/~~Nh
 legung/~~FhY
-lehen/~~NhH # auto-added
+lehen/~~NhHMZ # auto-added
 lehens/~~Nh
 lehm/~~NXh0HY
 lehmen/~~Nh # auto-added
@@ -33358,7 +33358,7 @@ lotus/~~NhA
 lotwurz/~~Nh0A
 lounge/~~NhA
 lourdes/~~NhA
-louvre/~~NhA
+louvre/~~NhAMZ
 loyale/~~NhE
 loyalem/~~Nh
 loyalen/~~Vfj # auto-added
@@ -33630,7 +33630,7 @@ lüsten/~~Nh # auto-added
 lüster/~~MhEH
 lüsters/~~Nh
 lüttich/~~NhHA
-maar/~~NXh
+maar/~~NXhZ
 maas/~~NhA
 maat/~~Nh0HA
 maates/~~Nh
@@ -34299,7 +34299,7 @@ mindmap/~~NhHA
 mindre/~~h # not a noun: no capitalized form
 mine/~~NhE
 minen/~~Vfj # auto-added
-mineral/~~NXhHY
+mineral/~~NXhHYZ
 mineur/~~NXhYKLH
 mineurs/~~Nh
 mini/~~NbhH
@@ -34932,7 +34932,7 @@ märker/~~Mh
 märkte/~~NhE
 märkten/~~Nh # auto-added
 märsche/~~NhE
-märz/~~NhY
+märz/~~NhYMZ
 märzen/~~Nh # auto-added
 mäste/~~h # not a noun: no capitalized form
 mästen/~~Vdifj78ecG # auto-added
@@ -35226,7 +35226,7 @@ neckt/~~hG # not a noun: no capitalized form
 necktet/~~hG # not a noun: no capitalized form
 nee/~~h # not a noun: no capitalized form
 neffe/~~NhE
-neffen/~~Nh # auto-added
+neffen/~~NhMZ # auto-added
 neger/~~MhEKLH
 negerin/~~Nh
 negern/~~rh # adverb gladly
@@ -35321,7 +35321,7 @@ nettest/~~hVOQRST
 netto/~~NhA
 netz/~~NXh0YZ
 netzen/~~Nh # auto-added
-netzes/~~Nh
+netzes/~~NhMZ
 netznah/~~NXh
 neuerem/~~Nh
 neueren/~~Vfj # auto-added
@@ -35542,7 +35542,7 @@ nulltes/~~Nh
 nulltet/~~hG # not a noun: no capitalized form
 numerik/~~NhA
 numinos/~~hOQRSTJ # retag: adjective, was noun (igerman98 SFX A)
-nummer/~~MhE
+nummer/~~FhE # die Nummer; Genus korrigiert
 nummere/~~h # not a noun: no capitalized form
 nummern/~~NhdfijeGc
 nummert/~~hG # not a noun: no capitalized form
@@ -35812,7 +35812,7 @@ opakes/~~Nh
 opal/~~NXhHY
 opalen/~~Nh # auto-added
 opals/~~Nh
-oper/~~MhE
+oper/~~hEF
 operand/~~NhY
 operant/~~hOQRSTJ # retag: adjective, was noun (igerman98 SFX A)
 opern/~~Nh
@@ -35860,7 +35860,7 @@ orbit/~~NhHA
 orbita/~~NXh
 orbits/~~Nh
 orden/~~NhHMZ # auto-added
-ordens/~~NhA
+ordens/~~NhAMZ
 order/~~MhEH
 ordere/~~h # not a noun: no capitalized form
 ordern/~~NhdfijeGHcA
@@ -35889,7 +35889,7 @@ organe/~~NhE
 organen/~~Nh # auto-added
 organs/~~NhMZ
 organum/~~ZhA # preposition um #  auto-added
-orgel/~~NhE
+orgel/~~NhEF
 orgeln/~~NhH # auto-added
 orgie/~~NhEF
 orgien/~~Nh # auto-added
@@ -35939,7 +35939,7 @@ ossären/~~Vfj # auto-added
 ossärer/~~Mh
 ossäres/~~Nh
 ost/~~NhY # auto-added
-osten/~~NhH # auto-added
+osten/~~NhHMZ # auto-added
 ostens/~~NhMZ
 oster/~~MhE
 ostern/~~NhA
@@ -36048,7 +36048,7 @@ pakt/~~NXh0HY
 pakten/~~Nh # auto-added
 paktes/~~Nh
 pakts/~~Nh
-palais/~~NhA
+palais/~~NhAMZ
 palast/~~Nh0HMA
 palasts/~~Nh
 palatal/~~hOQRSTJ # retag: adjective, was noun (igerman98 SFX A)
@@ -36089,7 +36089,7 @@ panters/~~Nh
 panther/~~MhH
 panzer/~~MhEH
 panzern/~~Nh
-panzers/~~Nh
+panzers/~~NhMZ
 papa/~~NbhH
 papagei/~~NbhHY
 paper/~~MhH
@@ -36190,7 +36190,7 @@ patcht/~~NXh
 pate/~~NhEKL
 patella/~~Nh
 paten/~~Nh # auto-added
-patent/~~NXhOQRST0
+patent/~~NXhOQRST0MZ
 patents/~~Nh
 pater/~~MhEH
 patern/~~Nh
@@ -36456,7 +36456,7 @@ phagene/~~NhE
 phagens/~~Nh
 phalanx/~~NhA
 phantom/~~NXhHY
-pharao/~~NbhH
+pharao/~~NbhHMZ
 pharma/~~Nh
 phase/~~NhEF
 phasen/~~Vfj # auto-added
@@ -36669,7 +36669,7 @@ planet/~~NhY
 planke/~~NhE
 planken/~~Nh # auto-added
 planlos/~~hOQRSTUWJ # retag: adjective, was noun (igerman98 SFX A)
-plans/~~Nh
+plans/~~NhMZ
 plant/~~hVG # +verb reading (was noun-only)
 plantet/~~hG # not a noun: no capitalized form
 planung/~~FhY
@@ -36772,7 +36772,7 @@ pochtet/~~hG # not a noun: no capitalized form
 pocken/~~Nh # auto-added
 pockig/~~RJOQRSTqh
 podcast/~~NhHA
-podest/~~NhY0HX
+podest/~~NhY0HXMZ
 podeste/~~NhE
 podests/~~Nh
 podien/~~Nh # auto-added
@@ -36989,7 +36989,7 @@ prasste/~~h # not a noun: no capitalized form
 pratze/~~NhE
 pratzen/~~Nh # auto-added
 praxen/~~Nh # auto-added
-praxis/~~NhA
+praxis/~~NhAF
 predigt/~~NXhGY
 preis/~~NXhr0Y78M # +adverb reading (was noun-only)
 preisen/~~Vifj78cG # auto-added
@@ -37488,7 +37488,7 @@ radial/~~NXhOQRST
 radiant/~~NhY
 radien/~~Nh # auto-added
 radiert/~~NXhOQRSTG
-radio/~~NbhH
+radio/~~NbhHZ
 radium/~~ZhA # preposition um #  auto-added
 radius/~~NhA
 radle/~~h # not a noun: no capitalized form
@@ -37547,7 +37547,7 @@ ramm/*~~Vcej # REPLACES rammen
 rammle/~~h # not a noun: no capitalized form
 rammt/~~hG # not a noun: no capitalized form
 rammtet/~~hG # not a noun: no capitalized form
-rampe/~~NhE
+rampe/~~NhEF
 rampen/~~Nh # auto-added
 ramsche/~~h # not a noun: no capitalized form
 ramschs/~~Nh
@@ -37681,7 +37681,7 @@ raten/~~Vifjc # auto-added
 ratende/~~NhEJ # +adjective reading (was noun-only)
 rates/~~NhMZ
 ratet/~~h # not a noun: no capitalized form
-rathaus/~~Nh0A
+rathaus/~~Nh0AZ
 rating/~~NhYH
 ratings/~~Nh
 ratio/~~hE # not a noun: no capitalized form
@@ -37867,7 +37867,7 @@ reges/~~Nh
 reggae/~~NhA
 regie/~~NhFA
 regiert/~~hOQRSTGJ # retag: adjective, was noun (igerman98 SFX A)
-regime/~~NhEH
+regime/~~NhEHMZ
 regimen/~~Nh # auto-added
 regimes/~~NhMZ
 regio/~~NhE
@@ -38034,7 +38034,7 @@ renkt/~~hG # not a noun: no capitalized form
 renktet/~~hG # not a noun: no capitalized form
 renn/~~NhY
 renn/~~Vcj # REPLACES rennen
-rennens/~~Nh
+rennens/~~NhMZ
 renner/~~MhEH
 rennern/~~Nh
 renners/~~Nh
@@ -38043,7 +38043,7 @@ rente/~~NhE
 renten/~~Vfj # auto-added
 rentner/~~MhEKLH
 renvoi/~~NhYE
-replik/~~NhY
+replik/~~NhYF
 report/~~NXh0HY
 reports/~~Nh # auto-added
 reposte/~~NhYE
@@ -38117,7 +38117,7 @@ rezess/~~NhA
 rezidiv/~~hOQRSTJ # retag: adjective, was noun (igerman98 SFX A)
 rhagade/~~NhE
 rhe/~~h # not a noun: no capitalized form
-rhein/~~Nh0HX
+rhein/~~Nh0HXMZ
 rheins/~~NhMZ
 rhenium/~~ZhHA # preposition um #  auto-added
 rhesus/~~NhA
@@ -38329,7 +38329,7 @@ roher/~~Mh
 rohes/~~Nh
 rohheit/~~FhY
 rohling/~~MhYHX
-rohr/~~NXh0HY
+rohr/~~NXh0HYMZ
 rohren/~~Nh # auto-added
 rohres/~~Nh
 rohrs/~~Nh
@@ -38761,7 +38761,7 @@ rüttel/~~h # not a noun: no capitalized form
 rütteln/~~VdifjeGc # auto-added
 rüttelt/~~hG # not a noun: no capitalized form
 rüttle/~~h # not a noun: no capitalized form
-saal/~~NXh0H
+saal/~~NXh0HMZ
 saalbau/~~Nbh0H
 saales/~~Nh
 saals/~~Nh
@@ -38826,7 +38826,7 @@ saht/~~hVG # retag: verb form, was noun (corpus-mined)
 saigon/~~NhHA
 saigons/~~Nh
 saint/~~NhA
-saison/~~NhHA
+saison/~~NhHAF
 saisons/~~Nh
 saite/~~NhE
 saiten/~~Nh # auto-added
@@ -39108,7 +39108,7 @@ scherzt/~~hG # not a noun: no capitalized form
 scheuem/~~Nh
 scheu/~~VejOQRSTUW # REPLACES scheuen
 scheues/~~Nh
-scheune/~~NhE
+scheune/~~NhEF
 scheure/~~h # not a noun: no capitalized form
 scheut/~~hG # not a noun: no capitalized form
 schi/~~NbhaH
@@ -39170,7 +39170,7 @@ schlots/~~Nh
 schlug/~~hrsV # retag: preterite stem, was noun (hunspell SFX Z)
 schlugt/~~hGV # retag: preterite stem, was noun (hunspell SFX Z)
 schlund/~~Nh0A
-schlupf/~~NhHX
+schlupf/~~NhHXMZ
 schluss/~~Nh0MZA
 schläfe/~~NhE
 schläft/~~VjG # verb (3rd person singular of schlafen)
@@ -39526,7 +39526,7 @@ sitins/~~Nh
 sitte/~~NhE
 sitten/~~Vfj # auto-added
 sittig/~~RJOQRSTqh
-sitz/~~NXh780Y
+sitz/~~NXh780YM
 sitz/~~Vcj780 # REPLACES sitzen
 sitzes/~~Nh
 sivas/~~NhA
@@ -39548,7 +39548,7 @@ skiers/~~Nh
 skins/~~Nh
 skippe/~~NhYE
 skippt/~~NhYE
-skizze/~~NhE
+skizze/~~NhEF
 sklave/~~NhEKL
 skonti/~~Nh
 skonto/~~NhA
@@ -39583,7 +39583,7 @@ snob/~~NhHA
 snobs/~~Nh
 sobald/~~h6
 socke/~~NhE
-sockel/~~NhEH
+sockel/~~NhEHMZ
 socken/~~Nh # auto-added
 socket/~~NhHA
 soda/~~NbhH
@@ -39718,7 +39718,7 @@ speere/~~NhE
 speers/~~Nh
 spei/*~~Vcj # REPLACES speien
 spelz/~~NXh0Y
-spende/~~NhE
+spende/~~NhEF
 sperma/~~NbhH
 sperr/~~NXh78x
 sperrt/~~hG # not a noun: no capitalized form
@@ -40012,7 +40012,7 @@ stroh/~~NhHA
 strohs/~~Nh
 strom/~~NXh0HMZ
 stroma/~~NhE
-stroms/~~Nh
+stroms/~~NhMZ
 struma/~~Nh
 strunk/~~Nh0HA
 ströme/~~NhE
@@ -40114,7 +40114,7 @@ suhl/~~Vcej # REPLACES suhlen
 suhlt/~~hG # not a noun: no capitalized form
 suite/~~NhE
 suiten/~~Nh # auto-added
-suizid/~~NXh0HY
+suizid/~~NXh0HYMZ
 sulfat/~~NXh0HY
 sulfid/~~NXh0HY
 sulfit/~~NXhHY
@@ -40329,7 +40329,7 @@ talars/~~Nh
 talent/~~NXh0HY
 talern/~~Nh
 talers/~~Nh
-tales/~~Nh
+tales/~~NhMZ
 talg/~~Nh0HA
 talges/~~Nh
 talgig/~~RJOQRSTqh
@@ -40453,7 +40453,7 @@ teers/~~Nh
 teert/~~hG # not a noun: no capitalized form
 tees/~~Nh
 teflon/~~NhHA
-teich/~~NXhY0H
+teich/~~NXhY0HMZ
 teichs/~~Nh
 teig/~~NXh0HY
 teigen/~~Nh # auto-added
@@ -40544,7 +40544,7 @@ thiols/~~Nh
 thor/~~NhEH
 thorax/~~NXh0Y
 thors/~~Nh
-thron/~~NhY0HX
+thron/~~NhY0HXMZ
 throns/~~Nh
 thront/~~hG # not a noun: no capitalized form
 thurn/~~h # not a noun: no capitalized form
@@ -40565,7 +40565,7 @@ tier/~~hY0HXzZ
 tiere/~~NhE
 tieren/~~Nh # auto-added
 tieres/~~NhMZ
-tiers/~~Nh
+tiers/~~NhMZ
 tiger/~~MhEKLH
 tigere/~~h # not a noun: no capitalized form
 tigern/~~rhdfijeG # adverb gladly
@@ -40774,7 +40774,7 @@ trends/~~Nh
 trenn/*~~NhY
 trennt/~~hVG
 trense/~~NhE
-treppe/~~NhEz
+treppe/~~NhEzF
 tresen/~~NhH # auto-added
 tresor/~~NXhHY
 tret/~~NXh78
@@ -40789,7 +40789,7 @@ treues/~~Nh
 trias/~~NhA
 tribun/~~NhYHX
 tribut/~~NXh0HY
-trick/~~NhHA
+trick/~~NhHAMZ
 tricks/~~NXh
 triebe/~~NhE
 triebs/~~Nh
@@ -40946,8 +40946,8 @@ turin/~~NhHA
 turing/~~NhA
 turins/~~Nh
 turm/~~NXh0HMZ
-turmes/~~Nh
-turms/~~Nh
+turmes/~~NhMZ
+turms/~~NhMZ
 turn/~~NhY
 turn/~~Vcej # REPLACES turnen
 turner/~~MhEKLH
@@ -40970,7 +40970,7 @@ twists/~~Nh
 tycoon/~~NhA
 typ/~~NXhHYMZ # auto-added
 typen/~~Vfj # auto-added
-typhus/~~NhA
+typhus/~~NhAMZ
 typlos/~~hOQRSTJ # retag: adjective, was noun (igerman98 SFX A)
 typs/~~NhMZ
 typus/~~NhMZA
@@ -41126,7 +41126,7 @@ umritt/~~NXh0HY
 ums/~~hP4
 umsah/~~hsV # retag: preterite stem, was noun (hunspell SFX Z)
 umsaht/~~hGV # retag: preterite stem, was noun (hunspell SFX Z)
-umsatz/~~Nh0A
+umsatz/~~Nh0AMZ
 umsehe/~~h # not a noun: no capitalized form
 umseht/~~h # not a noun: no capitalized form
 umso/~~hr
@@ -41150,7 +41150,7 @@ umwob/~~NhYE
 umwogt/~~hOQRSTJ # retag: adjective, was noun (igerman98 SFX A)
 umzog/~~hsV # retag: preterite stem, was noun (hunspell SFX Z)
 umzogt/~~hGV # retag: preterite stem, was noun (hunspell SFX Z)
-umzug/~~Nh0HA
+umzug/~~Nh0HAMZ
 umzugs/~~NhA
 umzöge/~~hsV # retag: preterite stem, was noun (hunspell SFX Z)
 umzüge/~~NhE
@@ -41337,7 +41337,7 @@ vergaß/~~hsV # retag: preterite stem, was noun (hunspell SFX Z)
 vergor/~~h # not a noun: no capitalized form
 verhob/~~hsV # retag: preterite stem, was noun (hunspell SFX Z)
 verkam/~~hY # not a noun: no capitalized form
-verlag/~~NXh0HY
+verlag/~~NXh0HYMZ
 verlor/~~hV
 verlud/~~hY # not a noun: no capitalized form
 vermin/~~h # not a noun: no capitalized form
@@ -41408,7 +41408,7 @@ virus/~~NhZA
 vis/~~h # not a noun: no capitalized form
 visa/~~Nh
 visage/~~NhE
-vision/~~NhY
+vision/~~NhYF
 visite/~~NhE
 viskos/~~hOQRSTJ # retag: adjective, was noun (igerman98 SFX A)
 viskös/~~hOQRSTJ # retag: adjective, was noun (igerman98 SFX A)
@@ -41749,7 +41749,7 @@ wertig/~~NXhOQRST
 werts/~~Nh
 wes/~~Vej # REPLACES wesen
 wesens/~~NhMZA
-weser/~~Mh
+weser/~~Fh # die Weser; Genus korrigiert
 wesir/~~NXhHY
 wesirs/~~Nh
 wespe/~~NhE
@@ -42444,7 +42444,7 @@ zuzöge/~~hsV # retag: preterite stem, was noun (hunspell SFX Z)
 zuzüge/~~NhE
 zwack/~~h # not a noun: no capitalized form
 zwackt/~~hG # not a noun: no capitalized form
-zwang/~~NhiYr0sH # +adverb reading (was noun-only)
+zwang/~~NhiYr0sHMZ # +adverb reading (was noun-only)
 zwangs/~~NhA
 zwangt/~~hGV # retag: preterite stem, was noun (hunspell SFX Z)
 zwar/~~hr
@@ -42510,7 +42510,7 @@ zähre/~~NhE
 zähren/~~Nh # auto-added
 zähste/~~h # not a noun: no capitalized form
 zäsium/~~ZhHA # preposition um #  auto-added
-zäsur/~~NhY
+zäsur/~~NhYF
 zäume/~~h # not a noun: no capitalized form
 zäum/*~~Vej # REPLACES zäumen
 zäumst/~~hV
@@ -45933,7 +45933,7 @@ anschlosst/~~hV # retag: preterite stem, was noun (hunspell SFX Z)
 anschlug/~~hsV # retag: preterite stem, was noun (hunspell SFX Z)
 anschlugen/~~VijG # auto-added
 anschlugt/~~hGV # retag: preterite stem, was noun (hunspell SFX Z)
-anschluss/~~Nh0A
+anschluss/~~Nh0AMZ
 anschläge/~~NhE
 anschlägen/~~Nh # auto-added
 anschlägst/~~hV
@@ -46617,7 +46617,7 @@ anwesende/~~NhEJ # +adjective reading (was noun-only)
 anwesendem/~~Nh
 anwesender/~~Mh
 anwesendes/~~Nh
-anwesens/~~Nh
+anwesens/~~NhMZ
 anwidere/~~h # not a noun: no capitalized form
 anwidern/~~VdifjeGc # auto-added
 anwidernd/~~NhYOQRST
@@ -48961,7 +48961,7 @@ aufschub/~~NhHA
 aufschubs/~~Nh
 aufschwamm/~~hsV # retag: preterite stem, was noun (hunspell SFX Z)
 aufschwang/~~hsV # retag: preterite stem, was noun (hunspell SFX Z)
-aufschwung/~~Fh0HA
+aufschwung/~~Mh0HA # der Aufschwung; Genus korrigiert
 aufschäume/~~h # not a noun: no capitalized form
 aufschäumt/~~hG # not a noun: no capitalized form
 aufschöbe/~~hsV # retag: preterite stem, was noun (hunspell SFX Z)
@@ -51800,7 +51800,7 @@ babyphons/~~Nh
 babysitter/~~MhEKLH
 babywippe/~~NhE
 babywippen/~~Nh # auto-added
-bachelor/~~NhHA
+bachelor/~~NhHAMZ
 bachelors/~~Nh
 bachsche/~~NhEJQRST # +adjective (igerman98 SFX A) reading (was noun-only)
 bachschem/~~h # not a noun: no capitalized form
@@ -51855,7 +51855,7 @@ bahnende/~~NhYJE # +adjective reading (was noun-only)
 bahnendem/~~NhYE
 bahnender/~~MhYE
 bahnendes/~~NhYE
-bahnhofs/~~NhA
+bahnhofs/~~NhAMZ
 bahnintern/~~VjOQRST # auto-added
 bahntest/~~h # not a noun: no capitalized form
 bahratals/~~Nh
@@ -54753,7 +54753,7 @@ bergfreien/~~Vj # auto-added
 bergfreier/~~MhYE
 bergfreies/~~NhYE
 bergfried/~~NXh0HY
-bergfrieds/~~Nh
+bergfrieds/~~NhMZ
 bergigem/~~Nh
 bergigen/~~Vfj # auto-added
 bergiger/~~Mh
@@ -55108,7 +55108,7 @@ beschuss/~~Nh0A
 beschusses/~~Nh
 beschwatze/~~h # not a noun: no capitalized form
 beschwatzt/~~GV # retag: finite verb form, was noun (corpus-mined)
-beschwerde/~~NhE
+beschwerde/~~NhEF
 beschwere/~~h # not a noun: no capitalized form
 beschweren/~~Vdifj78ecGn # auto-added
 beschwerer/~~MhE
@@ -55868,7 +55868,7 @@ betreuungs/~~NhA
 betriebe/~~NhE
 betrieben/~~VifjOQRSTG # auto-added
 betriebene/~~NhE
-betriebes/~~Nh
+betriebes/~~NhMZ
 betriebs/~~MhA
 betriebt/~~hVG # retag: finite verb form, was noun (corpus-mined)
 betriffst/~~h # not a noun: no capitalized form
@@ -56825,7 +56825,7 @@ bisamapfel/~~NhH
 bisamfells/~~Nh
 bisamratte/~~NhE
 bisamäpfel/~~NhE
-bischofs/~~NhA
+bischofs/~~NhAMZ
 bischöfe/~~NhEKL
 bischöfen/~~Nh # auto-added
 bischöfin/~~Nh
@@ -57898,7 +57898,7 @@ brackiges/~~Nh
 brackwespe/~~NhE
 brackwiese/~~NhE
 brahmane/~~NhE
-brahmanen/~~Nh # auto-added
+brahmanen/~~NhMZ # auto-added
 brahmanin/~~Nh
 braindrain/~~NhHA
 braintrust/~~NhHA
@@ -58717,7 +58717,7 @@ bächlein/~~XZH #  auto-added
 bächleins/~~Nh
 bäckchen/~~XZH #  auto-added
 bäckchens/~~Nh
-bäckerei/~~NhY
+bäckerei/~~NhYF
 bäckereien/~~Nh # auto-added
 bäckerin/~~Nh
 bäderamt/~~Nh0HA
@@ -60810,7 +60810,7 @@ denkfaulen/~~Vfj # auto-added
 denkfauler/~~Mh
 denkfaules/~~Nh
 denkmalen/~~Nh # auto-added
-denkmals/~~Nh
+denkmals/~~NhMZ
 denkmälern/~~Nh # auto-added
 dennschon/~~h # not a noun: no capitalized form
 denotation/~~NhYF
@@ -61236,7 +61236,7 @@ dienstagen/~~Nh # auto-added
 dienstages/~~Nh
 dienstags/~~NhA
 diensten/~~Nh # auto-added
-dienstes/~~Nh
+dienstes/~~NhMZ
 dientest/~~h # not a noun: no capitalized form
 dieselbe/~~NhEJ # +adjective reading (was noun-only)
 dieselben/~~Vfj # auto-added
@@ -62506,7 +62506,7 @@ durchbrach/~~hsV # retag: preterite stem, was noun (hunspell SFX Z)
 durchbrate/~~h # not a noun: no capitalized form
 durchbrich/~~NhYE
 durchbriet/~~hsV # retag: preterite stem, was noun (hunspell SFX Z)
-durchbruch/~~NhHA
+durchbruch/~~NhHAMZ
 durchbräst/~~h # not a noun: no capitalized form
 durchbrät/~~hG # not a noun: no capitalized form
 durchböge/~~hsV # retag: preterite stem, was noun (hunspell SFX Z)
@@ -66288,7 +66288,7 @@ enormsten/~~Vfj # auto-added
 enormster/~~Mh # not a noun: no capitalized form
 enormstes/~~h # not a noun: no capitalized form
 enqueten/~~Nh # auto-added
-ensemble/~~NhHA
+ensemble/~~NhHAZ
 ensembles/~~Nh
 entarten/~~Vdifj78ecG # auto-added
 entartend/~~NhYJOQRST # +adjective reading (was noun-only)
@@ -67469,7 +67469,7 @@ entwuchst/~~hV # retag: finite verb form, was noun (corpus-mined)
 entwunden/~~VjOQRST # auto-added
 entwundene/~~NhE
 entwurfes/~~Nh
-entwurfs/~~NhA
+entwurfs/~~NhAMZ
 entwurm/*~~Vej78n # REPLACES entwurmen
 entwurmt/~~hVOQRSTG # retag: finite verb form, was noun (corpus-mined)
 entwurmtem/~~Nh
@@ -70793,7 +70793,7 @@ fahrzeit/~~NhY
 fahrzeiten/~~Nh # auto-added
 fahrzeug/~~NXh0HYZ
 fahrzeugen/~~Nh # auto-added
-fahrzeuges/~~Nh
+fahrzeuges/~~NhMZ
 fahrzeugs/~~NhMZ
 fairerem/~~Nh
 faireren/~~Vfj # auto-added
@@ -74111,10 +74111,10 @@ freveltest/~~hV
 freveltet/~~hG # not a noun: no capitalized form
 friedberg/~~NhHA
 friedbergs/~~Nh
-friedens/~~NhA
+friedens/~~NhAMZ
 friedhof/~~Nh0HMZA
 friedhofes/~~Nh
-friedhofs/~~Nh
+friedhofs/~~NhMZ
 friedhöfe/~~NhE
 friedhöfen/~~Nh # auto-added
 friedland/~~NhHA
@@ -77993,7 +77993,7 @@ gelähmtes/~~Nh
 geländer/~~MhEH
 geländern/~~Nh # auto-added
 geländers/~~Nh
-geländes/~~Nh
+geländes/~~NhMZ
 gelängen/~~Vfj # auto-added
 geläppten/~~Vj # auto-added
 gelärmtem/~~Nh
@@ -79462,7 +79462,7 @@ geschlurft/~~JOQRSTVgj
 geschlämmt/~~JOQRSTVgfj
 geschlüpft/~~JOQRSTVgfj
 geschlürft/~~JOQRSTVgfj
-geschmack/~~Nh0HA
+geschmack/~~Nh0HAMZ
 geschmacks/~~NhA
 geschmatzt/~~JOQRSTVgj
 geschmaust/~~JOQRSTVgj
@@ -80445,7 +80445,7 @@ getreuer/~~Mh
 getreues/~~Nh
 getreueste/~~NhEJQRST # +adjective (igerman98 SFX A) reading (was noun-only)
 getrickst/~~JOQRSTVgj
-getriebe/~~NhEH
+getriebe/~~NhEHMZ
 getrieben/~~VfjOQRST # auto-added
 getriebene/~~NhE
 getriebes/~~Nh
@@ -80991,7 +80991,7 @@ gewärmter/~~Mh
 gewärmtes/~~Nh
 gewärtigst/~~JOQRSTVgj
 gewärtigt/~~JOQRSTVgfjG
-gewässer/~~MhEH
+gewässer/~~ZhEH # das Gewässer; Genus korrigiert
 gewässern/~~Nh # auto-added
 gewässers/~~NhMZ
 gewässert/~~JOQRSTVgfj9
@@ -82800,7 +82800,7 @@ gründendes/~~h # not a noun: no capitalized form
 gründens/~~Nh
 gründerin/~~Nh
 gründern/~~Nh # auto-added
-gründers/~~Nh
+gründers/~~NhMZ
 gründeten/~~VifjG # auto-added
 gründetest/~~hV
 gründetet/~~hG # not a noun: no capitalized form
@@ -83029,7 +83029,7 @@ gymnasiale/~~NhE
 gymnasiast/~~NhYKL
 gymnasien/~~Nh # auto-added
 gymnasium/~~ZhHA # preposition um #  auto-added
-gymnasiums/~~Nh
+gymnasiums/~~NhMZ
 gymnastik/~~NhA
 gynäkologe/~~NhEKL
 gyrostat/~~NhA
@@ -86850,12 +86850,12 @@ ingweröl/~~NhHA
 ingweröls/~~Nh
 inhaberin/~~Nh
 inhabern/~~Nh # auto-added
-inhabers/~~Nh
+inhabers/~~NhMZ
 inhalator/~~NhYH
 inhaliere/~~h # not a noun: no capitalized form
 inhaliert/~~NhYOQRSTG
 inhalten/~~Nh # auto-added
-inhaltes/~~Nh
+inhaltes/~~NhMZ
 inhibiere/~~h # not a noun: no capitalized form
 inhibiert/~~NhYOQRSTG
 inhomogen/~~VjOQRST # auto-added
@@ -86948,7 +86948,7 @@ inputbox/~~NhY
 inputfile/~~NhHA
 insassen/~~Nh # auto-added
 insassin/~~Nh
-inschrift/~~NhY
+inschrift/~~NhYF
 insekten/~~Vj # auto-added
 insektes/~~Nh
 inselchen/~~XZ #  auto-added
@@ -87819,7 +87819,7 @@ kammwegen/~~Nh # auto-added
 kammweges/~~Nh
 kammwegs/~~Nh
 kammwolle/~~NhA
-kampagne/~~NhE
+kampagne/~~NhEF
 kampagnen/~~Nh # auto-added
 kampanien/~~NhH # auto-added
 kampfers/~~Nh
@@ -89674,7 +89674,7 @@ konsonant/~~NhY
 konsorten/~~Nh # auto-added
 konstant/~~hJOQRSTUWq
 konstanz/~~NhX
-konstrukt/~~NhY0HX
+konstrukt/~~NhY0HXMZ
 konsulare/~~NhE
 konsulat/~~NXhHY
 konsulats/~~NhA
@@ -89846,7 +89846,7 @@ korrekten/~~VfjG # auto-added
 korrekter/~~MhYJr
 korrektes/~~Nh
 korrektor/~~NhYKLH
-korrektur/~~NhY
+korrektur/~~NhYF
 korrelat/~~NXh0HY
 korrelats/~~Nh
 korridor/~~NXhHY
@@ -91777,7 +91777,7 @@ libertine/~~NhE
 libertins/~~Nh
 libertär/~~hOQRSTJ # retag: adjective, was noun (igerman98 SFX A)
 libidinös/~~JOQRSTqh # retag: adjective (was ~~Nh, corpus-mined as noun)
-libretto/~~NbhH
+libretto/~~NbhHZ
 libyerin/~~Nh
 libysche/~~NhEJ # +adjective reading (was noun-only)
 libyschem/~~Nh
@@ -92073,7 +92073,7 @@ livlands/~~Nh
 livriert/~~hOQRSTJ # retag: adjective, was noun (igerman98 SFX A)
 lizentiat/~~NhY0KLH
 lizenzen/~~Nh # auto-added
-lizenziat/~~NhA
+lizenziat/~~NhAMZ
 lobbyiere/~~NhYE
 lobbyiert/~~NhYE
 lobbyist/~~NhYKL
@@ -93319,7 +93319,7 @@ massives/~~Nh
 massivste/~~h # not a noun: no capitalized form
 massylien/~~NhH # auto-added
 mastergen/~~NhHXY # auto-added
-mastitis/~~NhA
+mastitis/~~NhAF
 mastixes/~~Nh
 masurens/~~Nh
 matadoren/~~Nh # auto-added
@@ -93595,7 +93595,7 @@ meistere/~~h # not a noun: no capitalized form
 meisterin/~~Nh
 meistern/~~Vdifj78eGc # auto-added
 meisternd/~~NhYOQRST
-meisters/~~Nh
+meisters/~~NhMZ
 meistert/~~hG # not a noun: no capitalized form
 meißelnd/~~NhYOQRST
 meißelnde/~~NhE
@@ -95438,7 +95438,7 @@ nachlade/~~h # not a noun: no capitalized form
 nachladen/~~Vifj78cx # auto-added
 nachlader/~~MhEH
 nachlasen/~~VijG # auto-added
-nachlass/~~NXh0Y
+nachlass/~~NXh0YMZ
 nachlauf/~~NXhHY
 nachlauft/~~h # not a noun: no capitalized form
 nachlebe/~~NhYE
@@ -97181,7 +97181,7 @@ papsttums/~~Nh
 parabeln/~~Nh # auto-added
 paradiere/~~h # not a noun: no capitalized form
 paradiert/~~hG # not a noun: no capitalized form
-paradies/~~NhY0X
+paradies/~~NhY0XMZ
 paradiese/~~NhE
 paradigma/~~NhHMZ
 paradoxem/~~Nh
@@ -97469,7 +97469,7 @@ pensionat/~~NhYHX
 pensionen/~~Nh # auto-added
 pensions/~~NhA
 pensionär/~~NhYKLHX
-pentagon/~~NhHA
+pentagon/~~NhHAMZ
 pentagons/~~Nh
 pentelid/~~NXhHY
 pentelids/~~Nh
@@ -97638,7 +97638,7 @@ pfandhaus/~~NhA
 pfarreien/~~Nh # auto-added
 pfarrerin/~~Nh
 pfarrern/~~Nh # auto-added
-pfarrers/~~Nh
+pfarrers/~~NhMZ
 pfeffere/~~h # not a noun: no capitalized form
 pfeffern/~~VdifjeGc # auto-added
 pfeffernd/~~NhYOQRST
@@ -98790,7 +98790,7 @@ prophage/~~NhE
 prophagen/~~Nh # auto-added
 prophase/~~NhE
 prophasen/~~Nh # auto-added
-propheten/~~Nh # auto-added
+propheten/~~NhMZ # auto-added
 prophetie/~~NhEF
 prophetin/~~Nh
 propionat/~~NhYHX
@@ -98959,7 +98959,7 @@ prügelten/~~VifjG # auto-added
 prügeltet/~~hG # not a noun: no capitalized form
 psalmlied/~~Nh0aH
 psalters/~~Nh # auto-added
-pseudonym/~~NhYOQRST
+pseudonym/~~NhYOQRSTMZ
 psoriasen/~~Nh # auto-added
 psoriasis/~~NhA
 psychogen/~~VjOQRST # auto-added
@@ -100065,11 +100065,11 @@ regierung/~~FhY
 regiestar/~~JOQRSTqh # retag: adjective (was ~~Nh)
 regimenah/~~hOQRSTJ # retag: adjective, was noun (igerman98 SFX A)
 regiment/~~Nh0aHZ
-regiments/~~Nh
+regiments/~~NhMZ
 regionen/~~Nh # auto-added
 regionär/~~hOQRSTJ # retag: adjective, was noun (igerman98 SFX A)
 regisseur/~~NhYKLHX
-register/~~MhEH
+register/~~ZhEH # das Register; Genus korrigiert
 registern/~~Nh # auto-added
 registers/~~Nh
 reglement/~~JOQRSTqh # retag: adjective (was ~~Nh)
@@ -102660,7 +102660,7 @@ schlitzen/~~VdifjecG # auto-added
 schlitzes/~~Nh
 schlitzt/~~hG # not a noun: no capitalized form
 schlossen/~~VijG # auto-added
-schlosses/~~Nh
+schlosses/~~NhMZ
 schlosst/~~hV # retag: preterite stem, was noun (hunspell SFX Z)
 schloten/~~Nh # auto-added
 schlotes/~~Nh
@@ -103119,7 +103119,7 @@ schulfrei/~~hOQRSTJ # retag: adjective, was noun (igerman98 SFX A)
 schulmüde/~~NhEJQRST # +adjective (igerman98 SFX A) reading (was noun-only)
 schulnah/~~hOQRSTJ # retag: adjective, was noun (igerman98 SFX A)
 schulreif/~~hOQRSTJ # retag: adjective, was noun (igerman98 SFX A)
-schulter/~~MhEx
+schulter/~~FhEx # die Schulter; Genus korrigiert
 schultere/~~h # not a noun: no capitalized form
 schultern/~~VdifjeGcx # auto-added
 schultert/~~hG # not a noun: no capitalized form
@@ -103237,7 +103237,7 @@ schwein/~~NhY0HXz # auto-added
 schweine/~~NhE
 schweinen/~~Nh # auto-added
 schweines/~~Nh
-schweins/~~Nh
+schweins/~~NhMZ
 schweiz/~~NhA
 schweizer/~~MhEKLH
 schweiße/~~NhE
@@ -104460,7 +104460,7 @@ skatklub/~~NhHA
 skatklubs/~~Nh
 skeleton/~~NhHA
 skeletons/~~Nh
-skelett/~~NXh0HY
+skelett/~~NXh0HYZ
 skeletten/~~Nh # auto-added
 skelettes/~~Nh
 skeletts/~~Nh
@@ -104510,7 +104510,7 @@ skrupel/~~NhEH
 skrupeln/~~Nh # auto-added
 skrupels/~~Nh
 skrupulös/~~JOQRSTqh # retag: adjective (was ~~Nh, corpus-mined as noun)
-skulptur/~~NhY
+skulptur/~~NhYF
 skurrile/~~NhE
 skurrilem/~~Nh
 skurrilen/~~VfjG # auto-added
@@ -104995,7 +104995,7 @@ spiegele/~~h # not a noun: no capitalized form
 spiegeln/~~Vdifj78eGc # auto-added
 spiegelnd/~~NhYOQRST
 spiegelns/~~Nh
-spiegels/~~Nh
+spiegels/~~NhMZ
 spiegelt/~~hVG
 spiegle/~~h # not a noun: no capitalized form
 spieglung/~~FhY
@@ -105229,7 +105229,7 @@ sprintern/~~Nh # auto-added
 sprinters/~~Nh
 sprintest/~~hV
 sprintet/~~hG # not a noun: no capitalized form
-sprints/~~Nh
+sprints/~~NhMZ
 spritgeld/~~Nh0aH
 spritz/~~Vej # REPLACES spritzen
 spritzer/~~MhEH
@@ -105500,7 +105500,7 @@ stampfern/~~Nh # auto-added
 stampfers/~~Nh
 stampft/~~hG # not a noun: no capitalized form
 stampftet/~~hG # not a noun: no capitalized form
-standard/~~NhHA
+standard/~~NhHAMZ
 standards/~~Nh
 standarte/~~NhE
 standby/~~NhA
@@ -105967,7 +105967,7 @@ stiftens/~~Nh
 stifter/~~MhEKLH
 stifterin/~~Nh
 stiftern/~~Nh # auto-added
-stifters/~~Nh
+stifters/~~NhMZ
 stiftes/~~Nh
 stiftest/~~hV
 stiftet/~~hG # not a noun: no capitalized form
@@ -106672,7 +106672,7 @@ stückelnd/~~NhYOQRST
 stückelns/~~Nh
 stückelt/~~hG # not a noun: no capitalized form
 stücken/~~Nh # auto-added
-stückes/~~Nh
+stückes/~~NhMZ
 stückle/~~h # not a noun: no capitalized form
 stücklung/~~FhY
 stühlchen/~~XZ #  auto-added
@@ -107828,7 +107828,7 @@ tektinen/~~Nh # auto-added
 tektins/~~Nh
 tektonik/~~NhA
 telefax/~~NhA
-telefon/~~NhYHX
+telefon/~~NhYHXMZ
 telefonat/~~NhYHX
 telefone/~~NhE
 telefonen/~~Nh # auto-added
@@ -107903,7 +107903,7 @@ tentieren/~~VdifjecGn # auto-added
 tentierst/~~hV
 tentiert/~~NXhOQRSTG
 tenören/~~Nh # auto-added
-teppich/~~NXhYH
+teppich/~~NXhYHMZ
 teppichs/~~Nh
 tequila/~~NbhH
 terabyte/~~NhHA
@@ -107932,7 +107932,7 @@ terpene/~~NhE
 terpenen/~~Vfj # auto-added
 terpens/~~Nh
 terpentin/~~NhHA
-terrain/~~NhHA
+terrain/~~NhHAZ
 terrains/~~Nh
 terrarien/~~Nh # auto-added
 terrarium/~~ZhHA # preposition um #  auto-added
@@ -109603,7 +109603,7 @@ täublinge/~~NhE
 täublings/~~Nh
 täuferin/~~Nh
 täufern/~~Nh # auto-added
-täufers/~~Nh
+täufers/~~NhMZ
 täufling/~~MhYHX
 täuflinge/~~NhE
 täuflings/~~Nh
@@ -109965,7 +109965,7 @@ umfangen/~~VifjOQRSTc # auto-added
 umfangend/~~NhYJOQRST # +adjective reading (was noun-only)
 umfangene/~~NhE
 umfanges/~~Nh
-umfangs/~~Nh
+umfangs/~~NhMZ
 umfangt/~~h # not a noun: no capitalized form
 umfass/*~~Vej78n # REPLACES umfassen
 umfassens/~~Nh
@@ -110679,7 +110679,7 @@ umströme/~~h # not a noun: no capitalized form
 umströmen/~~VdifjecGn # auto-added
 umströmst/~~hV
 umströmt/~~NXhOQRSTG
-umsturz/~~Nh0A
+umsturz/~~Nh0AMZ
 umsturzes/~~Nh
 umstylen/~~Vj # auto-added
 umstände/~~NhE
@@ -112713,7 +112713,7 @@ verlagern/~~Vdifj78eGcn # auto-added
 verlagert/~~NhYOQRSTG
 verlages/~~NhMZ
 verlagre/~~h # not a noun: no capitalized form
-verlags/~~NhA
+verlags/~~NhAMZ
 verlande/~~hn # not a noun: no capitalized form
 verlanden/~~Vdifj78ecG # auto-added
 verlandet/~~hVOQRSTG # retag: finite verb form, was noun (corpus-mined)
@@ -114528,7 +114528,7 @@ vorspulen/~~VdifjecG # auto-added
 vorspulst/~~hV
 vorspult/~~hG # not a noun: no capitalized form
 vorstand/~~hVs # +verb reading (was noun-only)
-vorstands/~~NhA
+vorstands/~~NhAMZ
 vorstecke/~~h # not a noun: no capitalized form
 vorsteckt/~~hG # not a noun: no capitalized form
 vorstehe/~~h # not a noun: no capitalized form
@@ -116007,7 +116007,7 @@ welsfangs/~~Nh
 welsfänge/~~NhE
 weltbeste/~~NhEJQRST # +adjective (igerman98 SFX A) reading (was noun-only)
 weltcup/~~NhHA
-weltcups/~~Nh
+weltcups/~~NhMZ
 weltfern/~~VjOQRST # auto-added
 weltferne/~~NhE
 weltfremd/~~hOQRSTJ # retag: adjective, was noun (igerman98 SFX A)
@@ -116447,7 +116447,7 @@ winselt/~~hG # not a noun: no capitalized form
 winselten/~~VifjG # auto-added
 winseltet/~~hG # not a noun: no capitalized form
 wintern/~~Nh # auto-added
-winters/~~NhA
+winters/~~NhAMZ
 winzerei/~~NhY
 winzerin/~~Nh
 winzern/~~Nh # auto-added
@@ -118930,7 +118930,7 @@ zuschrien/~~VifjG # auto-added
 zuschriet/~~hGV # retag: preterite stem, was noun (hunspell SFX Z)
 zuschrift/~~NhY
 zuschritt/~~hsV # retag: preterite stem, was noun (hunspell SFX Z)
-zuschuss/~~Nh0A
+zuschuss/~~Nh0AM
 zuschwoll/~~hsV # retag: preterite stem, was noun (hunspell SFX Z)
 zuschärfe/~~h # not a noun: no capitalized form
 zuschärft/~~hG # not a noun: no capitalized form
@@ -119315,7 +119315,7 @@ zweiflern/~~Nh # auto-added
 zweiflers/~~Nh
 zweifüßer/~~MhEH
 zweig/~~Vej0 # REPLACES zweigen
-zweiges/~~Nh
+zweiges/~~NhMZ
 zweiglein/~~XZH #  auto-added
 zweigtest/~~h # not a noun: no capitalized form
 zweigtet/~~hG # not a noun: no capitalized form
@@ -124011,7 +124011,7 @@ münze/~~FhE
 räder/~~NhE
 römer/~~NhEKLH
 röter/~~h # not a noun: no capitalized form
-stuhl/~~Nh0HX
+stuhl/~~Nh0HXMZ
 täler/~~NhE
 täter/~~NhEKLH
 wärme/~~FhE
@@ -124131,7 +124131,7 @@ zeitnäher/~~NhYOQRST
 beschwörer/~~NhEKLH
 dingwörter/~~NhE
 dornwälder/~~NhE
-eigentümer/~~NhEKLH
+eigentümer/~~NhEKLHMZ
 eisenärmer/~~NhYOQRST
 fememörder/~~NhEKLH
 festmähler/~~NhE
@@ -124482,7 +124482,7 @@ herrschaft/~~FhY
 herschauen/~~NhdfijecGH
 herschrieb/~~hsV # retag: preterite stem, was noun (hunspell SFX Z)
 herstammen/~~NhdfijecGH
-herstellen/~~Nhdfij78ecGHx
+herstellen/~~Nhdfij78ecGHxMZ
 hersteller/~~NhEKLHMZ
 hertreiben/~~NhcGfiH
 hertrotten/~~hdefijcG # not a noun: no capitalized form
@@ -124972,7 +124972,7 @@ hundertste/~~FhEJQRST # +adjective (igerman98 SFX A) reading (was noun-only)
 hundsranke/~~FhE
 hundsstern/~~NhYHX
 hundszunge/~~FhE
-hungersnot/~~NhA
+hungersnot/~~NhAF
 hurenböcke/~~FhE
 hurensöhne/~~FhE
 hurritisch/~~RJOQRSTqh
@@ -125391,7 +125391,7 @@ kanalpegel/~~NhEH
 kanalweise/~~FhEJQRST # +adjective (igerman98 SFX A) reading (was noun-only)
 kandelaber/~~NhEH
 kandidaten/~~Nh
-kandidatur/~~NhY
+kandidatur/~~NhYF
 kanontafel/~~NhE
 kantelrock/~~Nh0HA
 kantenrein/~~hOQRSTJ # retag: adjective, was noun (igerman98 SFX A)
@@ -126979,7 +126979,7 @@ mischmasch/~~Nh0HA
 missachten/~~Nh78defijcGH
 missbildet/~~NhYEOQRST
 missdeuten/~~Nh78defijcGH
-misserfolg/~~NhY0HX
+misserfolg/~~NhY0HXMZ
 missetäter/~~NhEKLH
 missfallen/~~NhcfiH
 missfällig/~~RJOQRSTqh
@@ -129783,7 +129783,7 @@ smartestem/~~NhYE
 smartesten/~~Nh
 smartester/~~NhYE
 smartestes/~~NhYE
-smartphone/~~FhHA
+smartphone/~~ZhHA # das Smartphone; Genus korrigiert
 snowboarde/~~FhYE
 sockelhöhe/~~FhE
 sockelwand/~~NhA
@@ -130450,7 +130450,7 @@ tempelraum/~~Nh0HA
 tempeltanz/~~Nh0A
 tempelteil/~~NhYHX
 tempelturm/~~Nh0HA
-temperatur/~~NhY
+temperatur/~~NhYF
 temperguss/~~NhHA
 tempusform/~~NhY
 tendenziös/~~JOQRSTUWqh # retag: adjective (was ~~Nh, corpus-mined as noun)
@@ -130676,7 +130676,7 @@ trittbrett/~~NhaH
 triumphtor/~~NhYHX
 triumphzug/~~Nh0HA
 triumviral/~~JOQRSTqh # retag: adjective (was ~~Nh)
-triumvirat/~~NhHA
+triumvirat/~~NhHAZ
 trockensaß/~~hsV # retag: preterite stem, was noun (hunspell SFX Z)
 trogbrücke/~~FhE
 trogförmig/~~hOQRSTJ # retag: adjective, was noun (igerman98 SFX A)
@@ -131053,7 +131053,7 @@ unterhalts/~~NhA
 unterhavel/~~Nh
 unterheben/~~hG # not a noun: no capitalized form
 unterhielt/~~hsV # retag: preterite stem, was noun (hunspell SFX Z)
-unterkunft/~~NhA
+unterkunft/~~NhAF
 unterlegen/~~Nhdfij78eOQRSTcGn # auto-added
 unterlägen/~~hGVfi # retag: preterite stem, was noun (hunspell SFX Z)
 unterlässt/~~h # not a noun: no capitalized form
@@ -137821,7 +137821,7 @@ großvolumig/~~hOQRSTJ # retag: adjective, was noun (igerman98 SFX A)
 grubenartig/~~hOQRSTJ # retag: adjective, was noun (igerman98 SFX A)
 gruftanlage/~~FhE
 grundgelegt/~~h # not a noun: no capitalized form
-grundstücks/~~NhA
+grundstücks/~~NhAMZ
 gruppenweit/~~RJOQRSTqh # adjective
 gräberreihe/~~FhE
 gräberstadt/~~NhA
@@ -138501,7 +138501,7 @@ herzenskind/~~Nh0aH
 herzenslust/~~NhA
 herzensqual/~~NhY
 herzenswarm/~~NhYEOQRST
-herzinfarkt/~~NhY0X
+herzinfarkt/~~NhY0XMZ
 herzklopfen/~~NhH
 herzleidend/~~hOQRSTJ # retag: adjective, was noun (igerman98 SFX A)
 herzogsburg/~~NhY
@@ -141353,7 +141353,7 @@ minimalstem/~~NhYE
 minimalster/~~NhYE
 ministerial/~~JOQRSTqh # retag: adjective (was ~~Nh)
 ministerien/~~Nh
-ministerium/~~NhHA
+ministerium/~~NhHAZ
 ministrabel/~~JOQRSTqh # retag: adjective (was ~~Nh, corpus-mined as noun)
 minnedienst/~~NhY0X
 minnesänger/~~NhEKLH
@@ -141372,7 +141372,7 @@ mispelblüte/~~FhE
 missbehagen/~~NhdfijecGH # auto-added
 missbildend/~~NhYEOQRST
 missbildung/~~FhY
-missbrauchs/~~NhA
+missbrauchs/~~NhAMZ
 missbräuche/~~FhE
 missgelaunt/~~hOQRSTJ # retag: adjective, was noun (igerman98 SFX A)
 missglücken/~~NhdfijecGHn
@@ -144353,7 +144353,7 @@ seinsentzug/~~Nh0HA
 seismograph/~~NhY
 seitenmitte/~~FhE
 seitenweise/~~FhA # not a noun: no capitalized form
-sekretariat/~~NhY0HX
+sekretariat/~~NhY0HXMZ
 sekretieren/~~hdfijeGn # not a noun: no capitalized form
 sekretstein/~~NhYHX
 sekteneigen/~~NhOQRST # auto-added
@@ -151336,7 +151336,7 @@ frakturdruck/~~NhY0HX
 frakturierst/~~NhYE
 frankenbulle/~~FhA
 frankenkönig/~~NhYKLHX
-frankenreich/~~Nh0HA
+frankenreich/~~Nh0HAZ
 frankophonie/~~FhA
 fransenborte/~~FhE
 franziskaner/~~NhEKLH
@@ -163191,7 +163191,7 @@ beizubehalten/~~hc # not a noun: no capitalized form
 beizugesellen/~~h # not a noun: no capitalized form
 beizuspringen/~~h # auto-added
 bekanntmachen/~~Nhdfij78ecGHZ
-bekanntwerden/~~NhcfiH
+bekanntwerden/~~NhcfiHMZ
 bekenntnislos/~~hOQRSTJ # retag: adjective, was noun (igerman98 SFX A)
 beklagenswert/~~hOQRSTJ # retag: adjective, was noun (igerman98 SFX A)
 beklopptestem/~~NhYE
@@ -163323,7 +163323,7 @@ bezauberndste/~~FhEJQRST # +adjective (igerman98 SFX A) reading (was noun-only)
 beziehentlich/~~JOQRSTqh
 beziehungslos/~~hOQRSTJ # retag: adjective, was noun (igerman98 SFX A)
 bezügetabelle/~~FhE
-biathlonsport/~~Nh0HA
+biathlonsport/~~Nh0HAMZ
 bibliographie/~~FhE
 bibliomanisch/~~RJOQRSTqh
 biegemaschine/~~FhE
@@ -168759,7 +168759,7 @@ kornelkirsche/~~FhE
 korporalsstab/~~Nh0HA
 korreferieren/~~hdfijecGn # not a noun: no capitalized form
 korrespondent/~~JOQRSTqhKL # retag: adjective (was ~~Nh)
-korrespondenz/~~NhY
+korrespondenz/~~NhYF
 korridordecke/~~FhE
 kortexbereich/~~NhY0HX
 kortisonschub/~~NhHA
@@ -173053,7 +173053,7 @@ staffelförmig/~~hOQRSTUWJ # retag: adjective, was noun (igerman98 SFX A)
 staffelgiebel/~~NhEH
 staffelhälfte/~~FhE
 staffelläufer/~~NhEKLH
-staffelrennen/~~NhH
+staffelrennen/~~NhHMZ
 staffelsieger/~~NhEKLH
 stahlblitzend/~~hOQRSTJ # retag: adjective, was noun (igerman98 SFX A)
 stahlschlacke/~~FhE
@@ -183418,7 +183418,7 @@ patriziersöhne/~~FhE
 patriziervilla/~~Nh
 patronatsfonds/~~NhA
 patronatskreis/~~NhY0X
-patronatsrecht/~~NhY0HX
+patronatsrecht/~~NhY0HXZ
 patronenfüller/~~NhEH
 patronenhülsen/~~Nh
 patronenkasten/~~NhH
@@ -189850,7 +189850,7 @@ fahrplanbetrieb/~~Nh0HA
 fahrplanentwurf/~~NhHA
 fahrplankonzept/~~NhYHX
 fahrplanperiode/~~FhE
-fahrplanwechsel/~~NhEH
+fahrplanwechsel/~~NhEHMZ
 fahrzeugbezogen/~~NhOQRST # auto-added
 fahrzeugtypisch/~~JOQRSTqh # retag: adjective (was ~~Nh, corpus-mined as noun)
 fairnesswertung/~~FhY
@@ -206540,7 +206540,7 @@ Asien/~~NhH # auto-added compound component
 Europa/~~NhH # auto-added compound component
 Staat/~~MhY0HX # auto-added compound component
 Mitte/~~FhE # auto-added compound component
-Haupt/~~Nh0HA # auto-added compound component
+Haupt/~~Nh0HAMZ # auto-added compound component
 Stadt/~~FhX # auto-added compound component
 System/~~NhYHX # auto-added compound component
 Weg/~~MhXY0H # auto-added compound component
@@ -211743,7 +211743,7 @@ tupfen/~~VdifjecG
 turnen/~~NVdfijecGH # +verb reading (was noun-only)
 unfroh/~~NYE
 ungarn/~~NHA
-verein/~~NY0HX
+verein/~~NY0HXMZ
 verhau/~~NY0H
 verhör/~~NY0HXn
 verruf/~~NY0HX
@@ -211919,7 +211919,7 @@ unieren/~~Vdj
 varieté/~~NYEH
 verdarb/~~sV # retag: preterite stem, was noun (hunspell SFX Z)
 verdeck/~~NY0H78n
-verfall/~~NY0H
+verfall/~~NY0HMZ
 verkauf/~~NY0HnMZ
 verkehr/~~NiY0H78n
 verkehrsknotenpunkt/~~MhYE
@@ -212259,7 +212259,7 @@ vertreten/~~N78OQRSTcx
 vertäfeln/~~Ndfij78eGHnA
 verwaisen/~~Vdifj78ecGn
 verwanzen/~~VdifjecGn
-verwenden/~~N78defijcGHx
+verwenden/~~N78defijcGHxMZ
 verwerten/~~N78defijcGHx
 verwetten/~~NdefijcGHx
 verwiesen/~~JOQRSTqG
@@ -215305,7 +215305,7 @@ spitze/~~NE
 statue/~~NE
 stelle/~~NEJF # +adjective reading (was noun-only)
 stiege/~~NE
-strafe/~~NE
+strafe/~~NEF
 strome/~~NA
 studie/~~NEF
 travée/~~NYE
@@ -216930,7 +216930,7 @@ bedampfungsschicht/~~NY
 begutachtungsfrist/~~NY
 berieselungsanlage/~~NE
 beschallungsanlage/~~NE
-beschneiungsanlage/~~NE
+beschneiungsanlage/~~NEF
 beschriftungsfolie/~~NEF
 biathlonwettkämpfe/~~NE
 bindegewebsmassage/~~NE
@@ -219839,7 +219839,7 @@ docs/~~NYE
 hlrn/~~NYE
 prod/~~NYE
 bsbe/~~NYE
-arts/~~NYE
+arts/~~NYEMZ
 bolt/~~NYE
 fine/~~NYE
 ˈmɪŋ/~~NYE
@@ -220211,7 +220211,7 @@ loehne/~~NYE
 margin/~~NYE
 cfapps/~~NYE
 sector/~~NYE
-people/~~NYE
+people/~~NYEMZ
 rising/~~NYE
 laeuft/~~NYE
 goethe/~~NHA
@@ -220314,7 +220314,7 @@ acatech/~~NYE
 bemühte/~~V # retag: finite verb form, was noun (corpus-mined)
 regelte/~~NE
 cropped/~~NYE
-council/~~NYE
+council/~~NYEMZ
 english/~~NYE
 daimler/~~NH
 äußeren/~~VdifjeG
@@ -220423,7 +220423,7 @@ striped/~~NYE
 lozengy/~~NYE
 stammte/~~NE
 bebaute/~~V # retag: finite verb form, was noun (corpus-mined)
-orpheus/~~NA
+orpheus/~~NAMZ
 praxair/~~NYE
 laenger/~~NYE
 aendern/~~NYE
@@ -220477,7 +220477,7 @@ boroughs/~~NYE
 geprägte/~~NE
 building/~~NYE
 bmwgroup/~~NYE
-sciences/~~NYE
+sciences/~~NYEMZ
 munichen/~~Vj
 behoerde/~~NYE
 insights/~~NYE
@@ -228798,7 +228798,7 @@ Luitpoldinger/~~NHE # igerman98 headword
 Lukaner/~~NKLHE # igerman98 headword
 Lukas/~~NA # igerman98 headword
 Lukaschenko/~~NHA # igerman98 headword
-Lukullus/~~NA # igerman98 headword
+Lukullus/~~NAMZ # igerman98 headword
 Lulatsch/~~NA # igerman98 headword
 Lumberjack/~~NHA # igerman98 headword
 Luminanz/~~NA # igerman98 headword
@@ -229889,7 +229889,7 @@ Nemmersdorf/~~NHA # igerman98 headword
 Nemmersdorfer/~~NKLHE # igerman98 headword
 Nendorp/~~NHA # igerman98 headword
 Neokorporatismus/~~NMA # igerman98 headword
-Neolithikum/~~NHA # igerman98 headword
+Neolithikum/~~NHAMZ # igerman98 headword
 Neologismen/~~N # igerman98 headword
 Neopaganismus/~~NMA # igerman98 headword
 Neoperonismus/~~NMA # igerman98 headword
@@ -231033,7 +231033,7 @@ Pordoljoch/~~NH0A # igerman98 headword
 Porphyr/~~NHXY # igerman98 headword
 Porphyrit/~~NHXY # igerman98 headword
 Porporas/~~NA # igerman98 headword
-Porsche/~~NHA # igerman98 headword
+Porsche/~~NHAMZ # igerman98 headword
 Porta/~~N # igerman98 headword
 Portiken/~~N # igerman98 headword
 Portikus/~~NA # igerman98 headword
@@ -233248,7 +233248,7 @@ Tetschen/~~NHZ # igerman98 headword
 Tettnang/~~NHA # igerman98 headword
 Tetum/~~NA # igerman98 headword
 Teuchern/~~NHA # igerman98 headword
-Teufe/~~NE # igerman98 headword
+Teufe/~~NEF # igerman98 headword
 Teutberg/~~NH0A # igerman98 headword
 Teutschenthal/~~NHA # igerman98 headword
 Teutschenthaler/~~NKLHE # igerman98 headword

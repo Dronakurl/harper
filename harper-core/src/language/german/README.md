@@ -1216,6 +1216,56 @@ and each of them otherwise draws a suggestion list of pure noise. The length cap
 here is six — past that, a stray capital is likelier a typo in a real compound
 than an acronym.
 
+## Gender: how far the corpus oracle actually reaches
+
+The article-cue oracle in `audit_german_gender.py` is sound — it measures 99.4 %
+against an independent reference — and the obvious conclusion, that it only
+needs more text, turns out to be half true. Both halves are worth writing down,
+because the arithmetic decides whether to keep fetching.
+
+**Run against the prose corpus today it finds one entry left to fill.** Those
+886 articles have given everything they can. `fetch_german_bulk.py` exists for
+that reason.
+
+**But random Wikipedia is thin.** Measured: 406 bulk articles yielded 145 new
+genders, about 0.36 per article. Three quarters of the 140 000 noun entries
+carry no gender, so closing that by this route would need something like ninety
+thousand articles, before diminishing returns. The hand-picked prose corpus was
+an order of magnitude denser per article, and there is no more of it.
+
+**Coverage of entries is the wrong number anyway.** What a rule reads is the
+nouns that actually occur, and there the picture is different: **59 % of noun
+occurrences** in the prose corpus have a gender, against 32 % of the distinct
+forms and 26 % of the entries. Measure it token-weighted or the number will
+frighten you off work that is nearly done.
+
+### What switching the narrowing on costs today
+
+Restoring the gender axis in `readings_allowed_by` takes `GermanPrepositionCase`
+from 38 reports to 75 over 19 MB of prose. That is eight times better than the
+last time this was tried — it was 310 — and still not good enough, because all
+37 of the new reports are wrong. Read them and they are two classes of roughly
+equal size:
+
+* **wrong recorded gender**, a dozen words: *Leber*, *Aussprache*, *Angabe*,
+  *Ansage*, *Nummer*, *Schulter*, *Weser* recorded masculine and feminine;
+  *Kloster*, *Gewässer*, *Register* recorded masculine and neuter. Every one is
+  an `-er` or `-e` read as an agent noun, and they are fixed now.
+* **the head-finder reaching across a clause**: *bei der Antrag auf Zulassung
+  gestellt wird*, *ist nach wie vor der Arzt*, *nach der Kinder mit 12 Jahren*.
+  The recorded gender is right in all of these; what is wrong is which noun the
+  rule paired with the determiner. Gender did not cause it, only exposed it.
+
+The second class is the same finding as the noun-phrase subject in
+`GermanSubjectVerbAgreement`: two rules now want a real noun-phrase chunker
+rather than another guard, and that is the next thing worth building.
+
+There is no bulk fix for the first class either. Of the entries recorded
+masculine, 7029 end in `-er` and most of them are correct agent nouns; 49 end in
+`-e` and most of those are weak masculines or plurals. A suffix rule cannot tell
+*Leber* from *Heiler*, which is why the correction list is hand-checked and
+short.
+
 ## The fused spellings the reform allows
 
 *in Frage* / *infrage*, *mit Hilfe* / *mithilfe*, *auf Grund* / *aufgrund*. Both

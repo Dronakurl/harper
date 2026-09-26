@@ -142,4 +142,55 @@ mod tests {
     fn the_axis_is_still_incomplete() {
         assert!(gender("Zaun").is_empty(), "{:?}", gender("Zaun"));
     }
+
+    /// The genders that switching the narrowing on exposed.
+    ///
+    /// Turning gender back on in `readings_allowed_by` took the prose corpus
+    /// from 38 reports to 75, and the extra 37 came from barely a dozen words.
+    /// Half of them were plain data errors, listed here; the other half were
+    /// the head-finder reaching across a clause, which gender only made
+    /// visible.
+    ///
+    /// Every one is an `-er` or an `-e` that was read as an agent noun, which
+    /// is the same mistake the file's first test is about.
+    #[test]
+    fn the_genders_the_narrowing_exposed() {
+        for word in [
+            "Leber",
+            "Aussprache",
+            "Angabe",
+            "Ansage",
+            "Nummer",
+            "Schulter",
+        ] {
+            assert_eq!(
+                gender(word),
+                GenderSet::FEMININE,
+                "{word} is feminine; it was recorded masculine"
+            );
+        }
+        for word in ["Kloster", "Gewässer", "Register"] {
+            assert_eq!(
+                gender(word),
+                GenderSet::NEUTER,
+                "{word} is neuter; it was recorded masculine"
+            );
+        }
+    }
+
+    /// Two the corpus itself caught once it had enough text, and two it had
+    /// recorded the wrong way round.
+    #[test]
+    fn the_corpus_caught_these_itself() {
+        assert_eq!(gender("Atelier"), GenderSet::NEUTER);
+        assert_eq!(gender("Oper"), GenderSet::FEMININE);
+        assert_eq!(gender("Smartphone"), GenderSet::NEUTER);
+        assert_eq!(gender("Aufschwung"), GenderSet::MASCULINE);
+    }
+
+    /// The river, not an agent noun.
+    #[test]
+    fn a_river_name_is_not_an_agent_noun() {
+        assert_eq!(gender("Weser"), GenderSet::FEMININE);
+    }
 }
