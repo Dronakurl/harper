@@ -28,11 +28,15 @@ strum = "0.28.0"
 strum_macros = "0.28.0"
 harper-ink = { version = "2.0.0", path = "../harper-ink" }
 enum_dispatch = "0.3.13"
+harper-plugin-api = { path = "../harper-plugin-api", version = "2.0.0", features = ["core"], optional = true }
+harper-plugin-host = { path = "../harper-plugin-host", version = "2.0.0", optional = true }
 yansi = "1.0.1"
 
 [dev-dependencies]
 tempfile = "3"
 
 [features]
-default = []
+default = ["plugins"]
+# Language plugins (WebAssembly modules, see LANGUAGE_PLUGINS_PLAN.md). Pulls in wasmtime.
+plugins = ["dep:harper-plugin-host", "dep:harper-plugin-api"]
 training = ["harper-pos-utils/training"]

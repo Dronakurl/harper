@@ -33,6 +33,7 @@ mod input;
 mod lint;
 mod lint_engine;
 mod lint_reporter;
+mod plugin;
 
 use crate::lint::{OutputFormat, lint};
 
@@ -57,6 +58,9 @@ struct Cli {
 
 #[derive(clap::Subcommand)]
 enum Args {
+    /// Manage language plugins.
+    #[command(subcommand)]
+    Plugin(plugin::PluginCommand),
     /// Lint provided documents.
     Lint {
         /// The text or file you wish to grammar check. If not provided, it will be read from
@@ -86,6 +90,13 @@ enum Args {
         /// Path to the directory for file-local dictionaries.
         #[arg(short, long, default_value = data_local_dir().unwrap().join("harper-ls/file_dictionaries/").into_os_string(), value_hint = ValueHint::FilePath)]
         file_dict_path: PathBuf,
+        /// Check text in another language, using the plugin `harper-<LANGUAGE>.wasm` from the
+        /// plugin directory (see `harper-cli plugin list`). The default, `en`, is built in.
+        #[arg(long, value_name = "LANGUAGE")]
+        language: Option<String>,
+        /// Path to a language plugin (`.wasm`) to use instead of looking one up by language.
+        #[arg(long, value_name = "PLUGIN", value_hint = ValueHint::FilePath)]
+        plugin: Option<PathBuf>,
         /// Path to a Weirpack file to load. May be supplied multiple times.
         #[arg(long, value_name = "WEIRPACK")]
         weirpacks: Vec<SingleInput>,
@@ -261,6 +272,8 @@ fn main() -> anyhow::Result<()> {
             dialect: dialect_str,
             user_dict_path,
             file_dict_path,
+            language,
+            plugin,
             weirpacks,
             format,
             quiet,
@@ -268,6 +281,8 @@ fn main() -> anyhow::Result<()> {
         } => {
             let dialect = parse_dialect(&dialect_str)
                 .map_err(|e| anyhow!("Invalid dialect '{}': {}", dialect_str, e))?;
+
+            let plugin = plugin::PluginLinter::load(language.as_deref(), plugin.as_deref())?;
 
             lint(
                 markdown_options,
@@ -280,6 +295,7 @@ fn main() -> anyhow::Result<()> {
                     keep_overlapping_lints,
                     dialect,
                     weirpack_inputs: weirpacks,
+                    plugin,
                     color,
                     format,
                     quiet,
@@ -290,6 +306,7 @@ fn main() -> anyhow::Result<()> {
                 file_dict_path,
             )
         }
+        Args::Plugin(command) => plugin::run(command),
         Args::Parse { input } => {
             // Try to read from standard input if `input` was not provided.
             let input = input.unwrap_or_read_from_stdin();

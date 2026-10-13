@@ -18,6 +18,7 @@ use crate::{
         file_dict_name, load_dict,
     },
     lint_reporter::{char_index_to_line_col, single_input_report},
+    plugin::format_for_path,
 };
 
 #[allow(clippy::too_many_arguments)]
@@ -42,6 +43,7 @@ pub fn lint_one_input(
         keep_overlapping_lints,
         dialect,
         weirpack_inputs: _,
+        plugin,
         color: _,
         format: _,
         quiet: _,
@@ -84,19 +86,32 @@ pub fn lint_one_input(
                 }
             }
             Ok((doc, source)) => {
-                // Create the Lint Group from which we will lint this input, using the combined dictionary and the specified dialect
-                let mut lint_group = LintGroup::new_curated(merged_dictionary.into(), *dialect);
-
-                for pack in weirpacks {
-                    let pack_group = pack.to_lint_group()?;
-                    lint_group.merge_from(pack_group);
-                }
-
-                // Turn specified rules on or off
-                configure_lint_group(&mut lint_group, only, ignore);
-
                 // Run the linter, getting back a map of rule name -> lints
-                let mut named_lints = lint_group.organized_lints(&doc);
+                let mut named_lints = match plugin {
+                    Some(plugin) => {
+                        let format = format_for_path(
+                            single_input.try_as_file_ref().map(|f| f.path().as_ref()),
+                        );
+                        let mut lints = plugin.organized_lints(&doc.get_full_string(), format)?;
+                        filter_rules(&mut lints, only, ignore);
+                        lints
+                    }
+                    None => {
+                        // Create the Lint Group from which we will lint this input, using the combined dictionary and the specified dialect
+                        let mut lint_group =
+                            LintGroup::new_curated(merged_dictionary.into(), *dialect);
+
+                        for pack in weirpacks {
+                            let pack_group = pack.to_lint_group()?;
+                            lint_group.merge_from(pack_group);
+                        }
+
+                        // Turn specified rules on or off
+                        configure_lint_group(&mut lint_group, only, ignore);
+
+                        lint_group.organized_lints(&doc)
+                    }
+                };
 
                 // Lint counts, for brief reporting
                 let lint_count_before = named_lints.values().map(|v| v.len()).sum::<usize>();
@@ -178,6 +193,18 @@ pub fn lint_one_input(
         spellos,
         json,
     })
+}
+
+/// `--only` and `--ignore` for plugin languages, whose rules are not known up front.
+fn filter_rules(
+    lints: &mut BTreeMap<String, Vec<Lint>>,
+    only: &Option<Vec<String>>,
+    ignore: &Option<Vec<String>>,
+) {
+    lints.retain(|rule, _| {
+        only.as_ref().is_none_or(|o| o.contains(rule))
+            && !ignore.as_ref().is_some_and(|i| i.contains(rule))
+    });
 }
 
 fn configure_lint_group(

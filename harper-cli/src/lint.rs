@@ -24,6 +24,7 @@ use crate::input::{
     single_input::{SingleInput, StdinInput},
 };
 use crate::lint_engine::lint_one_input;
+use crate::plugin::PluginLinter;
 
 /// Sync version of harper_dictionary_wordlist::load_dict.
 pub fn load_dict(path: &Path) -> anyhow::Result<MutableDictionary> {
@@ -91,6 +92,8 @@ pub struct LintOptions {
     pub keep_overlapping_lints: bool,
     pub dialect: Dialect,
     pub weirpack_inputs: Vec<SingleInput>,
+    /// When set, this plugin lints instead of the built-in English rules.
+    pub plugin: Option<PluginLinter>,
     pub color: bool,
     pub format: OutputFormat,
     pub quiet: bool,
@@ -205,7 +208,10 @@ pub fn lint(
         }
     }
 
-    if let Some(only) = only {
+    // A plugin has its own rule names, which are checked against its output instead.
+    let is_plugin = lint_options.plugin.is_some();
+
+    if let Some(only) = only.as_mut().filter(|_| !is_plugin) {
         only.retain(|rule| {
             if !config.has_rule(rule) {
                 eprintln!("Warning: Cannot enable unknown rule '{}'.", rule);
@@ -215,7 +221,7 @@ pub fn lint(
         });
     }
 
-    if let Some(ignore) = ignore {
+    if let Some(ignore) = ignore.as_mut().filter(|_| !is_plugin) {
         ignore.retain(|rule| {
             if !config.has_rule(rule) {
                 eprintln!("Warning: Cannot disable unknown rule '{}'.", rule);
@@ -231,6 +237,10 @@ pub fn lint(
 
     let user_dict_msg = match load_dict(&user_dict_path) {
         Ok(user_dict) => {
+            if let Some(plugin) = &lint_options.plugin {
+                plugin
+                    .set_user_words(user_dict.words_iter().map(|w| w.iter().collect()).collect())?;
+            }
             curated_plus_user_dict.add_dictionary(Arc::new(user_dict));
             "Using"
         }

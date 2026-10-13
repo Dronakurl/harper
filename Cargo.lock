@@ -2849,6 +2849,8 @@ dependencies = [
  "harper-core",
  "harper-ink",
  "harper-literate-haskell",
+ "harper-plugin-api",
+ "harper-plugin-host",
  "harper-pos-utils",
  "harper-python",
  "harper-stats",
