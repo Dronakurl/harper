@@ -144,3 +144,16 @@ fn discovers_wasm_files_only() {
     assert!(discover(&dir.join("missing")).is_empty());
     let _ = std::fs::remove_dir_all(&dir);
 }
+
+#[test]
+fn config_switches_rules_off() {
+    let Some(path) = echo() else { return };
+    let plugin = PluginHost::new().unwrap().load_file(&path).unwrap();
+    let mut req = LintRequest::plain("teh cat cat");
+    assert_eq!(plugin.lint(&req).unwrap().len(), 2);
+
+    req.config = Some([("Repeat".to_owned(), Some(false))].into());
+    let lints = plugin.lint(&req).unwrap();
+    assert_eq!(lints.len(), 1);
+    assert_eq!(lints[0].rule, "Teh");
+}

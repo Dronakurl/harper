@@ -35,6 +35,12 @@ impl LanguagePlugin for Echo {
     }
 
     fn lint(&mut self, req: LintRequest) -> Vec<PluginLint> {
+        let enabled = |rule: &str| {
+            req.config
+                .as_ref()
+                .and_then(|c| c.get(rule).copied().flatten())
+                .unwrap_or(true)
+        };
         let chars: Vec<char> = req.text.chars().collect();
         let mut lints = Vec::new();
         let mut prev: Option<(usize, usize, String)> = None;
@@ -50,7 +56,7 @@ impl LanguagePlugin for Echo {
             }
             let word: String = chars[start..i].iter().collect();
             let lower = word.to_lowercase();
-            if lower == "teh" && !self.user_words.contains(&word) {
+            if enabled("Teh") && lower == "teh" && !self.user_words.contains(&word) {
                 lints.push(PluginLint {
                     span: (start, i),
                     rule: "Teh".into(),
@@ -62,6 +68,7 @@ impl LanguagePlugin for Echo {
             }
             if let Some((ps, _, pw)) = &prev
                 && *pw == lower
+                && enabled("Repeat")
             {
                 lints.push(PluginLint {
                     span: (*ps, i),

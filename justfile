@@ -109,6 +109,13 @@ test-harperjs: build-harperjs
   set -eo pipefail
 
   pnpm install
+
+  # A small language plugin that PluginLinter.test.ts loads.
+  cargo build --release -p harper-plugin-api --example echo --target wasm32-unknown-unknown
+  mkdir -p "{{justfile_directory()}}/packages/harper.js/test-fixtures"
+  cp "{{justfile_directory()}}/target/wasm32-unknown-unknown/release/examples/echo.wasm" \
+    "{{justfile_directory()}}/packages/harper.js/test-fixtures/echo.wasm"
+
   cd "{{justfile_directory()}}/packages/harper.js"
   pnpm playwright install
   pnpm test
