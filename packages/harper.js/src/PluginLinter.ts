@@ -212,7 +212,12 @@ class PluginLintObject {
 	}
 
 	span(): Span {
-		return { ...this.jsSpan, len: () => this.jsSpan.end - this.jsSpan.start } as unknown as Span;
+		return {
+			...this.jsSpan,
+			len: () => this.jsSpan.end - this.jsSpan.start,
+			is_empty: () => this.jsSpan.end === this.jsSpan.start,
+			free: () => {},
+		} as unknown as Span;
 	}
 
 	get_problem_text(): string {
@@ -284,6 +289,12 @@ export default class PluginLinter implements Linter {
 
 	async setup(): Promise<void> {
 		await this.runtimePromise;
+	}
+
+	/** How sure the plugin is that `text` is written in its language, 0 to 1, or `null` if it
+	 * cannot tell. Cheap: it does not make the plugin build its dictionary. */
+	async detect(text: string): Promise<number | null> {
+		return (await this.runtimePromise).call<number | null>('detect', { text });
 	}
 
 	private async runLint(text: string, options?: LintOptions): Promise<PluginLintObject[]> {

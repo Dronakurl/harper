@@ -33,6 +33,8 @@ describe('PluginLinter', () => {
 		const linter = new PluginLinter({ plugin: bytes });
 		const [lint] = await linter.lint('Teh cat sat.', { language: 'plaintext' });
 
+		const span = lint.span();
+		span.free();
 		expect(lint.span().start).toBe(0);
 		expect(lint.span().end).toBe(3);
 		expect(lint.get_problem_text()).toBe('Teh');
@@ -95,6 +97,12 @@ describe('PluginLinter', () => {
 		const other = new PluginLinter({ plugin: bytes });
 		await other.importIgnoredLints(exported);
 		expect(await other.lint(text, { language: 'plaintext' })).toHaveLength(0);
+	});
+
+	test('says how sure it is about a text', async () => {
+		const linter = new PluginLinter({ plugin: bytes });
+		expect(await linter.detect('this is teh text')).toBeGreaterThan(0.5);
+		expect(await linter.detect('nothing to see')).toBeNull();
 	});
 
 	test('rejects things that are not plugins', async () => {

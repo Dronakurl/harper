@@ -3,10 +3,12 @@ import { Button, Card, Input, Select, Textarea } from 'components';
 import {
 	Dialect,
 	type LintConfig,
+	PluginLinter,
 	type StructuredLintConfig,
 	type StructuredLintSetting,
 } from 'harper.js';
 import logo from '/logo.png';
+import { type InstalledPlugin, removePlugin, savePlugin } from '../pluginStore';
 import ProtocolClient from '../ProtocolClient';
 import type { Hotkey, Modifier, WeirpackMeta } from '../protocol';
 import { ActivationKey } from '../protocol';
@@ -31,6 +33,79 @@ let anyRulesEnabled = $derived(Object.values(lintConfig ?? {}).some((value) => v
 let weirpacks: WeirpackMeta[] = $state([]);
 let weirpackBusy = $state(false);
 let weirpackError = $state('');
+let language = $state('en');
+let installedLanguages: InstalledPlugin[] = $state([]);
+let languageBusy = $state(false);
+let languageError = $state('');
+
+async function reloadRules() {
+	const [nextLintConfig, nextStructuredConfig, nextLintDescriptions] = await Promise.all([
+		ProtocolClient.getLintConfig(),
+		ProtocolClient.getStructuredLintConfig(),
+		ProtocolClient.getLintDescriptions(),
+	]);
+	lintConfig = nextLintConfig;
+	structuredLintConfig = nextStructuredConfig;
+	lintDescriptions = nextLintDescriptions;
+}
+
+async function changeLanguage(next: string) {
+	languageBusy = true;
+	languageError = '';
+	try {
+		await ProtocolClient.setLanguage(next);
+		const state = await ProtocolClient.getLanguage();
+		language = state.language;
+		installedLanguages = state.installed;
+		await reloadRules();
+	} catch (e) {
+		languageError = e instanceof Error ? e.message : String(e);
+	} finally {
+		languageBusy = false;
+	}
+}
+
+async function addLanguage(e: Event) {
+	const input = e.target as HTMLInputElement;
+	const file = input.files?.[0];
+	if (file == null) return;
+
+	languageBusy = true;
+	languageError = '';
+	try {
+		const bytes = await file.arrayBuffer();
+		// Loading it is the check: it must be a Harper plugin of a version this Harper speaks.
+		const probe = new PluginLinter({ plugin: bytes });
+		const info = await probe.info();
+		await savePlugin(
+			{ id: info.id, name: info.name, version: info.plugin_version },
+			bytes,
+		);
+		installedLanguages = (await ProtocolClient.getLanguage()).installed;
+		input.value = '';
+		await changeLanguage(info.id);
+	} catch (err) {
+		languageError = `That is not a usable language plugin: ${err instanceof Error ? err.message : String(err)}`;
+	} finally {
+		languageBusy = false;
+	}
+}
+
+async function deleteLanguage(id: string) {
+	languageBusy = true;
+	try {
+		await removePlugin(id);
+		if (language === id) {
+			await ProtocolClient.setLanguage('en');
+			await reloadRules();
+		}
+		const state = await ProtocolClient.getLanguage();
+		language = state.language;
+		installedLanguages = state.installed;
+	} finally {
+		languageBusy = false;
+	}
+}
 
 $effect(() => {
 	ProtocolClient.setLintConfig($state.snapshot(lintConfig));
@@ -66,6 +141,11 @@ Promise.all([
 	lintConfig = nextLintConfig;
 	structuredLintConfig = nextStructuredConfig;
 	lintDescriptions = nextLintDescriptions;
+});
+
+ProtocolClient.getLanguage().then((state) => {
+	language = state.language;
+	installedLanguages = state.installed;
 });
 
 ProtocolClient.getDialect().then((d) => {
@@ -348,6 +428,63 @@ async function removeWeirpack(id: string) {
       <div class="flex flex-col">
         <h1 class="text-base tracking-wide font-serif">Harper</h1>
         <p class="text-xs">Settings</p>
+      </div>
+    </Card>
+
+    <!-- ── LANGUAGE ──────────────────────────── -->
+    <Card class="space-y-4">
+      <h2 class="pb-1 text-xs uppercase tracking-wider">Language</h2>
+
+      <div class="flex items-center justify-between">
+        <div class="flex flex-col">
+          <h3 class="text-sm">Language to check</h3>
+          <p class="text-xs text-gray-600 dark:text-gray-400">
+            English is built in. Other languages are plugins you add below.
+          </p>
+        </div>
+        <Select
+          size="sm"
+          class="w-44"
+          value={language}
+          disabled={languageBusy}
+          on:change={(e) => changeLanguage((e.detail.target as HTMLSelectElement).value)}
+        >
+          <option value="en">English</option>
+          {#each installedLanguages as plugin}
+            <option value={plugin.id}>{plugin.name}</option>
+          {/each}
+        </Select>
+      </div>
+
+      {#each installedLanguages as plugin}
+        <div class="flex items-center justify-between text-sm">
+          <span>
+            {plugin.name} <span class="text-xs text-gray-600 dark:text-gray-400">
+              ({plugin.id}, version {plugin.version}, {(plugin.size / 1_000_000).toFixed(0)} MB)
+            </span>
+          </span>
+          <Button size="xs" color="light" disabled={languageBusy} on:click={() => deleteLanguage(plugin.id)}>
+            Remove
+          </Button>
+        </div>
+      {/each}
+
+      <div class="space-y-1">
+        <label class="text-sm" for="language-plugin-file">Add a language plugin</label>
+        <input
+          id="language-plugin-file"
+          type="file"
+          accept=".wasm"
+          disabled={languageBusy}
+          onchange={addLanguage}
+        />
+        <p class="text-xs text-gray-600 dark:text-gray-400">
+          A file such as <code>harper-de.wasm</code>. It stays in this browser and runs locally;
+          your text is never sent anywhere.
+        </p>
+        {#if languageError}
+          <p class="text-xs text-red-600">{languageError}</p>
+        {/if}
       </div>
     </Card>
 
