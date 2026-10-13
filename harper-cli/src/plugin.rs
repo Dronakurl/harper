@@ -56,12 +56,13 @@ mod imp {
         pub fn load(language: Option<&str>, path: Option<&Path>) -> Result<Option<Self>> {
             let path = match (path, language) {
                 (Some(p), _) => p.to_path_buf(),
-                (None, Some(l)) if l != "en" => plugin_path(l)?,
+                (None, Some(l)) if l != "en" && l != "auto" => plugin_path(l)?,
                 _ => return Ok(None),
             };
             let plugin = load_file(&path)?;
             if let Some(l) = language
                 && l != "en"
+                && l != "auto"
                 && plugin.info().id != l
             {
                 bail!(
@@ -73,6 +74,37 @@ mod imp {
             Ok(Some(Self {
                 plugin: Arc::new(plugin),
             }))
+        }
+
+        /// Every plugin in the plugin directory, for `--language auto`.
+        pub fn load_all() -> Result<Vec<Self>> {
+            let mut all = Vec::new();
+            for path in discover(&plugin_dir()?) {
+                match load_file(&path) {
+                    Ok(plugin) => all.push(Self {
+                        plugin: Arc::new(plugin),
+                    }),
+                    Err(err) => eprintln!("Warning: skipping {}: {err:#}", path.display()),
+                }
+            }
+            Ok(all)
+        }
+
+        /// How sure the plugin is that `text` is in its language (0 to 1).
+        pub fn confidence(&self, text: &str) -> f32 {
+            // The start of a document says enough.
+            let sample: String = text.chars().take(4000).collect();
+            self.plugin.detect(&sample).ok().flatten().unwrap_or(0.0)
+        }
+
+        /// The most confident of `plugins` for `text`, if any is at least 50 % sure.
+        pub fn best_for<'a>(plugins: &'a [Self], text: &str) -> Option<&'a Self> {
+            plugins
+                .iter()
+                .map(|p| (p, p.confidence(text)))
+                .filter(|(_, c)| *c >= 0.5)
+                .max_by(|a, b| a.1.total_cmp(&b.1))
+                .map(|(p, _)| p)
         }
 
         pub fn set_user_words(&self, words: Vec<String>) -> Result<()> {
@@ -187,10 +219,18 @@ mod stub {
 
     impl PluginLinter {
         pub fn load(language: Option<&str>, path: Option<&Path>) -> Result<Option<Self>> {
-            if path.is_some() || language.is_some_and(|l| l != "en") {
+            if path.is_some() || language.is_some_and(|l| l != "en" && l != "auto") {
                 anyhow::bail!("this build of harper-cli does not support language plugins");
             }
             Ok(None)
+        }
+
+        pub fn load_all() -> Result<Vec<Self>> {
+            Ok(Vec::new())
+        }
+
+        pub fn best_for<'a>(_plugins: &'a [Self], _text: &str) -> Option<&'a Self> {
+            None
         }
 
         pub fn set_user_words(&self, _words: Vec<String>) -> Result<()> {

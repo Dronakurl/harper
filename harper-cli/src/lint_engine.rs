@@ -18,7 +18,7 @@ use crate::{
         file_dict_name, load_dict,
     },
     lint_reporter::{char_index_to_line_col, single_input_report},
-    plugin::format_for_path,
+    plugin::{PluginLinter, format_for_path},
 };
 
 #[allow(clippy::too_many_arguments)]
@@ -44,6 +44,7 @@ pub fn lint_one_input(
         dialect,
         weirpack_inputs: _,
         plugin,
+        auto_plugins,
         color: _,
         format: _,
         quiet: _,
@@ -87,6 +88,11 @@ pub fn lint_one_input(
             }
             Ok((doc, source)) => {
                 // Run the linter, getting back a map of rule name -> lints
+                // `--language auto`: the plugin that recognizes this input, else English.
+                let plugin = match plugin {
+                    Some(plugin) => Some(plugin),
+                    None => PluginLinter::best_for(auto_plugins, &doc.get_full_string()),
+                };
                 let mut named_lints = match plugin {
                     Some(plugin) => {
                         let format = format_for_path(

@@ -94,6 +94,8 @@ pub struct LintOptions {
     pub weirpack_inputs: Vec<SingleInput>,
     /// When set, this plugin lints instead of the built-in English rules.
     pub plugin: Option<PluginLinter>,
+    /// With `--language auto`: the installed plugins, one of which may be chosen per input.
+    pub auto_plugins: Vec<PluginLinter>,
     pub color: bool,
     pub format: OutputFormat,
     pub quiet: bool,
@@ -209,7 +211,7 @@ pub fn lint(
     }
 
     // A plugin has its own rule names, which are checked against its output instead.
-    let is_plugin = lint_options.plugin.is_some();
+    let is_plugin = lint_options.plugin.is_some() || !lint_options.auto_plugins.is_empty();
 
     if let Some(only) = only.as_mut().filter(|_| !is_plugin) {
         only.retain(|rule| {
@@ -237,7 +239,7 @@ pub fn lint(
 
     let user_dict_msg = match load_dict(&user_dict_path) {
         Ok(user_dict) => {
-            if let Some(plugin) = &lint_options.plugin {
+            for plugin in lint_options.plugin.iter().chain(&lint_options.auto_plugins) {
                 plugin
                     .set_user_words(user_dict.words_iter().map(|w| w.iter().collect()).collect())?;
             }

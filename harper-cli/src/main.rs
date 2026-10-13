@@ -92,6 +92,8 @@ enum Args {
         file_dict_path: PathBuf,
         /// Check text in another language, using the plugin `harper-<LANGUAGE>.wasm` from the
         /// plugin directory (see `harper-cli plugin list`). The default, `en`, is built in.
+        /// `auto` picks, for each input, the installed plugin that recognizes its language,
+        /// and English if none does.
         #[arg(long, value_name = "LANGUAGE")]
         language: Option<String>,
         /// Path to a language plugin (`.wasm`) to use instead of looking one up by language.
@@ -282,6 +284,11 @@ fn main() -> anyhow::Result<()> {
             let dialect = parse_dialect(&dialect_str)
                 .map_err(|e| anyhow!("Invalid dialect '{}': {}", dialect_str, e))?;
 
+            let auto_plugins = if language.as_deref() == Some("auto") && plugin.is_none() {
+                plugin::PluginLinter::load_all()?
+            } else {
+                Vec::new()
+            };
             let plugin = plugin::PluginLinter::load(language.as_deref(), plugin.as_deref())?;
 
             lint(
@@ -296,6 +303,7 @@ fn main() -> anyhow::Result<()> {
                     dialect,
                     weirpack_inputs: weirpacks,
                     plugin,
+                    auto_plugins,
                     color,
                     format,
                     quiet,
