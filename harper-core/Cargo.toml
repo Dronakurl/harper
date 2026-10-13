@@ -57,3 +57,5 @@ harness = false
 default = ["thesaurus", "concurrent"]
 concurrent = ["dep:boxcar"]
 thesaurus = ["dep:harper-thesaurus"]
+# Inflectional features (case, gender, ...) on dictionary entries, for languages other than English.
+morphology = []

@@ -16,9 +16,11 @@ mod indefinite_article;
 mod irregular_nouns;
 mod irregular_verbs;
 pub mod language_detection;
-mod lexing;
+pub mod lexing;
 pub mod linting;
 mod mask;
+#[cfg(feature = "morphology")]
+pub mod morphology;
 mod number;
 mod offsets;
 pub mod parsers;
