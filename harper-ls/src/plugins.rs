@@ -14,6 +14,33 @@ pub fn plugin_format(language_id: &str) -> Option<&'static str> {
     }
 }
 
+/// Below this many words the language of a document is not guessed.
+const MIN_WORDS_FOR_LANGUAGE_DETECTION: usize = 10;
+
+/// The language to check a document in: the configured one, or for `auto` the language of the
+/// text, once there is enough of it to tell (earlier: whatever it was before, else English).
+/// Only prose is looked at; source code stays English unless a language is configured.
+pub fn choose_language(
+    plugins: &PluginRegistry,
+    configured: &str,
+    language_id: Option<&str>,
+    text: &str,
+    previous: Option<String>,
+    plugin_dir: &std::path::Path,
+) -> String {
+    if configured != "auto" {
+        return configured.to_owned();
+    }
+
+    let is_prose = language_id.is_some_and(|id| plugin_format(id).is_some());
+    if is_prose && text.split_whitespace().count() >= MIN_WORDS_FOR_LANGUAGE_DETECTION {
+        return plugins
+            .detect(text, plugin_dir)
+            .unwrap_or_else(|| "en".to_owned());
+    }
+    previous.unwrap_or_else(|| "en".to_owned())
+}
+
 #[cfg(feature = "plugins")]
 mod imp {
     use std::collections::{BTreeMap, HashMap, HashSet};
@@ -107,6 +134,26 @@ mod imp {
             }
         }
 
+        /// Which installed plugin recognizes `text` as its language, if any: the one that is
+        /// surest, and at least 50 % sure. Loads the plugins in `dir` (once; they are kept), but
+        /// asking does not make them build their dictionaries.
+        pub fn detect(&self, text: &str, dir: &Path) -> Option<String> {
+            // The start of a document says enough, and keeps this cheap on every edit.
+            let sample: String = text.chars().take(4000).collect();
+
+            harper_plugin_host::discover(dir)
+                .into_iter()
+                .filter_map(|path| {
+                    let name = path.file_stem()?.to_str()?;
+                    let id = name.strip_prefix("harper-")?.to_owned();
+                    let plugin = self.load(&id, dir)?;
+                    let confidence = plugin.detect(&sample).ok().flatten()?;
+                    (confidence >= 0.5).then_some((id, confidence))
+                })
+                .max_by(|a, b| a.1.total_cmp(&b.1))
+                .map(|(id, _)| id)
+        }
+
         pub fn linter_for(
             &self,
             language: &str,
@@ -125,6 +172,7 @@ mod imp {
                 format,
                 config,
                 user_words,
+                regions: None,
             })
         }
     }
@@ -136,9 +184,17 @@ mod imp {
         format: &'static str,
         config: PluginConfig,
         user_words: Vec<String>,
+        /// When set, only these character ranges are linted (code comments).
+        regions: Option<Vec<(usize, usize)>>,
     }
 
     impl PluginLinter {
+        /// Lint only the given `(start, end)` character ranges of the document, as plain text.
+        pub fn with_regions(mut self, regions: Vec<(usize, usize)>) -> Self {
+            self.regions = Some(regions);
+            self
+        }
+
         /// Lints grouped by the rule that produced them, like `LintGroup::organized_lints`.
         pub fn organized_lints(&self, text: &str) -> BTreeMap<String, Vec<Lint>> {
             let mut out = BTreeMap::<String, Vec<Lint>>::new();
@@ -151,6 +207,21 @@ mod imp {
             let mut req = LintRequest::plain(text);
             req.format = self.format.to_owned();
             req.config = Some(self.config.clone());
+            if let Some(regions) = &self.regions {
+                if regions.is_empty() {
+                    return out;
+                }
+                req.regions = Some(
+                    regions
+                        .iter()
+                        .map(|&(start, end)| harper_plugin_api::Region {
+                            start,
+                            end,
+                            format: "plain".to_owned(),
+                        })
+                        .collect(),
+                );
+            }
 
             match self.plugin.lint(&req) {
                 Ok(lints) => {
@@ -188,6 +259,10 @@ mod stub {
 
         pub fn retry_failed(&self) {}
 
+        pub fn detect(&self, _text: &str, _dir: &Path) -> Option<String> {
+            None
+        }
+
         pub fn linter_for(
             &self,
             language: &str,
@@ -207,6 +282,10 @@ mod stub {
     pub struct PluginLinter;
 
     impl PluginLinter {
+        pub fn with_regions(self, _regions: Vec<(usize, usize)>) -> Self {
+            self
+        }
+
         pub fn organized_lints(&self, _text: &str) -> BTreeMap<String, Vec<Lint>> {
             BTreeMap::new()
         }
@@ -276,6 +355,82 @@ mod tests {
             plugin: Some(plugin),
             ..Default::default()
         })
+    }
+
+    const GERMANISH: &str = "teh cat sat on teh mat and teh dog sat on teh rug today ok";
+
+    #[test]
+    fn auto_picks_the_plugin_that_recognizes_the_text() {
+        let Some(dir) = install_echo() else { return };
+        let registry = PluginRegistry::new();
+        let pick = |configured: &str, id: &str, text: &str, previous: Option<&str>| {
+            choose_language(
+                &registry,
+                configured,
+                Some(id),
+                text,
+                previous.map(str::to_owned),
+                &dir,
+            )
+        };
+
+        // Recognized prose.
+        assert_eq!(pick("auto", "markdown", GERMANISH, None), "xx");
+        // Prose that no plugin recognizes is English.
+        assert_eq!(
+            pick(
+                "auto",
+                "markdown",
+                "this is plainly some other text of ten words",
+                None
+            ),
+            "en"
+        );
+        // Too short to tell: keep what it was.
+        assert_eq!(pick("auto", "markdown", "teh cat", Some("xx")), "xx");
+        assert_eq!(pick("auto", "markdown", "teh cat", None), "en");
+        // Source code is not guessed at.
+        assert_eq!(pick("auto", "rust", GERMANISH, None), "en");
+        // An explicit choice wins.
+        assert_eq!(pick("en", "markdown", GERMANISH, None), "en");
+        assert_eq!(pick("xx", "markdown", "hello", None), "xx");
+
+        let _ = std::fs::remove_dir_all(dir);
+    }
+
+    #[test]
+    fn detect_without_plugins_finds_nothing() {
+        let registry = PluginRegistry::new();
+        assert_eq!(
+            registry.detect(GERMANISH, Path::new("/nonexistent-harper-dir")),
+            None
+        );
+    }
+
+    #[test]
+    fn comments_are_linted_as_regions() {
+        let Some(dir) = install_echo() else { return };
+        let registry = PluginRegistry::new();
+        let text = "teh code teh // teh comment\n";
+        let plugin = registry
+            .linter_for("xx", &dir, "plain", &FlatConfig::default(), vec![])
+            .unwrap()
+            .with_regions(vec![(14, 27)]);
+
+        let lints = plugin.organized_lints(text);
+        let spans: Vec<_> = lints
+            .values()
+            .flatten()
+            .map(|l| (l.span.start, l.span.end))
+            .collect();
+        assert_eq!(spans, vec![(16, 19)]);
+
+        let none = registry
+            .linter_for("xx", &dir, "plain", &FlatConfig::default(), vec![])
+            .unwrap()
+            .with_regions(vec![]);
+        assert!(none.organized_lints(text).is_empty());
+        let _ = std::fs::remove_dir_all(dir);
     }
 
     #[test]

@@ -75,8 +75,9 @@ pub struct Config {
     pub isolate_english: bool,
     pub markdown_options: MarkdownOptions,
     pub dialect: Dialect,
-    /// The language to check, as a plugin id (`"de"`). `"en"` is built in; anything else needs
-    /// a plugin file `harper-<language>.wasm` in `plugin_dir`.
+    /// The language to check: `"en"` (built in), a plugin id such as `"de"` (needs a plugin file
+    /// `harper-<language>.wasm` in `plugin_dir`), or `"auto"`, the default, which picks an installed
+    /// plugin whose language the text is written in, and English otherwise.
     pub language: String,
     pub plugin_dir: PathBuf,
     /// Maximum length (in bytes) a file can have before it's skipped.
@@ -258,7 +259,7 @@ impl Default for Config {
             isolate_english: false,
             markdown_options: MarkdownOptions::default(),
             dialect: Dialect::American,
-            language: "en".to_owned(),
+            language: "auto".to_owned(),
             plugin_dir: config_dir().unwrap().join("harper/plugins"),
             max_file_length: 120_000,
             exclude_patterns: GlobSet::empty(),
@@ -274,8 +275,8 @@ mod tests {
     use super::Config;
 
     #[test]
-    fn language_defaults_to_english_and_validates() {
-        assert_eq!(Config::default().language, "en");
+    fn language_defaults_to_auto_and_validates() {
+        assert_eq!(Config::default().language, "auto");
 
         let ok = Config::from_lsp_config(
             std::path::Path::new("."),

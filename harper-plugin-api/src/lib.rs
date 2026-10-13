@@ -31,8 +31,9 @@ pub trait LanguagePlugin: Sized + 'static {
     fn lint_descriptions(&self) -> std::collections::BTreeMap<String, String>;
     fn default_config(&self) -> PluginConfig;
     fn set_user_words(&mut self, words: Vec<String>);
-    /// How confident the plugin is that `text` is in its language (0..1).
-    fn detect(&self, _text: &str) -> Option<f32> {
+    /// How confident the plugin is that `text` is in its language (0..1), or `None` if it cannot
+    /// tell. Called without an instance, so that asking does not load the plugin's dictionary.
+    fn detect(_text: &str) -> Option<f32> {
         None
     }
 }

@@ -133,6 +133,18 @@
 					"default": "American",
 					"description": "Set which dialect of English Harper should expect."
 				},
+				"harper.language": {
+					"scope": "resource",
+					"type": "string",
+					"default": "auto",
+					"description": "The language to check. `auto` (the default) uses an installed language plugin when the text is written in its language, and English otherwise. `en` is English; any other value, such as `de`, names a language plugin `harper-<language>.wasm` in the plugin directory."
+				},
+				"harper.pluginDirectory": {
+					"scope": "resource",
+					"type": "string",
+					"default": "",
+					"description": "Where `harper-ls` looks for language plugins. Empty means the default, `<config dir>/harper/plugins`."
+				},
 				"harper.diagnosticSeverity": {
 					"scope": "resource",
 					"type": "string",

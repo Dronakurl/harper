@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 use std::fs::OpenOptions;
 use std::io::{BufWriter, Write};
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 use std::sync::Arc;
 use std::time::Duration;
 
@@ -9,7 +9,7 @@ use crate::config::Config;
 use crate::document_state::DocumentState;
 use crate::ignored_lints_io::{load_ignored_lints, save_ignored_lints};
 use crate::io_utils::fileify_path;
-use crate::plugins::{PluginRegistry, plugin_format};
+use crate::plugins::{PluginRegistry, choose_language, plugin_format};
 use anyhow::{Context, Result, anyhow};
 use futures::future::join;
 use harper_asciidoc::AsciidocParser;
@@ -47,6 +47,21 @@ use tower_lsp_server::lsp_types::{
 use tower_lsp_server::{Client, LanguageServer, UriExt};
 use tracing::{error, info, warn};
 
+/// The stretches of a source file that are comments: runs of tokens with only white space between.
+fn comment_regions(document: &Document) -> Vec<(usize, usize)> {
+    let source = document.get_source();
+    let mut regions: Vec<(usize, usize)> = Vec::new();
+
+    for token in document.get_tokens() {
+        let (start, end) = (token.span.start, token.span.end);
+        match regions.last_mut() {
+            Some(last) if source[last.1..start].iter().all(|c| c.is_whitespace()) => last.1 = end,
+            _ => regions.push((start, end)),
+        }
+    }
+    regions
+}
+
 /// Return harper-ls version
 pub fn ls_version() -> &'static str {
     env!("CARGO_PKG_VERSION")
@@ -76,8 +91,41 @@ impl Backend {
         }
     }
 
+    /// The dictionary path for a language: English keeps `base`, any other language gets its id
+    /// before the extension (`dictionary.txt` becomes `dictionary-de.txt`) or, for a directory-like
+    /// path, at the end.
+    fn language_path(base: &Path, language: &str) -> PathBuf {
+        if language == "en" {
+            return base.to_path_buf();
+        }
+        let suffix = format!("-{language}");
+        match base.extension() {
+            Some(ext) => {
+                let stem = base.file_stem().unwrap_or_default().to_string_lossy();
+                base.with_file_name(format!("{stem}{suffix}.{}", ext.to_string_lossy()))
+            }
+            None => {
+                let name = base.file_name().unwrap_or_default().to_string_lossy();
+                base.with_file_name(format!("{name}{suffix}"))
+            }
+        }
+    }
+
+    /// The language a document is being checked in.
+    async fn document_language(&self, uri: &Uri) -> String {
+        let docs = self.doc_state.lock().await;
+        match docs.get(uri) {
+            Some(doc) => doc.language.clone(),
+            None => "en".to_owned(),
+        }
+    }
+
     /// Load a specific file's dictionary
-    async fn load_file_dictionary(&self, uri: &Uri) -> anyhow::Result<MutableDictionary> {
+    async fn load_file_dictionary(
+        &self,
+        uri: &Uri,
+        language: &str,
+    ) -> anyhow::Result<MutableDictionary> {
         // VS Code's unsaved documents have "untitled" scheme
         if uri
             .scheme()
@@ -87,7 +135,7 @@ impl Backend {
         }
 
         let path = self
-            .get_file_dict_path(uri)
+            .get_file_dict_path(uri, language)
             .await
             .context("Unable to get the file path.")?;
 
@@ -135,15 +183,23 @@ impl Backend {
     }
 
     /// Compute the location of the file's specific dictionary
-    async fn get_file_dict_path(&self, uri: &Uri) -> anyhow::Result<PathBuf> {
+    async fn get_file_dict_path(&self, uri: &Uri, language: &str) -> anyhow::Result<PathBuf> {
         let config = self.config.read().await;
 
-        Ok(config.file_dict_path.join(fileify_path(uri)?))
+        Ok(Self::language_path(
+            &config.file_dict_path.join(fileify_path(uri)?),
+            language,
+        ))
     }
 
-    async fn save_file_dictionary(&self, uri: &Uri, dict: impl Dictionary) -> Result<()> {
+    async fn save_file_dictionary(
+        &self,
+        uri: &Uri,
+        language: &str,
+        dict: impl Dictionary,
+    ) -> Result<()> {
         save_dict(
-            self.get_file_dict_path(uri)
+            self.get_file_dict_path(uri, language)
                 .await
                 .context("Unable to get the file path.")?,
             dict,
@@ -152,27 +208,11 @@ impl Backend {
         .context("Unable to save the dictionary to path.")
     }
 
-    async fn load_user_dictionary(&self) -> MutableDictionary {
+    async fn load_user_dictionary(&self, language: &str) -> MutableDictionary {
         let config = self.config.read().await;
 
-        load_dict(&config.user_dict_path, self.config.read().await.dialect)
-            .await
-            .map_err(|err| info!("{err}"))
-            .unwrap_or(MutableDictionary::new())
-    }
-
-    async fn save_user_dictionary(&self, dict: impl Dictionary) -> Result<()> {
-        let config = self.config.read().await;
-
-        save_dict(&config.user_dict_path, dict)
-            .await
-            .map_err(|err| anyhow!("Unable to save the dictionary to file: {err}"))
-    }
-
-    async fn load_workspace_dictionary(&self) -> MutableDictionary {
-        let config = self.config.read().await;
         load_dict(
-            &config.workspace_dict_path,
+            Self::language_path(&config.user_dict_path, language),
             self.config.read().await.dialect,
         )
         .await
@@ -180,11 +220,33 @@ impl Backend {
         .unwrap_or(MutableDictionary::new())
     }
 
-    async fn save_workspace_dictionary(&self, dict: impl Dictionary) -> Result<()> {
+    async fn save_user_dictionary(&self, language: &str, dict: impl Dictionary) -> Result<()> {
         let config = self.config.read().await;
-        save_dict(&config.workspace_dict_path, dict)
+
+        save_dict(Self::language_path(&config.user_dict_path, language), dict)
             .await
             .map_err(|err| anyhow!("Unable to save the dictionary to file: {err}"))
+    }
+
+    async fn load_workspace_dictionary(&self, language: &str) -> MutableDictionary {
+        let config = self.config.read().await;
+        load_dict(
+            Self::language_path(&config.workspace_dict_path, language),
+            self.config.read().await.dialect,
+        )
+        .await
+        .map_err(|err| info!("{err}"))
+        .unwrap_or(MutableDictionary::new())
+    }
+
+    async fn save_workspace_dictionary(&self, language: &str, dict: impl Dictionary) -> Result<()> {
+        let config = self.config.read().await;
+        save_dict(
+            Self::language_path(&config.workspace_dict_path, language),
+            dict,
+        )
+        .await
+        .map_err(|err| anyhow!("Unable to save the dictionary to file: {err}"))
     }
 
     async fn save_stats(&self) -> Result<()> {
@@ -207,20 +269,24 @@ impl Backend {
         Ok(())
     }
 
-    async fn generate_global_dictionary(&self) -> Result<MergedDictionary> {
+    async fn generate_global_dictionary(&self, language: &str) -> Result<MergedDictionary> {
         let mut dict = MergedDictionary::new();
         dict.add_dictionary(FstDictionary::curated());
-        let user_dict = self.load_user_dictionary().await;
+        let user_dict = self.load_user_dictionary(language).await;
         dict.add_dictionary(Arc::new(user_dict));
-        let ws_dict = self.load_workspace_dictionary().await;
+        let ws_dict = self.load_workspace_dictionary(language).await;
         dict.add_dictionary(Arc::new(ws_dict));
         Ok(dict)
     }
 
-    async fn generate_file_dictionary(&self, uri: &Uri) -> Result<MergedDictionary> {
+    async fn generate_file_dictionary(
+        &self,
+        uri: &Uri,
+        language: &str,
+    ) -> Result<MergedDictionary> {
         let (global_dictionary, file_dictionary) = tokio::join!(
-            self.generate_global_dictionary(),
-            self.load_file_dictionary(uri)
+            self.generate_global_dictionary(language),
+            self.load_file_dictionary(uri, language)
         );
 
         let mut global_dictionary =
@@ -234,11 +300,11 @@ impl Backend {
 
     /// The words from the user, workspace and file dictionaries (without the built-in English
     /// ones), which is what plugins get as `set_user_words`.
-    async fn collect_user_words(&self, uri: &Uri) -> Vec<String> {
+    async fn collect_user_words(&self, uri: &Uri, language: &str) -> Vec<String> {
         let (user, workspace, file) = tokio::join!(
-            self.load_user_dictionary(),
-            self.load_workspace_dictionary(),
-            self.load_file_dictionary(uri)
+            self.load_user_dictionary(language),
+            self.load_workspace_dictionary(language),
+            self.load_file_dictionary(uri, language)
         );
 
         let mut words: Vec<String> = [Some(user), Some(workspace), file.ok()]
@@ -282,7 +348,7 @@ impl Backend {
             dialect,
             max_file_length,
             exclude_patterns,
-            language,
+            configured_language,
             plugin_dir,
         ) = {
             let config = self.config.read().await;
@@ -312,8 +378,17 @@ impl Backend {
 
         let ignored_lints = self.load_ignored_lints(uri).await.unwrap_or_default();
 
+        let language = choose_language(
+            &self.plugins,
+            &configured_language,
+            language_id.or(doc_lock.get(uri).and_then(|d| d.language_id.as_deref())),
+            text,
+            doc_lock.get(uri).map(|d| d.language.clone()),
+            &plugin_dir,
+        );
+
         let dict = Arc::new(
-            self.generate_file_dictionary(uri)
+            self.generate_file_dictionary(uri, &language)
                 .await
                 .context("Unable to generate the file dictionary.")?,
         );
@@ -334,13 +409,17 @@ impl Backend {
                     LintGroup::default()
                 },
                 language_id: language_id.map(|v| v.to_string()),
+                language: language.clone(),
                 dict: dict.clone(),
                 uri: uri.clone(),
                 ..Default::default()
             }
         });
 
-        if doc_state.dict != dict {
+        let language_changed = doc_state.language != language;
+        doc_state.language = language.clone();
+
+        if language_changed || doc_state.dict != dict {
             doc_state.dict = dict.clone();
             if is_english {
                 info!("Constructing new linter because of modified dictionary.");
@@ -355,10 +434,27 @@ impl Backend {
         };
 
         doc_state.plugin = None;
+        // In source code only the comments are prose; the plugin is told where they are.
+        let comment_parser = CommentParser::new_from_language_id(language_id, markdown_options);
         if !is_english {
-            let linter = match plugin_format(language_id) {
+            let format = if comment_parser.is_some() {
+                Some("plain")
+            } else {
+                plugin_format(language_id)
+            };
+            let linter = match format {
                 Some(format) => {
-                    let user_words = self.collect_user_words(uri).await;
+                    let mut user_words = self.collect_user_words(uri, &language).await;
+                    // Names from the code are not misspellings in the comments next to them.
+                    if let Some(ident_dict) = comment_parser.as_ref().and_then(|p| {
+                        p.create_ident_dict(&Arc::new(text.chars().collect::<Vec<_>>()))
+                    }) {
+                        user_words.extend(
+                            ident_dict
+                                .words_iter()
+                                .map(|w| w.iter().collect::<String>()),
+                        );
+                    }
                     self.plugins.linter_for(
                         &language,
                         &plugin_dir,
@@ -368,7 +464,7 @@ impl Backend {
                     )
                 }
                 None => {
-                    warn!("Plugin languages cannot lint `{language_id}` documents yet.");
+                    warn!("Plugin languages cannot lint `{language_id}` documents.");
                     None
                 }
             };
@@ -394,7 +490,8 @@ impl Backend {
                 info!("Constructing new linter because of modified ident dictionary.");
                 doc_state.ident_dict = new_dict.clone();
 
-                let mut merged = backend.generate_file_dictionary(uri).await?;
+                let language = doc_state.language.clone();
+                let mut merged = backend.generate_file_dictionary(uri, &language).await?;
                 merged.add_dictionary(new_dict);
                 let merged = Arc::new(merged);
 
@@ -412,6 +509,7 @@ impl Backend {
         let source: Vec<char> = text.chars().collect();
         let ts_parser = CommentParser::new_from_language_id(language_id, markdown_options);
         let parser: Option<Box<dyn Parser>> = match language_id.as_str() {
+            _ if ts_parser.is_some() && !is_english => Some(Box::new(ts_parser.unwrap())),
             _ if ts_parser.is_some() => {
                 let ts_parser = ts_parser.unwrap();
 
@@ -485,11 +583,16 @@ impl Backend {
                 // Don't lint on documents larger than the configured maximum length.
                 if text.len() <= max_file_length {
                     doc_state.document = Document::new(text, &parser, &doc_state.dict);
+                    if comment_parser.is_some() {
+                        let regions = comment_regions(&doc_state.document);
+                        doc_state.plugin = doc_state.plugin.take().map(|p| p.with_regions(regions));
+                    }
                 } else {
                     // Ensures that existing lints are cleared when we stop linting the file.
                     // Otherwise, prior lints will remain, and they will quickly fall out of sync
                     // with the document when it is edited.
                     doc_state.document = Document::default();
+                    doc_state.plugin = doc_state.plugin.take().map(|p| p.with_regions(Vec::new()));
                 }
             }
         }
@@ -803,9 +906,10 @@ impl LanguageServer for Backend {
 
                 let file_uri = second.parse().unwrap();
 
-                let mut dict = self.load_user_dictionary().await;
+                let language = self.document_language(&file_uri).await;
+                let mut dict = self.load_user_dictionary(&language).await;
                 dict.append_word(word, DictWordMetadata::default());
-                self.save_user_dictionary(dict)
+                self.save_user_dictionary(&language, dict)
                     .await
                     .map_err(|err| error!("{err}"))
                     .err();
@@ -824,9 +928,10 @@ impl LanguageServer for Backend {
 
                 let file_uri = second.parse().unwrap();
 
-                let mut dict = self.load_workspace_dictionary().await;
+                let language = self.document_language(&file_uri).await;
+                let mut dict = self.load_workspace_dictionary(&language).await;
                 dict.append_word(word, DictWordMetadata::default());
-                self.save_workspace_dictionary(dict)
+                self.save_workspace_dictionary(&language, dict)
                     .await
                     .map_err(|err| error!("{err}"))
                     .err();
@@ -845,8 +950,9 @@ impl LanguageServer for Backend {
 
                 let file_uri = second.parse().unwrap();
 
+                let language = self.document_language(&file_uri).await;
                 let mut dict = match self
-                    .load_file_dictionary(&file_uri)
+                    .load_file_dictionary(&file_uri, &language)
                     .await
                     .map_err(|err| error!("{err}"))
                 {
@@ -857,7 +963,7 @@ impl LanguageServer for Backend {
                 };
                 dict.append_word(word, DictWordMetadata::default());
 
-                self.save_file_dictionary(&file_uri, dict)
+                self.save_file_dictionary(&file_uri, &language, dict)
                     .await
                     .map_err(|err| error!("{err}"))
                     .err();

@@ -13,15 +13,17 @@ pub fn dispatch<P: LanguagePlugin>(slot: &mut Option<P>, request: &[u8]) -> Vec<
 }
 
 fn handle<P: LanguagePlugin>(slot: &mut Option<P>, req: Request) -> Value {
-    // `info` must not trigger the (possibly slow) construction of the plugin.
-    if let Request::Info = req {
-        return json!({ "ok": P::info() });
+    // `info` and `detect` must not trigger the (possibly slow) construction of the plugin.
+    match &req {
+        Request::Info => return json!({ "ok": P::info() }),
+        Request::Detect { text } => return json!({ "ok": P::detect(text) }),
+        _ => {}
     }
 
     let plugin = slot.get_or_insert_with(P::new);
 
     match req {
-        Request::Info => unreachable!(),
+        Request::Info | Request::Detect { .. } => unreachable!(),
         Request::Lint(r) => json!({ "ok": plugin.lint(r) }),
         Request::LintDescriptions => json!({ "ok": plugin.lint_descriptions() }),
         Request::DefaultConfig => json!({ "ok": plugin.default_config() }),
@@ -29,7 +31,6 @@ fn handle<P: LanguagePlugin>(slot: &mut Option<P>, req: Request) -> Value {
             plugin.set_user_words(words);
             json!({ "ok": null })
         }
-        Request::Detect { text } => json!({ "ok": plugin.detect(&text) }),
     }
 }
 
@@ -83,6 +84,20 @@ mod tests {
         let out = dispatch(&mut slot, br#"{"method":"info"}"#);
         let v: serde_json::Value = serde_json::from_slice(&out).unwrap();
         assert_eq!(v["ok"]["id"], "t");
+        assert!(slot.is_none());
+        assert_eq!(CREATED.with(|c| c.get()), 0);
+    }
+
+    #[test]
+    fn detect_does_not_construct_the_plugin() {
+        CREATED.with(|c| c.set(0));
+        let mut slot: Option<Counting> = None;
+        let out = dispatch(
+            &mut slot,
+            br#"{"method":"detect","params":{"text":"hallo"}}"#,
+        );
+        let v: serde_json::Value = serde_json::from_slice(&out).unwrap();
+        assert_eq!(v["ok"], serde_json::Value::Null);
         assert!(slot.is_none());
         assert_eq!(CREATED.with(|c| c.get()), 0);
     }

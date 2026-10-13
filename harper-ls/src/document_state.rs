@@ -15,6 +15,8 @@ pub struct DocumentState {
     pub linter: LintGroup,
     /// Set when the document is in a plugin language; it then replaces `linter`.
     pub plugin: Option<PluginLinter>,
+    /// `en`, or the id of the language plugin that checks this document.
+    pub language: String,
     pub language_id: Option<String>,
     pub ignored_lints: IgnoredLints,
     pub uri: Uri,
@@ -120,6 +122,7 @@ impl Default for DocumentState {
             dict: Default::default(),
             linter: Default::default(),
             plugin: None,
+            language: "en".to_owned(),
             language_id: Default::default(),
             ignored_lints: Default::default(),
             uri: "https://example.net".parse().unwrap(),
