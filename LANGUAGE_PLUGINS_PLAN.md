@@ -14,8 +14,10 @@
 | 1 api + host + Testplugin | fertig (`harper-plugin-api`, `harper-plugin-host`, Beispiel `echo`) |
 | 2 harper-ls + harper-cli | fertig (`language`, `pluginDirectory`, `--language`, `--plugin`, `plugin list/install/remove`) |
 | 3 harper-german | Code umgezogen, 628 Tests grün, Modul lädt und prüft über den Host (Wasm = nativ auf allen Beispieltexten). Offen: Release-Lauf, Quellcode-Kommentare, `detect` |
-| 4 harper.js, Web, Obsidian | `PluginLinter` in harper.js (getestet), Demo-Seite `/plugins`, Obsidian-Einstellung „Language“ mit Plugin-Ordner. Nicht getestet: die Browser-Tests (brauchen `pnpm install` + Playwright) |
-| 5–6 | offen |
+| 4 harper.js, Web, Obsidian | `PluginLinter` in harper.js (getestet, auch `detect`), Demo-Seite `/plugins`, Obsidian-Einstellung „Language“ mit Plugin-Ordner. Nicht gebaut/getestet: die Browser-Tests, Obsidian, Website (brauchen `pnpm install` + `wasm-pack`) |
+| 5 Chrome/Firefox | Optionsseite „Language“: Plugin-Datei hinzufügen/entfernen, Sprache wählen, Tastenkürzel zum Wechseln; Plugins in IndexedDB, Regeln und Wörterbuch je Sprache. Mit `tsc` auf Typen geprüft (nur `PluginLinter`/`pluginStore`), Erweiterung nicht gebaut. Fehlt: Begleit-Erweiterung für den Store, Spracherkennung im Browser, Harper Desktop |
+| `harper-ls`/`harper-cli` | `language: auto` (Voreinstellung) und `--language auto` erkennen die Sprache über die installierten Plugins; Wörterbücher je Sprache; Kommentare im Quellcode |
+| 6 Verteilung | `harper-german`: CI und Trockenlauf-Release (`workflow_dispatch`) eingerichtet; kein Tag/Release veröffentlicht; keine Index-Veröffentlichung |
 
 Abweichungen vom ursprünglichen Plan:
 
