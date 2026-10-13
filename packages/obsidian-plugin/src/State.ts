@@ -1,6 +1,6 @@
 import type { Extension, StateField } from '@codemirror/state';
 import type { Lint, LintConfig, Linter, StructuredLintConfig, Suggestion } from 'harper.js';
-import { type Dialect, LocalLinter, SuggestionKind, WorkerLinter } from 'harper.js';
+import { type Dialect, LocalLinter, PluginLinter, SuggestionKind, WorkerLinter } from 'harper.js';
 import { slimBinaryInlined } from 'harper.js/slimBinaryInlined';
 import { minimatch } from 'minimatch';
 import type { MarkdownFileInfo } from 'obsidian';
@@ -18,7 +18,12 @@ export type Settings = {
 	lintEnabled?: boolean;
 	regexMask?: string;
 	useWebStyleLints?: boolean;
+	/** The language to check: `en` (built in, the default) or the id of a language plugin such as `de`. */
+	language?: string;
 };
+
+/** Fetches the bytes of the plugin for a language, or `null` if it is not installed. */
+export type PluginLoader = (language: string) => Promise<ArrayBuffer | null>;
 
 const DEFAULT_DELAY = -1;
 
@@ -34,6 +39,10 @@ export default class State {
 	private lintEnabled?: boolean;
 	private regexMask?: string;
 	private useWebStyleLints = false;
+	private language = 'en';
+	private wantsWebWorker = true;
+	private dialect?: Dialect;
+	private loadPlugin?: PluginLoader;
 
 	/** The CodeMirror extension objects that should be inserted by the host. */
 	private editorExtensions: Extension[];
@@ -45,7 +54,9 @@ export default class State {
 		saveDataCallback: (data: any) => Promise<void>,
 		onExtensionChange: () => void,
 		_editorInfoField?: StateField<MarkdownFileInfo>,
+		loadPlugin?: PluginLoader,
 	) {
+		this.loadPlugin = loadPlugin;
 		this.harper = new WorkerLinter({ binary: slimBinaryInlined });
 		this.delay = DEFAULT_DELAY;
 		this.saveData = saveDataCallback;
@@ -64,6 +75,16 @@ export default class State {
 			};
 		}
 
+		this.dialect = settings.dialect;
+		const language = await this.resolveLanguage(settings.language);
+		const languageChanged = language !== this.language;
+		if (languageChanged) {
+			await this.harper.dispose();
+			this.harper = await this.createLinter(language, settings);
+			this.language = language;
+			this.wantsWebWorker = settings.useWebWorker;
+		}
+
 		const defaultConfig = await this.harper.getDefaultLintConfig();
 		for (const key of Object.keys(defaultConfig)) {
 			if (settings.lintSettings[key] == undefined) {
@@ -74,9 +95,12 @@ export default class State {
 		const oldSettings = await this.getSettings();
 
 		if (
-			settings.useWebWorker !== oldSettings.useWebWorker ||
-			settings.dialect !== oldSettings.dialect
+			!languageChanged &&
+			language === 'en' &&
+			(settings.useWebWorker !== oldSettings.useWebWorker ||
+				settings.dialect !== oldSettings.dialect)
 		) {
+			this.wantsWebWorker = settings.useWebWorker;
 			if (settings.useWebWorker) {
 				this.harper.dispose();
 				this.harper = new WorkerLinter({ binary: slimBinaryInlined, dialect: settings.dialect });
@@ -115,6 +139,30 @@ export default class State {
 		}
 
 		await this.saveData(settings);
+	}
+
+	/** The language that will really be used: `requested`, unless its plugin is not installed. */
+	private async resolveLanguage(requested?: string): Promise<string> {
+		if (requested == null || requested === 'en') {
+			return 'en';
+		}
+		if (this.loadPlugin == null || (await this.loadPlugin(requested)) == null) {
+			console.warn(`Harper: no plugin for language '${requested}' is installed; using English.`);
+			return 'en';
+		}
+		return requested;
+	}
+
+	private async createLinter(language: string, settings: Settings): Promise<Linter> {
+		if (language !== 'en' && this.loadPlugin != null) {
+			const bytes = await this.loadPlugin(language);
+			if (bytes != null) {
+				return new PluginLinter({ plugin: bytes });
+			}
+		}
+		return settings.useWebWorker
+			? new WorkerLinter({ binary: slimBinaryInlined, dialect: settings.dialect })
+			: new LocalLinter({ binary: slimBinaryInlined, dialect: settings.dialect });
 	}
 
 	/** Construct the linter plugin that actually shows the errors. */
@@ -262,7 +310,8 @@ export default class State {
 	}
 
 	public async getSettings(): Promise<Settings> {
-		const usingWebWorker = this.harper instanceof WorkerLinter;
+		const usingWebWorker =
+			this.language === 'en' ? this.harper instanceof WorkerLinter : this.wantsWebWorker;
 
 		const userDictionary = await this.harper.exportWords();
 		userDictionary.sort();
@@ -272,12 +321,14 @@ export default class State {
 			useWebWorker: usingWebWorker,
 			lintSettings: await this.harper.getLintConfig(),
 			userDictionary,
-			dialect: await this.harper.getDialect(),
+			// A plugin language has dialects of its own; keep the English choice for when it is back.
+			dialect: this.language === 'en' ? await this.harper.getDialect() : this.dialect,
 			delay: this.delay,
 			ignoredGlobs: this.ignoredGlobs,
 			lintEnabled: this.lintEnabled,
 			regexMask: this.regexMask,
 			useWebStyleLints: this.useWebStyleLints,
+			language: this.language,
 		};
 	}
 

@@ -275,3 +275,38 @@ test('can overwrite dictionary words in settings', async () => {
 
 	expect(settings.userDictionary).toStrictEqual([]);
 });
+
+test('A language without an installed plugin falls back to English.', async () => {
+	const asked: string[] = [];
+	const state = new State(
+		(_) => Promise.resolve(),
+		() => {},
+		undefined,
+		async (language) => {
+			asked.push(language);
+			return null;
+		},
+	);
+
+	await state.initializeFromSettings({ useWebWorker: false, lintSettings: {}, language: 'de' });
+
+	expect(asked).toContain('de');
+	expect((await state.getSettings()).language).toBe('en');
+});
+
+test('English never asks for a plugin.', async () => {
+	let asked = 0;
+	const state = new State(
+		(_) => Promise.resolve(),
+		() => {},
+		undefined,
+		async () => {
+			asked++;
+			return null;
+		},
+	);
+
+	await state.initializeFromSettings({ useWebWorker: false, lintSettings: {}, language: 'en' });
+
+	expect(asked).toBe(0);
+});
