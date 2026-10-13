@@ -14,7 +14,8 @@
 | 1 api + host + Testplugin | fertig (`harper-plugin-api`, `harper-plugin-host`, Beispiel `echo`) |
 | 2 harper-ls + harper-cli | fertig (`language`, `pluginDirectory`, `--language`, `--plugin`, `plugin list/install/remove`) |
 | 3 harper-german | Code umgezogen, 628 Tests grün, Modul lädt und prüft über den Host (Wasm = nativ auf allen Beispieltexten). Offen: Release-Lauf, Quellcode-Kommentare, `detect` |
-| 4–6 | offen |
+| 4 harper.js, Web, Obsidian | `PluginLinter` in harper.js (getestet), Demo-Seite `/plugins`, Obsidian-Einstellung „Language“ mit Plugin-Ordner. Nicht getestet: die Browser-Tests (brauchen `pnpm install` + Playwright) |
+| 5–6 | offen |
 
 Abweichungen vom ursprünglichen Plan:
 
