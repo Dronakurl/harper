@@ -1,0 +1,11 @@
+[package]
+name = "host-spike"
+version = "0.0.0"
+edition = "2024"
+publish = false
+
+[workspace]
+
+[dependencies]
+wasmtime = { version = "*", default-features = false, features = ["cranelift", "runtime", "std"] }
+plugin-spike = { path = "../plugin-spike" }
