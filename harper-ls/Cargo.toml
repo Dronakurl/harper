@@ -34,7 +34,11 @@ futures = "0.3.32"
 serde = { version = "1.0.228", features = ["derive"] }
 globset = "0.4.18"
 harper-ink = { version = "2.0.0", path = "../harper-ink" }
+harper-plugin-api = { path = "../harper-plugin-api", version = "2.0.0", features = ["core"], optional = true }
+harper-plugin-host = { path = "../harper-plugin-host", version = "2.0.0", optional = true }
 
 [features]
-default = []
+default = ["plugins"]
+# Language plugins (WebAssembly modules, see LANGUAGE_PLUGINS_PLAN.md). Pulls in wasmtime.
+plugins = ["dep:harper-plugin-host", "dep:harper-plugin-api"]
 thesaurus = ["harper-core/thesaurus"]

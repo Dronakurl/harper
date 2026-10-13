@@ -75,6 +75,10 @@ pub struct Config {
     pub isolate_english: bool,
     pub markdown_options: MarkdownOptions,
     pub dialect: Dialect,
+    /// The language to check, as a plugin id (`"de"`). `"en"` is built in; anything else needs
+    /// a plugin file `harper-<language>.wasm` in `plugin_dir`.
+    pub language: String,
+    pub plugin_dir: PathBuf,
     /// Maximum length (in bytes) a file can have before it's skipped.
     /// Above this limit, the file will not be linted.
     pub max_file_length: usize,
@@ -168,6 +172,29 @@ impl Config {
             base.dialect = serde_json::from_value(v.clone())?;
         }
 
+        if let Some(v) = value.get("language") {
+            let Some(language) = v.as_str() else {
+                bail!("language must be a string.");
+            };
+            if language.is_empty()
+                || !language
+                    .chars()
+                    .all(|c| c.is_ascii_alphanumeric() || c == '-' || c == '_')
+            {
+                bail!("language must be a plugin id such as \"en\" or \"de\".");
+            }
+            base.language = language.to_owned();
+        }
+
+        if let Some(v) = value.get("pluginDirectory") {
+            let Some(path) = v.as_str() else {
+                bail!("pluginDirectory must be a string.");
+            };
+            if !path.is_empty() {
+                base.plugin_dir = path.try_resolve_in(workspace_root)?.to_path_buf();
+            }
+        }
+
         if let Some(v) = value.get("codeActions") {
             base.code_action_config = CodeActionConfig::from_lsp_config(v.clone())?;
         }
@@ -231,6 +258,8 @@ impl Default for Config {
             isolate_english: false,
             markdown_options: MarkdownOptions::default(),
             dialect: Dialect::American,
+            language: "en".to_owned(),
+            plugin_dir: config_dir().unwrap().join("harper/plugins"),
             max_file_length: 120_000,
             exclude_patterns: GlobSet::empty(),
             diagnostic_delay_ms: 0,
@@ -243,6 +272,29 @@ mod tests {
     use serde_json::json;
 
     use super::Config;
+
+    #[test]
+    fn language_defaults_to_english_and_validates() {
+        assert_eq!(Config::default().language, "en");
+
+        let ok = Config::from_lsp_config(
+            std::path::Path::new("."),
+            json!({ "harper-ls": { "language": "de", "pluginDirectory": "plugins" } }),
+        )
+        .unwrap();
+        assert_eq!(ok.language, "de");
+        assert!(ok.plugin_dir.ends_with("plugins"));
+
+        for bad in [json!(""), json!("../de"), json!(3)] {
+            assert!(
+                Config::from_lsp_config(
+                    std::path::Path::new("."),
+                    json!({ "harper-ls": { "language": bad } }),
+                )
+                .is_err()
+            );
+        }
+    }
 
     #[test]
     fn parses_diagnostic_delay() {

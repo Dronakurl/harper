@@ -9,6 +9,7 @@ use crate::config::Config;
 use crate::document_state::DocumentState;
 use crate::ignored_lints_io::{load_ignored_lints, save_ignored_lints};
 use crate::io_utils::fileify_path;
+use crate::plugins::{PluginRegistry, plugin_format};
 use anyhow::{Context, Result, anyhow};
 use futures::future::join;
 use harper_asciidoc::AsciidocParser;
@@ -57,6 +58,7 @@ pub struct Backend {
     root: Arc<RwLock<PathBuf>>,
     config: Arc<RwLock<Config>>,
     stats: Arc<RwLock<Stats>>,
+    plugins: Arc<PluginRegistry>,
     doc_state: Arc<Mutex<HashMap<Uri, DocumentState>>>,
     pending_diagnostic_tasks: Arc<Mutex<HashMap<Uri, tokio::task::JoinHandle<()>>>>,
 }
@@ -67,6 +69,7 @@ impl Backend {
             client,
             root: Arc::new(RwLock::new(".".into())),
             stats: Arc::new(RwLock::new(Stats::new())),
+            plugins: Arc::new(PluginRegistry::new()),
             config: Arc::new(RwLock::new(config)),
             doc_state: Arc::new(Mutex::new(HashMap::new())),
             pending_diagnostic_tasks: Arc::new(Mutex::new(HashMap::new())),
@@ -229,6 +232,29 @@ impl Backend {
         Ok(global_dictionary)
     }
 
+    /// The words from the user, workspace and file dictionaries (without the built-in English
+    /// ones), which is what plugins get as `set_user_words`.
+    async fn collect_user_words(&self, uri: &Uri) -> Vec<String> {
+        let (user, workspace, file) = tokio::join!(
+            self.load_user_dictionary(),
+            self.load_workspace_dictionary(),
+            self.load_file_dictionary(uri)
+        );
+
+        let mut words: Vec<String> = [Some(user), Some(workspace), file.ok()]
+            .into_iter()
+            .flatten()
+            .flat_map(|dict| {
+                dict.words_iter()
+                    .map(|w| w.iter().collect::<String>())
+                    .collect::<Vec<_>>()
+            })
+            .collect();
+        words.sort();
+        words.dedup();
+        words
+    }
+
     async fn update_document_from_file(&self, uri: &Uri, language_id: Option<&str>) -> Result<()> {
         let content = tokio::fs::read_to_string(
             uri.to_file_path()
@@ -256,6 +282,8 @@ impl Backend {
             dialect,
             max_file_length,
             exclude_patterns,
+            language,
+            plugin_dir,
         ) = {
             let config = self.config.read().await;
             (
@@ -265,6 +293,8 @@ impl Backend {
                 config.dialect,
                 config.max_file_length,
                 config.exclude_patterns.clone(),
+                config.language.clone(),
+                config.plugin_dir.clone(),
             )
         };
 
@@ -288,13 +318,21 @@ impl Backend {
                 .context("Unable to generate the file dictionary.")?,
         );
 
+        // Documents in a plugin language are linted by the plugin; building the English linter
+        // for them would only waste time and memory.
+        let is_english = language == "en";
+
         let doc_state = doc_lock.entry(uri.clone()).or_insert_with(|| {
             info!("Constructing new LintGroup for new document.");
 
             DocumentState {
                 ignored_lints,
-                linter: LintGroup::new_curated(dict.clone(), dialect)
-                    .with_lint_config(lint_config.clone()),
+                linter: if is_english {
+                    LintGroup::new_curated(dict.clone(), dialect)
+                        .with_lint_config(lint_config.clone())
+                } else {
+                    LintGroup::default()
+                },
                 language_id: language_id.map(|v| v.to_string()),
                 dict: dict.clone(),
                 uri: uri.clone(),
@@ -304,15 +342,44 @@ impl Backend {
 
         if doc_state.dict != dict {
             doc_state.dict = dict.clone();
-            info!("Constructing new linter because of modified dictionary.");
-            doc_state.linter =
-                LintGroup::new_curated(dict.clone(), dialect).with_lint_config(lint_config.clone());
+            if is_english {
+                info!("Constructing new linter because of modified dictionary.");
+                doc_state.linter = LintGroup::new_curated(dict.clone(), dialect)
+                    .with_lint_config(lint_config.clone());
+            }
         }
 
         let Some(language_id) = &doc_state.language_id else {
             doc_lock.remove(uri);
             return Ok(());
         };
+
+        doc_state.plugin = None;
+        if !is_english {
+            let linter = match plugin_format(language_id) {
+                Some(format) => {
+                    let user_words = self.collect_user_words(uri).await;
+                    self.plugins.linter_for(
+                        &language,
+                        &plugin_dir,
+                        format,
+                        &lint_config,
+                        user_words,
+                    )
+                }
+                None => {
+                    warn!("Plugin languages cannot lint `{language_id}` documents yet.");
+                    None
+                }
+            };
+            match linter {
+                Some(linter) => doc_state.plugin = Some(linter),
+                None => {
+                    doc_lock.remove(uri);
+                    return Ok(());
+                }
+            }
+        }
 
         async fn use_ident_dict<'a>(
             backend: &'a Backend,
@@ -863,7 +930,13 @@ impl LanguageServer for Backend {
             let mut doc_lock = self.doc_state.lock().await;
             let config_lock = self.config.read().await;
 
+            self.plugins.retry_failed();
+
             for doc in doc_lock.values_mut() {
+                if config_lock.language != "en" {
+                    doc.linter = LintGroup::default();
+                    continue;
+                }
                 info!("Constructing new LintGroup for updated configuration.");
                 doc.linter = LintGroup::new_curated(doc.dict.clone(), config_lock.dialect)
                     .with_lint_config(config_lock.lint_config.clone());

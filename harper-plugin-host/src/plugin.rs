@@ -117,6 +117,7 @@ impl Guest {
 pub struct LoadedPlugin {
     info: PluginInfo,
     guest: Mutex<Guest>,
+    user_words: Mutex<Option<Vec<String>>>,
 }
 
 impl LoadedPlugin {
@@ -163,6 +164,7 @@ impl LoadedPlugin {
         Ok(Self {
             info,
             guest: Mutex::new(guest),
+            user_words: Mutex::new(None),
         })
     }
 
@@ -192,9 +194,19 @@ impl LoadedPlugin {
         self.send(&Request::DefaultConfig)
     }
 
-    /// Replaces the plugin's list of user dictionary words.
+    /// Replaces the plugin's list of user dictionary words. Does nothing (and does not cross
+    /// into the plugin) when the list is the same as last time, so callers may call this
+    /// before every lint.
     pub fn set_user_words(&self, words: Vec<String>) -> Result<()> {
-        self.send::<()>(&Request::SetUserWords { words })
+        let mut last = self.user_words.lock().unwrap_or_else(|e| e.into_inner());
+        if last.as_ref() == Some(&words) {
+            return Ok(());
+        }
+        self.send::<()>(&Request::SetUserWords {
+            words: words.clone(),
+        })?;
+        *last = Some(words);
+        Ok(())
     }
 
     pub fn detect(&self, text: &str) -> Result<Option<f32>> {

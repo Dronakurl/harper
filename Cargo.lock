@@ -3025,6 +3025,8 @@ dependencies = [
  "harper-ink",
  "harper-jjdescription",
  "harper-literate-haskell",
+ "harper-plugin-api",
+ "harper-plugin-host",
  "harper-python",
  "harper-stats",
  "harper-tex",
