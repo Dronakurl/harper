@@ -1,10 +1,36 @@
 # Plan: Sprachen als nachinstallierbare Plugins
 
-> Status: **Entscheidung getroffen, Umsetzung offen.** Dieses Dokument ist der
-> Arbeitsauftrag für die Umsetzung. Es liegt auf einem Branch, der direkt auf
-> `master` aufsetzt; der deutsche Code liegt (noch) auf
-> `feature/german-language-support` und wandert später in das separate Repo
-> [`dronakurl/harper-german`](https://github.com/dronakurl/harper-german).
+> Status: **Phasen 0–3 sind umgesetzt, Phasen 4–6 offen.** Dieses Dokument bleibt der
+> Arbeitsauftrag; Abweichungen von der ursprünglichen Planung stehen unten in
+> „Stand der Umsetzung“. Der deutsche Code liegt als Plugin im Repo
+> [`dronakurl/harper-german`](https://github.com/dronakurl/harper-german); auf
+> `feature/german-language-support` bleibt er unverändert erhalten.
+
+### Stand der Umsetzung
+
+| Phase | Stand |
+|---|---|
+| 0 Spike | fertig, Ergebnis in `spike/RESULTS.md` (1,5× nativ, kalt 1,17×) |
+| 1 api + host + Testplugin | fertig (`harper-plugin-api`, `harper-plugin-host`, Beispiel `echo`) |
+| 2 harper-ls + harper-cli | fertig (`language`, `pluginDirectory`, `--language`, `--plugin`, `plugin list/install/remove`) |
+| 3 harper-german | Code umgezogen, 628 Tests grün, Modul lädt und prüft über den Host (Wasm = nativ auf allen Beispieltexten). Offen: Release-Lauf, Quellcode-Kommentare, `detect` |
+| 4–6 | offen |
+
+Abweichungen vom ursprünglichen Plan:
+
+- **Morphologie (§6.5, §7.1):** Statt einer Seitentabelle im Plugin gibt es in `harper-core` das
+  Cargo-Feature `morphology` (aus, solange niemand es einschaltet). Es fügt `DictWordMetadata` ein
+  Feld hinzu und stellt `harper_core::morphology` bereit. Englisch ändert sich nicht. Eine
+  Seitentabelle hätte bedeutet, die Affix-Expansion aus `spell::rune` zu kopieren.
+- **Core-Haken (§7.1)** sind als ein Commit in diesem Branch gelandet: `Parser::is_english`,
+  `Markdown`/`OrgMode::with_inline_parser`, öffentliche `lexing`-, `spell::rune`-,
+  `word_map`-/`fst_dictionary`-Helfer, `stem_only`, geordnete Affix-Expansion, optionale
+  Anzahlzeile in Wortlisten. `OrgMode` ist dadurch keine Einheits-Struktur mehr (`OrgMode::default()`).
+- **Tags** lassen sich in diesem Repo derzeit nicht pushen; `harper-german` hängt deshalb an einer
+  festen Revision (`rev = …`) statt an `plugins-v1`.
+- **Das Modul hat noch fünf `__wbindgen_*`-Imports**, weil `burn` über `harper-brill` `wasm-bindgen`
+  mitbringt. Der Host verdrahtet sie als Fallen (sie werden nie aufgerufen). Sauber wird das erst,
+  wenn `burn`/Brill in `harper-core` hinter ein Feature gelegt ist.
 
 ## 1. Ausgangslage
 
