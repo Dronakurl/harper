@@ -1,6 +1,6 @@
-//! Connects `harper-ls` to language plugins (WebAssembly modules, see
-//! https://github.com/Dronakurl/harper/issues/14). All `plugins` feature handling lives in this file; the rest of
-//! `harper-ls` only sees [`PluginRegistry`] and [`PluginLinter`].
+//! Connects `harper-ls` to language plugins (WebAssembly modules, see ! ). All
+//! `plugins` feature handling lives in this file; the rest of ! `harper-ls` only
+//! sees [`PluginRegistry`] and [`PluginLinter`].
 
 /// The format a plugin is asked to parse a whole document of an editor `languageId` in, or `None`
 /// when the plugin gets only parts of it: the comments of source code, the text of TeX, HTML,

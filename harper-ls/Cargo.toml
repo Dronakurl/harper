@@ -39,6 +39,5 @@ harper-plugin-host = { path = "../harper-plugin-host", version = "2.0.0", option
 
 [features]
 default = ["plugins"]
-# Language plugins (WebAssembly modules, see https://github.com/Dronakurl/harper/issues/14). Pulls in wasmtime.
 plugins = ["dep:harper-plugin-host", "dep:harper-plugin-api"]
 thesaurus = ["harper-core/thesaurus"]
