@@ -78,6 +78,10 @@ export default defineConfig(async () => {
 									title: 'Integrations',
 									items: [
 										{
+											title: 'Other Languages',
+											to: '/docs/integrations/language-plugins',
+										},
+										{
 											title: 'Obsidian',
 											to: '/docs/integrations/obsidian',
 										},
