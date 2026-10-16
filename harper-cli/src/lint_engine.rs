@@ -1,13 +1,13 @@
 use std::{collections::BTreeMap, path::Path, sync::Arc};
 
-use harper_comments::{CommentParser, comment_regions};
+use harper_comments::comment_regions;
 use hashbrown::HashMap;
 
 use harper_core::{
     linting::{Lint, LintGroup, LintKind},
     parsers::MarkdownOptions,
     remove_overlaps_map,
-    spell::MergedDictionary,
+    spell::{Dictionary, MergedDictionary},
     weirpack::Weirpack,
 };
 
@@ -63,9 +63,14 @@ pub fn lint_one_input(
         let mut merged_dictionary = curated_plus_user_dict.clone();
 
         // If processing a file, try to load its per-file dictionary
+        let mut file_words = Vec::new();
         if let Some(file) = single_input.try_as_file_ref() {
             let dict_path = file_dict_path.join(file_dict_name(file.path()));
             if let Ok(file_dictionary) = load_dict(&dict_path) {
+                file_words = file_dictionary
+                    .words_iter()
+                    .map(|w| w.iter().collect())
+                    .collect();
                 merged_dictionary.add_dictionary(Arc::new(file_dictionary));
                 eprintln!(
                     "{}: Note: Using per-file dictionary: {}",
@@ -88,30 +93,37 @@ pub fn lint_one_input(
                 }
             }
             Ok((doc, source)) => {
+                // Prose goes to a plugin whole. Of anything else (source code, TeX, ...) the
+                // document holds only the text; the plugin gets the whole file and is told
+                // where that text is.
+                let format =
+                    format_for_path(single_input.try_as_file_ref().map(|f| f.path().as_ref()));
+                let regions = format.is_none().then(|| comment_regions(&doc));
                 // Run the linter, getting back a map of rule name -> lints
                 // `--language auto`: the plugin that recognizes this input, else English.
                 let plugin = match plugin {
                     Some(plugin) => Some(plugin),
-                    None => PluginLinter::best_for(auto_plugins, &doc.get_full_string()),
+                    None if auto_plugins.is_empty() => None,
+                    None => {
+                        let source = doc.get_source();
+                        let prose = match &regions {
+                            Some(regions) => regions
+                                .iter()
+                                .map(|&(start, end)| source[start..end].iter().collect::<String>())
+                                .collect::<Vec<_>>()
+                                .join("\n"),
+                            None => doc.get_full_string(),
+                        };
+                        PluginLinter::best_for(auto_plugins, &prose)
+                    }
                 };
                 let mut named_lints = match plugin {
                     Some(plugin) => {
-                        let format = format_for_path(
-                            single_input.try_as_file_ref().map(|f| f.path().as_ref()),
-                        );
-                        // In a source file the document holds only the comments; the plugin
-                        // gets the whole text and is told where they are.
-                        let regions = single_input
-                            .try_as_file_ref()
-                            .filter(|f| {
-                                CommentParser::new_from_filename(f.path(), markdown_options)
-                                    .is_some()
-                            })
-                            .map(|_| comment_regions(&doc));
                         let mut lints = plugin.organized_lints(
                             &doc.get_full_string(),
-                            format,
+                            format.unwrap_or("plain"),
                             regions.as_deref(),
+                            &file_words,
                         )?;
                         filter_rules(&mut lints, only, ignore);
                         lints

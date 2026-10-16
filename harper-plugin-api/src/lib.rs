@@ -36,6 +36,11 @@ pub trait LanguagePlugin: Sized + 'static {
     fn detect(_text: &str) -> Option<f32> {
         None
     }
+    /// [`Self::detect`], told by the host how much of `text` is English: the share of its words
+    /// in Harper's English dictionary, when the host has it. The default ignores it.
+    fn detect_with(text: &str, _english_ratio: Option<f32>) -> Option<f32> {
+        Self::detect(text)
+    }
 }
 
 /// Generates the exports a host expects (`harper_plugin_abi_version`, `harper_alloc`,

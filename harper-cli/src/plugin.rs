@@ -7,13 +7,34 @@ use std::path::{Path, PathBuf};
 use anyhow::Result;
 use harper_core::linting::Lint;
 
-/// The format to ask a plugin to parse, from a file name. Anything unknown is plain text.
-pub fn format_for_path(path: Option<&Path>) -> &'static str {
-    match path.and_then(|p| p.extension()).and_then(|e| e.to_str()) {
-        Some("md" | "markdown") => "markdown",
-        Some("org") => "org",
-        Some("typ") => "typst",
-        _ => "plain",
+/// The format a plugin parses a whole file of this name in, or `None` when it gets only parts of
+/// it: the comments of source code, the text of TeX, AsciiDoc, ... (the parts `harper-cli`'s own
+/// parser for the file finds; see `FileInput::get_parser`). No name (standard input, text on the
+/// command line) and anything unknown is plain text.
+pub fn format_for_path(path: Option<&Path>) -> Option<&'static str> {
+    let Some(path) = path else {
+        return Some("plain");
+    };
+    match path.extension().and_then(|e| e.to_str()) {
+        Some("md" | "markdown" | "mkd" | "mdwn" | "mdown" | "mdtxt" | "mdtext" | "qmd") => {
+            Some("markdown")
+        }
+        Some("org") => Some("org"),
+        Some("typ") => Some("typst"),
+        Some("txt") => Some("plain"),
+        Some(
+            "ink" | "lhs" | "tex" | "latex" | "sty" | "cls" | "dtx" | "py" | "pyi" | "adoc"
+            | "asciidoc",
+        ) => None,
+        _ if harper_comments::CommentParser::new_from_filename(
+            path,
+            harper_core::parsers::MarkdownOptions::default(),
+        )
+        .is_some() =>
+        {
+            None
+        }
+        _ => Some("plain"),
     }
 }
 
@@ -36,7 +57,7 @@ pub enum PluginCommand {
 
 #[cfg(feature = "plugins")]
 mod imp {
-    use std::sync::Arc;
+    use std::sync::{Arc, Mutex};
 
     use anyhow::{Context, anyhow, bail};
     use harper_plugin_api::{LintRequest, plugin_to_lint};
@@ -48,6 +69,10 @@ mod imp {
     #[derive(Clone)]
     pub struct PluginLinter {
         plugin: Arc<LoadedPlugin>,
+        /// The user dictionary. A file's own dictionary is added for that file only, which is
+        /// why each lint holds `calls`: no other file may be linted with its words.
+        user_words: Arc<Mutex<Vec<String>>>,
+        calls: Arc<Mutex<()>>,
     }
 
     impl PluginLinter {
@@ -71,9 +96,7 @@ mod imp {
                     plugin.info().id
                 );
             }
-            Ok(Some(Self {
-                plugin: Arc::new(plugin),
-            }))
+            Ok(Some(Self::new(plugin)))
         }
 
         /// Every plugin in the plugin directory, for `--language auto`.
@@ -81,13 +104,19 @@ mod imp {
             let mut all = Vec::new();
             for path in discover(&plugin_dir()?) {
                 match load_file(&path) {
-                    Ok(plugin) => all.push(Self {
-                        plugin: Arc::new(plugin),
-                    }),
+                    Ok(plugin) => all.push(Self::new(plugin)),
                     Err(err) => eprintln!("Warning: skipping {}: {err:#}", path.display()),
                 }
             }
             Ok(all)
+        }
+
+        fn new(plugin: LoadedPlugin) -> Self {
+            Self {
+                plugin: Arc::new(plugin),
+                user_words: Arc::default(),
+                calls: Arc::default(),
+            }
         }
 
         /// How sure the plugin is that `text` is in its language (0 to 1).
@@ -108,12 +137,39 @@ mod imp {
         }
 
         pub fn set_user_words(&self, words: Vec<String>) -> Result<()> {
-            Ok(self.plugin.set_user_words(words)?)
+            let _call = self.calls.lock().unwrap_or_else(|e| e.into_inner());
+            self.plugin.set_user_words(words.clone())?;
+            *self.user_words.lock().unwrap_or_else(|e| e.into_inner()) = words;
+            Ok(())
         }
 
         /// Lints grouped by rule name, like `LintGroup::organized_lints`. With `regions` (the comments
-        /// of a source file) only those character ranges are linted.
+        /// of a source file, the text of a TeX file, ...) only those character ranges are linted.
+        /// `file_words` are the file's own dictionary, known for this one call.
         pub fn organized_lints(
+            &self,
+            text: &str,
+            format: &str,
+            regions: Option<&[(usize, usize)]>,
+            file_words: &[String],
+        ) -> Result<BTreeMap<String, Vec<Lint>>> {
+            let _call = self.calls.lock().unwrap_or_else(|e| e.into_inner());
+            let user_words = self
+                .user_words
+                .lock()
+                .unwrap_or_else(|e| e.into_inner())
+                .clone();
+            let mut words = user_words.clone();
+            words.extend(file_words.iter().cloned());
+            self.plugin.set_user_words(words)?;
+            let lints = self.lint(text, format, regions);
+            if !file_words.is_empty() {
+                self.plugin.set_user_words(user_words)?;
+            }
+            lints
+        }
+
+        fn lint(
             &self,
             text: &str,
             format: &str,
@@ -256,6 +312,7 @@ mod stub {
             _text: &str,
             _format: &str,
             _regions: Option<&[(usize, usize)]>,
+            _file_words: &[String],
         ) -> Result<BTreeMap<String, Vec<Lint>>> {
             Ok(BTreeMap::new())
         }

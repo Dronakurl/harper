@@ -16,7 +16,7 @@ use harper_asciidoc::AsciidocParser;
 use harper_comments::{CommentParser, comment_regions};
 use harper_core::linting::{FlatConfig, LintGroup};
 use harper_core::parsers::{
-    CollapseIdentifiers, IsolateEnglish, Markdown, OrgMode, Parser, PlainEnglish,
+    CollapseIdentifiers, IsolateEnglish, Markdown, MarkdownOptions, OrgMode, Parser, PlainEnglish,
 };
 use harper_core::spell::{Dictionary, FstDictionary, MergedDictionary, MutableDictionary};
 use harper_core::{Dialect, DictWordMetadata, Document, IgnoredLints};
@@ -61,6 +61,30 @@ pub struct Backend {
     plugins: Arc<PluginRegistry>,
     doc_state: Arc<Mutex<HashMap<Uri, DocumentState>>>,
     pending_diagnostic_tasks: Arc<Mutex<HashMap<Uri, tokio::task::JoinHandle<()>>>>,
+}
+
+/// Harper's parser for a document whose prose is only part of the text: the comments of source
+/// code, the text of TeX, HTML, AsciiDoc, a commit message, ... For a plugin language, the parts
+/// it finds are what the plugin checks.
+fn region_parser(language_id: &str, markdown_options: MarkdownOptions) -> Option<Box<dyn Parser>> {
+    if let Some(parser) = CommentParser::new_from_language_id(language_id, markdown_options) {
+        return Some(Box::new(parser));
+    }
+    match language_id {
+        "git-commit" | "gitcommit" | "octo" | "scminput" => {
+            Some(Box::new(GitCommitParser::default()))
+        }
+        "html" => Some(Box::new(HtmlParser::default())),
+        "asciidoc" => Some(Box::new(AsciidocParser::default())),
+        "ink" => Some(Box::new(InkParser::default())),
+        "jj-commit" | "jjdescription" => Some(Box::new(JJDescriptionParser::new(markdown_options))),
+        "lhaskell" | "literate haskell" => Some(Box::new(LiterateHaskellParser::new_markdown(
+            markdown_options,
+        ))),
+        "python" => Some(Box::new(PythonParser::default())),
+        "tex" | "plaintex" | "latex" => Some(Box::new(TeX::default())),
+        _ => None,
+    }
 }
 
 impl Backend {
@@ -171,10 +195,16 @@ impl Backend {
     async fn get_file_dict_path(&self, uri: &Uri, language: &str) -> anyhow::Result<PathBuf> {
         let config = self.config.read().await;
 
-        Ok(Self::language_path(
-            &config.file_dict_path.join(fileify_path(uri)?),
-            language,
-        ))
+        // Another language's file dictionaries live in a directory of their own,
+        // `file_dictionaries-de` beside `file_dictionaries`.
+        let dir = &config.file_dict_path;
+        let dir = if language == "en" {
+            dir.clone()
+        } else {
+            let name = dir.file_name().unwrap_or_default().to_string_lossy();
+            dir.with_file_name(format!("{name}-{language}"))
+        };
+        Ok(dir.join(fileify_path(uri)?))
     }
 
     async fn save_file_dictionary(
@@ -364,11 +394,12 @@ impl Backend {
         let ignored_lints = self.load_ignored_lints(uri).await.unwrap_or_default();
 
         // What the language is guessed from: the text of a prose document, the comments of a
-        // source file.
+        // source file, the text between the markup of TeX, HTML, ...
         let effective_id = language_id.or(doc_lock.get(uri).and_then(|d| d.language_id.as_deref()));
         let detection_text = if configured_language == "auto" {
             effective_id
-                .and_then(|id| CommentParser::new_from_language_id(id, markdown_options))
+                .filter(|id| plugin_format(id).is_none())
+                .and_then(|id| region_parser(id, markdown_options))
                 .map(|parser| {
                     let document = Document::new_curated(text, &parser);
                     let source = document.get_source();
@@ -437,14 +468,13 @@ impl Backend {
         };
 
         doc_state.plugin = None;
-        // In source code only the comments are prose; the plugin is told where they are.
+        // Prose goes to the plugin whole. Of anything else (source code, TeX, HTML, a commit
+        // message) Harper's own parser finds the text, and the plugin is told where it is.
         let comment_parser = CommentParser::new_from_language_id(language_id, markdown_options);
+        let whole_format = plugin_format(language_id);
         if !is_english {
-            let format = if comment_parser.is_some() {
-                Some("plain")
-            } else {
-                plugin_format(language_id)
-            };
+            let format = whole_format
+                .or_else(|| region_parser(language_id, markdown_options).map(|_| "plain"));
             let linter = match format {
                 Some(format) => {
                     let mut user_words = self.collect_user_words(uri, &language).await;
@@ -533,15 +563,6 @@ impl Backend {
                     Some(Box::new(ts_parser))
                 }
             }
-            "git-commit" | "gitcommit" | "octo" | "scminput" => {
-                Some(Box::new(GitCommitParser::default()))
-            }
-            "html" => Some(Box::new(HtmlParser::default())),
-            "asciidoc" => Some(Box::new(AsciidocParser::default())),
-            "ink" => Some(Box::new(InkParser::default())),
-            "jj-commit" | "jjdescription" => {
-                Some(Box::new(JJDescriptionParser::new(markdown_options)))
-            }
             "lhaskell" | "literate haskell" => {
                 let parser = LiterateHaskellParser::new_markdown(markdown_options);
 
@@ -568,10 +589,8 @@ impl Backend {
             "markdown" | "quarto" => Some(Box::new(Markdown::new(markdown_options))),
             "org" => Some(Box::new(OrgMode::default())),
             "plaintext" | "text" => Some(Box::new(PlainEnglish)),
-            "python" => Some(Box::new(PythonParser::default())),
             "typst" => Some(Box::new(Typst)),
-            "tex" | "plaintex" | "latex" => Some(Box::new(TeX::default())),
-            _ => None,
+            _ => region_parser(language_id, markdown_options),
         };
 
         match parser {
@@ -586,7 +605,7 @@ impl Backend {
                 // Don't lint on documents larger than the configured maximum length.
                 if text.len() <= max_file_length {
                     doc_state.document = Document::new(text, &parser, &doc_state.dict);
-                    if comment_parser.is_some() {
+                    if whole_format.is_none() {
                         let regions = comment_regions(&doc_state.document);
                         doc_state.plugin = doc_state.plugin.take().map(|p| p.with_regions(regions));
                     }

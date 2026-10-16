@@ -16,7 +16,10 @@ fn handle<P: LanguagePlugin>(slot: &mut Option<P>, req: Request) -> Value {
     // `info` and `detect` must not trigger the (possibly slow) construction of the plugin.
     match &req {
         Request::Info => return json!({ "ok": P::info() }),
-        Request::Detect { text } => return json!({ "ok": P::detect(text) }),
+        Request::Detect {
+            text,
+            english_ratio,
+        } => return json!({ "ok": P::detect_with(text, *english_ratio) }),
         _ => {}
     }
 

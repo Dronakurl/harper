@@ -99,8 +99,17 @@ pub enum Request {
     Lint(LintRequest),
     LintDescriptions,
     DefaultConfig,
-    SetUserWords { words: Vec<String> },
-    Detect { text: String },
+    SetUserWords {
+        words: Vec<String>,
+    },
+    Detect {
+        text: String,
+        /// The share of the words of `text` that Harper's English dictionary knows (0 to 1), when
+        /// the host has that dictionary: the best sign that a text is English after all. Hosts
+        /// before it was added leave it out.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        english_ratio: Option<f32>,
+    },
 }
 
 /// The envelope returned by `harper_call`.

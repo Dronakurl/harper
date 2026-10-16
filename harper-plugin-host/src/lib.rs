@@ -13,7 +13,7 @@ mod dir;
 mod plugin;
 
 pub use dir::{default_plugin_dir, discover};
-pub use plugin::{LoadedPlugin, PluginHost};
+pub use plugin::{LoadedPlugin, PluginHost, english_ratio};
 
 #[derive(Debug, thiserror::Error)]
 pub enum Error {

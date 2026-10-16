@@ -2,14 +2,16 @@
 //! https://github.com/Dronakurl/harper/issues/14). All `plugins` feature handling lives in this file; the rest of
 //! `harper-ls` only sees [`PluginRegistry`] and [`PluginLinter`].
 
-/// The format a plugin is asked to parse for an editor `languageId`, or `None` if plugins cannot
-/// lint that kind of document (yet). Source code comments need the `regions` request.
+/// The format a plugin is asked to parse a whole document of an editor `languageId` in, or `None`
+/// when the plugin gets only parts of it: the comments of source code, the text of TeX, HTML,
+/// AsciiDoc or a commit message. Harper's own parser finds those parts, and the plugin is sent
+/// them as `regions`.
 pub fn plugin_format(language_id: &str) -> Option<&'static str> {
     match language_id {
         "markdown" | "quarto" => Some("markdown"),
         "org" => Some("org"),
         "typst" => Some("typst"),
-        "plaintext" | "text" | "mail" | "git-commit" | "gitcommit" | "scminput" => Some("plain"),
+        "plaintext" | "text" | "mail" => Some("plain"),
         _ => None,
     }
 }
@@ -438,6 +440,9 @@ mod tests {
         assert_eq!(plugin_format("markdown"), Some("markdown"));
         assert_eq!(plugin_format("plaintext"), Some("plain"));
         assert_eq!(plugin_format("rust"), None);
+        // Only the text of these is prose; Harper's parser finds it.
+        assert_eq!(plugin_format("latex"), None);
+        assert_eq!(plugin_format("git-commit"), None);
     }
 
     #[test]

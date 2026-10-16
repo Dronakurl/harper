@@ -209,9 +209,12 @@ impl LoadedPlugin {
         Ok(())
     }
 
+    /// How sure the plugin is that `text` is in its language (0 to 1). The plugin is told how
+    /// much of the text Harper's English dictionary knows.
     pub fn detect(&self, text: &str) -> Result<Option<f32>> {
         self.send(&Request::Detect {
             text: text.to_owned(),
+            english_ratio: english_ratio(text),
         })
     }
 }
@@ -234,4 +237,24 @@ fn request<T: DeserializeOwned>(guest: &mut Guest, req: &Request) -> Result<T> {
         Ok(Response::Err(e)) => Err(Error::Plugin(e)),
         Err(e) => Err(Error::Protocol(e.to_string())),
     }
+}
+
+/// The share of the words of `text` that Harper's English dictionary knows, or `None` for a text
+/// without words. Words as English prose is split into them.
+pub fn english_ratio(text: &str) -> Option<f32> {
+    use harper_core::parsers::{Parser, PlainEnglish};
+    use harper_core::spell::{Dictionary, FstDictionary};
+
+    let chars: Vec<char> = text.chars().collect();
+    let dict = FstDictionary::curated();
+    let (mut words, mut known) = (0usize, 0usize);
+    for token in PlainEnglish.parse(&chars) {
+        if token.kind.is_word() {
+            words += 1;
+            if dict.contains_word(token.get_ch(&chars)) {
+                known += 1;
+            }
+        }
+    }
+    (words > 0).then(|| known as f32 / words as f32)
 }
