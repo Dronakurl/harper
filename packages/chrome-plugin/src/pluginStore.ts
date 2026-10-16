@@ -75,6 +75,9 @@ export async function listPlugins(): Promise<InstalledPlugin[]> {
 
 /** The bytes of the plugin for `id`, or `null` if none is installed. */
 export async function getPluginBytes(id: string): Promise<ArrayBuffer | null> {
-	const record = await run('readonly', (store) => store.get(id) as IDBRequest<StoredPlugin | undefined>);
+	const record = await run(
+		'readonly',
+		(store) => store.get(id) as IDBRequest<StoredPlugin | undefined>,
+	);
 	return record?.bytes ?? null;
 }

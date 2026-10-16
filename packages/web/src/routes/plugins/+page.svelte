@@ -1,6 +1,6 @@
 <script lang="ts">
 import { Textarea } from 'components';
-import { type Lint, PluginLinter, type PluginInfo } from 'harper.js';
+import { type Lint, type PluginInfo, PluginLinter } from 'harper.js';
 
 let linter: PluginLinter | null = null;
 let info: PluginInfo | null = null;

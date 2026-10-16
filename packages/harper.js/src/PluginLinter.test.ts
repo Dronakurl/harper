@@ -1,4 +1,6 @@
 import { beforeAll, describe, expect, test } from 'vitest';
+import { binary } from './binaries/binary';
+import LocalLinter from './LocalLinter';
 import PluginLinter from './PluginLinter';
 
 // `just test-harperjs` builds the `echo` example plugin of harper-plugin-api into this file.
@@ -114,5 +116,36 @@ describe('PluginLinter', () => {
 			plugin: new Uint8Array([0, 0x61, 0x73, 0x6d, 1, 0, 0, 0]),
 		});
 		await expect(empty.setup()).rejects.toThrow(/missing export/);
+	});
+});
+
+// A real language plugin, if one has been put here (e.g. harper-german's `harper_german.wasm`
+// as `harper-de.wasm`). Tests that need it are skipped otherwise.
+const GERMAN_URL = '/test-fixtures/harper-de.wasm';
+
+describe('Several languages at once', async () => {
+	const response = await fetch(GERMAN_URL).catch(() => null);
+	const german = response?.ok ? await response.arrayBuffer() : null;
+
+	test.skipIf(german == null)('each plugin lints in its own language, side by side', async () => {
+		const de = new PluginLinter({ plugin: german! });
+		const xx = new PluginLinter({ plugin: bytes });
+		const en = new LocalLinter({ binary });
+
+		const [deLints, xxLints, enLints] = await Promise.all([
+			de.lint('Ich habe das Buch gelesent.', { language: 'plaintext' }),
+			xx.lint('teh cat', { language: 'plaintext' }),
+			en.lint('This is an test.', { language: 'plaintext' }),
+		]);
+
+		expect((await de.info()).id).toBe('de');
+		expect(deLints.map((l) => l.get_problem_text())).toContain('gelesent');
+		expect(xxLints.length).toBe(1);
+		// English is not touched by the plugins.
+		expect(enLints.length).toBeGreaterThan(0);
+		expect(enLints.every((l) => !l.message().startsWith('»'))).toBe(true);
+
+		expect(await de.detect('Der Hund spielt heute im Garten mit dem Ball.')).toBeGreaterThan(0.5);
+		expect(await xx.detect('Der Hund spielt heute im Garten mit dem Ball.')).toBeNull();
 	});
 });

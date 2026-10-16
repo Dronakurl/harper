@@ -215,7 +215,7 @@ async function resolveTestPage(prov: TestPageUrlProvider, page: Page): Promise<s
 }
 
 /** Exact-match assertion: `toHaveValue` for form elements, `toHaveText` for contenteditable. */
-async function assertEditorText(editor: Locator, text: string) {
+export async function assertEditorText(editor: Locator, text: string) {
 	if (await isFormElement(editor)) {
 		await expect(editor).toHaveValue(text);
 	} else {

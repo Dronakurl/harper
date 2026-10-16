@@ -81,14 +81,32 @@ mod imp {
         pub fn load(language: Option<&str>, path: Option<&Path>) -> Result<Option<Self>> {
             let path = match (path, language) {
                 (Some(p), _) => p.to_path_buf(),
-                (None, Some(l)) if l != "en" && l != "auto" => plugin_path(l)?,
+                (None, Some(l)) if l != "en" && l != "auto" => {
+                    let exact = plugin_path(l)?;
+                    if exact.exists() {
+                        exact
+                    } else {
+                        // A name, alias or dialect the plugin answers to (`German`, `Swiss`).
+                        match Self::load_all()?
+                            .into_iter()
+                            .find(|p| p.plugin.info().answers_to(l))
+                        {
+                            Some(found) => return Ok(Some(found)),
+                            None => bail!(
+                                "no language plugin for `{l}`: there is no {}, and no plugin \
+                                 there answers to `{l}`",
+                                exact.display()
+                            ),
+                        }
+                    }
+                }
                 _ => return Ok(None),
             };
             let plugin = load_file(&path)?;
             if let Some(l) = language
                 && l != "en"
                 && l != "auto"
-                && plugin.info().id != l
+                && !plugin.info().answers_to(l)
             {
                 bail!(
                     "{} is a plugin for `{}`, not `{l}`",

@@ -137,7 +137,7 @@
 					"scope": "resource",
 					"type": "string",
 					"default": "auto",
-					"description": "The language to check. `auto` (the default) uses an installed language plugin when the text is written in its language, and English otherwise. `en` is English; any other value, such as `de`, names a language plugin `harper-<language>.wasm` in the plugin directory."
+					"description": "The language to check. `auto` (the default) uses an installed language plugin when the text is written in its language, and English otherwise. `en` is English; any other value names a language plugin `harper-<language>.wasm` in the plugin directory, by its id (`de`) or a name it answers to (`German`)."
 				},
 				"harper.pluginDirectory": {
 					"scope": "resource",

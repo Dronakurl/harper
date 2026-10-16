@@ -8,8 +8,8 @@ import {
 	type StructuredLintSetting,
 } from 'harper.js';
 import logo from '/logo.png';
-import { type InstalledPlugin, removePlugin, savePlugin } from '../pluginStore';
 import ProtocolClient from '../ProtocolClient';
+import { type InstalledPlugin, removePlugin, savePlugin } from '../pluginStore';
 import type { Hotkey, Modifier, WeirpackMeta } from '../protocol';
 import { ActivationKey } from '../protocol';
 import StructuredRuleSettings from './StructuredRuleSettings.svelte';
@@ -77,10 +77,7 @@ async function addLanguage(e: Event) {
 		// Loading it is the check: it must be a Harper plugin of a version this Harper speaks.
 		const probe = new PluginLinter({ plugin: bytes });
 		const info = await probe.info();
-		await savePlugin(
-			{ id: info.id, name: info.name, version: info.plugin_version },
-			bytes,
-		);
+		await savePlugin({ id: info.id, name: info.name, version: info.plugin_version }, bytes);
 		installedLanguages = (await ProtocolClient.getLanguage()).installed;
 		input.value = '';
 		await changeLanguage(info.id);

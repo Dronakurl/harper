@@ -129,6 +129,13 @@ test-obsidian: build-obsidian
   set -eo pipefail
 
   pnpm install
+
+  # A small language plugin that State.test.ts loads.
+  cargo build --release -p harper-plugin-api --example echo --target wasm32-unknown-unknown
+  mkdir -p "{{justfile_directory()}}/packages/obsidian-plugin/test-fixtures"
+  cp "{{justfile_directory()}}/target/wasm32-unknown-unknown/release/examples/echo.wasm" \
+    "{{justfile_directory()}}/packages/obsidian-plugin/test-fixtures/echo.wasm"
+
   cd "{{justfile_directory()}}/packages/obsidian-plugin"
   pnpm playwright install
   pnpm test

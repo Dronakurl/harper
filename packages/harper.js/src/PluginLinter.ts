@@ -71,10 +71,10 @@ function prettyKind(kind: string): string {
 
 function escapeHtml(text: string): string {
 	return text
-		.replaceAll('&', '&amp;')
-		.replaceAll('<', '&lt;')
-		.replaceAll('>', '&gt;')
-		.replaceAll('"', '&quot;');
+		.replace(/&/g, '&amp;')
+		.replace(/</g, '&lt;')
+		.replace(/>/g, '&gt;')
+		.replace(/"/g, '&quot;');
 }
 
 /** The WebAssembly side of a plugin: loading it and calling `harper_call`. */
@@ -98,7 +98,8 @@ class PluginRuntime {
 			if (kind !== 'function') {
 				throw new Error(`Plugin imports ${ns}.${name} (${kind}), which Harper does not provide`);
 			}
-			(imports[ns] ??= {})[name] = () => {
+			imports[ns] = imports[ns] ?? {};
+			imports[ns][name] = () => {
 				throw new Error(`The plugin called its import ${ns}.${name}`);
 			};
 		}
@@ -165,7 +166,10 @@ async function compile(source: PluginSource): Promise<WebAssembly.Module> {
 	if (typeof source === 'string' || source instanceof URL) {
 		return compile(fetch(source));
 	}
-	if (source instanceof Promise || (typeof Response !== 'undefined' && source instanceof Response)) {
+	if (
+		source instanceof Promise ||
+		(typeof Response !== 'undefined' && source instanceof Response)
+	) {
 		return WebAssembly.compileStreaming(source);
 	}
 	return WebAssembly.compile(source as BufferSource);
@@ -341,7 +345,8 @@ export default class PluginLinter implements Linter {
 	async organizedLints(text: string, options?: LintOptions): Promise<Record<string, Lint[]>> {
 		const out: Record<string, Lint[]> = {};
 		for (const lint of await this.runLint(text, options)) {
-			(out[lint.rule] ??= []).push(lint as unknown as Lint);
+			out[lint.rule] = out[lint.rule] ?? [];
+			out[lint.rule].push(lint as unknown as Lint);
 		}
 		return out;
 	}
@@ -433,7 +438,9 @@ export default class PluginLinter implements Linter {
 		const { start, end } = lint.span();
 		const before = source.slice(Math.max(0, start - 20), start);
 		const after = source.slice(end, end + 20);
-		return hash64(`${lint.lint_kind()}\u0000${lint.message()}\u0000${before}\u0001${lint.get_problem_text()}\u0001${after}`);
+		return hash64(
+			`${lint.lint_kind()}\u0000${lint.message()}\u0000${before}\u0001${lint.get_problem_text()}\u0001${after}`,
+		);
 	}
 
 	async ignoreLint(source: string, lint: Lint): Promise<void> {

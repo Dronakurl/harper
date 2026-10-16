@@ -281,8 +281,16 @@ fn main() -> anyhow::Result<()> {
             quiet,
             no_parallel,
         } => {
-            let dialect = parse_dialect(&dialect_str)
-                .map_err(|e| anyhow!("Invalid dialect '{}': {}", dialect_str, e))?;
+            // Not an English dialect: perhaps the name of another language or of one of its
+            // dialects (`--dialect german`, as the multilingual build took it), which a language
+            // plugin answers to.
+            let (dialect, language) = match parse_dialect(&dialect_str) {
+                Ok(dialect) => (dialect, language),
+                Err(_) if language.is_none() && plugin.is_none() => {
+                    (Dialect::American, Some(dialect_str.clone()))
+                }
+                Err(e) => return Err(anyhow!("Invalid dialect '{}': {}", dialect_str, e)),
+            };
 
             let auto_plugins = if language.as_deref() == Some("auto") && plugin.is_none() {
                 plugin::PluginLinter::load_all()?

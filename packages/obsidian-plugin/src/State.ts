@@ -20,7 +20,52 @@ export type Settings = {
 	useWebStyleLints?: boolean;
 	/** The language to check: `en` (built in, the default) or the id of a language plugin such as `de`. */
 	language?: string;
+	/**
+	 * Whose `lintSettings`, `userDictionary` and `ignoredLints` the fields above are: the language
+	 * that was being checked when the settings were saved. Missing in settings from before
+	 * language plugins, which are all English.
+	 */
+	settingsLanguage?: string;
+	/** Those three for every other language, so that each language keeps its own. */
+	otherLanguages?: Record<string, LanguageSettings>;
 };
+
+/** What each language has of its own. */
+export type LanguageSettings = {
+	lintSettings: LintConfig;
+	userDictionary?: string[];
+	ignoredLints?: string;
+};
+
+/**
+ * `settings` with the dictionary, rules and ignored lints of `language` in the top-level fields,
+ * and those of the language they held until now put aside in `otherLanguages`. Settings that
+ * already hold `language` (always, for someone who only uses English) are returned as they are.
+ */
+export function swapLanguageSettings(settings: Settings, language: string): Settings {
+	const owner = settings.settingsLanguage ?? 'en';
+	if (owner === language) {
+		return { ...settings, settingsLanguage: language };
+	}
+
+	const others = { ...(settings.otherLanguages ?? {}) };
+	others[owner] = {
+		lintSettings: settings.lintSettings,
+		userDictionary: settings.userDictionary,
+		ignoredLints: settings.ignoredLints,
+	};
+	const mine = others[language] ?? { lintSettings: {}, userDictionary: [] };
+	delete others[language];
+
+	return {
+		...settings,
+		lintSettings: { ...mine.lintSettings },
+		userDictionary: mine.userDictionary ?? [],
+		ignoredLints: mine.ignoredLints,
+		settingsLanguage: language,
+		otherLanguages: others,
+	};
+}
 
 /** Fetches the bytes of the plugin for a language, or `null` if it is not installed. */
 export type PluginLoader = (language: string) => Promise<ArrayBuffer | null>;
@@ -43,6 +88,7 @@ export default class State {
 	private wantsWebWorker = true;
 	private dialect?: Dialect;
 	private loadPlugin?: PluginLoader;
+	private otherLanguages: Record<string, LanguageSettings> = {};
 
 	/** The CodeMirror extension objects that should be inserted by the host. */
 	private editorExtensions: Extension[];
@@ -77,6 +123,8 @@ export default class State {
 
 		this.dialect = settings.dialect;
 		const language = await this.resolveLanguage(settings.language);
+		settings = swapLanguageSettings(settings, language);
+		this.otherLanguages = settings.otherLanguages ?? {};
 		const languageChanged = language !== this.language;
 		if (languageChanged) {
 			await this.harper.dispose();
@@ -329,6 +377,8 @@ export default class State {
 			regexMask: this.regexMask,
 			useWebStyleLints: this.useWebStyleLints,
 			language: this.language,
+			settingsLanguage: this.language,
+			otherLanguages: this.otherLanguages,
 		};
 	}
 

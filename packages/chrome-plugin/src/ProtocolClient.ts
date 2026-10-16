@@ -1,7 +1,7 @@
 import type { Dialect, LintConfig, LintOptions, StructuredLintConfig } from 'harper.js';
 import type { UnpackedLintGroups } from 'lint-framework';
-import type { InstalledPlugin } from './pluginStore';
 import { LRUCache } from 'lru-cache';
+import type { InstalledPlugin } from './pluginStore';
 import type { ActivationKey, Hotkey, WeirpackMeta } from './protocol';
 
 export default class ProtocolClient {
