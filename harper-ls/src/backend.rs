@@ -13,7 +13,7 @@ use crate::plugins::{PluginRegistry, choose_language, plugin_format};
 use anyhow::{Context, Result, anyhow};
 use futures::future::join;
 use harper_asciidoc::AsciidocParser;
-use harper_comments::CommentParser;
+use harper_comments::{CommentParser, comment_regions};
 use harper_core::linting::{FlatConfig, LintGroup};
 use harper_core::parsers::{
     CollapseIdentifiers, IsolateEnglish, Markdown, OrgMode, Parser, PlainEnglish,
@@ -46,21 +46,6 @@ use tower_lsp_server::lsp_types::{
 };
 use tower_lsp_server::{Client, LanguageServer, UriExt};
 use tracing::{error, info, warn};
-
-/// The stretches of a source file that are comments: runs of tokens with only white space between.
-fn comment_regions(document: &Document) -> Vec<(usize, usize)> {
-    let source = document.get_source();
-    let mut regions: Vec<(usize, usize)> = Vec::new();
-
-    for token in document.get_tokens() {
-        let (start, end) = (token.span.start, token.span.end);
-        match regions.last_mut() {
-            Some(last) if source[last.1..start].iter().all(|c| c.is_whitespace()) => last.1 = end,
-            _ => regions.push((start, end)),
-        }
-    }
-    regions
-}
 
 /// Return harper-ls version
 pub fn ls_version() -> &'static str {
@@ -378,11 +363,29 @@ impl Backend {
 
         let ignored_lints = self.load_ignored_lints(uri).await.unwrap_or_default();
 
+        // What the language is guessed from: the text of a prose document, the comments of a
+        // source file.
+        let effective_id = language_id.or(doc_lock.get(uri).and_then(|d| d.language_id.as_deref()));
+        let detection_text = if configured_language == "auto" {
+            effective_id
+                .and_then(|id| CommentParser::new_from_language_id(id, markdown_options))
+                .map(|parser| {
+                    let document = Document::new_curated(text, &parser);
+                    let source = document.get_source();
+                    comment_regions(&document)
+                        .into_iter()
+                        .map(|(start, end)| source[start..end].iter().collect::<String>())
+                        .collect::<Vec<_>>()
+                        .join("\n")
+                })
+        } else {
+            None
+        };
         let language = choose_language(
             &self.plugins,
             &configured_language,
-            language_id.or(doc_lock.get(uri).and_then(|d| d.language_id.as_deref())),
-            text,
+            detection_text.is_some() || effective_id.is_some_and(|id| plugin_format(id).is_some()),
+            detection_text.as_deref().unwrap_or(text),
             doc_lock.get(uri).map(|d| d.language.clone()),
             &plugin_dir,
         );

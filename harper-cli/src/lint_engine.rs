@@ -1,5 +1,6 @@
 use std::{collections::BTreeMap, path::Path, sync::Arc};
 
+use harper_comments::{CommentParser, comment_regions};
 use hashbrown::HashMap;
 
 use harper_core::{
@@ -98,7 +99,20 @@ pub fn lint_one_input(
                         let format = format_for_path(
                             single_input.try_as_file_ref().map(|f| f.path().as_ref()),
                         );
-                        let mut lints = plugin.organized_lints(&doc.get_full_string(), format)?;
+                        // In a source file the document holds only the comments; the plugin
+                        // gets the whole text and is told where they are.
+                        let regions = single_input
+                            .try_as_file_ref()
+                            .filter(|f| {
+                                CommentParser::new_from_filename(f.path(), markdown_options)
+                                    .is_some()
+                            })
+                            .map(|_| comment_regions(&doc));
+                        let mut lints = plugin.organized_lints(
+                            &doc.get_full_string(),
+                            format,
+                            regions.as_deref(),
+                        )?;
                         filter_rules(&mut lints, only, ignore);
                         lints
                     }

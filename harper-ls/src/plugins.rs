@@ -19,11 +19,12 @@ const MIN_WORDS_FOR_LANGUAGE_DETECTION: usize = 10;
 
 /// The language to check a document in: the configured one, or for `auto` the language of the
 /// text, once there is enough of it to tell (earlier: whatever it was before, else English).
-/// Only prose is looked at; source code stays English unless a language is configured.
+/// Only prose is looked at (`text` is the prose: for source code, its comments); anything else
+/// stays English unless a language is configured.
 pub fn choose_language(
     plugins: &PluginRegistry,
     configured: &str,
-    language_id: Option<&str>,
+    is_prose: bool,
     text: &str,
     previous: Option<String>,
     plugin_dir: &std::path::Path,
@@ -32,7 +33,6 @@ pub fn choose_language(
         return configured.to_owned();
     }
 
-    let is_prose = language_id.is_some_and(|id| plugin_format(id).is_some());
     if is_prose && text.split_whitespace().count() >= MIN_WORDS_FOR_LANGUAGE_DETECTION {
         return plugins
             .detect(text, plugin_dir)
@@ -367,7 +367,7 @@ mod tests {
             choose_language(
                 &registry,
                 configured,
-                Some(id),
+                plugin_format(id).is_some(),
                 text,
                 previous.map(str::to_owned),
                 &dir,

@@ -111,14 +111,28 @@ mod imp {
             Ok(self.plugin.set_user_words(words)?)
         }
 
-        /// Lints grouped by rule name, like `LintGroup::organized_lints`.
+        /// Lints grouped by rule name, like `LintGroup::organized_lints`. With `regions` (the comments
+        /// of a source file) only those character ranges are linted.
         pub fn organized_lints(
             &self,
             text: &str,
             format: &str,
+            regions: Option<&[(usize, usize)]>,
         ) -> Result<BTreeMap<String, Vec<Lint>>> {
             let mut req = LintRequest::plain(text);
             req.format = format.to_owned();
+            if let Some(regions) = regions {
+                req.regions = Some(
+                    regions
+                        .iter()
+                        .map(|&(start, end)| harper_plugin_api::Region {
+                            start,
+                            end,
+                            format: "plain".to_owned(),
+                        })
+                        .collect(),
+                );
+            }
 
             let mut out = BTreeMap::<String, Vec<Lint>>::new();
             for lint in self.plugin.lint(&req)? {
@@ -241,6 +255,7 @@ mod stub {
             &self,
             _text: &str,
             _format: &str,
+            _regions: Option<&[(usize, usize)]>,
         ) -> Result<BTreeMap<String, Vec<Lint>>> {
             Ok(BTreeMap::new())
         }
