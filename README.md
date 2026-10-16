@@ -34,7 +34,7 @@ Harper is even small enough to load via [WebAssembly.](https://writewithharper.c
 
 Harper checks English out of the box.
 Other languages are language plugins: a single file `harper-<language>.wasm` per language, which every Harper integration can load.
-See [Other Languages](https://writewithharper.com/docs/integrations/language-plugins) for how to install one, and for how to make a plugin for a new language.
+The [list of language plugins](https://writewithharper.com/docs/integrations/available-languages) says which languages there are; [Other Languages](https://writewithharper.com/docs/integrations/language-plugins) explains how to install one (`just language-install <owner>/<repo>`) and how to make a plugin for a new language.
 
 ## Performance Issues
 

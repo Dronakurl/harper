@@ -476,7 +476,7 @@ async function removeWeirpack(id: string) {
           onchange={addLanguage}
         />
         <p class="text-xs text-gray-600 dark:text-gray-400">
-          A file such as <code>harper-de.wasm</code>. It stays in this browser and runs locally;
+          A file <code>harper-&lt;language&gt;.wasm</code>, from a project in the <a class="underline" href="https://writewithharper.com/docs/integrations/available-languages" target="_blank" rel="noreferrer">list of language plugins</a>. It stays in this browser and runs locally;
           your text is never sent anywhere.
         </p>
         {#if languageError}

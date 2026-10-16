@@ -106,7 +106,7 @@ export class HarperSettingTab extends PluginSettingTab {
 		new Setting(containerEl)
 			.setName('Language')
 			.setDesc(
-				'English is built in. Other languages are language plugins: put a file such as harper-de.wasm in this plugin\'s "languages" folder (inside .obsidian/plugins/harper/), then reopen this page. Plugin languages do not use the English dialect or statistics.',
+				'English is built in. Other languages are language plugins: put a file harper-<language>.wasm (see writewithharper.com/docs/integrations/available-languages) in this plugin\'s "languages" folder (inside .obsidian/plugins/harper/), then reopen this page. Plugin languages do not use the English dialect or statistics.',
 			)
 			.addDropdown((dropdown) => {
 				dropdown.addOption('en', 'English');

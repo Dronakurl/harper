@@ -540,6 +540,42 @@ install:
 install-plugin FILE:
   harper-cli plugin install "{{FILE}}"
 
+# The language plugins there are: https://writewithharper.com/docs/integrations/available-languages
+# TAG picks a release; the default is the latest. Needs `curl` and `just install` first.
+# Download the language plugin `harper-<language>.wasm` from a GitHub release of REPO (OWNER/NAME) and install it.
+language-install REPO TAG="latest":
+  #!/usr/bin/env bash
+  set -euo pipefail
+  if [ "{{TAG}}" = latest ]; then
+    api="https://api.github.com/repos/{{REPO}}/releases/latest"
+  else
+    api="https://api.github.com/repos/{{REPO}}/releases/tags/{{TAG}}"
+  fi
+  release=$(curl -fsSL -H "Accept: application/vnd.github+json" "$api") \
+    || { echo "Could not read $api: no such repository or release, or GitHub refused the request" >&2; exit 1; }
+  urls=$(grep -o '"browser_download_url": *"[^"]*"' <<<"$release" | sed -E 's/.*"(https:[^"]*)"$/\1/' || true)
+  wasm=$(grep -E '/harper-[A-Za-z0-9_-]+\.wasm$' <<<"$urls" || true)
+  if [ "$(grep -c . <<<"$wasm" || true)" != 1 ]; then
+    echo "The release of {{REPO}} should have exactly one asset harper-<language>.wasm; it has:" >&2
+    echo "${urls:-  nothing}" >&2
+    exit 1
+  fi
+  dir=$(mktemp -d)
+  trap 'rm -rf "$dir"' EXIT
+  file="$dir/$(basename "$wasm")"
+  echo "Downloading $wasm"
+  curl -fL --progress-bar -o "$file" "$wasm"
+  if grep -qxF "$wasm.sha256" <<<"$urls"; then
+    expected=$(curl -fsSL "$wasm.sha256" | cut -d' ' -f1)
+    actual=$( (sha256sum "$file" 2>/dev/null || shasum -a 256 "$file") | cut -d' ' -f1)
+    if [ "$expected" != "$actual" ]; then
+      echo "Checksum mismatch: the release says $expected, the download is $actual" >&2
+      exit 1
+    fi
+    echo "Checksum matches."
+  fi
+  harper-cli plugin install "$file"
+
 # Run `harper-cli` on the Harper repository
 dogfood:
   #!/usr/bin/env bash

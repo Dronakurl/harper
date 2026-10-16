@@ -45,15 +45,16 @@ $: text, run();
 <div class="[&>*]:mt-8 p-4 dark:[&>*]:text-white">
 	<h1 class="text-2xl">Language Plugin Demo</h1>
 	<p>
-		Harper's languages other than English are WebAssembly plugins, such as
-		<code>harper-de.wasm</code>. Load one from a URL or from a file; it runs entirely in your
+		Harper's languages other than English are WebAssembly plugins, files such as
+		<code>harper-&lt;language&gt;.wasm</code> (see the
+		<a class="underline" href="/docs/integrations/available-languages">list of language plugins</a>). Load one from a URL or from a file; it runs entirely in your
 		browser, and the text never leaves it.
 	</p>
 
 	<div class="flex gap-2 items-center">
 		<input
 			class="border rounded p-1 grow dark:bg-gray-800"
-			placeholder="https://…/harper-de.wasm"
+			placeholder="https://…/harper-<language>.wasm"
 			bind:value={url}
 		/>
 		<button class="border rounded px-3 py-1" disabled={url === '' || loading} on:click={() => use(url)}>
