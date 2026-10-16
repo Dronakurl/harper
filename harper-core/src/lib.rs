@@ -15,12 +15,12 @@ mod ignored_lints;
 mod indefinite_article;
 mod irregular_nouns;
 mod irregular_verbs;
+#[cfg(feature = "language-bits")]
+pub mod language_bits;
 pub mod language_detection;
 pub mod lexing;
 pub mod linting;
 mod mask;
-#[cfg(feature = "morphology")]
-pub mod morphology;
 mod number;
 mod offsets;
 pub mod parsers;
@@ -57,6 +57,8 @@ pub use ignored_lints::{IgnoredLints, LintContext};
 pub use indefinite_article::{InitialSound, starts_with_vowel};
 pub use irregular_nouns::IrregularNouns;
 pub use irregular_verbs::IrregularVerbs;
+#[cfg(feature = "language-bits")]
+pub use language_bits::LanguageBits;
 use linting::Lint;
 pub use mask::{Mask, Masker, RegexMasker};
 pub use number::{Number, OrdinalSuffix};
