@@ -6,7 +6,7 @@ import type Summary from './Summary';
 
 /**
  * A `Linter` for languages that are not built into Harper: it runs a language plugin, a
- * standalone WebAssembly module such as `harper-de.wasm` (see `LANGUAGE_PLUGINS_PLAN.md`).
+ * standalone WebAssembly module such as `harper-de.wasm` (see https://github.com/Dronakurl/harper/issues/14).
  *
  * The module has no imports and is spoken to in JSON through four exported functions, so it is
  * loaded here with plain `WebAssembly.instantiate`, without Harper's own wasm-bindgen glue.

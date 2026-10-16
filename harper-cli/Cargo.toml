@@ -37,6 +37,6 @@ tempfile = "3"
 
 [features]
 default = ["plugins"]
-# Language plugins (WebAssembly modules, see LANGUAGE_PLUGINS_PLAN.md). Pulls in wasmtime.
+# Language plugins (WebAssembly modules, see https://github.com/Dronakurl/harper/issues/14). Pulls in wasmtime.
 plugins = ["dep:harper-plugin-host", "dep:harper-plugin-api"]
 training = ["harper-pos-utils/training"]

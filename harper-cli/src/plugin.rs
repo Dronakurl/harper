@@ -1,4 +1,4 @@
-//! Language plugin support for `harper-cli` (see `LANGUAGE_PLUGINS_PLAN.md`). All `plugins`
+//! Language plugin support for `harper-cli` (see https://github.com/Dronakurl/harper/issues/14). All `plugins`
 //! feature handling lives in this file.
 
 use std::collections::BTreeMap;
