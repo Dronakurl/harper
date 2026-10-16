@@ -60,6 +60,7 @@ mod tests {
                 harper_core_version: "0".into(),
                 dialects: vec![],
                 default_dialect: None,
+                aliases: vec![],
             }
         }
         fn new() -> Self {

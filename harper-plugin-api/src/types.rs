@@ -10,6 +10,9 @@ pub type PluginConfig = BTreeMap<String, Option<bool>>;
 pub struct DialectInfo {
     pub id: String,
     pub name: String,
+    /// Other names for the dialect, such as `"de-CH"` or `"Swiss"`; see [`PluginInfo::aliases`].
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub aliases: Vec<String>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -25,6 +28,31 @@ pub struct PluginInfo {
     pub dialects: Vec<DialectInfo>,
     #[serde(default)]
     pub default_dialect: Option<String>,
+    /// Other names people use for the language, such as `"German"`, `"Deutsch"` or `"de-DE"`.
+    /// A host accepts them, and the names and aliases of the dialects, wherever a user names a
+    /// language, so it needs no list of languages of its own. Matched ignoring case.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub aliases: Vec<String>,
+}
+
+impl PluginInfo {
+    /// Whether `name` names this plugin's language: its id, its name, an alias, or one of its
+    /// dialects (ignoring case).
+    pub fn answers_to(&self, name: &str) -> bool {
+        let is = |candidate: &String| candidate.eq_ignore_ascii_case(name);
+        is(&self.id)
+            || is(&self.name)
+            || self.aliases.iter().any(is)
+            || self.dialect_named(name).is_some()
+    }
+
+    /// The dialect `name` names: its id, its name or an alias (ignoring case).
+    pub fn dialect_named(&self, name: &str) -> Option<&DialectInfo> {
+        let is = |candidate: &String| candidate.eq_ignore_ascii_case(name);
+        self.dialects
+            .iter()
+            .find(|d| is(&d.id) || is(&d.name) || d.aliases.iter().any(is))
+    }
 }
 
 /// A slice of the text that should be linted on its own, e.g. a code comment.

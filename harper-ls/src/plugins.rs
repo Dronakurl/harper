@@ -31,8 +31,13 @@ pub fn choose_language(
     previous: Option<String>,
     plugin_dir: &std::path::Path,
 ) -> String {
+    if configured == "en" {
+        return "en".to_owned();
+    }
     if configured != "auto" {
-        return configured.to_owned();
+        return plugins
+            .resolve(configured, plugin_dir)
+            .unwrap_or_else(|| configured.to_owned());
     }
 
     if is_prose && text.split_whitespace().count() >= MIN_WORDS_FOR_LANGUAGE_DETECTION {
@@ -134,6 +139,26 @@ mod imp {
                     None
                 }
             }
+        }
+
+        /// The id of the installed plugin that `name` names: its id, its name, one of its aliases
+        /// or dialects (`de`, `Deutsch`, `German`, `Swiss`, ...). The plugins say what they
+        /// answer to, so harper-ls needs no list of languages.
+        pub fn resolve(&self, name: &str, dir: &Path) -> Option<String> {
+            if dir.join(format!("harper-{name}.wasm")).exists() {
+                return Some(name.to_owned());
+            }
+            harper_plugin_host::discover(dir)
+                .into_iter()
+                .find_map(|path| {
+                    let id = path
+                        .file_stem()?
+                        .to_str()?
+                        .strip_prefix("harper-")?
+                        .to_owned();
+                    let plugin = self.load(&id, dir)?;
+                    plugin.info().answers_to(name).then_some(id)
+                })
         }
 
         /// Which installed plugin recognizes `text` as its language, if any: the one that is
@@ -262,6 +287,10 @@ mod stub {
         pub fn retry_failed(&self) {}
 
         pub fn detect(&self, _text: &str, _dir: &Path) -> Option<String> {
+            None
+        }
+
+        pub fn resolve(&self, _name: &str, _dir: &Path) -> Option<String> {
             None
         }
 
@@ -396,6 +425,11 @@ mod tests {
         // An explicit choice wins.
         assert_eq!(pick("en", "markdown", GERMANISH, None), "en");
         assert_eq!(pick("xx", "markdown", "hello", None), "xx");
+        // A plugin answers to its name, aliases and dialects as well as to its id.
+        assert_eq!(pick("Echo", "markdown", "hello", None), "xx");
+        assert_eq!(pick("echolalia", "markdown", "hello", None), "xx");
+        assert_eq!(pick("Standard", "markdown", "hello", None), "xx");
+        assert_eq!(pick("Klingon", "markdown", "hello", None), "Klingon");
 
         let _ = std::fs::remove_dir_all(dir);
     }

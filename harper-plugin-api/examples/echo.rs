@@ -23,8 +23,10 @@ impl LanguagePlugin for Echo {
             dialects: vec![DialectInfo {
                 id: "std".into(),
                 name: "Standard".into(),
+                aliases: vec![],
             }],
             default_dialect: Some("std".into()),
+            aliases: vec!["Echolalia".into()],
         }
     }
 
