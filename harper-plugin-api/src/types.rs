@@ -3,7 +3,7 @@ use std::collections::BTreeMap;
 use serde::{Deserialize, Serialize};
 
 /// Rule name → enabled (`None` means "use the plugin's default").
-/// Same shape as `harper_core::linting::FlatConfig` when serialized.
+/// Same shape as [`harper_core::linting::FlatConfig`] when serialized.
 pub type PluginConfig = BTreeMap<String, Option<bool>>;
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

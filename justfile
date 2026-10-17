@@ -531,7 +531,7 @@ precommit: check test build-harperjs build-obsidian build-web build-wp build-fir
   echo Building binaries
   cargo build --all-targets -q
 
-# Install `harper-ls` and `harper-cli`. They check English; add other languages with `install-plugin`.
+# Install `harper-cli` and `harper-ls` to your machine via `cargo`
 install:
   cargo install --path harper-ls --locked
   cargo install --path harper-cli --locked

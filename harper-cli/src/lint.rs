@@ -109,11 +109,12 @@ pub enum OutputFormat {
 pub enum LanguageChoice {
     /// The built-in English rules.
     English,
-    /// `--language <id>` or `--plugin <file>`: this plugin lints every input.
+    /// A specific plugin should lint every input, in `harper-cli`, this is: `--language <id>` or `--plugin <file>`.
     Plugin(PluginLinter),
-    /// `--language auto`: detected per input among the installed plugins; English when none of
+    /// Detected per input among the installed plugins; English when none of
     /// them is confident. Kept apart from `Plugin`, so that a single installed plugin is still
     /// asked whether it recognizes the text instead of linting English with its rules.
+    /// In `harper-cli`, this is `--language auto`.
     Auto(Vec<PluginLinter>),
 }
 
