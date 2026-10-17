@@ -343,6 +343,13 @@ test-chrome-plugin: build-chrome-plugin
   set -eo pipefail
 
   pnpm install
+
+  # A small language plugin that language_plugin_dictionary.spec.ts installs.
+  cargo build --release -p harper-plugin-api --example echo --target wasm32-unknown-unknown
+  mkdir -p "{{justfile_directory()}}/packages/chrome-plugin/tests/plugin-fixtures"
+  cp "{{justfile_directory()}}/target/wasm32-unknown-unknown/release/examples/echo.wasm" \
+    "{{justfile_directory()}}/packages/chrome-plugin/tests/plugin-fixtures/echo.wasm"
+
   cd "{{justfile_directory()}}/packages/chrome-plugin"
   pnpm playwright install
 
@@ -542,6 +549,10 @@ install-release bin="harper-ls" tag="latest" repo="" prefix=(env("HOME") + "/.lo
   #!/usr/bin/env bash
   set -euo pipefail
 
+  for tool in curl tar; do
+    command -v "$tool" >/dev/null || { echo "install-release needs $tool, which is not installed" >&2; exit 1; }
+  done
+
   repo="{{repo}}"
   [ -n "$repo" ] || repo=$(git remote get-url origin | sed -E 's#^(https://github.com/|git@github.com:)##; s#\.git$##')
   arch=$(uname -m); [ "$arch" = arm64 ] && arch=aarch64
@@ -581,6 +592,9 @@ install-release bin="harper-ls" tag="latest" repo="" prefix=(env("HOME") + "/.lo
 install-from-ci bin="harper-ls" branch="feature/language-plugins" prefix=(env("HOME") + "/.local/bin"):
   #!/usr/bin/env bash
   set -euo pipefail
+
+  command -v gh >/dev/null || { echo "install-from-ci needs the GitHub CLI (gh), which is not installed: https://cli.github.com" >&2; exit 1; }
+  gh auth status >/dev/null 2>&1 || { echo "gh is not logged in. Run: gh auth login" >&2; exit 1; }
 
   # Use origin (the fork), not the upstream parent that `gh repo view` resolves to
   repo=$(git remote get-url origin | sed -E 's#^(https://github.com/|git@github.com:)##; s#\.git$##')

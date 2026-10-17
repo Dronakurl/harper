@@ -92,3 +92,48 @@ fn english_still_works_without_a_plugin() {
         String::from_utf8_lossy(&out.stderr)
     );
 }
+
+/// The number of lints the plugin finds in `teh cat.`, with `dict_dir` holding the user's
+/// dictionary files.
+fn lints_in_teh_cat(wasm: &str, dict_dir: &std::path::Path) -> usize {
+    let out = cli(&[
+        "lint",
+        "--plugin",
+        wasm,
+        "--user-dict-path",
+        dict_dir.join("dictionary.txt").to_str().unwrap(),
+        "--format",
+        "json",
+        "teh cat.",
+    ]);
+    let json: serde_json::Value = serde_json::from_slice(&out.stdout).unwrap();
+    json[0]["lint_count"].as_u64().unwrap() as usize
+}
+
+#[test]
+fn a_plugin_gets_the_user_words_of_its_own_language_only() {
+    let Some(wasm) = build_echo() else { return };
+    let wasm = wasm.to_str().unwrap();
+    let dir = std::env::temp_dir().join(format!("harper-cli-words-{}", std::process::id()));
+    std::fs::create_dir_all(&dir).unwrap();
+
+    assert_eq!(lints_in_teh_cat(wasm, &dir), 1, "no words: teh is flagged");
+
+    // The English dictionary is not the plugin's: `dictionary.txt` holds English words.
+    std::fs::write(dir.join("dictionary.txt"), "teh\n").unwrap();
+    assert_eq!(
+        lints_in_teh_cat(wasm, &dir),
+        1,
+        "English words do not reach `xx`"
+    );
+
+    // The plugin's language (`xx`) has its own file next to it.
+    std::fs::write(dir.join("dictionary-xx.txt"), "teh\n").unwrap();
+    assert_eq!(
+        lints_in_teh_cat(wasm, &dir),
+        0,
+        "the word of `xx` reaches the plugin"
+    );
+
+    std::fs::remove_dir_all(&dir).ok();
+}

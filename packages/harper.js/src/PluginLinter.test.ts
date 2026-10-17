@@ -88,6 +88,17 @@ describe('PluginLinter', () => {
 		expect(await linter.lint('teh', { language: 'plaintext' })).toHaveLength(1);
 	});
 
+	test('words of one linter do not reach another language or another instance', async () => {
+		const plugin = new PluginLinter({ plugin: bytes });
+		const other = new PluginLinter({ plugin: bytes });
+		const english = new LocalLinter({ binary });
+		await plugin.importWords(['teh']);
+
+		expect(await plugin.lint('teh', { language: 'plaintext' })).toHaveLength(0);
+		expect(await other.lint('teh', { language: 'plaintext' })).toHaveLength(1);
+		expect(await english.exportWords()).not.toContain('teh');
+	});
+
 	test('can ignore a lint', async () => {
 		const linter = new PluginLinter({ plugin: bytes });
 		const text = 'teh cat';
