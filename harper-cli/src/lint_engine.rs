@@ -62,6 +62,9 @@ pub fn lint_one_input(
         let mut merged_dictionary = curated_plus_user_dict.clone();
 
         // If processing a file, try to load its per-file dictionary
+        // The words of this file's own dictionary (`file_dict_name`), as plain strings. English
+        // reads them through `merged_dictionary`; a plugin cannot, so it is told them with the
+        // lint request, for this one file only.
         let mut file_words = Vec::new();
         if let Some(file) = single_input.try_as_file_ref() {
             let dict_path = file_dict_path.join(file_dict_name(file.path()));

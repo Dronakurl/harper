@@ -265,6 +265,10 @@ pub fn lint(
 
     let user_dict_msg = match load_dict(&user_dict_path) {
         Ok(user_dict) => {
+            // A plugin is a separate program with its own dictionary, so it cannot share the
+            // `MergedDictionary` built below. It is handed the user's words instead, once, and
+            // knows them for every file it lints. (The words of a file's own dictionary are
+            // added for that file only; see `lint_one_input`.)
             for plugin in lint_options.language.plugins() {
                 plugin
                     .set_user_words(user_dict.words_iter().map(|w| w.iter().collect()).collect())?;
