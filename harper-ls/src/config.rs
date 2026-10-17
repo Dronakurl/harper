@@ -75,6 +75,11 @@ pub struct Config {
     pub isolate_english: bool,
     pub markdown_options: MarkdownOptions,
     pub dialect: Dialect,
+    /// The language to check: `"en"` (built in), a plugin id such as `"de"` (needs a plugin file
+    /// `harper-<language>.wasm` in `plugin_dir`), or `"auto"`, the default, which picks an installed
+    /// plugin whose language the text is written in, and English otherwise.
+    pub language: String,
+    pub plugin_dir: PathBuf,
     /// Maximum length (in bytes) a file can have before it's skipped.
     /// Above this limit, the file will not be linted.
     pub max_file_length: usize,
@@ -165,7 +170,50 @@ impl Config {
         }
 
         if let Some(v) = value.get("dialect") {
-            base.dialect = serde_json::from_value(v.clone())?;
+            match v.as_str().map(|name| (name, english_dialect_named(name))) {
+                Some((_, Some(dialect))) => base.dialect = dialect,
+                // Not an English dialect, so the name of another language or one of its dialects
+                // ("German", "Swiss"), as the multilingual build of harper-ls took it here. The
+                // plugin that answers to the name is looked up when a document is checked.
+                Some((name, None)) if serde_json::from_value::<Dialect>(v.clone()).is_err() => {
+                    base.language = valid_language(name)?.to_owned();
+                }
+                _ => base.dialect = serde_json::from_value(v.clone())?,
+            }
+        }
+
+        if let Some(v) = value.get("language") {
+            // `{"German": "Swiss"}` and `{"English": "British"}`: how the multilingual build of
+            // harper-ls spelled this setting.
+            let language = match (v.as_object().filter(|o| o.len() == 1), v.as_str()) {
+                (Some(object), _) => {
+                    let (family, dialect) = object.iter().next().unwrap();
+                    if family.eq_ignore_ascii_case("english") {
+                        if let Some(dialect) = dialect.as_str().and_then(english_dialect_named) {
+                            base.dialect = dialect;
+                        }
+                        "en"
+                    } else {
+                        family.as_str()
+                    }
+                }
+                (None, Some(language)) => language,
+                (None, None) => bail!("language must be a string."),
+            };
+            base.language = if language.eq_ignore_ascii_case("english") {
+                "en".to_owned()
+            } else {
+                valid_language(language)?.to_owned()
+            };
+        }
+
+        if let Some(v) = value.get("pluginDirectory") {
+            let Some(path) = v.as_str() else {
+                bail!("pluginDirectory must be a string.");
+            };
+            if !path.is_empty() {
+                base.plugin_dir = path.try_resolve_in(workspace_root)?.to_path_buf();
+            }
         }
 
         if let Some(v) = value.get("codeActions") {
@@ -231,6 +279,8 @@ impl Default for Config {
             isolate_english: false,
             markdown_options: MarkdownOptions::default(),
             dialect: Dialect::American,
+            language: "auto".to_owned(),
+            plugin_dir: config_dir().unwrap().join("harper/plugins"),
             max_file_length: 120_000,
             exclude_patterns: GlobSet::empty(),
             diagnostic_delay_ms: 0,
@@ -238,11 +288,92 @@ impl Default for Config {
     }
 }
 
+/// The English dialect `name` names: Harper's names for them, and the spellings the multilingual
+/// build of harper-ls accepted, so that a configuration written for it keeps working (`"uk"`,
+/// `"en-GB"`, ...). Other languages name themselves: see `PluginInfo::answers_to`.
+fn english_dialect_named(name: &str) -> Option<Dialect> {
+    match name.to_ascii_lowercase().as_str() {
+        "us" | "usa" | "america" | "american" | "en-us" | "en_us" => Some(Dialect::American),
+        "uk" | "gb" | "british" | "britain" | "en-gb" | "en_gb" => Some(Dialect::British),
+        "au" | "aus" | "australia" | "australian" | "en-au" | "en_au" => Some(Dialect::Australian),
+        "in" | "india" | "indian" | "bharat" | "en-in" | "en_in" => Some(Dialect::Indian),
+        "ca" | "canada" | "canadian" | "en-ca" | "en_ca" => Some(Dialect::Canadian),
+        _ => None,
+    }
+}
+
+/// `language` if it can name a language: a plugin id (`de`), a name (`Deutsch`, `Português`), a
+/// tag (`de-CH`). Nothing that could be a path.
+fn valid_language(language: &str) -> Result<&str> {
+    if language.is_empty()
+        || !language
+            .chars()
+            .all(|c| c.is_alphanumeric() || c == '-' || c == '_')
+    {
+        bail!("language must be \"auto\", \"en\" or the id or name of a language plugin.");
+    }
+    Ok(language)
+}
+
 #[cfg(test)]
 mod tests {
-    use serde_json::json;
+    use harper_core::Dialect;
+    use serde_json::{Value, json};
 
     use super::Config;
+
+    /// Settings written for the multilingual build of harper-ls.
+    #[test]
+    fn accepts_the_language_spellings_of_the_multilingual_build() {
+        let parse = |v: Value| Config::from_lsp_config(std::path::Path::new("."), v).unwrap();
+
+        // Names of other languages are kept as they are; the plugin that answers to them is
+        // looked up when a document is checked.
+        let c = parse(json!({ "harper-ls": { "dialect": "German" } }));
+        assert_eq!(c.language, "German");
+        let c = parse(json!({ "harper-ls": { "dialect": "Swiss" } }));
+        assert_eq!(c.language, "Swiss");
+        let c = parse(json!({ "harper-ls": { "dialect": "uk" } }));
+        assert_eq!((c.language.as_str(), c.dialect), ("auto", Dialect::British));
+        let c = parse(json!({ "harper-ls": { "language": { "German": "Austrian" } } }));
+        assert_eq!(c.language, "German");
+        let c = parse(json!({ "harper-ls": { "language": "English" } }));
+        assert_eq!(c.language, "en");
+        let c = parse(json!({ "harper-ls": { "language": { "English": "Canadian" } } }));
+        assert_eq!((c.language.as_str(), c.dialect), ("en", Dialect::Canadian));
+        let c = parse(json!({ "harper-ls": { "dialect": "British", "language": "de" } }));
+        assert_eq!((c.language.as_str(), c.dialect), ("de", Dialect::British));
+        assert!(
+            Config::from_lsp_config(
+                std::path::Path::new("."),
+                json!({ "harper-ls": { "dialect": "../Klingon" } })
+            )
+            .is_err()
+        );
+    }
+
+    #[test]
+    fn language_defaults_to_auto_and_validates() {
+        assert_eq!(Config::default().language, "auto");
+
+        let ok = Config::from_lsp_config(
+            std::path::Path::new("."),
+            json!({ "harper-ls": { "language": "de", "pluginDirectory": "plugins" } }),
+        )
+        .unwrap();
+        assert_eq!(ok.language, "de");
+        assert!(ok.plugin_dir.ends_with("plugins"));
+
+        for bad in [json!(""), json!("../de"), json!(3)] {
+            assert!(
+                Config::from_lsp_config(
+                    std::path::Path::new("."),
+                    json!({ "harper-ls": { "language": bad } }),
+                )
+                .is_err()
+            );
+        }
+    }
 
     #[test]
     fn parses_diagnostic_delay() {

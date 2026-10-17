@@ -109,6 +109,13 @@ test-harperjs: build-harperjs
   set -eo pipefail
 
   pnpm install
+
+  # A small language plugin that PluginLinter.test.ts loads.
+  cargo build --release -p harper-plugin-api --example echo --target wasm32-unknown-unknown
+  mkdir -p "{{justfile_directory()}}/packages/harper.js/test-fixtures"
+  cp "{{justfile_directory()}}/target/wasm32-unknown-unknown/release/examples/echo.wasm" \
+    "{{justfile_directory()}}/packages/harper.js/test-fixtures/echo.wasm"
+
   cd "{{justfile_directory()}}/packages/harper.js"
   pnpm playwright install
   pnpm test
@@ -122,6 +129,13 @@ test-obsidian: build-obsidian
   set -eo pipefail
 
   pnpm install
+
+  # A small language plugin that State.test.ts loads.
+  cargo build --release -p harper-plugin-api --example echo --target wasm32-unknown-unknown
+  mkdir -p "{{justfile_directory()}}/packages/obsidian-plugin/test-fixtures"
+  cp "{{justfile_directory()}}/target/wasm32-unknown-unknown/release/examples/echo.wasm" \
+    "{{justfile_directory()}}/packages/obsidian-plugin/test-fixtures/echo.wasm"
+
   cd "{{justfile_directory()}}/packages/obsidian-plugin"
   pnpm playwright install
   pnpm test
@@ -521,6 +535,123 @@ precommit: check test build-harperjs build-obsidian build-web build-wp build-fir
 install:
   cargo install --path harper-ls --locked
   cargo install --path harper-cli --locked
+
+# Install a prebuilt `harper-ls` or `harper-cli` from a GitHub release (default: the latest release of this repository's origin).
+# Usage: just install-release [bin] [tag] [repo] [prefix]
+install-release bin="harper-ls" tag="latest" repo="" prefix=(env("HOME") + "/.local/bin"):
+  #!/usr/bin/env bash
+  set -euo pipefail
+
+  repo="{{repo}}"
+  [ -n "$repo" ] || repo=$(git remote get-url origin | sed -E 's#^(https://github.com/|git@github.com:)##; s#\.git$##')
+  arch=$(uname -m); [ "$arch" = arm64 ] && arch=aarch64
+  case "$(uname -s)" in
+    Linux) target="$arch-unknown-linux-gnu" ;;
+    Darwin) target="$arch-apple-darwin" ;;
+    *) echo "Unsupported system $(uname -s); download the archive from the release page instead" >&2; exit 1 ;;
+  esac
+
+  if [ "{{tag}}" = latest ]; then
+    api="https://api.github.com/repos/$repo/releases/latest"
+  else
+    api="https://api.github.com/repos/$repo/releases/tags/{{tag}}"
+  fi
+  release=$(curl -fsSL -H "Accept: application/vnd.github+json" "$api") \
+    || { echo "Could not read $api: no such repository or release, or GitHub refused the request" >&2; exit 1; }
+  urls=$(grep -o '"browser_download_url": *"[^"]*"' <<<"$release" | sed -E 's/.*"(https:[^"]*)"$/\1/' || true)
+  archive="{{bin}}-$target.tar.gz"
+  url=$(grep -F "/$archive" <<<"$urls" | head -n 1 || true)
+  if [ -z "$url" ]; then
+    echo "The release of $repo has no $archive. Its assets:" >&2
+    echo "${urls:-  none}" >&2
+    exit 1
+  fi
+
+  tmp=$(mktemp -d)
+  trap 'rm -rf "$tmp"' EXIT
+  echo "Downloading $url"
+  curl -fL --progress-bar -o "$tmp/$archive" "$url"
+  tar xzf "$tmp/$archive" -C "$tmp"
+  mkdir -p "{{prefix}}"
+  install -m 755 "$tmp/{{bin}}" "{{prefix}}/{{bin}}"
+  echo "Installed {{prefix}}/{{bin}} ($target, $repo, {{tag}})"
+
+# Build a branch with the "Binaries" GitHub workflow and install the result, instead of building it here.
+# Needs `gh` (logged in). Takes about ten minutes. Usage: just install-from-ci [bin] [branch] [prefix]
+install-from-ci bin="harper-ls" branch="feature/language-plugins" prefix=(env("HOME") + "/.local/bin"):
+  #!/usr/bin/env bash
+  set -euo pipefail
+
+  # Use origin (the fork), not the upstream parent that `gh repo view` resolves to
+  repo=$(git remote get-url origin | sed -E 's#^(https://github.com/|git@github.com:)##; s#\.git$##')
+  target=$(rustc -vV 2>/dev/null | sed -n 's/^host: //p' || true)
+  target=${target:-$(uname -m)-unknown-linux-gnu}
+
+  echo "Dispatching Binaries workflow on $repo@{{branch}}"
+  started=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+  gh workflow run binaries.yml --repo "$repo" --ref "{{branch}}"
+
+  # The run takes a moment to show up
+  run_id=""
+  for _ in $(seq 1 30); do
+    run_id=$(gh run list --repo "$repo" --workflow binaries.yml --branch "{{branch}}" --event workflow_dispatch \
+      --json databaseId,createdAt --jq "map(select(.createdAt >= \"$started\")) | first | .databaseId // empty")
+    [ -n "$run_id" ] && break
+    sleep 2
+  done
+  [ -n "$run_id" ] || { echo "Could not find the dispatched run" >&2; exit 1; }
+
+  echo "Waiting for run $run_id: https://github.com/$repo/actions/runs/$run_id"
+  gh run watch "$run_id" --repo "$repo" --exit-status >/dev/null
+
+  tmp=$(mktemp -d)
+  trap 'rm -rf "$tmp"' EXIT
+  gh run download "$run_id" --repo "$repo" --name "{{bin}}-$target" --dir "$tmp"
+  tar xzf "$tmp"/{{bin}}-$target.tar.gz -C "$tmp"
+
+  mkdir -p "{{prefix}}"
+  install -m 755 "$tmp/{{bin}}" "{{prefix}}/{{bin}}"
+  echo "Installed {{prefix}}/{{bin}} ($target, run $run_id)"
+
+# Add a language plugin (a `.wasm` file) to the plugin directory `harper-ls` and `harper-cli` use. Needs `just install` first.
+install-plugin FILE:
+  harper-cli plugin install "{{FILE}}"
+
+# The language plugins there are: https://writewithharper.com/docs/integrations/available-languages
+# TAG picks a release; the default is the latest. Needs `curl` and `just install` first.
+# Download the language plugin `harper-<language>.wasm` from a GitHub release of REPO (OWNER/NAME) and install it.
+language-install REPO TAG="latest":
+  #!/usr/bin/env bash
+  set -euo pipefail
+  if [ "{{TAG}}" = latest ]; then
+    api="https://api.github.com/repos/{{REPO}}/releases/latest"
+  else
+    api="https://api.github.com/repos/{{REPO}}/releases/tags/{{TAG}}"
+  fi
+  release=$(curl -fsSL -H "Accept: application/vnd.github+json" "$api") \
+    || { echo "Could not read $api: no such repository or release, or GitHub refused the request" >&2; exit 1; }
+  urls=$(grep -o '"browser_download_url": *"[^"]*"' <<<"$release" | sed -E 's/.*"(https:[^"]*)"$/\1/' || true)
+  wasm=$(grep -E '/harper-[A-Za-z0-9_-]+\.wasm$' <<<"$urls" || true)
+  if [ "$(grep -c . <<<"$wasm" || true)" != 1 ]; then
+    echo "The release of {{REPO}} should have exactly one asset harper-<language>.wasm; it has:" >&2
+    echo "${urls:-  nothing}" >&2
+    exit 1
+  fi
+  dir=$(mktemp -d)
+  trap 'rm -rf "$dir"' EXIT
+  file="$dir/$(basename "$wasm")"
+  echo "Downloading $wasm"
+  curl -fL --progress-bar -o "$file" "$wasm"
+  if grep -qxF "$wasm.sha256" <<<"$urls"; then
+    expected=$(curl -fsSL "$wasm.sha256" | cut -d' ' -f1)
+    actual=$( (sha256sum "$file" 2>/dev/null || shasum -a 256 "$file") | cut -d' ' -f1)
+    if [ "$expected" != "$actual" ]; then
+      echo "Checksum mismatch: the release says $expected, the download is $actual" >&2
+      exit 1
+    fi
+    echo "Checksum matches."
+  fi
+  harper-cli plugin install "$file"
 
 # Run `harper-cli` on the Harper repository
 dogfood:

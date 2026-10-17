@@ -1,12 +1,13 @@
 use std::{collections::BTreeMap, path::Path, sync::Arc};
 
+use harper_comments::comment_regions;
 use hashbrown::HashMap;
 
 use harper_core::{
     linting::{Lint, LintGroup, LintKind},
     parsers::MarkdownOptions,
     remove_overlaps_map,
-    spell::MergedDictionary,
+    spell::{Dictionary, MergedDictionary},
     weirpack::Weirpack,
 };
 
@@ -14,10 +15,11 @@ use crate::{
     LintOptions,
     input::single_input::SingleInputTrait,
     lint::{
-        FullInputInfo, InputInfo, JsonFileResult, JsonLint, JsonSpan, LintOneResult, ReportStyle,
-        file_dict_name, load_dict,
+        FullInputInfo, InputInfo, JsonFileResult, JsonLint, JsonSpan, LanguageChoice,
+        LintOneResult, ReportStyle, file_dict_name, load_dict,
     },
     lint_reporter::{char_index_to_line_col, single_input_report},
+    plugin::{PluginLinter, format_for_path},
 };
 
 #[allow(clippy::too_many_arguments)]
@@ -42,6 +44,7 @@ pub fn lint_one_input(
         keep_overlapping_lints,
         dialect,
         weirpack_inputs: _,
+        language,
         color: _,
         format: _,
         quiet: _,
@@ -59,9 +62,17 @@ pub fn lint_one_input(
         let mut merged_dictionary = curated_plus_user_dict.clone();
 
         // If processing a file, try to load its per-file dictionary
+        // The words of this file's own dictionary (`file_dict_name`), as plain strings. English
+        // reads them through `merged_dictionary`; a plugin cannot, so it is told them with the
+        // lint request, for this one file only.
+        let mut file_words = Vec::new();
         if let Some(file) = single_input.try_as_file_ref() {
             let dict_path = file_dict_path.join(file_dict_name(file.path()));
             if let Ok(file_dictionary) = load_dict(&dict_path) {
+                file_words = file_dictionary
+                    .words_iter()
+                    .map(|w| w.iter().collect())
+                    .collect();
                 merged_dictionary.add_dictionary(Arc::new(file_dictionary));
                 eprintln!(
                     "{}: Note: Using per-file dictionary: {}",
@@ -84,19 +95,57 @@ pub fn lint_one_input(
                 }
             }
             Ok((doc, source)) => {
-                // Create the Lint Group from which we will lint this input, using the combined dictionary and the specified dialect
-                let mut lint_group = LintGroup::new_curated(merged_dictionary.into(), *dialect);
-
-                for pack in weirpacks {
-                    let pack_group = pack.to_lint_group()?;
-                    lint_group.merge_from(pack_group);
-                }
-
-                // Turn specified rules on or off
-                configure_lint_group(&mut lint_group, only, ignore);
-
+                // Prose goes to a plugin whole. Of anything else (source code, TeX, ...) the
+                // document holds only the text; the plugin gets the whole file and is told
+                // where that text is.
+                let format =
+                    format_for_path(single_input.try_as_file_ref().map(|f| f.path().as_ref()));
+                let regions = format.is_none().then(|| comment_regions(&doc));
                 // Run the linter, getting back a map of rule name -> lints
-                let mut named_lints = lint_group.organized_lints(&doc);
+                // `--language auto`: the plugin that recognizes this input, else English.
+                let plugin = match language {
+                    LanguageChoice::English => None,
+                    LanguageChoice::Plugin(plugin) => Some(plugin),
+                    LanguageChoice::Auto(plugins) => {
+                        let source = doc.get_source();
+                        let prose = match &regions {
+                            Some(regions) => regions
+                                .iter()
+                                .map(|&(start, end)| source[start..end].iter().collect::<String>())
+                                .collect::<Vec<_>>()
+                                .join("\n"),
+                            None => doc.get_full_string(),
+                        };
+                        PluginLinter::best_for(plugins, &prose)
+                    }
+                };
+                let mut named_lints = match plugin {
+                    Some(plugin) => {
+                        let mut lints = plugin.organized_lints(
+                            &doc.get_full_string(),
+                            format.unwrap_or("plain"),
+                            regions.as_deref(),
+                            &file_words,
+                        )?;
+                        filter_rules(&mut lints, only, ignore);
+                        lints
+                    }
+                    None => {
+                        // Create the Lint Group from which we will lint this input, using the combined dictionary and the specified dialect
+                        let mut lint_group =
+                            LintGroup::new_curated(merged_dictionary.into(), *dialect);
+
+                        for pack in weirpacks {
+                            let pack_group = pack.to_lint_group()?;
+                            lint_group.merge_from(pack_group);
+                        }
+
+                        // Turn specified rules on or off
+                        configure_lint_group(&mut lint_group, only, ignore);
+
+                        lint_group.organized_lints(&doc)
+                    }
+                };
 
                 // Lint counts, for brief reporting
                 let lint_count_before = named_lints.values().map(|v| v.len()).sum::<usize>();
@@ -178,6 +227,18 @@ pub fn lint_one_input(
         spellos,
         json,
     })
+}
+
+/// `--only` and `--ignore` for plugin languages, whose rules are not known up front.
+fn filter_rules(
+    lints: &mut BTreeMap<String, Vec<Lint>>,
+    only: &Option<Vec<String>>,
+    ignore: &Option<Vec<String>>,
+) {
+    lints.retain(|rule, _| {
+        only.as_ref().is_none_or(|o| o.contains(rule))
+            && !ignore.as_ref().is_some_and(|i| i.contains(rule))
+    });
 }
 
 fn configure_lint_group(

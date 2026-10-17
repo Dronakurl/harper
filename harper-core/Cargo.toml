@@ -57,3 +57,5 @@ harness = false
 default = ["thesaurus", "concurrent"]
 concurrent = ["dep:boxcar"]
 thesaurus = ["dep:harper-thesaurus"]
+# A slot on dictionary entries for the grammatical features of a language plugin.
+language-bits = []

@@ -2,11 +2,14 @@ import {
 	createBinaryModuleFromUrl,
 	type Dialect,
 	type LintConfig,
+	type Linter,
 	LocalLinter,
+	PluginLinter,
 	unpackWeirpackBytes,
 } from 'harper.js';
 import { type UnpackedLintGroups, unpackLint } from 'lint-framework';
 import type { PopupState } from '../PopupState';
+import { getPluginBytes, listPlugins } from '../pluginStore';
 import {
 	ActivationKey,
 	type AddToUserDictionaryRequest,
@@ -27,6 +30,7 @@ import {
 	type GetInstalledOnRequest,
 	type GetInstalledOnResponse,
 	type GetIsolateEnglishResponse,
+	type GetLanguageResponse,
 	type GetLintDescriptionsRequest,
 	type GetLintDescriptionsResponse,
 	type GetReviewedRequest,
@@ -52,6 +56,7 @@ import {
 	type SetDomainStatusRequest,
 	type SetHotkeyRequest,
 	type SetIsolateEnglishRequest,
+	type SetLanguageRequest,
 	type SetReviewedRequest,
 	type SetUserDictionaryRequest,
 	type UnitResponse,
@@ -105,7 +110,9 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo) => {
 	}
 });
 
-let linter: LocalLinter;
+let linter: Linter;
+/** `en`, or the id of the language plugin the linter was built from. */
+let language = 'en';
 const WEIRPACKS_KEY = 'weirpacks';
 const linterStorageKeys = [
 	'dialect',
@@ -173,7 +180,11 @@ const defaultEnabledDomains = [
 ] as const;
 const defaultEnabledDomainSet = new Set<string>(defaultEnabledDomains);
 
-let linterReady = getDialect()
+let linterReady = getLanguage()
+	.then(async (l) => {
+		language = l;
+		return getDialect();
+	})
 	.then(setDialect)
 	.catch((err) => console.error('Failed to initialize linter:', err));
 setInstalledOnIfMissing();
@@ -196,6 +207,19 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
 			})
 			.catch((err) => console.error('Failed to reset linter:', err));
 	}
+});
+
+// With a language plugin installed, a keyboard shortcut (set in the browser's extension shortcuts)
+// goes round English and the installed languages.
+chrome.commands?.onCommand.addListener((command) => {
+	if (command !== 'switch-language') return;
+	linterReady = linterReady
+		.then(async () => {
+			const choices = ['en', ...(await listPlugins()).map((p) => p.id)];
+			const next = choices[(choices.indexOf(language) + 1) % choices.length];
+			if (next !== language) await setLanguage(next);
+		})
+		.catch((err) => console.error('Failed to switch language:', err));
 });
 
 /** Await this function to "wait" for the linter to boot up. */
@@ -231,6 +255,10 @@ function handleRequest(message: Request, sender?: chrome.runtime.MessageSender):
 			return handleSetDialect(message);
 		case 'getDialect':
 			return handleGetDialect(message);
+		case 'getLanguage':
+			return handleGetLanguage();
+		case 'setLanguage':
+			return handleSetLanguage(message);
 		case 'getIsolateEnglish':
 			return handleGetIsolateEnglish();
 		case 'setIsolateEnglish':
@@ -384,6 +412,18 @@ async function handleGetStructuredConfig(): Promise<GetStructuredConfigResponse>
 async function handleSetConfig(req: SetConfigRequest): Promise<UnitResponse> {
 	await ensureLinterReady();
 	await setLintConfig(req.config);
+
+	return createUnitResponse();
+}
+
+async function handleGetLanguage(): Promise<GetLanguageResponse> {
+	await ensureLinterReady();
+	return { kind: 'getLanguage', language, installed: await listPlugins() };
+}
+
+async function handleSetLanguage(req: SetLanguageRequest): Promise<UnitResponse> {
+	await ensureLinterReady();
+	await setLanguage(req.language);
 
 	return createUnitResponse();
 }
@@ -641,7 +681,7 @@ async function handleRemoveWeirpack(req: RemoveWeirpackRequest): Promise<UnitRes
 	const next = current.filter((item) => item.id !== req.id);
 	await setStoredWeirpacks(next);
 
-	initializeLinter(await linter.getDialect());
+	initializeLinter(await getDialect());
 	return createUnitResponse();
 }
 
@@ -652,14 +692,15 @@ async function setLintConfig(lintConfig: LintConfig): Promise<void> {
 
 	const json = await linter.getLintConfigAsJSON();
 
-	await chrome.storage.local.set({ lintConfig: json });
+	await chrome.storage.local.set({ [languageKey('lintConfig')]: json });
 }
 
 /** Get the lint configuration from permanent storage. */
 async function getLintConfig(): Promise<LintConfig> {
 	const json = await linter.getLintConfigAsJSON();
-	const resp = await chrome.storage.local.get({ lintConfig: json });
-	return JSON.parse(resp.lintConfig);
+	const key = languageKey('lintConfig');
+	const resp = await chrome.storage.local.get({ [key]: json });
+	return JSON.parse(resp[key]);
 }
 
 /** Get the ignored lint state from permanent storage. */
@@ -726,19 +767,47 @@ async function initializeLinter(dialect: Dialect) {
 		linter.dispose();
 	}
 
-	linter = new LocalLinter({
-		binary: createBinaryModuleFromUrl(chrome.runtime.getURL('./wasm/harper_wasm_bg.wasm')),
-		dialect,
-	});
+	const pluginBytes = language === 'en' ? null : await getPluginBytes(language);
+	if (language !== 'en' && pluginBytes == null) {
+		console.warn(`Harper: the language plugin '${language}' is not installed; using English.`);
+		language = 'en';
+	}
+
+	if (pluginBytes != null) {
+		linter = new PluginLinter({ plugin: pluginBytes });
+	} else {
+		linter = new LocalLinter({
+			binary: createBinaryModuleFromUrl(chrome.runtime.getURL('./wasm/harper_wasm_bg.wasm')),
+			dialect,
+		});
+	}
 
 	await Promise.all([
 		getIgnoredLints().then((i) => linter.importIgnoredLints(i)),
 		getUserDictionary().then((u) => linter.importWords(u)),
 		getLintConfig().then((c) => linter.setLintConfig(c)),
-		loadStoredWeirpacksIntoLinter(),
+		// Weirpacks are Weir rules for English.
+		language === 'en' ? loadStoredWeirpacksIntoLinter() : Promise.resolve(),
 	]);
 
 	await linter.setup();
+}
+
+/** The storage key for a per-language setting: English keeps the plain name. */
+function languageKey(name: string): string {
+	return language === 'en' ? name : `${name}:${language}`;
+}
+
+async function getLanguage(): Promise<string> {
+	const resp = await chrome.storage.local.get({ language: 'en' });
+	return typeof resp.language === 'string' ? resp.language : 'en';
+}
+
+async function setLanguage(next: string): Promise<void> {
+	linterHasPersistedState = true;
+	await chrome.storage.local.set({ language: next });
+	language = next;
+	await initializeLinter(await getDialect());
 }
 
 async function setDialect(dialect: Dialect) {
@@ -839,9 +908,9 @@ async function isDomainSet(domain: string): Promise<boolean> {
 
 /** Reset the persistent user dictionary. */
 async function resetDictionary(): Promise<void> {
-	await chrome.storage.local.set({ userDictionary: null });
+	await chrome.storage.local.set({ [languageKey('userDictionary')]: null });
 
-	initializeLinter(await linter.getDialect());
+	initializeLinter(await getDialect());
 }
 
 /** Add words to the persistent user dictionary. */
@@ -852,14 +921,15 @@ async function addToDictionary(words: string[]): Promise<void> {
 
 	await Promise.all([
 		linter.importWords(exported),
-		chrome.storage.local.set({ userDictionary: exported }),
+		chrome.storage.local.set({ [languageKey('userDictionary')]: exported }),
 	]);
 }
 
 /** Grab the user dictionary from persistent storage. */
 async function getUserDictionary(): Promise<string[]> {
-	const resp = await chrome.storage.local.get({ userDictionary: [] });
-	return resp.userDictionary;
+	const key = languageKey('userDictionary');
+	const resp = await chrome.storage.local.get({ [key]: [] });
+	return resp[key] ?? [];
 }
 
 /** Record the date the extension was installed, if it's missing. */

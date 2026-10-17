@@ -275,3 +275,96 @@ test('can overwrite dictionary words in settings', async () => {
 
 	expect(settings.userDictionary).toStrictEqual([]);
 });
+
+test('A language without an installed plugin falls back to English.', async () => {
+	const asked: string[] = [];
+	const state = new State(
+		(_) => Promise.resolve(),
+		() => {},
+		undefined,
+		async (language) => {
+			asked.push(language);
+			return null;
+		},
+	);
+
+	await state.initializeFromSettings({ useWebWorker: false, lintSettings: {}, language: 'de' });
+
+	expect(asked).toContain('de');
+	expect((await state.getSettings()).language).toBe('en');
+});
+
+test('English never asks for a plugin.', async () => {
+	let asked = 0;
+	const state = new State(
+		(_) => Promise.resolve(),
+		() => {},
+		undefined,
+		async () => {
+			asked++;
+			return null;
+		},
+	);
+
+	await state.initializeFromSettings({ useWebWorker: false, lintSettings: {}, language: 'en' });
+
+	expect(asked).toBe(0);
+});
+
+// The `echo` example plugin of harper-plugin-api (see `just test-obsidian`), as language `xx`.
+async function echoLoader(): Promise<(language: string) => Promise<ArrayBuffer | null>> {
+	const response = await fetch('/test-fixtures/echo.wasm');
+	if (!response.ok) {
+		throw new Error('test-fixtures/echo.wasm is missing; `just test-obsidian` builds it.');
+	}
+	const bytes = await response.arrayBuffer();
+	return async (language) => (language === 'xx' ? bytes : null);
+}
+
+test('Each language keeps its own dictionary and rules; English is as it was.', async () => {
+	const state = new State(
+		(_) => Promise.resolve(),
+		() => {},
+		undefined,
+		await echoLoader(),
+	);
+	await state.initializeFromSettings({
+		useWebWorker: false,
+		lintSettings: { SpellCheck: false },
+		userDictionary: ['englishword'],
+	});
+
+	const english = await state.getSettings();
+	english.language = 'xx';
+	await state.initializeFromSettings(english);
+
+	const plugin = await state.getSettings();
+	expect(plugin.language).toBe('xx');
+	expect(plugin.userDictionary).toStrictEqual([]);
+	expect(plugin.lintSettings.SpellCheck).toBeUndefined();
+	plugin.userDictionary = ['pluginword'];
+	await state.initializeFromSettings(plugin);
+
+	const back = await state.getSettings();
+	back.language = 'en';
+	await state.initializeFromSettings(back);
+
+	const again = await state.getSettings();
+	expect(again.language).toBe('en');
+	expect(again.userDictionary).toStrictEqual(['englishword']);
+	expect(again.lintSettings.SpellCheck).toBe(false);
+	expect(again.otherLanguages?.xx.userDictionary).toStrictEqual(['pluginword']);
+});
+
+test('Settings from before language plugins are English.', async () => {
+	const state = createEphemeralState();
+	await state.initializeFromSettings({
+		useWebWorker: false,
+		lintSettings: { SpellCheck: false },
+		userDictionary: ['word'],
+	});
+	const settings = await state.getSettings();
+	expect(settings.userDictionary).toStrictEqual(['word']);
+	expect(settings.lintSettings.SpellCheck).toBe(false);
+	expect(settings.otherLanguages).toStrictEqual({});
+});

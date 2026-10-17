@@ -8,18 +8,21 @@ use crate::{CharString, CharStringExt, DictWordMetadata};
 pub use self::dictionary::Dictionary;
 pub use self::fst_dictionary::FstDictionary;
 pub use self::merged_dictionary::MergedDictionary;
+pub use self::merged_dictionary::word_hash;
 pub use self::mutable_dictionary::MutableDictionary;
 pub use self::trie_dictionary::TrieDictionary;
 pub use self::word_id::WordId;
 
 mod dictionary;
-mod fst_dictionary;
+// The fuzzy-search helpers in here are reused by other languages' dictionaries.
+pub mod fst_dictionary;
 mod merged_dictionary;
 mod mutable_dictionary;
-mod rune;
+// Public so that other languages can expand their own word lists and annotations.
+pub mod rune;
 mod trie_dictionary;
 mod word_id;
-mod word_map;
+pub mod word_map;
 
 #[derive(PartialEq, Debug, Hash, Eq)]
 pub struct FuzzyMatchResult<'a> {
