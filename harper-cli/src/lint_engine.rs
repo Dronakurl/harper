@@ -15,8 +15,8 @@ use crate::{
     LintOptions,
     input::single_input::SingleInputTrait,
     lint::{
-        FullInputInfo, InputInfo, JsonFileResult, JsonLint, JsonSpan, LintOneResult, ReportStyle,
-        file_dict_name, load_dict,
+        FullInputInfo, InputInfo, JsonFileResult, JsonLint, JsonSpan, LanguageChoice,
+        LintOneResult, ReportStyle, file_dict_name, load_dict,
     },
     lint_reporter::{char_index_to_line_col, single_input_report},
     plugin::{PluginLinter, format_for_path},
@@ -44,8 +44,7 @@ pub fn lint_one_input(
         keep_overlapping_lints,
         dialect,
         weirpack_inputs: _,
-        plugin,
-        auto_plugins,
+        language,
         color: _,
         format: _,
         quiet: _,
@@ -101,10 +100,10 @@ pub fn lint_one_input(
                 let regions = format.is_none().then(|| comment_regions(&doc));
                 // Run the linter, getting back a map of rule name -> lints
                 // `--language auto`: the plugin that recognizes this input, else English.
-                let plugin = match plugin {
-                    Some(plugin) => Some(plugin),
-                    None if auto_plugins.is_empty() => None,
-                    None => {
+                let plugin = match language {
+                    LanguageChoice::English => None,
+                    LanguageChoice::Plugin(plugin) => Some(plugin),
+                    LanguageChoice::Auto(plugins) => {
                         let source = doc.get_source();
                         let prose = match &regions {
                             Some(regions) => regions
@@ -114,7 +113,7 @@ pub fn lint_one_input(
                                 .join("\n"),
                             None => doc.get_full_string(),
                         };
-                        PluginLinter::best_for(auto_plugins, &prose)
+                        PluginLinter::best_for(plugins, &prose)
                     }
                 };
                 let mut named_lints = match plugin {

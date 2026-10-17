@@ -42,7 +42,7 @@ use input::{
     AnyInput, InputTrait,
     single_input::{SingleInput, SingleInputOptionExt, SingleInputTrait},
 };
-use lint::LintOptions;
+use lint::{LanguageChoice, LintOptions};
 
 /// A debugging tool for the Harper grammar checker.
 #[derive(Parser)]
@@ -292,12 +292,14 @@ fn main() -> anyhow::Result<()> {
                 Err(e) => return Err(anyhow!("Invalid dialect '{}': {}", dialect_str, e)),
             };
 
-            let auto_plugins = if language.as_deref() == Some("auto") && plugin.is_none() {
-                plugin::PluginLinter::load_all()?
+            let language = if language.as_deref() == Some("auto") && plugin.is_none() {
+                LanguageChoice::Auto(plugin::PluginLinter::load_all()?)
             } else {
-                Vec::new()
+                match plugin::PluginLinter::load(language.as_deref(), plugin.as_deref())? {
+                    Some(plugin) => LanguageChoice::Plugin(plugin),
+                    None => LanguageChoice::English,
+                }
             };
-            let plugin = plugin::PluginLinter::load(language.as_deref(), plugin.as_deref())?;
 
             lint(
                 markdown_options,
@@ -310,8 +312,7 @@ fn main() -> anyhow::Result<()> {
                     keep_overlapping_lints,
                     dialect,
                     weirpack_inputs: weirpacks,
-                    plugin,
-                    auto_plugins,
+                    language,
                     color,
                     format,
                     quiet,
