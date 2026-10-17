@@ -2,8 +2,11 @@ use serde_json::{Value, json};
 
 use crate::{LanguagePlugin, Request};
 
-/// Handle one raw request on the guest side. Creates the plugin on first use.
-/// Always returns a JSON response, never panics on malformed input.
+/// Handles one JSON request on the plugin side and returns the JSON response. Never panics on
+/// malformed input.
+///
+/// `slot` holds the plugin. It stays empty until a request needs the plugin, so that `Info` and
+/// `Detect` can be answered without building its dictionary.
 pub fn dispatch<P: LanguagePlugin>(slot: &mut Option<P>, request: &[u8]) -> Vec<u8> {
     let response = match serde_json::from_slice::<Request>(request) {
         Ok(req) => handle(slot, req),
@@ -23,6 +26,7 @@ fn handle<P: LanguagePlugin>(slot: &mut Option<P>, req: Request) -> Value {
         _ => {}
     }
 
+    // The first request that needs the plugin builds it.
     let plugin = slot.get_or_insert_with(P::new);
 
     match req {

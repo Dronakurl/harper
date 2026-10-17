@@ -137,6 +137,11 @@ mod imp {
             }
         }
 
+        /// The language id of the plugin (`de`).
+        pub fn id(&self) -> String {
+            self.plugin.info().id.clone()
+        }
+
         /// How sure the plugin is that `text` is in its language (0 to 1).
         pub fn confidence(&self, text: &str) -> f32 {
             // The start of a document says enough.
@@ -315,6 +320,10 @@ mod stub {
 
         pub fn load_all() -> Result<Vec<Self>> {
             Ok(Vec::new())
+        }
+
+        pub fn id(&self) -> String {
+            String::new()
         }
 
         pub fn best_for<'a>(_plugins: &'a [Self], _text: &str) -> Option<&'a Self> {

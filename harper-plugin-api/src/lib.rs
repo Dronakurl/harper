@@ -19,7 +19,8 @@ pub use types::*;
 #[cfg(feature = "core")]
 pub use convert::{lint_to_plugin, plugin_to_lint};
 
-/// Bumped whenever the wire format changes incompatibly.
+/// The version of the messages host and plugin send each other (the JSON requests and
+/// responses). Raised whenever that format changes in a way an older host or plugin cannot read.
 pub const ABI_VERSION: u32 = 1;
 
 /// What a language plugin implements. The instance is created lazily on the first call that
@@ -30,6 +31,10 @@ pub trait LanguagePlugin: Sized + 'static {
     fn lint(&mut self, req: LintRequest) -> Vec<PluginLint>;
     fn lint_descriptions(&self) -> std::collections::BTreeMap<String, String>;
     fn default_config(&self) -> PluginConfig;
+    /// The user's dictionary words for this plugin's language; they replace any earlier ones.
+    /// The host sends them again whenever they may have changed (a word was added, another
+    /// file's own words apply), and only the words of this language: hosts keep one dictionary
+    /// per language.
     fn set_user_words(&mut self, words: Vec<String>);
     /// How confident the plugin is that `text` is in its language (0..1), or `None` if it cannot
     /// tell. Called without an instance, so that asking does not load the plugin's dictionary.

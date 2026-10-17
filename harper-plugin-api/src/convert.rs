@@ -3,7 +3,7 @@ use harper_core::linting::{Lint, LintKind, Suggestion};
 
 use crate::{PluginLint, PluginSuggestion};
 
-/// Guest side: describe a core lint for the wire. `rule` is the name of the rule that produced it.
+/// Guest side: turn a core lint into the `PluginLint` sent to the host. `rule` is the name of the rule that produced it.
 pub fn lint_to_plugin(lint: &Lint, rule: &str) -> PluginLint {
     PluginLint {
         span: (lint.span.start, lint.span.end),
@@ -23,7 +23,7 @@ pub fn lint_to_plugin(lint: &Lint, rule: &str) -> PluginLint {
     }
 }
 
-/// Host side: turn a wire lint into a core lint so existing consumers need no special cases.
+/// Host side: turn a `PluginLint` from the plugin into a core lint so existing consumers need no special cases.
 /// Unknown kinds fall back to [`LintKind::Miscellaneous`].
 pub fn plugin_to_lint(lint: &PluginLint) -> Lint {
     Lint {
