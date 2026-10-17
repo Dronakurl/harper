@@ -5,8 +5,8 @@ import type { LintConfig, LintOptions, StructuredLintConfig } from './main';
 import type Summary from './Summary';
 
 /**
- * A `Linter` for languages that are not built into Harper: it runs a language plugin, a
- * standalone WebAssembly module such as `harper-de.wasm` (see https://github.com/Dronakurl/harper/issues/14).
+ * A `Linter` for languages that are not built into Harper: it runs a language plugin, i.e.
+ * a standalone WebAssembly module.
  *
  * The module has no imports and is spoken to in JSON through four exported functions, so it is
  * loaded here with plain `WebAssembly.instantiate`, without Harper's own wasm-bindgen glue.

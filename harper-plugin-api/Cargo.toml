@@ -2,7 +2,7 @@
 name = "harper-plugin-api"
 version = "2.12.0"
 edition = "2024"
-description = "The interface between Harper and language plugins compiled to WebAssembly."
+description = "The interface between Harper and language plugins"
 license = "Apache-2.0"
 repository = "https://github.com/automattic/harper"
 
@@ -13,7 +13,8 @@ harper-core = { path = "../harper-core", version = "2.0.0", default-features = f
 
 [features]
 default = []
-# Conversions between `harper_core::Lint` and `PluginLint`.
+# Conversions between `harper_core::Lint` and `PluginLint` in the host builds;
+# Plugin builds won't need this and we can keep plugins light-weight.
 core = ["dep:harper-core"]
 
 # The example plugin is the fixture for the host's integration tests.

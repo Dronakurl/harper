@@ -101,7 +101,7 @@ const lints = await linter.lint(text);
 
 A plugin is a Rust crate compiled to `wasm32-unknown-unknown` that implements `LanguagePlugin` from the `harper-plugin-api` crate and calls `export_plugin!`.
 The plugin says which language it is (its id, a name, other names it answers to and its dialects), lints text and can tell how likely a text is to be in its language, which is what `auto` uses.
-[`harper-plugin-api/examples/echo.rs`](https://github.com/Dronakurl/harper/blob/claude/language-plugin-architecture-h8bw6z/harper-plugin-api/examples/echo.rs) is a complete, tiny plugin, and the projects in the [list of language plugins](./available-languages) are full ones.
+[`harper-plugin-api/examples/echo.rs`](harper-plugin-api/examples/echo.rs) is a complete, tiny plugin, and the projects in the [list of language plugins](./available-languages) are full ones.
 
 For `just language-install` to find it, publish the plugin as a GitHub release with exactly one asset named `harper-<language>.wasm`, ideally with `harper-<language>.wasm.sha256` (the output of `sha256sum`) next to it.
 Then add the language to the [list](./available-languages).

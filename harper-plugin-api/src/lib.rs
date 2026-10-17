@@ -2,7 +2,7 @@
 //!
 //! A language plugin is a standalone WebAssembly module with no imports. Hosts
 //! (`harper-plugin-host`, `harper.js`) talk to it through a small JSON protocol over
-//! four exported functions, described in https://github.com/Dronakurl/harper/issues/14.
+//! four exported functions.
 //!
 //! Plugin authors implement [`LanguagePlugin`] and call [`export_plugin!`].
 //! Hosts use the types in this crate to build requests and read responses.
