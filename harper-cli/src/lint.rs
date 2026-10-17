@@ -85,6 +85,35 @@ pub enum OutputFormat {
     Compact,
 }
 
+/// Which rules lint the inputs. `harper-core` knows nothing about plugins, so the CLI decides
+/// here, once, and the lint code matches on it.
+pub enum LanguageChoice {
+    /// The built-in English rules.
+    English,
+    /// `--language <id>` or `--plugin <file>`: this plugin lints every input.
+    Plugin(PluginLinter),
+    /// `--language auto`: detected per input among the installed plugins; English when none of
+    /// them is confident. Kept apart from `Plugin`, so that a single installed plugin is still
+    /// asked whether it recognizes the text instead of linting English with its rules.
+    Auto(Vec<PluginLinter>),
+}
+
+impl LanguageChoice {
+    /// The plugins that may lint something, for setting up the user dictionary.
+    pub fn plugins(&self) -> &[PluginLinter] {
+        match self {
+            Self::English => &[],
+            Self::Plugin(plugin) => std::slice::from_ref(plugin),
+            Self::Auto(plugins) => plugins,
+        }
+    }
+
+    /// Whether `--only` and `--ignore` name a plugin's rules rather than the built-in ones.
+    pub fn uses_plugin_rules(&self) -> bool {
+        !self.plugins().is_empty()
+    }
+}
+
 pub struct LintOptions {
     pub count: bool,
     pub ignore: Option<Vec<String>>,
@@ -92,10 +121,7 @@ pub struct LintOptions {
     pub keep_overlapping_lints: bool,
     pub dialect: Dialect,
     pub weirpack_inputs: Vec<SingleInput>,
-    /// When set, this plugin lints instead of the built-in English rules.
-    pub plugin: Option<PluginLinter>,
-    /// With `--language auto`: the installed plugins, one of which may be chosen per input.
-    pub auto_plugins: Vec<PluginLinter>,
+    pub language: LanguageChoice,
     pub color: bool,
     pub format: OutputFormat,
     pub quiet: bool,
@@ -211,7 +237,7 @@ pub fn lint(
     }
 
     // A plugin has its own rule names, which are checked against its output instead.
-    let is_plugin = lint_options.plugin.is_some() || !lint_options.auto_plugins.is_empty();
+    let is_plugin = lint_options.language.uses_plugin_rules();
 
     if let Some(only) = only.as_mut().filter(|_| !is_plugin) {
         only.retain(|rule| {
@@ -239,7 +265,7 @@ pub fn lint(
 
     let user_dict_msg = match load_dict(&user_dict_path) {
         Ok(user_dict) => {
-            for plugin in lint_options.plugin.iter().chain(&lint_options.auto_plugins) {
+            for plugin in lint_options.language.plugins() {
                 plugin
                     .set_user_words(user_dict.words_iter().map(|w| w.iter().collect()).collect())?;
             }
