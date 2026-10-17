@@ -36,6 +36,7 @@ jobs:
       - uses: actions-rust-lang/setup-rust-toolchain@166cdcfd11aee3cb47222f9ddb555ce30ddb9659 # v1.17.0
         with:
           components: rustfmt,clippy
+          # harper-plugin-host's tests build the `echo` plugin for wasm; without it they skip.
           target: wasm32-unknown-unknown
       - name: Install Node.js
         uses: actions/setup-node@v7
