@@ -137,3 +137,57 @@ fn a_plugin_gets_the_user_words_of_its_own_language_only() {
 
     std::fs::remove_dir_all(&dir).ok();
 }
+
+/// Files are linted in parallel with one plugin: the own dictionary of a file reaches that file
+/// only, whatever the order in which the threads get to it.
+#[test]
+fn a_files_own_words_reach_that_file_only() {
+    let Some(wasm) = build_echo() else { return };
+    let wasm = wasm.to_str().unwrap();
+    let dir = std::env::temp_dir().join(format!("harper-cli-file-words-{}", std::process::id()));
+    let file_dicts = dir.join("file_dicts");
+    std::fs::create_dir_all(&file_dicts).unwrap();
+
+    let mut files = Vec::new();
+    for i in 0..24usize {
+        let file = dir.join(format!("f{i:02}.txt"));
+        std::fs::write(&file, "teh cat.\n").unwrap();
+        // Every second file knows `teh`; the name is the path, each part followed by a `%`.
+        if i.is_multiple_of(2) {
+            let name: String = file
+                .components()
+                .filter(|c| !matches!(c, std::path::Component::RootDir))
+                .map(|c| format!("{}%", c.as_os_str().to_string_lossy()))
+                .collect();
+            std::fs::write(file_dicts.join(name), "teh\n").unwrap();
+        }
+        files.push(file);
+    }
+
+    let mut args = vec![
+        "lint".to_owned(),
+        "--plugin".into(),
+        wasm.to_owned(),
+        "--user-dict-path".into(),
+        dir.join("dictionary.txt").to_str().unwrap().to_owned(),
+        "--file-dict-path".into(),
+        file_dicts.to_str().unwrap().to_owned(),
+        "--format".into(),
+        "json".into(),
+    ];
+    args.extend(files.iter().map(|f| f.to_str().unwrap().to_owned()));
+    let args: Vec<&str> = args.iter().map(String::as_str).collect();
+
+    let out = cli(&args);
+    let json: serde_json::Value = serde_json::from_slice(&out.stdout).unwrap();
+    let results = json.as_array().unwrap();
+    assert_eq!(results.len(), files.len());
+    for result in results {
+        let name = result["file"].as_str().unwrap();
+        let i: usize = name[1..3].parse().unwrap();
+        let expected = if i.is_multiple_of(2) { 0 } else { 1 };
+        assert_eq!(result["lint_count"], expected, "{name}");
+    }
+
+    std::fs::remove_dir_all(&dir).ok();
+}

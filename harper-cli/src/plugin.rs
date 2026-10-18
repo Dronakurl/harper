@@ -68,10 +68,8 @@ mod imp {
     #[derive(Clone)]
     pub struct PluginLinter {
         plugin: Arc<LoadedPlugin>,
-        /// The user dictionary. A file's own dictionary is added for that file only, which is
-        /// why each lint holds `calls`: no other file may be linted with its words.
+        /// The user dictionary. A file's own words are added for that file's request only.
         user_words: Arc<Mutex<Vec<String>>>,
-        calls: Arc<Mutex<()>>,
     }
 
     impl PluginLinter {
@@ -132,7 +130,6 @@ mod imp {
             Self {
                 plugin: Arc::new(plugin),
                 user_words: Arc::default(),
-                calls: Arc::default(),
             }
         }
 
@@ -159,15 +156,14 @@ mod imp {
         }
 
         pub fn set_user_words(&self, words: Vec<String>) -> Result<()> {
-            let _call = self.calls.lock().unwrap_or_else(|e| e.into_inner());
-            self.plugin.set_user_words(words.clone())?;
             *self.user_words.lock().unwrap_or_else(|e| e.into_inner()) = words;
             Ok(())
         }
 
         /// Lints grouped by rule name, like `LintGroup::organized_lints`. With `regions` (the comments
         /// of a source file, the text of a TeX file, ...) only those character ranges are linted.
-        /// `file_words` are the file's own dictionary, known for this one call.
+        /// `file_words` are the file's own dictionary, known for this one request: the files are
+        /// linted in parallel, so the words travel with the request.
         pub fn organized_lints(
             &self,
             text: &str,
@@ -175,20 +171,13 @@ mod imp {
             regions: Option<&[(usize, usize)]>,
             file_words: &[String],
         ) -> Result<BTreeMap<String, Vec<Lint>>> {
-            let _call = self.calls.lock().unwrap_or_else(|e| e.into_inner());
-            let user_words = self
+            let mut words = self
                 .user_words
                 .lock()
                 .unwrap_or_else(|e| e.into_inner())
                 .clone();
-            let mut words = user_words.clone();
             words.extend(file_words.iter().cloned());
-            self.plugin.set_user_words(words)?;
-            let lints = self.lint(text, format, regions);
-            if !file_words.is_empty() {
-                self.plugin.set_user_words(user_words)?;
-            }
-            lints
+            self.lint(text, format, regions, words)
         }
 
         fn lint(
@@ -196,9 +185,11 @@ mod imp {
             text: &str,
             format: &str,
             regions: Option<&[(usize, usize)]>,
+            user_words: Vec<String>,
         ) -> Result<BTreeMap<String, Vec<Lint>>> {
             let mut req = LintRequest::plain(text);
             req.format = format.to_owned();
+            req.user_words = Some(user_words);
             if let Some(regions) = regions {
                 req.regions = Some(
                     regions
@@ -231,9 +222,13 @@ mod imp {
     }
 
     fn load_file(path: &Path) -> Result<LoadedPlugin> {
-        PluginHost::new()?
-            .load_file(path)
-            .with_context(|| format!("could not load plugin {}", path.display()))
+        let host = PluginHost::new()?;
+        // The same cache of compiled modules harper-ls uses: compiling a plugin takes seconds.
+        match dirs::cache_dir().map(|d| d.join("harper").join("plugins")) {
+            Some(cache) => host.load_file_cached(path, cache),
+            None => host.load_file(path),
+        }
+        .with_context(|| format!("could not load plugin {}", path.display()))
     }
 
     pub fn run(command: PluginCommand) -> Result<()> {

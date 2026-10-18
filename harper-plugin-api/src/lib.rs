@@ -32,9 +32,9 @@ pub trait LanguagePlugin: Sized + 'static {
     fn lint_descriptions(&self) -> std::collections::BTreeMap<String, String>;
     fn default_config(&self) -> PluginConfig;
     /// The user's dictionary words for this plugin's language; they replace any earlier ones.
-    /// The host sends them again whenever they may have changed (a word was added, another
-    /// file's own words apply), and only the words of this language: hosts keep one dictionary
-    /// per language.
+    /// Hosts that lint several texts at once send the words with each request instead
+    /// ([`LintRequest::user_words`]), which takes precedence, so no request depends on what
+    /// another one set. Only the words of this language are ever sent.
     fn set_user_words(&mut self, words: Vec<String>);
     /// How confident the plugin is that `text` is in its language (0..1), or `None` if it cannot
     /// tell. Called without an instance, so that asking does not load the plugin's dictionary.

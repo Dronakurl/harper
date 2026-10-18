@@ -226,12 +226,9 @@ mod imp {
         pub fn organized_lints(&self, text: &str) -> BTreeMap<String, Vec<Lint>> {
             let mut out = BTreeMap::<String, Vec<Lint>>::new();
 
-            // The plugin is shared between documents; give it this document's words first.
-            if let Err(e) = self.plugin.set_user_words(self.user_words.clone()) {
-                error!("Plugin refused the user dictionary: {e}");
-            }
-
+            // The plugin is shared between documents, so the words go with the request.
             let mut req = LintRequest::plain(text);
+            req.user_words = Some(self.user_words.clone());
             req.format = self.format.to_owned();
             req.config = Some(self.config.clone());
             if let Some(regions) = &self.regions {

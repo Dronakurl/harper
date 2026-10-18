@@ -78,6 +78,12 @@ pub struct LintRequest {
     /// relative to `text`.
     #[serde(default)]
     pub regions: Option<Vec<Region>>,
+    /// The words of the user dictionaries that apply to this text (user, workspace and the
+    /// file's own), for this language only. They belong to the request, so lints of different
+    /// files may run in any order without touching each other. When absent, the plugin keeps
+    /// the words of the last `set_user_words`.
+    #[serde(default)]
+    pub user_words: Option<Vec<String>>,
 }
 
 fn default_format() -> String {
@@ -92,6 +98,7 @@ impl LintRequest {
             dialect: None,
             config: None,
             regions: None,
+            user_words: None,
         }
     }
 }

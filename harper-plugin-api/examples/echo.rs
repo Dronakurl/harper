@@ -94,7 +94,14 @@ impl Echo {
             }
             let word: String = chars[start..i].iter().collect();
             let lower = word.to_lowercase();
-            if enabled("Teh") && lower == "teh" && !self.user_words.contains(&word) {
+            if enabled("Teh")
+                && lower == "teh"
+                && !req
+                    .user_words
+                    .as_ref()
+                    .unwrap_or(&self.user_words)
+                    .contains(&word)
+            {
                 lints.push(PluginLint {
                     span: (start + offset, i + offset),
                     rule: "Teh".into(),
