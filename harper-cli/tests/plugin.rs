@@ -76,6 +76,48 @@ fn lints_with_a_plugin_file() {
     assert_eq!(lints[0]["rule"], "Repeat");
 }
 
+/// `--only` and `--ignore` reach the plugin as its config, as they do in harper-ls, so the
+/// plugin does not even run a rule that is off. A rule it does not have is reported.
+#[test]
+fn rule_switches_are_sent_to_the_plugin() {
+    let Some(wasm) = build_echo() else { return };
+    let wasm = wasm.to_str().unwrap();
+
+    let out = cli(&[
+        "lint",
+        "--plugin",
+        wasm,
+        "--ignore",
+        "Teh",
+        "--format",
+        "json",
+        "Teh cat cat sat.",
+    ]);
+    let json: serde_json::Value = serde_json::from_slice(&out.stdout).unwrap();
+    let lints = json[0]["lints"].as_array().unwrap();
+    assert_eq!(lints.len(), 1, "{json}");
+    assert_eq!(lints[0]["rule"], "Repeat");
+    assert!(
+        String::from_utf8_lossy(&out.stderr)
+            .find("no rule named")
+            .is_none()
+    );
+
+    let out = cli(&[
+        "lint",
+        "--plugin",
+        wasm,
+        "--only",
+        "Typo",
+        "--format",
+        "json",
+        "Teh cat cat sat.",
+    ]);
+    let stderr = String::from_utf8_lossy(&out.stderr);
+    assert!(stderr.contains("no rule named Typo"), "{stderr}");
+    assert!(stderr.contains("No rules are enabled"), "{stderr}");
+}
+
 #[test]
 fn unknown_language_is_an_error() {
     let out = cli(&["lint", "--language", "zz", "hello"]);
