@@ -915,8 +915,7 @@ async function resetDictionary(): Promise<void> {
 
 /** Add words to the persistent user dictionary. */
 async function addToDictionary(words: string[]): Promise<void> {
-	const exported = await linter.exportWords();
-	exported.push(...words);
+	const exported = [...new Set([...(await linter.exportWords()), ...words])];
 	linterHasPersistedState = true;
 
 	await Promise.all([
