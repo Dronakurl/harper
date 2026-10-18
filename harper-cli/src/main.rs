@@ -33,6 +33,7 @@ mod input;
 mod lint;
 mod lint_engine;
 mod lint_reporter;
+mod plugin;
 
 use crate::lint::{OutputFormat, lint};
 
@@ -41,7 +42,7 @@ use input::{
     AnyInput, InputTrait,
     single_input::{SingleInput, SingleInputOptionExt, SingleInputTrait},
 };
-use lint::LintOptions;
+use lint::{LanguageChoice, LintOptions};
 
 /// A debugging tool for the Harper grammar checker.
 #[derive(Parser)]
@@ -86,6 +87,15 @@ enum Args {
         /// Path to the directory for file-local dictionaries.
         #[arg(short, long, default_value = data_local_dir().unwrap().join("harper-ls/file_dictionaries/").into_os_string(), value_hint = ValueHint::FilePath)]
         file_dict_path: PathBuf,
+        /// Check text in another language, using the plugin `harper-<LANGUAGE>.wasm` from the
+        /// plugin directory (see `harper-cli plugin list`). The default, `en`, is built in.
+        /// `auto` picks, for each input, the installed plugin that recognizes its language,
+        /// and English if none does.
+        #[arg(long, value_name = "LANGUAGE")]
+        language: Option<String>,
+        /// Path to a language plugin (`.wasm`) to use instead of looking one up by language.
+        #[arg(long, value_name = "PLUGIN", value_hint = ValueHint::FilePath)]
+        plugin: Option<PathBuf>,
         /// Path to a Weirpack file to load. May be supplied multiple times.
         #[arg(long, value_name = "WEIRPACK")]
         weirpacks: Vec<SingleInput>,
@@ -99,6 +109,9 @@ enum Args {
         #[arg(long)]
         no_parallel: bool,
     },
+    /// Manage language plugins.
+    #[command(subcommand)]
+    Plugin(plugin::PluginCommand),
     /// Parse a provided document and print the detected symbols.
     Parse {
         /// The text or file you wish to parse. If not provided, it will be read from standard
@@ -261,13 +274,32 @@ fn main() -> anyhow::Result<()> {
             dialect: dialect_str,
             user_dict_path,
             file_dict_path,
+            language,
+            plugin,
             weirpacks,
             format,
             quiet,
             no_parallel,
         } => {
-            let dialect = parse_dialect(&dialect_str)
-                .map_err(|e| anyhow!("Invalid dialect '{}': {}", dialect_str, e))?;
+            // Not an English dialect: perhaps the name of another language or of one of its
+            // dialects (`--dialect german`, as the multilingual build took it), which a language
+            // plugin answers to.
+            let (dialect, language) = match parse_dialect(&dialect_str) {
+                Ok(dialect) => (dialect, language),
+                Err(_) if language.is_none() && plugin.is_none() => {
+                    (Dialect::American, Some(dialect_str.clone()))
+                }
+                Err(e) => return Err(anyhow!("Invalid dialect '{}': {}", dialect_str, e)),
+            };
+
+            let language = if language.as_deref() == Some("auto") && plugin.is_none() {
+                LanguageChoice::Auto(plugin::PluginLinter::load_all()?)
+            } else {
+                match plugin::PluginLinter::load(language.as_deref(), plugin.as_deref())? {
+                    Some(plugin) => LanguageChoice::Plugin(plugin),
+                    None => LanguageChoice::English,
+                }
+            };
 
             lint(
                 markdown_options,
@@ -280,6 +312,7 @@ fn main() -> anyhow::Result<()> {
                     keep_overlapping_lints,
                     dialect,
                     weirpack_inputs: weirpacks,
+                    language,
                     color,
                     format,
                     quiet,
@@ -290,6 +323,7 @@ fn main() -> anyhow::Result<()> {
                 file_dict_path,
             )
         }
+        Args::Plugin(command) => plugin::run(command),
         Args::Parse { input } => {
             // Try to read from standard input if `input` was not provided.
             let input = input.unwrap_or_read_from_stdin();

@@ -25,6 +25,9 @@ export class HarperSettingTab extends PluginSettingTab {
 		return this.plugin.state;
 	}
 
+	/** The ids of the language plugins that are installed. */
+	private languages: string[] = [];
+
 	constructor(app: App, plugin: HarperPlugin) {
 		super(app, plugin);
 		this.plugin = plugin;
@@ -39,6 +42,9 @@ export class HarperSettingTab extends PluginSettingTab {
 
 	updateSettings() {
 		this.settings = undefined;
+		this.plugin.listLanguagePlugins().then((languages) => {
+			this.languages = languages;
+		});
 		this.state?.getSettings().then((v) => {
 			this.settings = v;
 			this.updateToggleAllRulesButton();
@@ -96,6 +102,22 @@ export class HarperSettingTab extends PluginSettingTab {
 					await this.state?.initializeFromSettings(settings);
 				}),
 			);
+
+		new Setting(containerEl)
+			.setName('Language')
+			.setDesc(
+				'English is built in. Other languages are language plugins: put a file harper-<language>.wasm (see writewithharper.com/docs/integrations/available-languages) in this plugin\'s "languages" folder (inside .obsidian/plugins/harper/), then reopen this page. Plugin languages do not use the English dialect or statistics.',
+			)
+			.addDropdown((dropdown) => {
+				dropdown.addOption('en', 'English');
+				for (const id of this.languages) {
+					dropdown.addOption(id, id);
+				}
+				dropdown.setValue(settings.language ?? 'en').onChange(async (value) => {
+					settings.language = value;
+					await this.state?.initializeFromSettings(settings);
+				});
+			});
 
 		new Setting(containerEl).setName('English Dialect').addDropdown((dropdown) => {
 			dropdown

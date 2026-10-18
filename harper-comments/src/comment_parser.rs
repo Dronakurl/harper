@@ -2,9 +2,9 @@ use std::path::Path;
 
 use crate::comment_parsers;
 use comment_parsers::{Go, JavaDoc, JsDoc, Lua, Solidity, Unit};
-use harper_core::Token;
 use harper_core::parsers::{self, MarkdownOptions, Parser};
 use harper_core::spell::MutableDictionary;
+use harper_core::{Document, Token};
 use tree_sitter::Node;
 
 use crate::masker::CommentMasker;
@@ -154,5 +154,48 @@ mod tests {
 
         rx.recv_timeout(Duration::from_secs(10)).expect("timed out");
         handle.join().expect("failed to join");
+    }
+}
+
+/// The stretches of a source file that are comments: runs of tokens with only white space between.
+///
+/// For a language plugin, which lints text rather than tokens and so has to be told where the
+/// prose is.
+pub fn comment_regions(document: &Document) -> Vec<(usize, usize)> {
+    let source = document.get_source();
+    let mut regions: Vec<(usize, usize)> = Vec::new();
+
+    for token in document.get_tokens() {
+        // The masker puts a paragraph break over the code between two comments.
+        if token.kind.is_paragraph_break() {
+            continue;
+        }
+        let (start, end) = (token.span.start, token.span.end);
+        match regions.last_mut() {
+            Some(last) if source[last.1..start].iter().all(|c| c.is_whitespace()) => last.1 = end,
+            _ => regions.push((start, end)),
+        }
+    }
+    regions
+}
+
+#[cfg(test)]
+mod region_tests {
+    use super::*;
+    use harper_core::spell::FstDictionary;
+
+    #[test]
+    fn code_between_comments_is_not_a_region() {
+        let text = "// eins zwei\nfn main() {\n    let x = 1; /* drei vier */\n}\n";
+        let parser =
+            CommentParser::new_from_filename(Path::new("a.rs"), MarkdownOptions::default())
+                .unwrap();
+        let document = Document::new(text, &parser, &FstDictionary::curated());
+        let chars: Vec<char> = text.chars().collect();
+        let regions: Vec<String> = comment_regions(&document)
+            .into_iter()
+            .map(|(s, e)| chars[s..e].iter().collect())
+            .collect();
+        assert_eq!(regions, vec!["eins zwei", "drei vier"]);
     }
 }

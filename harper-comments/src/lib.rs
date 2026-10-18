@@ -3,4 +3,4 @@
 mod comment_parser;
 mod comment_parsers;
 mod masker;
-pub use comment_parser::CommentParser;
+pub use comment_parser::{CommentParser, comment_regions};
