@@ -11,7 +11,7 @@ gemeinsame Historie mit dem Code und wird nie gemerged.
 ## Stand der Doku
 
 Alle Code-Links zeigen auf den **aktuellen Stand** der Branches
-(`feature/language-plugins` in harper, `fix/single-cases-16-20` in
+(`feature/language-plugins` in harper, `main` in
 harper-german), nicht auf alte Commits. Links nennen deshalb Datei
 und Name, keine Zeilennummern: Wer ein Symbol sucht, findet es mit
 der Suche der Datei. Die Texte beschreiben den Stand von harper

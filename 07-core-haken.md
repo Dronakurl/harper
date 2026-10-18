@@ -169,7 +169,7 @@ upstream. Deshalb die Disziplin.
 [afd]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-core/src/document.rs
 [md]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-core/src/parsers/markdown.rs
 [org]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-core/src/parsers/org_mode.rs
-[gparser]: https://github.com/Dronakurl/harper-german/blob/fix/single-cases-16-20/src/plugin.rs
+[gparser]: https://github.com/Dronakurl/harper-german/blob/main/src/plugin.rs
 [lb]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-core/src/language_bits.rs
 [cwh]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-core/src/spell/dictionary.rs
 [hd]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-core/src/spell/merged_dictionary.rs

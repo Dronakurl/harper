@@ -202,9 +202,9 @@ Zwischenstück ist [`lint_engine.rs`][le], siehe
 [ol]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/plugins.rs
 [hl]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-host/src/plugin.rs
 [dp]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-api/src/dispatch.rs
-[gl]: https://github.com/Dronakurl/harper-german/blob/fix/single-cases-16-20/src/plugin.rs
-[uw]: https://github.com/Dronakurl/harper-german/blob/fix/single-cases-16-20/src/plugin.rs
-[lc]: https://github.com/Dronakurl/harper-german/blob/fix/single-cases-16-20/src/plugin.rs
+[gl]: https://github.com/Dronakurl/harper-german/blob/main/src/plugin.rs
+[uw]: https://github.com/Dronakurl/harper-german/blob/main/src/plugin.rs
+[lc]: https://github.com/Dronakurl/harper-german/blob/main/src/plugin.rs
 [l2p]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-api/src/convert.rs
 [p2l]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-api/src/convert.rs
 [gca]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/document_state.rs

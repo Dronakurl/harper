@@ -198,8 +198,8 @@ Plugin-Variante an und prüft, dass nur die zweite zählt.
 [gfdp]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/backend.rs
 [fp]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/io_utils.rs
 [uw]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-api/src/types.rs
-[gw]: https://github.com/Dronakurl/harper-german/blob/fix/single-cases-16-20/src/plugin.rs
-[cost]: https://github.com/Dronakurl/harper-german/blob/fix/single-cases-16-20/tests/plugin_host.rs
+[gw]: https://github.com/Dronakurl/harper-german/blob/main/src/plugin.rs
+[cost]: https://github.com/Dronakurl/harper-german/blob/main/tests/plugin_host.rs
 [ls-ol]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/plugins.rs
 [cuw]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/backend.rs
 [cli-ol]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-cli/src/plugin.rs
