@@ -1,5 +1,4 @@
-//! Language plugin support for `harper-cli`. All `plugins` feature handling
-//! lives in this file.
+//! Language plugin support for `harper-cli`.
 
 use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};

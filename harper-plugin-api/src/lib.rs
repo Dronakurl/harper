@@ -23,7 +23,7 @@ pub use convert::{lint_to_plugin, plugin_to_lint};
 /// responses). Raised whenever that format changes in a way an older host or plugin cannot read.
 pub const ABI_VERSION: u32 = 1;
 
-/// What a language plugin implements. The instance is created lazily on the first call that
+/// Trait that language plugin implements. The instance is created lazily on the first call that
 /// needs it, so building dictionaries belongs in [`LanguagePlugin::new`].
 pub trait LanguagePlugin: Sized + 'static {
     fn info() -> PluginInfo;

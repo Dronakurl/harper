@@ -589,6 +589,7 @@ install-release bin="harper-ls" tag="latest" repo="" prefix=(env("HOME") + "/.lo
 
 # Build a branch with the "Binaries" GitHub workflow and install the result, instead of building it here.
 # Needs `gh` (logged in). Takes about ten minutes. Usage: just install-from-ci [bin] [branch] [prefix]
+# Install a branch from your own GitHub fork using GitHub workflow to offload build to GitHub
 install-from-ci bin="harper-ls" branch="feature/language-plugins" prefix=(env("HOME") + "/.local/bin"):
   #!/usr/bin/env bash
   set -euo pipefail

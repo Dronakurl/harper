@@ -2,8 +2,7 @@ use serde_json::{Value, json};
 
 use crate::{LanguagePlugin, Request};
 
-/// Handles one JSON request on the plugin side and returns the JSON response. Never panics on
-/// malformed input.
+/// Handles one JSON request on the plugin side and returns the JSON response.
 ///
 /// `slot` holds the plugin. It stays empty until a request needs the plugin, so that `Info` and
 /// `Detect` can be answered without building its dictionary.
