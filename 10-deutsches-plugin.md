@@ -15,7 +15,7 @@ was Kapitel 2 bis 8 beschreiben, sieht man hier von der anderen Seite.
 src/
   plugin.rs      der Einstieg (LanguagePlugin)
   module.rs      die Regeln in Rust
-  linting/       32 Regel-Dateien + weir_rules
+  linting/       41 Regel-Dateien + weir_rules
   spell/         Wörterbuch, Komposita
   parsers/       PlainGerman
   lexing.rs      deutsche Token
@@ -105,7 +105,7 @@ Zahl (`english_ratio`, Kapitel 3).
 
 ## Die Regeln
 
-[`module.rs`][module]: `rust_lint_group` fügt 33 Regeln (`group.add`)
+[`module.rs`][module]: `rust_lint_group` fügt 42 Regeln (`group.add`)
 zu einer `LintGroup` zusammen:
 
 - zwei Regeln **aus dem Kern** (`Spaces`, `CommaFixes`) unverändert
@@ -113,14 +113,26 @@ zu einer `LintGroup` zusammen:
   Nomen und Satzanfängen
 - Grammatik: Subjekt-Verb, Präposition und Fall, Genus des Artikels,
   Dativ-Plural, Verbklammer, Nebensatz-Wortstellung, …
-- Kommas: Nebensatz, Relativsatz
+- Kommas: Nebensatz, Relativsatz, vor *sondern*/*aber*/*denn*
+- Typografie: Einheiten und Datum, Anführungszeichen
+- Wortlaut: *Der Grund ist, weil*, *am bestesten*, *wurde … worden*,
+  Verbzweitstellung, Verb + Präposition, *Kaffee Maschine*
 - Stil: Füllwörter, Wiederholungen, Fusionen („auf jeden Fall")
 
-Zusätzlich liegen **73 Weir-Regeln** als Textdateien unter
+Zusätzlich liegen **78 Weir-Regeln** als Textdateien unter
 `src/linting/weir_rules/de/*.weir` (eine Regel pro Datei, mit
 Test). `build.rs` macht daraus ein Rust-Modul.
 [`new_curated_german`][ncg] mischt beide Gruppen und schaltet alle
 Regeln an.
+
+Wie neue Regeln entstehen und gemessen werden, steht in
+[`docs/GERMAN_DICTIONARY_NOTES.md`][notes] unter „Tenth round" und in
+`scripts/measure_rules.py`: Ein Beispielprogramm (`examples/lint_tsv.rs`)
+prüft über 16 000 Sätze (LanguageTool-Beispiele und eine Treebank
+mit Pressetext) in einer Minute. Zwei Läufe, vor und nach einer
+Änderung, zeigen sofort, was neu gemeldet wird. Dabei fielen mehrere
+Ideen durch (Gedankenstrich-Regel, S-Plural, alle geraden
+Anführungszeichen).
 
 Zum Lesen der Regeln: Beginne mit einer kleinen, etwa
 `german_wider_wieder.rs` oder `german_repeated_words.rs`. Sie zeigen

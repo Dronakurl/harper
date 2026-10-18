@@ -65,6 +65,15 @@ Behoben und geschlossen: [#25] (CLI-Datei-Wörterbücher je Sprache),
 - `harper-cli`: Hilfe zeigt `plugin` als ersten Befehl. [#17]
 - PR [#21] noch offen neben [#22].
 
+## Deutsche Regeln
+
+Seit der Bestandsaufnahme (Issue
+[harper-german#3](https://github.com/Dronakurl/harper-german/issues/3))
+gibt es neun neue Regeln. Bewusst offen: *Sie/Ihnen* großschreiben,
+doppelte Verneinung, *Der Mädchen spielt*, fehlende Artikel, Hilfsverb
+bei Bewegungsverben. Gründe stehen in
+`docs/GERMAN_DICTIONARY_NOTES.md`, Abschnitt „Tenth round".
+
 ## Weitere Sprachen
 
 Portugiesisch, Slowakisch, Polnisch als eigene Plugin-Repos. Dafür
