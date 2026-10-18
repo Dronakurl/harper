@@ -23,7 +23,7 @@ Both look for plugins in the same place:
 | ------- | ----------------------------------------------- |
 | Linux   | `~/.config/harper/plugins/`                     |
 | macOS   | `~/Library/Application Support/harper/plugins/` |
-| Windows | `%APPDATA%\harper\plugins\`                     |
+| Windows | `%APPDATA%\harper\plugins`                      |
 
 From a checkout of the Harper repository, with [`just`](https://github.com/casey/just) installed:
 
