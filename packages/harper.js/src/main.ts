@@ -8,8 +8,13 @@ export type {
 	WeirpackTestFailures,
 } from './Linter';
 export { default as LocalLinter } from './LocalLinter';
-export type { PluginInfo, PluginLinterInit, PluginSource } from './PluginLinter';
-export { default as PluginLinter } from './PluginLinter';
+export type {
+	PluginDialectInfo,
+	PluginInfo,
+	PluginLinterInit,
+	PluginSource,
+} from './PluginLinter';
+export { answersTo, default as PluginLinter } from './PluginLinter';
 export type { default as Summary } from './Summary';
 export { default as WorkerLinter } from './WorkerLinter';
 export type { WeirpackArchive } from './weirpack';

@@ -20,6 +20,14 @@ import type Summary from './Summary';
 
 const ABI_VERSION = 1;
 
+/** A dialect of a plugin's language. */
+export interface PluginDialectInfo {
+	id: string;
+	name: string;
+	/** Other names for the dialect, such as `de-CH`. */
+	aliases?: string[];
+}
+
 /** Everything the plugin tells about itself (`info`). */
 export interface PluginInfo {
 	id: string;
@@ -27,8 +35,26 @@ export interface PluginInfo {
 	plugin_version: string;
 	abi: number;
 	harper_core_version: string;
-	dialects: { id: string; name: string }[];
+	dialects: PluginDialectInfo[];
 	default_dialect: string | null;
+	/** Other names people use for the language, such as `German`. */
+	aliases?: string[];
+	/** What the plugin can do beyond the first version of the messages, such as `request_words`. */
+	features?: string[];
+}
+
+/**
+ * Whether `name` names the plugin's language: its id, its name, an alias, or one of its dialects
+ * (ignoring case). The same rule as `PluginInfo::answers_to` in `harper-plugin-api`.
+ */
+export function answersTo(info: PluginInfo, name: string): boolean {
+	const is = (candidate: string) => candidate.toLowerCase() === name.toLowerCase();
+	return (
+		is(info.id) ||
+		is(info.name) ||
+		(info.aliases ?? []).some(is) ||
+		info.dialects.some((d) => is(d.id) || is(d.name) || (d.aliases ?? []).some(is))
+	);
 }
 
 /** What a plugin can be loaded from. */

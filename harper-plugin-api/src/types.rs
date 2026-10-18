@@ -33,9 +33,27 @@ pub struct PluginInfo {
     /// language, so it needs no list of languages of its own. Matched ignoring case.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub aliases: Vec<String>,
+    /// What the plugin can do beyond the first version of the messages, such as
+    /// [`FEATURE_REQUEST_WORDS`]. [`dispatch`](crate::dispatch) adds the ones the API crate the
+    /// plugin was built with has, so a plugin leaves this empty. A plugin built before a feature
+    /// existed does not list it, which is how a host knows to do without.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub features: Vec<String>,
 }
 
+/// The plugin reads [`LintRequest::user_words`]. Without it a host has to send the words with
+/// `set_user_words` before the request.
+pub const FEATURE_REQUEST_WORDS: &str = "request_words";
+
+/// Every feature this version of the API crate gives a plugin built with it.
+pub const FEATURES: &[&str] = &[FEATURE_REQUEST_WORDS];
+
 impl PluginInfo {
+    /// Whether the plugin lists `feature`.
+    pub fn supports(&self, feature: &str) -> bool {
+        self.features.iter().any(|f| f == feature)
+    }
+
     /// Whether `name` names this plugin's language: its id, its name, an alias, or one of its
     /// dialects (ignoring case).
     pub fn answers_to(&self, name: &str) -> bool {

@@ -145,22 +145,29 @@ fn a_files_own_words_reach_that_file_only() {
     let Some(wasm) = build_echo() else { return };
     let wasm = wasm.to_str().unwrap();
     let dir = std::env::temp_dir().join(format!("harper-cli-file-words-{}", std::process::id()));
+    // As in harper-ls, a plugin's file dictionaries have a directory of their own, `-<id>`.
     let file_dicts = dir.join("file_dicts");
+    let plugin_file_dicts = dir.join("file_dicts-xx");
     std::fs::create_dir_all(&file_dicts).unwrap();
+    std::fs::create_dir_all(&plugin_file_dicts).unwrap();
 
     let mut files = Vec::new();
     for i in 0..24usize {
         let file = dir.join(format!("f{i:02}.txt"));
         std::fs::write(&file, "teh cat.\n").unwrap();
-        // Every second file knows `teh`; the name is the path, each part followed by a `%`.
-        if i.is_multiple_of(2) {
-            let name: String = file
-                .components()
-                .filter(|c| !matches!(c, std::path::Component::RootDir))
-                .map(|c| format!("{}%", c.as_os_str().to_string_lossy()))
-                .collect();
-            std::fs::write(file_dicts.join(name), "teh\n").unwrap();
-        }
+        // Every second file knows `teh` in the plugin's language; the name is the path, each part
+        // followed by a `%`. The others know it in English only, which must not reach the plugin.
+        let name: String = file
+            .components()
+            .filter(|c| !matches!(c, std::path::Component::RootDir))
+            .map(|c| format!("{}%", c.as_os_str().to_string_lossy()))
+            .collect();
+        let dicts = if i.is_multiple_of(2) {
+            &plugin_file_dicts
+        } else {
+            &file_dicts
+        };
+        std::fs::write(dicts.join(name), "teh\n").unwrap();
         files.push(file);
     }
 

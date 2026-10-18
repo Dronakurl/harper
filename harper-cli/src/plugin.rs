@@ -138,18 +138,25 @@ mod imp {
             self.plugin.info().id.clone()
         }
 
-        /// How sure the plugin is that `text` is in its language (0 to 1).
-        pub fn confidence(&self, text: &str) -> f32 {
-            // The start of a document says enough.
-            let sample: String = text.chars().take(4000).collect();
-            self.plugin.detect(&sample).ok().flatten().unwrap_or(0.0)
+        /// How sure the plugin is that `text` is in its language (0 to 1). `english_ratio` is the
+        /// share of the words of `text` that Harper's English dictionary knows.
+        fn confidence(&self, text: &str, english_ratio: Option<f32>) -> f32 {
+            self.plugin
+                .detect_with_ratio(text, english_ratio)
+                .ok()
+                .flatten()
+                .unwrap_or(0.0)
         }
 
         /// The most confident of `plugins` for `text`, if any is at least 50 % sure.
         pub fn best_for<'a>(plugins: &'a [Self], text: &str) -> Option<&'a Self> {
+            // The start of a document says enough.
+            let sample: String = text.chars().take(4000).collect();
+            // The same for every plugin, so it is worked out once.
+            let english_ratio = harper_plugin_host::english_ratio(&sample);
             plugins
                 .iter()
-                .map(|p| (p, p.confidence(text)))
+                .map(|p| (p, p.confidence(&sample, english_ratio)))
                 .filter(|(_, c)| *c >= 0.5)
                 .max_by(|a, b| a.1.total_cmp(&b.1))
                 .map(|(p, _)| p)

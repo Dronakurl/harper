@@ -9,7 +9,7 @@ use crate::config::Config;
 use crate::document_state::DocumentState;
 use crate::ignored_lints_io::{load_ignored_lints, save_ignored_lints};
 use crate::io_utils::fileify_path;
-use crate::plugins::{PluginRegistry, choose_language, plugin_format};
+use crate::plugins::{NotEnglish, PluginRegistry, choose_language, plugin_format};
 use anyhow::{Context, Result, anyhow};
 use futures::future::join;
 use harper_asciidoc::AsciidocParser;
@@ -600,6 +600,10 @@ impl Backend {
             Some(mut parser) => {
                 if isolate_english {
                     parser = Box::new(IsolateEnglish::new(parser, doc_state.dict.clone()));
+                }
+                // The plugin lints the text; Harper's English models have no use for it.
+                if !is_english {
+                    parser = Box::new(NotEnglish(parser));
                 }
 
                 // Don't lint on documents larger than the configured maximum length.

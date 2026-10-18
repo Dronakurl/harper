@@ -16,7 +16,7 @@ use crate::{
     input::single_input::SingleInputTrait,
     lint::{
         FullInputInfo, InputInfo, JsonFileResult, JsonLint, JsonSpan, LanguageChoice,
-        LintOneResult, ReportStyle, file_dict_name, load_dict,
+        LintOneResult, ReportStyle, file_dict_name, language_dict_path, load_dict,
     },
     lint_reporter::{char_index_to_line_col, single_input_report},
     plugin::{PluginLinter, format_for_path},
@@ -61,18 +61,11 @@ pub fn lint_one_input(
         // Create a new merged dictionary for this input.
         let mut merged_dictionary = curated_plus_user_dict.clone();
 
-        // If processing a file, try to load its per-file dictionary
-        // The words of this file's own dictionary (`file_dict_name`), as plain strings. English
-        // reads them through `merged_dictionary`; a plugin cannot, so it is told them with the
-        // lint request, for this one file only.
-        let mut file_words = Vec::new();
+        // If processing a file, try to load its per-file dictionary (English's; a plugin's own
+        // is read below, once it is known which plugin lints this input).
         if let Some(file) = single_input.try_as_file_ref() {
             let dict_path = file_dict_path.join(file_dict_name(file.path()));
             if let Ok(file_dictionary) = load_dict(&dict_path) {
-                file_words = file_dictionary
-                    .words_iter()
-                    .map(|w| w.iter().collect())
-                    .collect();
                 merged_dictionary.add_dictionary(Arc::new(file_dictionary));
                 eprintln!(
                     "{}: Note: Using per-file dictionary: {}",
@@ -121,6 +114,21 @@ pub fn lint_one_input(
                 };
                 let mut named_lints = match plugin {
                     Some(plugin) => {
+                        // A plugin cannot read `merged_dictionary`, so it is told the words of
+                        // this file's own dictionary for its language, for this request only.
+                        // Like harper-ls, keep them apart from the other languages' words.
+                        let file_words = single_input
+                            .try_as_file_ref()
+                            .and_then(|file| {
+                                let dir = language_dict_path(file_dict_path, &plugin.id());
+                                load_dict(&dir.join(file_dict_name(file.path()))).ok()
+                            })
+                            .map(|dict| {
+                                dict.words_iter()
+                                    .map(|w| w.iter().collect::<String>())
+                                    .collect::<Vec<_>>()
+                            })
+                            .unwrap_or_default();
                         let mut lints = plugin.organized_lints(
                             &doc.get_full_string(),
                             format.unwrap_or("plain"),

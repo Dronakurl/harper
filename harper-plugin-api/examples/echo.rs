@@ -27,6 +27,7 @@ impl LanguagePlugin for Echo {
             }],
             default_dialect: Some("std".into()),
             aliases: vec!["Echolalia".into()],
+            features: vec![],
         }
     }
 

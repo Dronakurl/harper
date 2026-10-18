@@ -1,6 +1,27 @@
-//! Connects `harper-ls` to language plugins (WebAssembly modules, see ! ). All
-//! `plugins` feature handling lives in this file; the rest of ! `harper-ls` only
-//! sees [`PluginRegistry`] and [`PluginLinter`].
+//! Connects `harper-ls` to language plugins (WebAssembly modules, see `harper-plugin-api`). All
+//! `plugins` feature handling lives in this file; the rest of `harper-ls` only sees
+//! [`PluginRegistry`] and [`PluginLinter`].
+
+use harper_core::Token;
+use harper_core::parsers::Parser;
+
+/// Harper's parser for a document in a plugin language, saying that the text is not English.
+///
+/// `harper-ls` still builds a [`harper_core::Document`] for such a document, for its text, its
+/// positions and the lints the user ignored. The plugin lints the text with parsers of its own,
+/// so the English part-of-speech tagger and chunker that `Document` would run over the words
+/// have nothing to do here ([`Parser::is_english`]).
+pub struct NotEnglish(pub Box<dyn Parser>);
+
+impl Parser for NotEnglish {
+    fn parse(&self, source: &[char]) -> Vec<Token> {
+        self.0.parse(source)
+    }
+
+    fn is_english(&self) -> bool {
+        false
+    }
+}
 
 /// The format a plugin is asked to parse a whole document of an editor `languageId` in, or `None`
 /// when the plugin gets only parts of it: the comments of source code, the text of TeX, HTML,
@@ -167,6 +188,8 @@ mod imp {
         pub fn detect(&self, text: &str, dir: &Path) -> Option<String> {
             // The start of a document says enough, and keeps this cheap on every edit.
             let sample: String = text.chars().take(4000).collect();
+            // The same for every plugin, so it is worked out once.
+            let english_ratio = harper_plugin_host::english_ratio(&sample);
 
             harper_plugin_host::discover(dir)
                 .into_iter()
@@ -174,7 +197,10 @@ mod imp {
                     let name = path.file_stem()?.to_str()?;
                     let id = name.strip_prefix("harper-")?.to_owned();
                     let plugin = self.load(&id, dir)?;
-                    let confidence = plugin.detect(&sample).ok().flatten()?;
+                    let confidence = plugin
+                        .detect_with_ratio(&sample, english_ratio)
+                        .ok()
+                        .flatten()?;
                     (confidence >= 0.5).then_some((id, confidence))
                 })
                 .max_by(|a, b| a.1.total_cmp(&b.1))
@@ -464,6 +490,47 @@ mod tests {
             .with_regions(vec![]);
         assert!(none.organized_lints(text).is_empty());
         let _ = std::fs::remove_dir_all(dir);
+    }
+
+    /// What the English models cost on a document in a plugin language. `cargo test -p harper-ls
+    /// --features plugins -- --ignored --nocapture what_the_english_models_cost`
+    #[test]
+    #[ignore = "a measurement"]
+    fn what_the_english_models_cost() {
+        use harper_core::parsers::Markdown;
+        use std::time::Instant;
+
+        let paragraph = "Das ist ein langer Absatz über die Sprache, die wir hier prüfen, und er \
+            hat viele Wörter, damit die Messung etwas zu tun hat. ";
+        let text = paragraph.repeat(400);
+        let dict = std::sync::Arc::new(MutableDictionary::new());
+
+        let t = Instant::now();
+        let english = Document::new(&text, &Markdown::default(), &dict);
+        let as_english = t.elapsed();
+        let t = Instant::now();
+        let other = Document::new(&text, &NotEnglish(Box::new(Markdown::default())), &dict);
+        let as_other = t.elapsed();
+
+        eprintln!(
+            "{} bytes: {as_english:?} as English, {as_other:?} with NotEnglish",
+            text.len()
+        );
+        assert_eq!(english.get_full_string(), other.get_full_string());
+    }
+
+    #[test]
+    fn a_plugin_language_document_has_the_same_text_and_spans() {
+        use harper_core::parsers::Markdown;
+
+        let text = "Teh cat sat.\n\nTeh dog.";
+        let dict = std::sync::Arc::new(MutableDictionary::new());
+        let english = Document::new(text, &Markdown::default(), &dict);
+        let other = Document::new(text, &NotEnglish(Box::new(Markdown::default())), &dict);
+        assert!(!NotEnglish(Box::new(Markdown::default())).is_english());
+        assert_eq!(english.get_full_string(), other.get_full_string());
+        let spans = |d: &Document| d.get_tokens().iter().map(|t| t.span).collect::<Vec<_>>();
+        assert_eq!(spans(&english), spans(&other));
     }
 
     #[test]

@@ -1,7 +1,7 @@
 import { beforeAll, describe, expect, test } from 'vitest';
 import { binary } from './binaries/binary';
 import LocalLinter from './LocalLinter';
-import PluginLinter from './PluginLinter';
+import PluginLinter, { answersTo } from './PluginLinter';
 
 // `just test-harperjs` builds the `echo` example plugin of harper-plugin-api into this file.
 const ECHO_URL = '/test-fixtures/echo.wasm';
@@ -24,6 +24,17 @@ describe('PluginLinter', () => {
 		const info = await linter.info();
 		expect(info.id).toBe('xx');
 		expect(info.abi).toBe(1);
+	});
+
+	test('answers to its id, name, aliases and dialects, whatever the case', async () => {
+		const linter = new PluginLinter({ plugin: bytes });
+		const info = await linter.info();
+		expect(info.aliases).toContain('Echolalia');
+		for (const name of ['xx', 'Echo', 'echolalia', 'STD', 'Standard']) {
+			expect(answersTo(info, name), name).toBe(true);
+		}
+		expect(answersTo(info, 'German')).toBe(false);
+		expect(info.features).toContain('request_words');
 	});
 
 	test('loads from a URL', async () => {

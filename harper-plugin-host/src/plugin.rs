@@ -4,8 +4,8 @@ use std::sync::Mutex;
 
 use harper_core::linting::Lint;
 use harper_plugin_api::{
-    ABI_VERSION, LintRequest, PluginConfig, PluginInfo, PluginLint, Request, Response,
-    plugin_to_lint,
+    ABI_VERSION, FEATURE_REQUEST_WORDS, LintRequest, PluginConfig, PluginInfo, PluginLint, Request,
+    Response, plugin_to_lint,
 };
 use serde::de::DeserializeOwned;
 use wasmtime::{Engine, Instance, Linker, Memory, Module, Store, TypedFunc};
@@ -64,12 +64,40 @@ impl PluginHost {
                     let tmp = cache.with_extension("tmp");
                     if std::fs::write(&tmp, ser).is_ok() {
                         let _ = std::fs::rename(&tmp, &cache);
+                        remove_stale_cache_files(cache_dir.as_ref(), &cache);
                     }
                 }
                 m
             }
         };
         LoadedPlugin::instantiate(&self.engine, &module)
+    }
+}
+
+/// How long a compiled module nobody asked for stays in the cache.
+const CACHE_KEEP: std::time::Duration = std::time::Duration::from_secs(30 * 24 * 60 * 60);
+
+/// Removes the compiled modules in `cache_dir` that are older than [`CACHE_KEEP`], apart from
+/// `keep`. Every new version of a plugin (or of wasmtime) is a new file, so without this the
+/// cache grows with each update. Best effort: a file that is in use or cannot be removed stays.
+fn remove_stale_cache_files(cache_dir: &Path, keep: &Path) {
+    let Ok(entries) = std::fs::read_dir(cache_dir) else {
+        return;
+    };
+    for entry in entries.flatten() {
+        let path = entry.path();
+        if path == keep || !path.extension().is_some_and(|e| e == "cwasm" || e == "tmp") {
+            continue;
+        }
+        let old = entry
+            .metadata()
+            .and_then(|m| m.modified())
+            .ok()
+            .and_then(|modified| modified.elapsed().ok())
+            .is_some_and(|age| age > CACHE_KEEP);
+        if old {
+            let _ = std::fs::remove_file(path);
+        }
     }
 }
 
@@ -91,6 +119,8 @@ struct Guest {
     alloc: TypedFunc<u32, u32>,
     free: TypedFunc<(u32, u32), ()>,
     call: TypedFunc<(u32, u32), u64>,
+    /// The words the plugin was last given with `set_user_words`.
+    words: Option<Vec<String>>,
 }
 
 impl Guest {
@@ -117,7 +147,8 @@ impl Guest {
 pub struct LoadedPlugin {
     info: PluginInfo,
     guest: Mutex<Guest>,
-    user_words: Mutex<Option<Vec<String>>>,
+    /// Whether the plugin reads `LintRequest::user_words`; if not, the words are set first.
+    request_words: bool,
 }
 
 impl LoadedPlugin {
@@ -152,6 +183,7 @@ impl LoadedPlugin {
             alloc,
             free,
             call,
+            words: None,
         };
         let info = request::<PluginInfo>(&mut guest, &Request::Info)?;
         if info.abi != ABI_VERSION {
@@ -162,9 +194,9 @@ impl LoadedPlugin {
         }
 
         Ok(Self {
+            request_words: info.supports(FEATURE_REQUEST_WORDS),
             info,
             guest: Mutex::new(guest),
-            user_words: Mutex::new(None),
         })
     }
 
@@ -177,8 +209,26 @@ impl LoadedPlugin {
         request(&mut guest, req)
     }
 
+    /// A plugin built before `LintRequest::user_words` existed ignores the field. For such a
+    /// plugin, [`Self::lint`] sets the words first, in the same locked call so that no other
+    /// request comes between.
     pub fn lint(&self, req: &LintRequest) -> Result<Vec<PluginLint>> {
-        self.send(&Request::Lint(req.clone()))
+        let mut guest = self.guest.lock().unwrap_or_else(|e| e.into_inner());
+        let mut req = req.clone();
+        if !self.request_words
+            && let Some(words) = req.user_words.take()
+        {
+            set_words(&mut guest, words)?;
+        }
+        request(&mut guest, &Request::Lint(req))
+    }
+
+    /// Makes [`Self::lint`] treat this as a plugin that does not read `user_words`, as one built
+    /// with an older API crate. For tests.
+    #[doc(hidden)]
+    pub fn assume_old_plugin(mut self) -> Self {
+        self.request_words = false;
+        self
     }
 
     /// [`Self::lint`], converted into the lint type the rest of Harper uses.
@@ -198,23 +248,22 @@ impl LoadedPlugin {
     /// into the plugin) when the list is the same as last time, so callers may call this
     /// before every lint.
     pub fn set_user_words(&self, words: Vec<String>) -> Result<()> {
-        let mut last = self.user_words.lock().unwrap_or_else(|e| e.into_inner());
-        if last.as_ref() == Some(&words) {
-            return Ok(());
-        }
-        self.send::<()>(&Request::SetUserWords {
-            words: words.clone(),
-        })?;
-        *last = Some(words);
-        Ok(())
+        let mut guest = self.guest.lock().unwrap_or_else(|e| e.into_inner());
+        set_words(&mut guest, words)
     }
 
     /// How sure the plugin is that `text` is in its language (0 to 1). The plugin is told how
     /// much of the text Harper's English dictionary knows.
     pub fn detect(&self, text: &str) -> Result<Option<f32>> {
+        self.detect_with_ratio(text, english_ratio(text))
+    }
+
+    /// [`Self::detect`] with the [`english_ratio`] of `text` already known, so that asking
+    /// several plugins about one text computes it once.
+    pub fn detect_with_ratio(&self, text: &str, english_ratio: Option<f32>) -> Result<Option<f32>> {
         self.send(&Request::Detect {
             text: text.to_owned(),
-            english_ratio: english_ratio(text),
+            english_ratio,
         })
     }
 }
@@ -227,6 +276,21 @@ fn typed<P: wasmtime::WasmParams, R: wasmtime::WasmResults>(
     instance
         .get_typed_func(&mut *store, name)
         .map_err(|_| Error::MissingExport(name))
+}
+
+/// Gives the plugin its user words, unless it has them already.
+fn set_words(guest: &mut Guest, words: Vec<String>) -> Result<()> {
+    if guest.words.as_ref() == Some(&words) {
+        return Ok(());
+    }
+    request::<()>(
+        guest,
+        &Request::SetUserWords {
+            words: words.clone(),
+        },
+    )?;
+    guest.words = Some(words);
+    Ok(())
 }
 
 fn request<T: DeserializeOwned>(guest: &mut Guest, req: &Request) -> Result<T> {

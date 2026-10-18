@@ -17,7 +17,15 @@ pub fn dispatch<P: LanguagePlugin>(slot: &mut Option<P>, request: &[u8]) -> Vec<
 fn handle<P: LanguagePlugin>(slot: &mut Option<P>, req: Request) -> Value {
     // `info` and `detect` must not trigger the (possibly slow) construction of the plugin.
     match &req {
-        Request::Info => return json!({ "ok": P::info() }),
+        Request::Info => {
+            let mut info = P::info();
+            for feature in crate::FEATURES {
+                if !info.supports(feature) {
+                    info.features.push((*feature).to_owned());
+                }
+            }
+            return json!({ "ok": info });
+        }
         Request::Detect {
             text,
             english_ratio,
@@ -64,6 +72,7 @@ mod tests {
                 dialects: vec![],
                 default_dialect: None,
                 aliases: vec![],
+                features: vec![],
             }
         }
         fn new() -> Self {
@@ -93,6 +102,14 @@ mod tests {
         assert_eq!(v["ok"]["id"], "t");
         assert!(slot.is_none());
         assert_eq!(CREATED.with(|c| c.get()), 0);
+    }
+
+    #[test]
+    fn info_lists_the_features_of_this_api() {
+        let mut slot: Option<Counting> = None;
+        let out = dispatch(&mut slot, br#"{"method":"info"}"#);
+        let v: serde_json::Value = serde_json::from_slice(&out).unwrap();
+        assert_eq!(v["ok"]["features"], serde_json::json!(["request_words"]));
     }
 
     #[test]
