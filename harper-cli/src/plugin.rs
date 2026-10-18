@@ -383,7 +383,7 @@ mod stub {
             _format: &str,
             _regions: Option<&[(usize, usize)]>,
             _file_words: &[String],
-            _config: Option<harper_plugin_api::PluginConfig>,
+            _config: Option<()>,
         ) -> Result<BTreeMap<String, Vec<Lint>>> {
             Ok(BTreeMap::new())
         }
@@ -392,7 +392,7 @@ mod stub {
             &self,
             _only: &Option<Vec<String>>,
             _ignore: &Option<Vec<String>>,
-        ) -> Result<Option<harper_plugin_api::PluginConfig>> {
+        ) -> Result<Option<()>> {
             Ok(None)
         }
     }
