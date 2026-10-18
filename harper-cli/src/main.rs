@@ -58,9 +58,6 @@ struct Cli {
 
 #[derive(clap::Subcommand)]
 enum Args {
-    /// Manage language plugins.
-    #[command(subcommand)]
-    Plugin(plugin::PluginCommand),
     /// Lint provided documents.
     Lint {
         /// The text or file you wish to grammar check. If not provided, it will be read from
@@ -112,6 +109,9 @@ enum Args {
         #[arg(long)]
         no_parallel: bool,
     },
+    /// Manage language plugins.
+    #[command(subcommand)]
+    Plugin(plugin::PluginCommand),
     /// Parse a provided document and print the detected symbols.
     Parse {
         /// The text or file you wish to parse. If not provided, it will be read from standard
