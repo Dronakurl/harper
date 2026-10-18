@@ -125,10 +125,12 @@ Regeln:
   `set_user_words`. (Für Hosts mit nur einem Text, siehe unten.)
 - Ältere Hosts schicken das Feld nicht: `None`, altes Verhalten.
 
-Das Feld ist neu und additiv. Das ABI bleibt bei 1. Fallstrick:
-Ein **altes Plugin** kennt das Feld nicht und ignoriert es leise. Der
-Host merkt nichts, Nutzerwörter fehlen einfach. Dazu gibt es das Issue
-[#28].
+Das Feld ist neu und additiv. Das ABI bleibt bei 1. Fallstrick war:
+Ein **altes Plugin** kennt das Feld nicht und ignoriert es leise.
+Dafür gibt es jetzt `PluginInfo::features`: Meldet ein Plugin
+`request_words` nicht, setzt der Host die Wörter der Anfrage vorher
+per `set_user_words`, im selben gesperrten Aufruf (Issue [#28],
+behoben, Test `an_old_plugin_gets_the_words_of_the_request_...`).
 
 ## Was das Plugin damit macht (Deutsch)
 
@@ -173,10 +175,11 @@ sobald sich Bezeichner ändern.
   `concurrent_requests_do_not_see_each_others_words`.
 - Chrome und Obsidian: eigene Tests pro Sprache (Kapitel 9).
 
-## Lücke (noch offen)
+## Früher eine Lücke
 
-Das CLI trennt Datei-Wörterbücher nicht nach Sprache, `harper-ls` tut
-es. Siehe Issue [#25].
+Das CLI trennte Datei-Wörterbücher nicht nach Sprache, `harper-ls`
+tat es. Behoben (Issue [#25]); der Test legt die englische und die
+Plugin-Variante an und prüft, dass nur die zweite zählt.
 
 ## Merke
 
@@ -191,13 +194,13 @@ es. Siehe Issue [#25].
 
 [#25]: https://github.com/Dronakurl/harper/issues/25
 [c]: https://github.com/Dronakurl/harper/commit/ef659a5b81af3981555bd01100f154ca5ebb2745
-[lp]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-ls/src/backend.rs#L106
-[gfdp]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-ls/src/backend.rs#L195
-[fp]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-ls/src/io_utils.rs#L8
-[uw]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-api/src/types.rs#L86
-[gw]: https://github.com/Dronakurl/harper-german/blob/736635448a0e587632634b1a8cdc9ead2a1c4d91/src/plugin.rs#L74
-[cost]: https://github.com/Dronakurl/harper-german/blob/736635448a0e587632634b1a8cdc9ead2a1c4d91/tests/plugin_host.rs#L256
-[ls-ol]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-ls/src/plugins.rs#L226
-[cuw]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-ls/src/backend.rs#L318
-[cli-ol]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-cli/src/plugin.rs#L168
+[lp]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/backend.rs
+[gfdp]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/backend.rs
+[fp]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/io_utils.rs
+[uw]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-api/src/types.rs
+[gw]: https://github.com/Dronakurl/harper-german/blob/fix/single-cases-16-20/src/plugin.rs
+[cost]: https://github.com/Dronakurl/harper-german/blob/fix/single-cases-16-20/tests/plugin_host.rs
+[ls-ol]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/plugins.rs
+[cuw]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/backend.rs
+[cli-ol]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-cli/src/plugin.rs
 [#28]: https://github.com/Dronakurl/harper/issues/28

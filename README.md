@@ -10,13 +10,13 @@ gemeinsame Historie mit dem Code und wird nie gemerged.
 
 ## Stand der Doku
 
-- harper: Commit [`ef659a5b`][c-harper]
-- harper-german: Commit [`7366354`][c-german]
-
-Alle Code-Links in dieser Doku zeigen auf genau diese Commits
-(Permalinks). Sie bleiben gültig, auch wenn der Branch weiterwandert.
-Dann stimmen aber Zeilennummern im Branch nicht mehr mit der Doku
-überein.
+Alle Code-Links zeigen auf den **aktuellen Stand** der Branches
+(`feature/language-plugins` in harper, `fix/single-cases-16-20` in
+harper-german), nicht auf alte Commits. Links nennen deshalb Datei
+und Name, keine Zeilennummern: Wer ein Symbol sucht, findet es mit
+der Suche der Datei. Die Texte beschreiben den Stand von harper
+[`ec12f0d5`][c-harper]. Spätere Änderungen können einzelne Absätze
+überholt haben; Kapitel 12 sagt, wie ich die Doku nachziehe.
 
 ## Lesereihenfolge
 
@@ -60,7 +60,7 @@ Zum Nachschlagen: [Glossar](glossar.md).
 
 ## Schreibweise
 
-- `Pfad:Zeile` ist ein Link auf den Code (Permalink).
+- Ein Link auf `Datei` oder `Name` führt zum aktuellen Code im Branch.
 - Diagramme sind schmal und stehen senkrecht, damit sie am Handy
   passen.
 - „Host" ist das Programm, das ein Plugin lädt (`harper-ls`,
@@ -69,6 +69,5 @@ Zum Nachschlagen: [Glossar](glossar.md).
 [fork]: https://github.com/Dronakurl/harper
 [branch]: https://github.com/Dronakurl/harper/tree/feature/language-plugins
 [#22]: https://github.com/Dronakurl/harper/pull/22
-[c-harper]: https://github.com/Dronakurl/harper/commit/ef659a5b81af3981555bd01100f154ca5ebb2745
-[c-german]: https://github.com/Dronakurl/harper-german/commit/736635448a0e587632634b1a8cdc9ead2a1c4d91
+[c-harper]: https://github.com/Dronakurl/harper/commit/ec12f0d5877fb19978a5e9b60a088d0c854aad48
 [german]: https://github.com/Dronakurl/harper-german

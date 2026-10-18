@@ -62,7 +62,9 @@ Geschwindigkeitsgewinn für das CLI. Ein Lauf über 20 Dateien:
 Beachte:
 
 - Ändert sich die `.wasm`, ändert sich der Hash, es entsteht eine
-  **neue** Cache-Datei. Alte werden nie gelöscht (Issue [#27]).
+  **neue** Cache-Datei. Beim Schreiben einer neuen Datei werden
+  `.cwasm`/`.tmp`-Dateien entfernt, die älter als 30 Tage sind
+  (`remove_stale_cache_files`, Issue [#27], behoben).
 - Ein schreibgeschützter Cache kostet nur Zeit, nie Korrektheit.
 
 ### `LoadedPlugin::instantiate`
@@ -96,8 +98,8 @@ Antwort als `Response<T>` lesen. `Ok(v)` → Wert, `Err(e)` →
 ```rust
 pub struct LoadedPlugin {
     info: PluginInfo,
-    guest: Mutex<Guest>,
-    user_words: Mutex<Option<Vec<String>>>,
+    guest: Mutex<Guest>,   // Guest merkt sich auch die letzten Wörter
+    request_words: bool,   // liest das Plugin user_words?
 }
 ```
 
@@ -121,10 +123,14 @@ nutzbar.
 ## Die Methoden von `LoadedPlugin`
 
 - [`lint`][lint]: Anfrage senden, `Vec<PluginLint>` zurück.
-  `lint_core` wandelt zusätzlich in `harper_core::Lint`.
+  `lint_core` wandelt zusätzlich in `harper_core::Lint`. Meldet das
+  Plugin `request_words` nicht (gebaut vor dieser Funktion), nimmt
+  `lint` die Wörter aus der Anfrage und setzt sie vorher per
+  `set_user_words`, beides unter demselben Schloss.
 - `lint_descriptions`, `default_config`: durchreichen.
 - [`set_user_words`][suw]: merkt sich die letzte Liste und
-  schickt nur, wenn sie sich ändert. Wird von den Rust-Hosts nicht
+  schickt nur, wenn sie sich ändert (der Zustand liegt im `Guest`,
+  unter demselben Schloss wie `lint`). Wird von den Rust-Hosts nicht
   mehr benutzt (sie schicken `user_words` pro Anfrage), ist aber für
   Hosts mit nur einem Text da.
 - [`detect`][detect]: schickt Text **und** `english_ratio`.
@@ -136,8 +142,9 @@ Der Host kennt das englische Wörterbuch, das Plugin nicht.
 Harpers Englisch kennt. Das Plugin nutzt die Zahl, um englischen Text
 sicher auszuschließen (`detect_with`). So kann ein Plugin deutsche
 Texte mit vielen englischen Wörtern von rein englischen trennen,
-ohne ein englisches Wörterbuch einzubinden. Die Zahl wird heute für
-jedes Plugin neu berechnet (Issue [#30]).
+ohne ein englisches Wörterbuch einzubinden. Wer mehrere Plugins
+fragt, rechnet sie einmal und übergibt sie mit `detect_with_ratio`
+(Issue [#30], behoben).
 
 ## Plugins finden
 
@@ -172,25 +179,25 @@ Plugin hat Nein gesagt", `Protocol` heißt „es hat Unsinn geantwortet".
 [← Schnittstelle](02-schnittstelle.md) · [Weiter: Ein Lint von A bis Z →](04-ein-lint-von-a-bis-z.md)
 
 [#22]: https://github.com/Dronakurl/harper/pull/22
-[plugin]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-host/src/plugin.rs
-[dir]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-host/src/dir.rs
-[lib]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-host/src/lib.rs
-[tests]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-host/tests/echo.rs
-[ls-stub]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-ls/src/plugins.rs#L271
-[host]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-host/src/plugin.rs#L16
-[cached]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-host/src/plugin.rs#L38
-[fp]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-host/src/plugin.rs#L76
-[inst]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-host/src/plugin.rs#L124
-[traps]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-host/src/plugin.rs#L130
-[rt]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-host/src/plugin.rs#L97
-[req]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-host/src/plugin.rs#L232
-[lp]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-host/src/plugin.rs#L117
-[lint]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-host/src/plugin.rs#L180
-[suw]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-host/src/plugin.rs#L200
-[detect]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-host/src/plugin.rs#L214
-[er]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-host/src/plugin.rs#L244
-[dpd]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-host/src/dir.rs#L4
-[disc]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-host/src/dir.rs#L9
-[err]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-host/src/lib.rs#L19
+[plugin]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-host/src/plugin.rs
+[dir]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-host/src/dir.rs
+[lib]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-host/src/lib.rs
+[tests]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-host/tests/echo.rs
+[ls-stub]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/plugins.rs
+[host]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-host/src/plugin.rs
+[cached]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-host/src/plugin.rs
+[fp]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-host/src/plugin.rs
+[inst]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-host/src/plugin.rs
+[traps]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-host/src/plugin.rs
+[rt]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-host/src/plugin.rs
+[req]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-host/src/plugin.rs
+[lp]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-host/src/plugin.rs
+[lint]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-host/src/plugin.rs
+[suw]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-host/src/plugin.rs
+[detect]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-host/src/plugin.rs
+[er]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-host/src/plugin.rs
+[dpd]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-host/src/dir.rs
+[disc]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-host/src/dir.rs
+[err]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-host/src/lib.rs
 [#27]: https://github.com/Dronakurl/harper/issues/27
 [#30]: https://github.com/Dronakurl/harper/issues/30

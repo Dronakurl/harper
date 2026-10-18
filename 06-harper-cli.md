@@ -70,8 +70,9 @@ ans Ende.)
 1. **Datei-Wörterbuch laden** (`file_dict_name`), falls vorhanden.
    Standardverzeichnis ist dasselbe wie bei `harper-ls`
    (`…/harper-ls/file_dictionaries/`, Option `--file-dict-path`).
-   Achtung: Anders als `harper-ls` trennt das CLI es **nicht nach
-   Sprache** (Issue [#25]).
+   Für ein Plugin gilt `file_dictionaries-<id>`, wie bei `harper-ls`
+   (Issue [#25], behoben); das Plugin bekommt diese Wörter erst, wenn
+   feststeht, welches Plugin die Datei lintet.
 2. Dokument parsen, mit Harpers Parser.
 3. **Format** wählen: [`format_for_path`][ffp] sieht die Endung.
    `.md` → `markdown`, `.org` → `org`, `.typ` → `typst`,
@@ -81,7 +82,8 @@ ans Ende.)
 5. Bei `Auto`: Prosa (oder zusammengefügte Regionen) an
    [`best_for`][bf]. Wer mindestens 0,5 meldet und am sichersten ist,
    darf.
-6. `plugin.organized_lints(text, format, regions, file_words)`.
+6. Wörter der Datei für die Sprache des Plugins laden;
+   `plugin.organized_lints(text, format, regions, file_words)`.
 7. `--only` / `--ignore` filtern **die Regeln des Plugins**
    (nicht die englischen).
 8. Überlappende Lints entfernen (außer `--keep-overlapping-lints`),
@@ -149,16 +151,16 @@ Fehlt das Wasm-Target lokal, werden sie übersprungen. In der CI
 
 [#25]: https://github.com/Dronakurl/harper/issues/25
 [#17]: https://github.com/Dronakurl/harper/issues/17
-[plugin]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-cli/src/plugin.rs
-[lint]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-cli/src/lint.rs
-[engine]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-cli/src/lint_engine.rs
-[main]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-cli/src/main.rs
-[main-dialect]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-cli/src/main.rs#L285
-[tests]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-cli/tests/plugin.rs
-[t-file]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-cli/tests/plugin.rs#L144
-[lc]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-cli/src/lint.rs#L109
-[pc]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-cli/src/plugin.rs#L43
-[ffp]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-cli/src/plugin.rs#L14
-[bf]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-cli/src/plugin.rs#L150
-[par]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-cli/src/lint.rs#L378
-[uw]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-cli/src/lint.rs#L291
+[plugin]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-cli/src/plugin.rs
+[lint]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-cli/src/lint.rs
+[engine]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-cli/src/lint_engine.rs
+[main]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-cli/src/main.rs
+[main-dialect]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-cli/src/main.rs
+[tests]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-cli/tests/plugin.rs
+[t-file]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-cli/tests/plugin.rs
+[lc]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-cli/src/lint.rs
+[pc]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-cli/src/plugin.rs
+[ffp]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-cli/src/plugin.rs
+[bf]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-cli/src/plugin.rs
+[par]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-cli/src/lint.rs
+[uw]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-cli/src/lint.rs

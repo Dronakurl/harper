@@ -89,6 +89,9 @@ Beispiel einer Lint-Anfrage:
 - `aliases`: `["German", "Deutsch"]`
 - `dialects`: Standard, Austrian, Swiss, jeweils mit eigenen Aliasen
 - `abi`, `plugin_version`, `harper_core_version`
+- `features`: was das Plugin kann, z. B. `request_words` (liest
+  `user_words`). Das Plugin trägt sie nicht selbst ein: `dispatch`
+  ergänzt sie bei `info` aus der API-Crate, mit der es gebaut wurde.
 
 Wichtig ist [`answers_to`][answers]: Der Host fragt „hörst du auf
 `Swiss`?" und das Plugin antwortet. So braucht kein Host eine Liste
@@ -170,8 +173,10 @@ Plugin es nicht mehr lesen kann. Der Host prüft sie zweimal:
 über den Export und über `info.abi`.
 
 Neue **optionale** Felder (wie `user_words`) brauchen keine neue
-Version. Aber: ein altes Plugin ignoriert sie leise. Siehe
-Issue [#28].
+Version. Ein altes Plugin ignoriert sie aber leise. Darum gibt es
+`features`: Ein Plugin, das `request_words` nicht meldet, bekommt
+die Wörter vom Host vorher per `set_user_words` (Kapitel 3 und 8,
+Issue [#28], behoben).
 
 ## `convert.rs`: Lint-Übersetzung
 
@@ -193,25 +198,25 @@ Berichte) keinen Sonderfall für Plugins.
 [← Überblick](01-ueberblick.md) · [Weiter: Der Host →](03-host.md)
 
 [#24]: https://github.com/Dronakurl/harper/issues/24
-[lib]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-api/src/lib.rs
-[types]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-api/src/types.rs
-[dispatch]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-api/src/dispatch.rs
-[convert]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-api/src/convert.rs
-[echo]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-api/examples/echo.rs
-[macro]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-api/src/lib.rs#L54
-[call]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-api/src/lib.rs#L87
-[roundtrip]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-host/src/plugin.rs#L97
-[request]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-api/src/types.rs#L132
-[response]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-api/src/types.rs#L153
-[info]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-api/src/types.rs#L19
-[answers]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-api/src/types.rs#L41
-[req]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-api/src/types.rs#L68
-[lint]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-api/src/types.rs#L115
-[sugg]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-api/src/types.rs#L107
-[trait]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-api/src/lib.rs#L28
-[dispatch-fn]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-api/src/dispatch.rs#L10
-[handle]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-api/src/dispatch.rs#L18
-[abi]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-api/src/lib.rs#L24
-[l2p]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-api/src/convert.rs#L7
-[p2l]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-api/src/convert.rs#L28
+[lib]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-api/src/lib.rs
+[types]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-api/src/types.rs
+[dispatch]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-api/src/dispatch.rs
+[convert]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-api/src/convert.rs
+[echo]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-api/examples/echo.rs
+[macro]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-api/src/lib.rs
+[call]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-api/src/lib.rs
+[roundtrip]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-host/src/plugin.rs
+[request]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-api/src/types.rs
+[response]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-api/src/types.rs
+[info]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-api/src/types.rs
+[answers]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-api/src/types.rs
+[req]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-api/src/types.rs
+[lint]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-api/src/types.rs
+[sugg]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-api/src/types.rs
+[trait]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-api/src/lib.rs
+[dispatch-fn]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-api/src/dispatch.rs
+[handle]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-api/src/dispatch.rs
+[abi]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-api/src/lib.rs
+[l2p]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-api/src/convert.rs
+[p2l]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-api/src/convert.rs
 [#28]: https://github.com/Dronakurl/harper/issues/28

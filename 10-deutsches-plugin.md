@@ -59,6 +59,7 @@ Deutschland, Austrian, Swiss) mit Aliasen (`de-AT`, `CH`, …) und
 Plugin-Aliase `German`, `Deutsch`. Daher funktionieren alte
 Einstellungen wie `"dialect": "German"` weiter.
 
+`features` bleibt leer; `dispatch` ergänzt `request_words`.
 `HARPER_CORE_VERSION` ist von Hand gepflegt und soll zu `Cargo.toml`
 passen.
 
@@ -192,24 +193,24 @@ Version>`, damit der Patch greift.
 [← Browser, Obsidian, harper.js](09-browser-obsidian-js.md) · [Weiter: Bauen, Testen, Verteilen →](11-bauen-testen-verteilen.md)
 
 [repo]: https://github.com/Dronakurl/harper-german
-[plugin]: https://github.com/Dronakurl/harper-german/blob/736635448a0e587632634b1a8cdc9ead2a1c4d91/src/plugin.rs
-[german]: https://github.com/Dronakurl/harper-german/blob/736635448a0e587632634b1a8cdc9ead2a1c4d91/src/plugin.rs#L24
-[new]: https://github.com/Dronakurl/harper-german/blob/736635448a0e587632634b1a8cdc9ead2a1c4d91/src/plugin.rs#L146
-[info]: https://github.com/Dronakurl/harper-german/blob/736635448a0e587632634b1a8cdc9ead2a1c4d91/src/plugin.rs#L115
-[lint]: https://github.com/Dronakurl/harper-german/blob/736635448a0e587632634b1a8cdc9ead2a1c4d91/src/plugin.rs#L159
-[uw]: https://github.com/Dronakurl/harper-german/blob/736635448a0e587632634b1a8cdc9ead2a1c4d91/src/plugin.rs#L74
-[ac]: https://github.com/Dronakurl/harper-german/blob/736635448a0e587632634b1a8cdc9ead2a1c4d91/src/plugin.rs#L99
-[lc]: https://github.com/Dronakurl/harper-german/blob/736635448a0e587632634b1a8cdc9ead2a1c4d91/src/plugin.rs#L54
-[parser]: https://github.com/Dronakurl/harper-german/blob/736635448a0e587632634b1a8cdc9ead2a1c4d91/src/plugin.rs#L38
-[detect]: https://github.com/Dronakurl/harper-german/blob/736635448a0e587632634b1a8cdc9ead2a1c4d91/src/plugin.rs#L201
-[detect2]: https://github.com/Dronakurl/harper-german/blob/736635448a0e587632634b1a8cdc9ead2a1c4d91/src/plugin.rs#L205
-[ld]: https://github.com/Dronakurl/harper-german/blob/736635448a0e587632634b1a8cdc9ead2a1c4d91/src/language_detection.rs#L39
-[module]: https://github.com/Dronakurl/harper-german/blob/736635448a0e587632634b1a8cdc9ead2a1c4d91/src/module.rs
-[ncg]: https://github.com/Dronakurl/harper-german/blob/736635448a0e587632634b1a8cdc9ead2a1c4d91/src/linting/mod.rs#L48
-[dict]: https://github.com/Dronakurl/harper-german/blob/736635448a0e587632634b1a8cdc9ead2a1c4d91/data/dictionary.dict
-[lgp]: https://github.com/Dronakurl/harper-german/blob/736635448a0e587632634b1a8cdc9ead2a1c4d91/src/spell/german_dict.rs#L76
-[stamp]: https://github.com/Dronakurl/harper-german/blob/736635448a0e587632634b1a8cdc9ead2a1c4d91/src/spell/german_dict.rs#L48
-[cad]: https://github.com/Dronakurl/harper-german/blob/736635448a0e587632634b1a8cdc9ead2a1c4d91/src/spell/compound_aware_dict.rs
-[notes]: https://github.com/Dronakurl/harper-german/blob/736635448a0e587632634b1a8cdc9ead2a1c4d91/docs/GERMAN_DICTIONARY_NOTES.md
-[wasm]: https://github.com/Dronakurl/harper-german/blob/736635448a0e587632634b1a8cdc9ead2a1c4d91/src/wasm_support.rs
-[pht]: https://github.com/Dronakurl/harper-german/blob/736635448a0e587632634b1a8cdc9ead2a1c4d91/tests/plugin_host.rs
+[plugin]: https://github.com/Dronakurl/harper-german/blob/fix/single-cases-16-20/src/plugin.rs
+[german]: https://github.com/Dronakurl/harper-german/blob/fix/single-cases-16-20/src/plugin.rs
+[new]: https://github.com/Dronakurl/harper-german/blob/fix/single-cases-16-20/src/plugin.rs
+[info]: https://github.com/Dronakurl/harper-german/blob/fix/single-cases-16-20/src/plugin.rs
+[lint]: https://github.com/Dronakurl/harper-german/blob/fix/single-cases-16-20/src/plugin.rs
+[uw]: https://github.com/Dronakurl/harper-german/blob/fix/single-cases-16-20/src/plugin.rs
+[ac]: https://github.com/Dronakurl/harper-german/blob/fix/single-cases-16-20/src/plugin.rs
+[lc]: https://github.com/Dronakurl/harper-german/blob/fix/single-cases-16-20/src/plugin.rs
+[parser]: https://github.com/Dronakurl/harper-german/blob/fix/single-cases-16-20/src/plugin.rs
+[detect]: https://github.com/Dronakurl/harper-german/blob/fix/single-cases-16-20/src/plugin.rs
+[detect2]: https://github.com/Dronakurl/harper-german/blob/fix/single-cases-16-20/src/plugin.rs
+[ld]: https://github.com/Dronakurl/harper-german/blob/fix/single-cases-16-20/src/language_detection.rs
+[module]: https://github.com/Dronakurl/harper-german/blob/fix/single-cases-16-20/src/module.rs
+[ncg]: https://github.com/Dronakurl/harper-german/blob/fix/single-cases-16-20/src/linting/mod.rs
+[dict]: https://github.com/Dronakurl/harper-german/blob/fix/single-cases-16-20/data/dictionary.dict
+[lgp]: https://github.com/Dronakurl/harper-german/blob/fix/single-cases-16-20/src/spell/german_dict.rs
+[stamp]: https://github.com/Dronakurl/harper-german/blob/fix/single-cases-16-20/src/spell/german_dict.rs
+[cad]: https://github.com/Dronakurl/harper-german/blob/fix/single-cases-16-20/src/spell/compound_aware_dict.rs
+[notes]: https://github.com/Dronakurl/harper-german/blob/fix/single-cases-16-20/docs/GERMAN_DICTIONARY_NOTES.md
+[wasm]: https://github.com/Dronakurl/harper-german/blob/fix/single-cases-16-20/src/wasm_support.rs
+[pht]: https://github.com/Dronakurl/harper-german/blob/fix/single-cases-16-20/tests/plugin_host.rs

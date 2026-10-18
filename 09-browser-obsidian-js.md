@@ -64,7 +64,9 @@ Zwei Eigenheiten:
   `WorkerLinter` sie nicht über `postMessage` schicken. Der
   `PluginLinter` läuft auf dem aufrufenden Thread.
 
-Der Typ `PluginInfo` kennt die `aliases` nicht (Issue [#31]).
+`PluginInfo` hat `aliases` und `features`; `answersTo(info, name)`
+folgt derselben Regel wie `PluginInfo::answers_to` in Rust
+(Issue [#31], behoben).
 
 ### Was `PluginLinter` nicht kann
 
@@ -159,20 +161,20 @@ englischen Dialekts baut den Linter nur bei Englisch neu.
 
 [← Wörterbücher](08-woerterbuecher.md) · [Weiter: Das deutsche Plugin →](10-deutsches-plugin.md)
 
-[pl]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/packages/harper.js/src/PluginLinter.ts
-[plt]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/packages/harper.js/src/PluginLinter.test.ts
-[rt]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/packages/harper.js/src/PluginLinter.ts#L81
-[comp]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/packages/harper.js/src/PluginLinter.ts#L162
-[call]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/packages/harper.js/src/PluginLinter.ts#L129
-[plo]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/packages/harper.js/src/PluginLinter.ts#L202
-[run]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/packages/harper.js/src/PluginLinter.ts#L304
-[iw]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/packages/harper.js/src/PluginLinter.ts#L475
-[ps]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/packages/chrome-plugin/src/pluginStore.ts
-[bg]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/packages/chrome-plugin/src/background/index.ts
-[sp]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/packages/chrome-plugin/src/pluginStore.ts#L51
-[il]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/packages/chrome-plugin/src/background/index.ts#L765
-[lk]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/packages/chrome-plugin/src/background/index.ts#L797
-[st]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/packages/obsidian-plugin/src/State.ts
-[sw]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/packages/obsidian-plugin/src/State.ts#L45
-[cl]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/packages/obsidian-plugin/src/State.ts#L204
+[pl]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/packages/harper.js/src/PluginLinter.ts
+[plt]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/packages/harper.js/src/PluginLinter.test.ts
+[rt]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/packages/harper.js/src/PluginLinter.ts
+[comp]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/packages/harper.js/src/PluginLinter.ts
+[call]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/packages/harper.js/src/PluginLinter.ts
+[plo]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/packages/harper.js/src/PluginLinter.ts
+[run]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/packages/harper.js/src/PluginLinter.ts
+[iw]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/packages/harper.js/src/PluginLinter.ts
+[ps]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/packages/chrome-plugin/src/pluginStore.ts
+[bg]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/packages/chrome-plugin/src/background/index.ts
+[sp]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/packages/chrome-plugin/src/pluginStore.ts
+[il]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/packages/chrome-plugin/src/background/index.ts
+[lk]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/packages/chrome-plugin/src/background/index.ts
+[st]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/packages/obsidian-plugin/src/State.ts
+[sw]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/packages/obsidian-plugin/src/State.ts
+[cl]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/packages/obsidian-plugin/src/State.ts
 [#31]: https://github.com/Dronakurl/harper/issues/31

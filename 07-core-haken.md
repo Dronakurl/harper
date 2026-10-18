@@ -164,15 +164,15 @@ upstream. Deshalb die Disziplin.
 
 [← harper-cli](06-harper-cli.md) · [Weiter: Wörterbücher →](08-woerterbuecher.md)
 
-[pm]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-core/src/parsers/mod.rs#L37
-[dp]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-core/src/document.rs#L172
-[afd]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-core/src/document.rs#L234
-[md]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-core/src/parsers/markdown.rs#L54
-[org]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-core/src/parsers/org_mode.rs#L142
-[gparser]: https://github.com/Dronakurl/harper-german/blob/736635448a0e587632634b1a8cdc9ead2a1c4d91/src/plugin.rs#L38
-[lb]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-core/src/language_bits.rs
-[cwh]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-core/src/spell/dictionary.rs#L66
-[hd]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-core/src/spell/merged_dictionary.rs#L35
-[ciu]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-core/src/spell/fst_dictionary.rs#L59
-[hc]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-comments/src/comment_parser.rs
-[cr]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-comments/src/comment_parser.rs#L164
+[pm]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-core/src/parsers/mod.rs
+[dp]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-core/src/document.rs
+[afd]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-core/src/document.rs
+[md]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-core/src/parsers/markdown.rs
+[org]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-core/src/parsers/org_mode.rs
+[gparser]: https://github.com/Dronakurl/harper-german/blob/fix/single-cases-16-20/src/plugin.rs
+[lb]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-core/src/language_bits.rs
+[cwh]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-core/src/spell/dictionary.rs
+[hd]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-core/src/spell/merged_dictionary.rs
+[ciu]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-core/src/spell/fst_dictionary.rs
+[hc]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-comments/src/comment_parser.rs
+[cr]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-comments/src/comment_parser.rs

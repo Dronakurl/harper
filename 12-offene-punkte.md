@@ -5,16 +5,20 @@
 Was noch fehlt oder nicht stimmt, geordnet nach Thema. Jeder Punkt
 verweist auf ein Issue, wenn es eines gibt.
 
-Quelle der Architektur-Lücken ist Issue [#24]; die Punkte darunter
-mit „neu" habe ich beim Schreiben dieser Doku gefunden.
+Quelle der Architektur-Lücken ist Issue [#24].
+
+## Erledigt beim Schreiben dieser Doku
+
+Behoben und geschlossen: [#25] (CLI-Datei-Wörterbücher je Sprache),
+[#26] (Kopfkommentar), [#27] (Cache-Aufräumen), [#28] (alte Plugins
+über `features`), [#29] (`NotEnglish`), [#30] (`english_ratio` einmal),
+[#31] (TypeScript-Typ) und harper-german#2 (README-Zahlen).
 
 ## Muss vor dem Upstream-PR entschieden werden
 
 - **Zeit- und Speichergrenzen für Plugins.** Der Host setzt keine.
   Ein Plugin in einer Endlosschleife hängt den Host. Vorschlag in
   PR [#22], nicht gebaut.
-- **Verhalten alter Plugins** (neu): ignorieren `user_words` ohne
-  Meldung. [#28]
 - **`install-release` und `install-from-ci` entfernen.** [#23]
   Zusätzlich ist `install-from-ci` unbefriedigend: Es baut jedes Mal
   neu, auch wenn das Artefakt für den Commit schon existiert.
@@ -25,7 +29,6 @@ mit „neu" habe ich beim Schreiben dieser Doku gefunden.
 
 ## Korrektheit
 
-- **CLI-Datei-Wörterbücher nicht nach Sprache getrennt** (neu). [#25]
 - **Plugin-Dialekt wird nicht übergeben.** `LintRequest.dialect` bleibt
   leer; Deutsch nutzt ihn nicht, ein gewählter Dialekt ändert also
   nichts. [#24]
@@ -37,13 +40,8 @@ mit „neu" habe ich beim Schreiben dieser Doku gefunden.
 
 - **Aufruf pro Plugin ist seriell** (`Mutex`). Mehr Instanzen kosten je
   rund 330 MB. Siehe Kapitel 3.
-- **Englischer Tagger für Plugin-Dokumente?** (neu, zu messen). [#29]
-- **`english_ratio` mehrfach berechnet** (neu). [#30]
-- **Cache wächst** (neu). [#27]
 - **Wechselnde Nutzerwörter bauen die Regeln neu** (Kapitel 8): Der
   Test misst es, entschieden ist nichts.
-- Der Start mit dem deutschen Plugin ist spürbar; die Angaben im README
-  von harper-german sind zu prüfen. [harper-german#2]
 
 ## Plattformen und Verteilung
 
@@ -64,9 +62,7 @@ mit „neu" habe ich beim Schreiben dieser Doku gefunden.
 
 ## Aufräumen
 
-- Kopfkommentar in `plugins.rs` beschädigt. [#26]
 - `harper-cli`: Hilfe zeigt `plugin` als ersten Befehl. [#17]
-- `PluginInfo` in TypeScript ohne `aliases`. [#31]
 - PR [#21] noch offen neben [#22].
 
 ## Weitere Sprachen
@@ -79,11 +75,13 @@ müssen `LanguageBits` und `morphology` verallgemeinert werden
 
 Sie zeigt auf feste Commits. Wenn der Branch weiterwandert:
 
+Sie zeigt auf die Branches selbst, also immer auf den neuesten Code.
+Zu pflegen ist nur der Text:
+
 1. Neue Commits ansehen:
-   `git log ef659a5b..feature/language-plugins`
+   `git log ec12f0d5..feature/language-plugins`
 2. Nur die betroffenen Kapitel nachziehen.
-3. Die Commit-Hashes im [Start](README.md) und die Link-Basis in den
-   Kapiteln ersetzen (Suchen und Ersetzen der langen Hashes).
+3. Den Commit im [Start](README.md) erhöhen.
 
 [← Bauen, Testen, Verteilen](11-bauen-testen-verteilen.md) · [Start](README.md)
 
@@ -101,4 +99,3 @@ Sie zeigt auf feste Commits. Wenn der Branch weiterwandert:
 [#29]: https://github.com/Dronakurl/harper/issues/29
 [#30]: https://github.com/Dronakurl/harper/issues/30
 [#31]: https://github.com/Dronakurl/harper/issues/31
-[harper-german#2]: https://github.com/Dronakurl/harper-german/issues/2

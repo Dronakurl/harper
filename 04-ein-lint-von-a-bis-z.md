@@ -188,25 +188,25 @@ Zwischenstück ist [`lint_engine.rs`][le], siehe
 
 [← Der Host](03-host.md) · [Weiter: harper-ls im Detail →](05-harper-ls.md)
 
-[ud]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-ls/src/backend.rs#L350
-[cl]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-ls/src/plugins.rs#L26
-[min]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-ls/src/plugins.rs#L20
-[det]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-ls/src/plugins.rs#L167
-[load]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-ls/src/plugins.rs#L96
-[cuw]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-ls/src/backend.rs#L318
-[lf]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-ls/src/plugins.rs#L184
-[pl]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-ls/src/plugins.rs#L209
-[ds]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-ls/src/document_state.rs#L17
-[ie]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-ls/src/backend.rs#L432
-[gd]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-ls/src/document_state.rs#L30
-[ol]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-ls/src/plugins.rs#L226
-[hl]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-host/src/plugin.rs#L180
-[dp]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-api/src/dispatch.rs#L10
-[gl]: https://github.com/Dronakurl/harper-german/blob/736635448a0e587632634b1a8cdc9ead2a1c4d91/src/plugin.rs#L159
-[uw]: https://github.com/Dronakurl/harper-german/blob/736635448a0e587632634b1a8cdc9ead2a1c4d91/src/plugin.rs#L74
-[lc]: https://github.com/Dronakurl/harper-german/blob/736635448a0e587632634b1a8cdc9ead2a1c4d91/src/plugin.rs#L54
-[l2p]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-api/src/convert.rs#L7
-[p2l]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-api/src/convert.rs#L28
-[gca]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-ls/src/document_state.rs#L60
-[cmd]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-ls/src/backend.rs#L922
-[le]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-cli/src/lint_engine.rs
+[ud]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/backend.rs
+[cl]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/plugins.rs
+[min]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/plugins.rs
+[det]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/plugins.rs
+[load]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/plugins.rs
+[cuw]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/backend.rs
+[lf]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/plugins.rs
+[pl]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/plugins.rs
+[ds]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/document_state.rs
+[ie]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/backend.rs
+[gd]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/document_state.rs
+[ol]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/plugins.rs
+[hl]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-host/src/plugin.rs
+[dp]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-api/src/dispatch.rs
+[gl]: https://github.com/Dronakurl/harper-german/blob/fix/single-cases-16-20/src/plugin.rs
+[uw]: https://github.com/Dronakurl/harper-german/blob/fix/single-cases-16-20/src/plugin.rs
+[lc]: https://github.com/Dronakurl/harper-german/blob/fix/single-cases-16-20/src/plugin.rs
+[l2p]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-api/src/convert.rs
+[p2l]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-api/src/convert.rs
+[gca]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/document_state.rs
+[cmd]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/backend.rs
+[le]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-cli/src/lint_engine.rs

@@ -148,10 +148,14 @@ In `update_document`, [`let is_english`][ie]:
   gebaut, sonst nicht.
 
 Beachte: Das **Dokument** wird auch für Plugin-Sprachen von Harpers
-(englischem) Parser gelesen. Das ist nötig für Spans und
-`ignored_lints`, wirft aber die Frage auf, ob dabei unnötig der
-englische Tagger läuft. Siehe Issue [#29]. (Außerdem
-ist der Kopfkommentar von `plugins.rs` beschädigt, Issue [#26].)
+Parser gelesen. Das ist nötig für Spans und
+`ignored_lints`. Ob dabei unnötig der
+englische Tagger läuft (Issue [#29]). Er lief. Jetzt wird der Parser
+für Plugin-Sprachen in `NotEnglish` gepackt (`plugins.rs`), das
+`is_english() == false` meldet. Gemessen an 51 KB Markdown im
+Debug-Build: 63 ms vorher, 20 ms nachher. Text und Spans sind
+gleich (Test). Der Kopfkommentar von `plugins.rs` ist repariert
+(Issue [#26]).
 
 ## Merke
 
@@ -165,24 +169,24 @@ ist der Kopfkommentar von `plugins.rs` beschädigt, Issue [#26].)
 
 [← Ein Lint von A bis Z](04-ein-lint-von-a-bis-z.md) · [Weiter: harper-cli →](06-harper-cli.md)
 
-[plugins]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-ls/src/plugins.rs
-[backend]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-ls/src/backend.rs
-[ds]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-ls/src/document_state.rs
-[config]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-ls/src/config.rs
-[fromlsp]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-ls/src/config.rs#L93
-[edn]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-ls/src/config.rs#L294
-[vl]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-ls/src/config.rs#L307
-[reg]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-ls/src/plugins.rs#L63
-[retry]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-ls/src/plugins.rs#L87
-[load]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-ls/src/plugins.rs#L96
-[resolve]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-ls/src/plugins.rs#L147
-[det]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-ls/src/plugins.rs#L167
-[lf]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-ls/src/plugins.rs#L184
-[cl]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-ls/src/plugins.rs#L26
-[dt]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-ls/src/backend.rs#L399
-[pf]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-ls/src/plugins.rs#L9
-[rp]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-ls/src/backend.rs#L69
-[cr]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-comments/src/comment_parser.rs#L164
-[ie]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-ls/src/backend.rs#L432
+[plugins]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/plugins.rs
+[backend]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/backend.rs
+[ds]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/document_state.rs
+[config]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/config.rs
+[fromlsp]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/config.rs
+[edn]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/config.rs
+[vl]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/config.rs
+[reg]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/plugins.rs
+[retry]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/plugins.rs
+[load]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/plugins.rs
+[resolve]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/plugins.rs
+[det]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/plugins.rs
+[lf]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/plugins.rs
+[cl]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/plugins.rs
+[dt]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/backend.rs
+[pf]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/plugins.rs
+[rp]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/backend.rs
+[cr]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-comments/src/comment_parser.rs
+[ie]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-ls/src/backend.rs
 [#29]: https://github.com/Dronakurl/harper/issues/29
 [#26]: https://github.com/Dronakurl/harper/issues/26

@@ -151,4 +151,4 @@ auch wenn für den Commit schon ein Artefakt existiert.
 [← Das deutsche Plugin](10-deutsches-plugin.md) · [Weiter: Offene Punkte →](12-offene-punkte.md)
 
 [#23]: https://github.com/Dronakurl/harper/issues/23
-[echo]: https://github.com/Dronakurl/harper/blob/ef659a5b81af3981555bd01100f154ca5ebb2745/harper-plugin-api/examples/echo.rs
+[echo]: https://github.com/Dronakurl/harper/blob/feature/language-plugins/harper-plugin-api/examples/echo.rs
