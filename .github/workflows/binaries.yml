@@ -7,11 +7,16 @@ on:
   merge_group:
   # Lets `just install-from-ci` build any branch and download the binaries.
   workflow_dispatch:
+    inputs:
+      self_hosted:
+        description: Build only Linux x86_64 (harper-ls, harper-cli) on the self-hosted runner
+        type: boolean
+        default: false
 
 jobs:
   binaries:
     name: ${{ matrix.platform.project }} - ${{ matrix.platform.release_for }}
-    if: github.event.pull_request.draft == false
+    if: github.event.pull_request.draft == false && !inputs.self_hosted
     strategy:
       matrix:
         platform:
@@ -154,3 +159,30 @@ jobs:
           artifacts: ${{ matrix.platform.name }}
           allowUpdates: true
           draft: true
+
+  selfhosted:
+    name: ${{ matrix.project }} - self-hosted Linux-x86_64-GNU
+    if: inputs.self_hosted
+    strategy:
+      matrix:
+        project: [harper-ls, harper-cli]
+    runs-on: [self-hosted, Linux, X64]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+      - name: Build binary
+        shell: bash
+        run: |
+          export PATH="$HOME/.cargo/bin:$PATH"
+          command -v cargo >/dev/null || { curl -fsSL https://sh.rustup.rs | sh -s -- -y --profile minimal; export PATH="$HOME/.cargo/bin:$PATH"; }
+          cargo build --locked --release --bin ${{ matrix.project }}
+          strip target/release/${{ matrix.project }}
+      - name: Package as archive
+        shell: bash
+        run: |
+          tar czvf ${{ matrix.project }}-x86_64-unknown-linux-gnu.tar.gz -C target/release ${{ matrix.project }}
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ matrix.project }}-x86_64-unknown-linux-gnu
+          path: ${{ matrix.project }}-x86_64-unknown-linux-gnu.tar.gz

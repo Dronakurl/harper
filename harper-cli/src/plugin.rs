@@ -59,7 +59,7 @@ mod imp {
     use std::sync::{Arc, Mutex};
 
     use anyhow::{Context, anyhow, bail};
-    use harper_plugin_api::{LintRequest, plugin_to_lint};
+    use harper_plugin_api::{LintRequest, PluginConfig, plugin_to_lint};
     use harper_plugin_host::{LoadedPlugin, PluginHost, default_plugin_dir, discover};
 
     use super::*;
@@ -167,6 +167,45 @@ mod imp {
             Ok(())
         }
 
+        /// The rule switches `--only` and `--ignore` ask for, in the plugin's own terms: the
+        /// plugin's defaults, with everything off first under `--only`. `None` when neither is given.
+        /// Rules the plugin does not have are reported, as they would be a typo.
+        pub fn rule_config(
+            &self,
+            only: &Option<Vec<String>>,
+            ignore: &Option<Vec<String>>,
+        ) -> Result<Option<PluginConfig>> {
+            if only.is_none() && ignore.is_none() {
+                return Ok(None);
+            }
+            let mut config = self.plugin.default_config()?;
+            for rule in only.iter().chain(ignore.iter()).flatten() {
+                if !config.contains_key(rule) {
+                    eprintln!(
+                        "Warning: the {} plugin has no rule named {rule}.",
+                        self.id()
+                    );
+                }
+            }
+            if let Some(rules) = only {
+                config.values_mut().for_each(|on| *on = Some(false));
+                for rule in rules {
+                    if let Some(on) = config.get_mut(rule) {
+                        *on = Some(true);
+                    }
+                }
+            }
+            for rule in ignore.iter().flatten() {
+                if let Some(on) = config.get_mut(rule) {
+                    *on = Some(false);
+                }
+            }
+            if !config.values().any(|on| *on != Some(false)) {
+                eprintln!("Warning: No rules are enabled.");
+            }
+            Ok(Some(config))
+        }
+
         /// Lints grouped by rule name, like `LintGroup::organized_lints`. With `regions` (the comments
         /// of a source file, the text of a TeX file, ...) only those character ranges are linted.
         /// `file_words` are the file's own dictionary, known for this one request: the files are
@@ -177,6 +216,7 @@ mod imp {
             format: &str,
             regions: Option<&[(usize, usize)]>,
             file_words: &[String],
+            config: Option<PluginConfig>,
         ) -> Result<BTreeMap<String, Vec<Lint>>> {
             let mut words = self
                 .user_words
@@ -184,7 +224,7 @@ mod imp {
                 .unwrap_or_else(|e| e.into_inner())
                 .clone();
             words.extend(file_words.iter().cloned());
-            self.lint(text, format, regions, words)
+            self.lint(text, format, regions, words, config)
         }
 
         fn lint(
@@ -193,9 +233,11 @@ mod imp {
             format: &str,
             regions: Option<&[(usize, usize)]>,
             user_words: Vec<String>,
+            config: Option<PluginConfig>,
         ) -> Result<BTreeMap<String, Vec<Lint>>> {
             let mut req = LintRequest::plain(text);
             req.format = format.to_owned();
+            req.config = config;
             req.user_words = Some(user_words);
             if let Some(regions) = regions {
                 req.regions = Some(
@@ -341,8 +383,17 @@ mod stub {
             _format: &str,
             _regions: Option<&[(usize, usize)]>,
             _file_words: &[String],
+            _config: Option<harper_plugin_api::PluginConfig>,
         ) -> Result<BTreeMap<String, Vec<Lint>>> {
             Ok(BTreeMap::new())
+        }
+
+        pub fn rule_config(
+            &self,
+            _only: &Option<Vec<String>>,
+            _ignore: &Option<Vec<String>>,
+        ) -> Result<Option<harper_plugin_api::PluginConfig>> {
+            Ok(None)
         }
     }
 

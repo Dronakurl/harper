@@ -134,6 +134,7 @@ pub fn lint_one_input(
                             format.unwrap_or("plain"),
                             regions.as_deref(),
                             &file_words,
+                            plugin.rule_config(only, ignore)?,
                         )?;
                         filter_rules(&mut lints, only, ignore);
                         lints
