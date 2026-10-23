@@ -75,6 +75,8 @@ mod imp {
         /// why each lint holds `calls`: no other file may be linted with its words.
         user_words: Arc<Mutex<Vec<String>>>,
         calls: Arc<Mutex<()>>,
+        /// The plugin's id of the dialect to lint in; `None` for its default.
+        dialect: Option<String>,
     }
 
     impl PluginLinter {
@@ -93,7 +95,7 @@ mod imp {
                             .into_iter()
                             .find(|p| p.plugin.info().answers_to(l))
                         {
-                            Some(found) => return Ok(Some(found)),
+                            Some(found) => return Ok(Some(found.in_dialect_named_by(l))),
                             None => bail!(
                                 "no language plugin for `{l}`: there is no {}, and no plugin \
                                  there answers to `{l}`",
@@ -116,7 +118,48 @@ mod imp {
                     plugin.info().id
                 );
             }
-            Ok(Some(Self::new(plugin)))
+            let linter = Self::new(plugin);
+            Ok(Some(match language {
+                Some(l) => linter.in_dialect_named_by(l),
+                None => linter,
+            }))
+        }
+
+        /// `--language Swiss`, `--language de-CH`: a language named by one of its dialects is
+        /// linted in that dialect.
+        fn in_dialect_named_by(mut self, name: &str) -> Self {
+            self.dialect = self
+                .plugin
+                .info()
+                .dialect_named(name)
+                .map(|dialect| dialect.id.clone());
+            self
+        }
+
+        /// Lint in the dialect `name` (its id, name or an alias), if the plugin has it.
+        pub fn knows_dialect(&self, name: &str) -> bool {
+            self.plugin.info().dialect_named(name).is_some()
+        }
+
+        /// `--dialect Swiss` with a plugin: lint in that dialect. An error when the plugin does
+        /// not have it, naming the ones it has.
+        pub fn with_dialect(mut self, name: &str) -> Result<Self> {
+            let info = self.plugin.info();
+            match info.dialect_named(name) {
+                Some(dialect) => {
+                    self.dialect = Some(dialect.id.clone());
+                    Ok(self)
+                }
+                None => bail!(
+                    "the `{}` plugin has no dialect `{name}`; it has: {}",
+                    info.id,
+                    info.dialects
+                        .iter()
+                        .map(|d| d.id.as_str())
+                        .collect::<Vec<_>>()
+                        .join(", ")
+                ),
+            }
         }
 
         /// Every plugin in the plugin directory, for `--language auto`.
@@ -136,6 +179,7 @@ mod imp {
                 plugin: Arc::new(plugin),
                 user_words: Arc::default(),
                 calls: Arc::default(),
+                dialect: None,
             }
         }
 
@@ -197,6 +241,7 @@ mod imp {
         ) -> Result<BTreeMap<String, Vec<Lint>>> {
             let mut req = LintRequest::plain(text);
             req.format = format.to_owned();
+            req.dialect = self.dialect.clone();
             if let Some(regions) = regions {
                 req.regions = Some(
                     regions
@@ -330,6 +375,14 @@ mod stub {
 
         pub fn set_user_words(&self, _words: Vec<String>) -> Result<()> {
             Ok(())
+        }
+
+        pub fn knows_dialect(&self, _name: &str) -> bool {
+            false
+        }
+
+        pub fn with_dialect(self, _name: &str) -> Result<Self> {
+            Ok(self)
         }
 
         pub fn organized_lints(

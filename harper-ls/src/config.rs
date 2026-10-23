@@ -79,6 +79,10 @@ pub struct Config {
     /// `harper-<language>.wasm` in `plugin_dir`), or `"auto"`, the default, which picks an installed
     /// plugin whose language the text is written in, and English otherwise.
     pub language: String,
+    /// A dialect of a plugin language that is no English one (`"dialect": "Swiss"`,
+    /// `"language": {"German": "Austrian"}`). A `language` that names a dialect (`"Swiss"`,
+    /// `"de-CH"`) says the same; see `PluginRegistry::linter_for`.
+    pub plugin_dialect: Option<String>,
     pub plugin_dir: PathBuf,
     /// Maximum length (in bytes) a file can have before it's skipped.
     /// Above this limit, the file will not be linted.
@@ -177,6 +181,7 @@ impl Config {
                 // plugin that answers to the name is looked up when a document is checked.
                 Some((name, None)) if serde_json::from_value::<Dialect>(v.clone()).is_err() => {
                     base.language = valid_language(name)?.to_owned();
+                    base.plugin_dialect = Some(name.to_owned());
                 }
                 _ => base.dialect = serde_json::from_value(v.clone())?,
             }
@@ -194,6 +199,7 @@ impl Config {
                         }
                         "en"
                     } else {
+                        base.plugin_dialect = dialect.as_str().map(str::to_owned);
                         family.as_str()
                     }
                 }
@@ -280,6 +286,7 @@ impl Default for Config {
             markdown_options: MarkdownOptions::default(),
             dialect: Dialect::American,
             language: "auto".to_owned(),
+            plugin_dialect: None,
             plugin_dir: config_dir().unwrap().join("harper/plugins"),
             max_file_length: 120_000,
             exclude_patterns: GlobSet::empty(),
@@ -333,10 +340,17 @@ mod tests {
         assert_eq!(c.language, "German");
         let c = parse(json!({ "harper-ls": { "dialect": "Swiss" } }));
         assert_eq!(c.language, "Swiss");
+        assert_eq!(c.plugin_dialect.as_deref(), Some("Swiss"));
+        let c = parse(json!({ "harper-ls": { "language": "de", "dialect": "de-CH" } }));
+        assert_eq!(
+            (c.language.as_str(), c.plugin_dialect.as_deref()),
+            ("de", Some("de-CH"))
+        );
         let c = parse(json!({ "harper-ls": { "dialect": "uk" } }));
         assert_eq!((c.language.as_str(), c.dialect), ("auto", Dialect::British));
         let c = parse(json!({ "harper-ls": { "language": { "German": "Austrian" } } }));
         assert_eq!(c.language, "German");
+        assert_eq!(c.plugin_dialect.as_deref(), Some("Austrian"));
         let c = parse(json!({ "harper-ls": { "language": "English" } }));
         assert_eq!(c.language, "en");
         let c = parse(json!({ "harper-ls": { "language": { "English": "Canadian" } } }));

@@ -364,6 +364,7 @@ impl Backend {
             max_file_length,
             exclude_patterns,
             configured_language,
+            plugin_dialect,
             plugin_dir,
         ) = {
             let config = self.config.read().await;
@@ -375,6 +376,7 @@ impl Backend {
                 config.max_file_length,
                 config.exclude_patterns.clone(),
                 config.language.clone(),
+                config.plugin_dialect.clone(),
                 config.plugin_dir.clone(),
             )
         };
@@ -494,6 +496,10 @@ impl Backend {
                         format,
                         &lint_config,
                         user_words,
+                        &[
+                            plugin_dialect.as_deref().unwrap_or_default(),
+                            &configured_language,
+                        ],
                     )
                 }
                 None => {

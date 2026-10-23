@@ -62,6 +62,8 @@ To check every document in one language instead, set `language` to the plugin's 
 }
 ```
 
+A plugin's dialect is chosen the same way: `"language": "Swiss"` or `"language": "de-CH"`, or `"language": "de"` together with `"dialect": "Swiss"`; `harper-cli plugin list` shows the dialects a plugin has.
+
 `"en"` turns plugins off. `pluginDirectory` points `harper-ls` at another directory.
 See the [language server settings](./language-server#Configuration) for the details.
 
@@ -73,6 +75,7 @@ See the [language server settings](./language-server#Configuration) for the deta
 harper-cli lint --language <language> notes.md   # in the plugin's language
 harper-cli lint --language auto notes.md         # each file in the language it is written in
 harper-cli lint --plugin path/to/plugin.wasm notes.md   # with a plugin that is not installed
+harper-cli lint --language <language> --dialect <dialect> notes.md   # in one of the plugin's dialects
 ```
 
 ## Obsidian

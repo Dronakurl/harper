@@ -188,8 +188,14 @@ mod imp {
             format: &'static str,
             config: &FlatConfig,
             user_words: Vec<String>,
+            dialects: &[&str],
         ) -> Option<PluginLinter> {
             let plugin = self.load(language, dir)?;
+            // The first of the names that is one of the plugin's dialects: the `dialect`
+            // setting, then the configured language (`"Swiss"`, `"de-CH"`).
+            let dialect = dialects
+                .iter()
+                .find_map(|name| plugin.info().dialect_named(name).map(|d| d.id.clone()));
             // `FlatConfig` serializes as a plain `rule -> Option<bool>` map, as does `PluginConfig`.
             let config = serde_json::to_value(config)
                 .and_then(serde_json::from_value::<PluginConfig>)
@@ -200,6 +206,7 @@ mod imp {
                 config,
                 user_words,
                 regions: None,
+                dialect,
             })
         }
     }
@@ -213,9 +220,17 @@ mod imp {
         user_words: Vec<String>,
         /// When set, only these character ranges are linted (code comments).
         regions: Option<Vec<(usize, usize)>>,
+        /// The plugin's id of the dialect to lint in; `None` for its default.
+        dialect: Option<String>,
     }
 
     impl PluginLinter {
+        /// The dialect the plugin is asked to lint in.
+        #[cfg(test)]
+        pub fn dialect(&self) -> Option<&str> {
+            self.dialect.as_deref()
+        }
+
         /// Lint only the given `(start, end)` character ranges of the document, as plain text.
         pub fn with_regions(mut self, regions: Vec<(usize, usize)>) -> Self {
             self.regions = Some(regions);
@@ -234,6 +249,7 @@ mod imp {
             let mut req = LintRequest::plain(text);
             req.format = self.format.to_owned();
             req.config = Some(self.config.clone());
+            req.dialect = self.dialect.clone();
             if let Some(regions) = &self.regions {
                 if regions.is_empty() {
                     return out;
@@ -301,6 +317,7 @@ mod stub {
             _format: &'static str,
             _config: &FlatConfig,
             _user_words: Vec<String>,
+            _dialects: &[&str],
         ) -> Option<PluginLinter> {
             tracing::warn!(
                 "Language `{language}` needs plugin support, which this build of harper-ls lacks."
@@ -379,7 +396,7 @@ mod tests {
 
     fn state_with_plugin(dir: &Path, text: &str, words: Vec<String>) -> Option<DocumentState> {
         let registry = PluginRegistry::new();
-        let plugin = registry.linter_for("xx", dir, "plain", &FlatConfig::default(), words)?;
+        let plugin = registry.linter_for("xx", dir, "plain", &FlatConfig::default(), words, &[])?;
         let dict = std::sync::Arc::new(MutableDictionary::new());
         Some(DocumentState {
             document: Document::new(text, &PlainEnglish, &dict),
@@ -435,6 +452,23 @@ mod tests {
     }
 
     #[test]
+    fn the_dialect_is_the_first_name_the_plugin_has() {
+        let Some(dir) = install_echo() else { return };
+        let registry = PluginRegistry::new();
+        let dialect = |names: &[&str]| {
+            registry
+                .linter_for("xx", &dir, "plain", &FlatConfig::default(), vec![], names)
+                .unwrap()
+                .dialect()
+                .map(str::to_owned)
+        };
+        assert_eq!(dialect(&[]), None);
+        assert_eq!(dialect(&["Klingon", "Standard"]), Some("std".to_owned()));
+        assert_eq!(dialect(&["", "xx"]), None);
+        let _ = std::fs::remove_dir_all(dir);
+    }
+
+    #[test]
     fn detect_without_plugins_finds_nothing() {
         let registry = PluginRegistry::new();
         assert_eq!(
@@ -449,7 +483,7 @@ mod tests {
         let registry = PluginRegistry::new();
         let text = "teh code teh // teh comment\n";
         let plugin = registry
-            .linter_for("xx", &dir, "plain", &FlatConfig::default(), vec![])
+            .linter_for("xx", &dir, "plain", &FlatConfig::default(), vec![], &[])
             .unwrap()
             .with_regions(vec![(14, 27)]);
 
@@ -462,7 +496,7 @@ mod tests {
         assert_eq!(spans, vec![(16, 19)]);
 
         let none = registry
-            .linter_for("xx", &dir, "plain", &FlatConfig::default(), vec![])
+            .linter_for("xx", &dir, "plain", &FlatConfig::default(), vec![], &[])
             .unwrap()
             .with_regions(vec![]);
         assert!(none.organized_lints(text).is_empty());
@@ -514,7 +548,7 @@ mod tests {
         let registry = PluginRegistry::new();
         assert!(
             registry
-                .linter_for("zz", &dir, "plain", &FlatConfig::default(), vec![])
+                .linter_for("zz", &dir, "plain", &FlatConfig::default(), vec![], &[])
                 .is_none()
         );
 
@@ -523,7 +557,7 @@ mod tests {
         std::fs::copy(dir.join("harper-xx.wasm"), dir.join("harper-yy.wasm")).unwrap();
         assert!(
             registry
-                .linter_for("yy", &dir, "plain", &FlatConfig::default(), vec![])
+                .linter_for("yy", &dir, "plain", &FlatConfig::default(), vec![], &[])
                 .is_none()
         );
         let _ = std::fs::remove_dir_all(dir);

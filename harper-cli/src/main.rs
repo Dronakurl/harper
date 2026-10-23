@@ -284,19 +284,35 @@ fn main() -> anyhow::Result<()> {
             // Not an English dialect: perhaps the name of another language or of one of its
             // dialects (`--dialect german`, as the multilingual build took it), which a language
             // plugin answers to.
-            let (dialect, language) = match parse_dialect(&dialect_str) {
-                Ok(dialect) => (dialect, language),
+            // With a plugin, a dialect that is not English is one of the plugin's
+            // (`--language de --dialect Swiss`).
+            let (dialect, language, plugin_dialect) = match parse_dialect(&dialect_str) {
+                Ok(dialect) => (dialect, language, None),
                 Err(_) if language.is_none() && plugin.is_none() => {
-                    (Dialect::American, Some(dialect_str.clone()))
+                    (Dialect::American, Some(dialect_str.clone()), None)
+                }
+                Err(_) if language.as_deref() != Some("en") => {
+                    (Dialect::American, language, Some(dialect_str.clone()))
                 }
                 Err(e) => return Err(anyhow!("Invalid dialect '{}': {}", dialect_str, e)),
             };
 
             let language = if language.as_deref() == Some("auto") && plugin.is_none() {
-                LanguageChoice::Auto(plugin::PluginLinter::load_all()?)
+                // Each plugin that has the dialect lints in it; the others in their default.
+                let plugins = plugin::PluginLinter::load_all()?
+                    .into_iter()
+                    .map(|p| match &plugin_dialect {
+                        Some(d) if p.knows_dialect(d) => p.with_dialect(d),
+                        _ => Ok(p),
+                    })
+                    .collect::<anyhow::Result<Vec<_>>>()?;
+                LanguageChoice::Auto(plugins)
             } else {
                 match plugin::PluginLinter::load(language.as_deref(), plugin.as_deref())? {
-                    Some(plugin) => LanguageChoice::Plugin(plugin),
+                    Some(plugin) => LanguageChoice::Plugin(match &plugin_dialect {
+                        Some(d) => plugin.with_dialect(d)?,
+                        None => plugin,
+                    }),
                     None => LanguageChoice::English,
                 }
             };
