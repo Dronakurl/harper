@@ -60,7 +60,9 @@ mod imp {
 
     use anyhow::{Context, anyhow, bail};
     use harper_plugin_api::{LintRequest, PluginConfig, plugin_to_lint};
-    use harper_plugin_host::{LoadedPlugin, PluginHost, default_plugin_dir, discover};
+    use harper_plugin_host::{
+        LoadedPlugin, PluginHost, default_cache_dir, default_plugin_dir, discover,
+    };
 
     use super::*;
 
@@ -270,10 +272,11 @@ mod imp {
         Ok(plugin_dir()?.join(format!("harper-{language}.wasm")))
     }
 
+    /// Loads the plugin, keeping its compiled module in the cache that `harper-ls` uses: compiling
+    /// a large module takes seconds, reading it back milliseconds.
     fn load_file(path: &Path) -> Result<LoadedPlugin> {
         let host = PluginHost::new()?;
-        // The same cache of compiled modules harper-ls uses: compiling a plugin takes seconds.
-        match dirs::cache_dir().map(|d| d.join("harper").join("plugins")) {
+        match default_cache_dir() {
             Some(cache) => host.load_file_cached(path, cache),
             None => host.load_file(path),
         }

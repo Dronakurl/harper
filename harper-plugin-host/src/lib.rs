@@ -12,7 +12,7 @@
 mod dir;
 mod plugin;
 
-pub use dir::{default_plugin_dir, discover};
+pub use dir::{default_cache_dir, default_plugin_dir, discover};
 pub use plugin::{LoadedPlugin, PluginHost, english_ratio};
 
 #[derive(Debug, thiserror::Error)]
