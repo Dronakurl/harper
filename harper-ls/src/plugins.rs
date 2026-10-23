@@ -113,7 +113,7 @@ mod imp {
                 return None;
             }
 
-            let cache = dirs::cache_dir().map(|d| d.join("harper").join("plugins"));
+            let cache = harper_plugin_host::default_cache_dir();
             let loaded = match &cache {
                 Some(cache) => host.load_file_cached(&path, cache),
                 None => host.load_file(&path),
