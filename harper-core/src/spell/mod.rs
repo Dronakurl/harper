@@ -10,6 +10,7 @@ pub use self::fst_dictionary::FstDictionary;
 pub use self::merged_dictionary::MergedDictionary;
 pub use self::merged_dictionary::word_hash;
 pub use self::mutable_dictionary::MutableDictionary;
+pub use self::suggestion_hints::SuggestionHints;
 pub use self::trie_dictionary::TrieDictionary;
 pub use self::word_id::{CanonicalWordId, CaseFoldedWordId};
 
@@ -20,6 +21,7 @@ mod merged_dictionary;
 mod mutable_dictionary;
 // Public so that other languages can expand their own word lists and annotations.
 pub mod rune;
+mod suggestion_hints;
 mod trie_dictionary;
 mod word_id;
 pub mod word_map;
@@ -300,6 +302,14 @@ fn score_suggestion(misspelled_word: &[char], sug: &FuzzyMatchResult) -> i32 {
         return i32::MAX;
     }
 
+    base_score(misspelled_word, sug) + english_score(misspelled_word, sug)
+}
+
+/// The part of [`score_suggestion`] that holds for any language: edit distance,
+/// the first letter, apostrophes and common words. Lower = better.
+///
+/// Both words must be non-empty.
+fn base_score(misspelled_word: &[char], sug: &FuzzyMatchResult) -> i32 {
     let mut score = sug.edit_distance as i32 * 10;
 
     // People are much less likely to mistype the first letter.
@@ -309,11 +319,6 @@ fn score_suggestion(misspelled_word: &[char], sug: &FuzzyMatchResult) -> i32 {
         .eq_ignore_ascii_case(sug.word.first().unwrap())
     {
         score -= 10;
-    }
-
-    // If the original word is plural, the correct one probably is too.
-    if *misspelled_word.last().unwrap() == 's' && *sug.word.last().unwrap() == 's' {
-        score -= 5;
     }
 
     // Promote suggestions that differ only by an apostrophe
@@ -344,6 +349,22 @@ fn score_suggestion(misspelled_word: &[char], sug: &FuzzyMatchResult) -> i32 {
     // Boost common words.
     if sug.metadata.common && sug.metadata.derived_from.is_none() {
         score -= 4;
+    }
+
+    score
+}
+
+/// The English-specific part of [`score_suggestion`]: plurals, contractions and
+/// spelling patterns of English and its dialects. Languages with
+/// [`SuggestionHints`] are ranked without it.
+///
+/// Both words must be non-empty.
+fn english_score(misspelled_word: &[char], sug: &FuzzyMatchResult) -> i32 {
+    let mut score = 0;
+
+    // If the original word is plural, the correct one probably is too.
+    if *misspelled_word.last().unwrap() == 's' && *sug.word.last().unwrap() == 's' {
+        score -= 5;
     }
 
     // For turning words into contractions.
@@ -408,6 +429,48 @@ pub fn suggest_correct_spelling<'a>(
     order_suggestions(misspelled_word, matches)
 }
 
+/// Like [`suggest_correct_spelling`], ranked with a language's [`SuggestionHints`].
+///
+/// Candidates that `REP` and `MAP` reach are added to the edit-distance matches,
+/// then everything is ordered by the kind of error first (a `MAP` or `REP` hit,
+/// a neighbouring key, a transposition, an extra or a missing character, a
+/// substitution), by the language-neutral part of the score next and by the
+/// `TRY` order last. With empty hints the result is exactly that of
+/// [`suggest_correct_spelling`].
+pub fn suggest_correct_spelling_with_hints<'a>(
+    misspelled_word: &[char],
+    result_limit: usize,
+    max_edit_dist: u8,
+    dictionary: &'a impl Dictionary,
+    hints: &SuggestionHints,
+) -> Vec<&'a [char]> {
+    if hints.is_empty() {
+        return suggest_correct_spelling(misspelled_word, result_limit, max_edit_dist, dictionary);
+    }
+
+    let mut matches = dictionary.fuzzy_match(misspelled_word, max_edit_dist, result_limit);
+    for generated in hints.generate_candidates(misspelled_word, dictionary) {
+        if !matches.iter().any(|m| m.word == generated.word) {
+            matches.push(generated);
+        }
+    }
+
+    matches.sort_by_cached_key(|v| {
+        let base = if misspelled_word.is_empty() || v.word.is_empty() {
+            i32::MAX
+        } else {
+            base_score(misspelled_word, v)
+        };
+        (
+            hints.classify(misspelled_word, v.word),
+            base,
+            hints.try_rank(misspelled_word, v.word),
+        )
+    });
+
+    matches.into_iter().map(|v| v.word).collect()
+}
+
 /// Convenience function over [`suggest_correct_spelling`] that does conversions
 /// for you.
 pub fn suggest_correct_spelling_str(
@@ -429,10 +492,103 @@ mod tests {
 
     use crate::CharStringExt;
 
-    use super::{FstDictionary, suggest_correct_spelling_str};
+    use super::{
+        FstDictionary, MutableDictionary, SuggestionHints, suggest_correct_spelling,
+        suggest_correct_spelling_str, suggest_correct_spelling_with_hints,
+    };
+    use crate::DictWordMetadata;
 
     const RESULT_LIMIT: usize = 200;
     const MAX_EDIT_DIST: u8 = 2;
+
+    fn hinted_dictionary(words: &[&str]) -> MutableDictionary {
+        let mut dict = MutableDictionary::new();
+        for w in words {
+            dict.append_word_str(w, DictWordMetadata::default());
+        }
+        dict
+    }
+
+    fn slovak_hints() -> SuggestionHints {
+        SuggestionHints::from_annotations_json(
+            r#"{"affixes": {}, "properties": {}, "suggestions": {
+                "map": [["a", "á", "ä"], ["c", "č"], ["s", "š"], ["t", "ť"], ["i", "í"]],
+                "key": ["qwertzuiopúä", "asdfghjklôň", "yxcvbnm", "ľščťžýáíé"],
+                "try": "aoeintsvrlkmdpuhjzácbyčžíšýúťéľôďgfňäóŕxĺ"
+            }}"#,
+        )
+        .unwrap()
+    }
+
+    fn to_strings(v: Vec<&[char]>) -> Vec<String> {
+        v.into_iter().map(|w| w.iter().collect()).collect()
+    }
+
+    #[test]
+    fn empty_hints_rank_exactly_as_before() {
+        let dict = FstDictionary::curated();
+        for word in [
+            "hvllo",
+            "aout",
+            "conciousness",
+            "alcaholic",
+            "childrens",
+            "thats",
+        ] {
+            let chars: Vec<char> = word.chars().collect();
+            assert_eq!(
+                suggest_correct_spelling(&chars, RESULT_LIMIT, MAX_EDIT_DIST, &*dict),
+                suggest_correct_spelling_with_hints(
+                    &chars,
+                    RESULT_LIMIT,
+                    MAX_EDIT_DIST,
+                    &*dict,
+                    &SuggestionHints::default()
+                ),
+                "{word}"
+            );
+        }
+    }
+
+    #[test]
+    fn map_hint_ranks_diacritic_variant_first() {
+        let dict = hinted_dictionary(&["bo", "do", "ho", "io", "no", "to", "čo", "ťa"]);
+        let word: Vec<char> = "ťo".chars().collect();
+
+        // Positive control: without hints the alphabetically first match wins.
+        let plain = to_strings(suggest_correct_spelling(&word, 5, 2, &dict));
+        assert_ne!(plain.first().map(String::as_str), Some("to"));
+
+        let hinted = to_strings(suggest_correct_spelling_with_hints(
+            &word,
+            RESULT_LIMIT,
+            MAX_EDIT_DIST,
+            &dict,
+            &slovak_hints(),
+        ));
+        assert_eq!(hinted[..2], ["to", "čo"]);
+    }
+
+    #[test]
+    fn map_hint_finds_word_typed_without_diacritics() {
+        let dict = hinted_dictionary(&["šťastní", "stati", "stisni"]);
+        let word: Vec<char> = "stastni".chars().collect();
+
+        // "šťastní" is three edits away, beyond the edit-distance search.
+        assert!(
+            !to_strings(suggest_correct_spelling(&word, 5, 2, &dict))
+                .contains(&"šťastní".to_string())
+        );
+
+        let hinted = to_strings(suggest_correct_spelling_with_hints(
+            &word,
+            5,
+            2,
+            &dict,
+            &slovak_hints(),
+        ));
+        assert_eq!(hinted.first().map(String::as_str), Some("šťastní"));
+    }
 
     #[test]
     fn normalizes_weve() {
