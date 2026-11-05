@@ -551,6 +551,23 @@ mod tests {
     }
 
     #[test]
+    fn doubled_letter_beats_neighbouring_key() {
+        // "o" and "i" are neighbours, so "wirrt" is one key away from "worrt";
+        // "wort" is the same word with a key struck twice, the likelier slip.
+        let dict = hinted_dictionary(&["wirrt", "wort"]);
+        let word: Vec<char> = "worrt".chars().collect();
+        let hinted = to_strings(suggest_correct_spelling_with_hints(
+            &word,
+            RESULT_LIMIT,
+            MAX_EDIT_DIST,
+            &dict,
+            &SuggestionHints::from_annotations_json(r#"{"suggestions": {"key": ["qwertzuiopü"]}}"#)
+                .unwrap(),
+        ));
+        assert_eq!(hinted, ["wort", "wirrt"]);
+    }
+
+    #[test]
     fn map_hint_ranks_diacritic_variant_first() {
         let dict = hinted_dictionary(&["bo", "do", "ho", "io", "no", "to", "čo", "ťa"]);
         let word: Vec<char> = "ťo".chars().collect();

@@ -49,6 +49,10 @@ pub enum EditKind {
     Map,
     /// One `REP` replacement.
     Rep,
+    /// A key struck twice: the misspelling repeats a letter the word has once
+    /// (`Worrt` → `Wort`). The likeliest slip of all when typing fast, in any
+    /// language, so it comes before a neighbouring key: `Worrt` is not `Wirrt`.
+    DoubledChar,
     /// One character replaced by its neighbour on the keyboard.
     KeyNeighbor,
     /// Two adjacent characters swapped.
@@ -204,7 +208,11 @@ impl SuggestionHints {
         }
 
         if m.len() == c.len() + 1 && is_one_deletion(&m, &c) {
-            return EditKind::ExtraChar;
+            return if repeats_a_neighbour(&m, &c) {
+                EditKind::DoubledChar
+            } else {
+                EditKind::ExtraChar
+            };
         }
         if m.len() + 1 == c.len() && is_one_deletion(&c, &m) {
             return EditKind::MissingChar;
@@ -300,6 +308,20 @@ impl SuggestionHints {
     }
 }
 
+/// Whether the character `longer` has beyond `shorter` repeats the one next to it.
+///
+/// `longer` must be `shorter` with one character inserted. Where a run of equal
+/// characters makes the insertion point ambiguous, the first differing position
+/// is in or right after that run, so its neighbours tell.
+fn repeats_a_neighbour(longer: &[char], shorter: &[char]) -> bool {
+    let i = longer
+        .iter()
+        .zip(shorter)
+        .take_while(|(a, b)| a == b)
+        .count();
+    (i > 0 && longer[i] == longer[i - 1]) || longer.get(i + 1) == Some(&longer[i])
+}
+
 /// Whether `shorter` is `longer` with exactly one character removed.
 fn is_one_deletion(longer: &[char], shorter: &[char]) -> bool {
     let i = longer
@@ -363,7 +385,10 @@ mod tests {
         assert_eq!(k("dwm", "dem"), EditKind::KeyNeighbor);
         assert_eq!(k("dxm", "dem"), EditKind::Substitution);
         assert_eq!(k("flasch", "falsch"), EditKind::Transposition);
-        assert_eq!(k("domm", "dom"), EditKind::ExtraChar);
+        assert_eq!(k("domm", "dom"), EditKind::DoubledChar);
+        assert_eq!(k("worrt", "wort"), EditKind::DoubledChar);
+        assert_eq!(k("ddom", "dom"), EditKind::DoubledChar);
+        assert_eq!(k("doxm", "dom"), EditKind::ExtraChar);
         assert_eq!(k("dm", "dom"), EditKind::MissingChar);
         assert_eq!(k("abcd", "wxyz"), EditKind::Other);
     }
