@@ -228,7 +228,7 @@ impl Backend {
 
         load_dict(
             Self::language_path(&config.user_dict_path, language),
-            self.config.read().await.dialect,
+            config.dialect,
         )
         .await
         .map_err(|err| info!("{err}"))
@@ -247,7 +247,7 @@ impl Backend {
         let config = self.config.read().await;
         load_dict(
             Self::language_path(&config.workspace_dict_path, language),
-            self.config.read().await.dialect,
+            config.dialect,
         )
         .await
         .map_err(|err| info!("{err}"))
@@ -586,7 +586,9 @@ impl Backend {
                 }
             }
             "mail" => Some(Box::new(PlainEnglish)),
-            "markdown" | "quarto" => Some(Box::new(Markdown::new(markdown_options))),
+            "markdown" | "quarto" | "rmarkdown" | "rmd" => {
+                Some(Box::new(Markdown::new(markdown_options)))
+            }
             "org" => Some(Box::new(OrgMode::default())),
             "plaintext" | "text" => Some(Box::new(PlainEnglish)),
             "typst" => Some(Box::new(Typst)),
@@ -631,12 +633,17 @@ impl Backend {
         uri: &Uri,
         range: Range,
     ) -> JsonResult<Vec<CodeActionOrCommand>> {
-        let (config, mut doc_states) = tokio::join!(self.config.read(), self.doc_state.lock());
+        // Copy necessary configuration to avoid holding lock.
+        // `update_document` takes `doc_state` before `config`, so holding a `config` read guard
+        // while waiting for `doc_state` deadlocks once a `config` writer is queued.
+        let code_action_config = self.config.read().await.code_action_config.clone();
+
+        let mut doc_states = self.doc_state.lock().await;
         let Some(doc_state) = doc_states.get_mut(uri) else {
             return Ok(Vec::new());
         };
 
-        Ok(doc_state.generate_code_actions(range, &config.code_action_config))
+        Ok(doc_state.generate_code_actions(range, &code_action_config))
     }
 
     async fn generate_diagnostics(&self, uri: &Uri) -> Vec<Diagnostic> {

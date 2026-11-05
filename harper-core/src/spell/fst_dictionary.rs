@@ -8,7 +8,7 @@ use fst::{IntoStreamer, Map as FstMap, Streamer, map::StreamWithState};
 use hashbrown::HashMap;
 use levenshtein_automata::{DFA, LevenshteinAutomatonBuilder};
 
-use super::{Dictionary, FuzzyMatchResult, MutableDictionary, WordId};
+use super::{CanonicalWordId, Dictionary, FuzzyMatchResult, MutableDictionary};
 use crate::{CharString, CharStringExt, DictWordMetadata};
 
 /// An immutable dictionary allowing for very fast spellchecking.
@@ -85,7 +85,7 @@ impl FstDictionary {
             for (word_chars, _) in words.iter() {
                 let word = word_chars.iter().collect::<String>();
                 builder
-                    .insert(word, WordId::from_word_chars(word_chars).into())
+                    .insert(word, CanonicalWordId::from_word_chars(word_chars).into())
                     .expect("Insertion not in lexicographical order!");
             }
             builder.into_inner().unwrap()
@@ -174,6 +174,17 @@ impl Dictionary for FstDictionary {
         self.mutable_dict.get_word_metadata_str(word)
     }
 
+    fn get_word_metadata_exact(&self, word: &[char]) -> Option<&DictWordMetadata> {
+        self.mutable_dict.get_word_metadata_exact(word)
+    }
+
+    fn get_correct_capitalizations_of(
+        &self,
+        word: &[char],
+    ) -> Box<dyn Iterator<Item = &[char]> + Send + '_> {
+        self.mutable_dict.get_correct_capitalizations_of(word)
+    }
+
     fn fuzzy_match(
         &'_ self,
         word: &[char],
@@ -212,11 +223,11 @@ impl Dictionary for FstDictionary {
         let mut merged = Vec::with_capacity(best_distances.len());
         for (word_id, edit_distance) in best_distances {
             let word = self.mutable_dict.get_word_from_id(&word_id.into()).unwrap();
-            let metadata = self.mutable_dict.get_word_metadata(word).unwrap();
+            let metadata = self.mutable_dict.get_word_metadata_exact(word).unwrap();
             merged.push(FuzzyMatchResult {
                 word,
                 edit_distance,
-                metadata,
+                metadata: Cow::Borrowed(metadata),
             });
         }
 
@@ -265,7 +276,7 @@ impl Dictionary for FstDictionary {
         self.mutable_dict.get_correct_capitalization_of(word)
     }
 
-    fn get_word_from_id(&self, id: &WordId) -> Option<&[char]> {
+    fn get_word_from_id(&self, id: &CanonicalWordId) -> Option<&[char]> {
         self.mutable_dict.get_word_from_id(id)
     }
 
@@ -284,7 +295,7 @@ mod tests {
 
     use crate::CharStringExt;
     use crate::DictWordMetadata;
-    use crate::spell::{Dictionary, MutableDictionary, WordId};
+    use crate::spell::{CanonicalWordId, Dictionary, MutableDictionary};
 
     use super::FstDictionary;
 
@@ -422,12 +433,11 @@ mod tests {
     fn plural_llamas_derived_from_llama() {
         let dict = FstDictionary::curated();
 
-        assert_eq!(
+        assert!(
             dict.get_word_metadata_str("llamas")
                 .unwrap()
                 .derived_from
-                .unwrap(),
-            WordId::from_word_str("llama")
+                .contains(CanonicalWordId::from_word_str("llama"))
         )
     }
 
@@ -435,12 +445,11 @@ mod tests {
     fn plural_cats_derived_from_cat() {
         let dict = FstDictionary::curated();
 
-        assert_eq!(
+        assert!(
             dict.get_word_metadata_str("cats")
                 .unwrap()
                 .derived_from
-                .unwrap(),
-            WordId::from_word_str("cat")
+                .contains(CanonicalWordId::from_word_str("cat"))
         );
     }
 
@@ -448,12 +457,11 @@ mod tests {
     fn unhappy_derived_from_happy() {
         let dict = FstDictionary::curated();
 
-        assert_eq!(
+        assert!(
             dict.get_word_metadata_str("unhappy")
                 .unwrap()
                 .derived_from
-                .unwrap(),
-            WordId::from_word_str("happy")
+                .contains(CanonicalWordId::from_word_str("happy"))
         );
     }
 
@@ -461,12 +469,11 @@ mod tests {
     fn quickly_derived_from_quick() {
         let dict = FstDictionary::curated();
 
-        assert_eq!(
+        assert!(
             dict.get_word_metadata_str("quickly")
                 .unwrap()
                 .derived_from
-                .unwrap(),
-            WordId::from_word_str("quick")
+                .contains(CanonicalWordId::from_word_str("quick"))
         );
     }
 

@@ -11,7 +11,7 @@ pub use self::merged_dictionary::MergedDictionary;
 pub use self::merged_dictionary::word_hash;
 pub use self::mutable_dictionary::MutableDictionary;
 pub use self::trie_dictionary::TrieDictionary;
-pub use self::word_id::WordId;
+pub use self::word_id::{CanonicalWordId, CaseFoldedWordId};
 
 mod dictionary;
 // The fuzzy-search helpers in here are reused by other languages' dictionaries.

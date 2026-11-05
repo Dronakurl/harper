@@ -21,7 +21,7 @@ use harper_core::{
     CharStringExt, Dialect, DictWordMetadata, OrthFlags, Span, TokenKind, TokenStringExt,
     linting::LintGroup,
     parsers::{IsolateEnglish, MarkdownOptions},
-    spell::{Dictionary, FstDictionary, MutableDictionary, WordId},
+    spell::{CanonicalWordId, Dictionary, FstDictionary, MutableDictionary},
     weir::WeirLinter,
 };
 #[cfg(feature = "training")]
@@ -244,6 +244,11 @@ enum Args {
         /// The location of the Weir file to test
         #[arg(value_hint = ValueHint::FilePath)]
         input: PathBuf,
+    },
+    /// Get the correct capitalization of a word.
+    GetCorrectCapitalizationOf {
+        /// The word to get the correct capitalization for.
+        word: String,
     },
     /// Generate shell completions.
     #[command(hide = true)]
@@ -1044,6 +1049,19 @@ fn main() -> anyhow::Result<()> {
                 process::exit(1);
             }
         }
+        Args::GetCorrectCapitalizationOf { word } => {
+            let word_chars: Vec<char> = word.chars().collect();
+            if let Some(correct_capitalization) =
+                curated_dictionary.get_correct_capitalization_of(&word_chars)
+            {
+                let correct_word: String = correct_capitalization.iter().collect();
+                println!("{correct_word}");
+            } else {
+                eprintln!("No correct capitalization found for '{word}'");
+                process::exit(1);
+            }
+            Ok(())
+        }
         Args::Completion { shell } => {
             generate(
                 shell,
@@ -1081,11 +1099,15 @@ fn line_to_parts(line: &str) -> (String, String) {
 fn print_word_derivations(word: &str, annot: &str, dictionary: &impl Dictionary) {
     println!("{word}/{annot}");
 
-    let id = WordId::from_word_str(word);
+    let id = CanonicalWordId::from_word_str(word);
 
-    let children = dictionary
-        .words_iter()
-        .filter(|e| dictionary.get_word_metadata(e).unwrap().derived_from == Some(id));
+    let children = dictionary.words_iter().filter(|word| {
+        dictionary
+            .get_word_metadata_exact(word)
+            .unwrap()
+            .derived_from
+            .contains(id)
+    });
 
     println!(" - {word}");
 

@@ -33,6 +33,8 @@ export default class PopupHandler {
 	private currentLintBoxes: IgnorableLintBox[];
 	private popupLint: number | undefined;
 	private selectedSuggestion = 0;
+	/** Only a keyboard activation moves focus into the popup; a click leaves it in the editor. */
+	private autofocusSuggestion = false;
 	private currentHint: string | null | undefined;
 	private currentHintFor: number | undefined;
 	private renderBox: RenderBox;
@@ -98,6 +100,7 @@ export default class PopupHandler {
 
 		this.popupLint = closestIdx;
 		this.selectedSuggestion = 0;
+		this.autofocusSuggestion = true;
 		this.render();
 		if (popupFocused) this.focusSelectedSuggestion();
 	}
@@ -119,6 +122,7 @@ export default class PopupHandler {
 				if (this.popupLint != null) this.close();
 				this.popupLint = i;
 				this.selectedSuggestion = 0;
+				this.autofocusSuggestion = false;
 				this.render();
 				return;
 			}
@@ -130,6 +134,7 @@ export default class PopupHandler {
 	private close = () => {
 		this.popupLint = undefined;
 		this.selectedSuggestion = 0;
+		this.autofocusSuggestion = false;
 		this.render();
 	};
 
@@ -153,6 +158,7 @@ export default class PopupHandler {
 			tree = SuggestionBox({
 				box,
 				selectedIndex: this.selectedSuggestion,
+				autofocus: this.autofocusSuggestion,
 				onSelect: (index) => {
 					if (index === this.selectedSuggestion) return;
 					this.selectedSuggestion = index;
@@ -219,13 +225,11 @@ export default class PopupHandler {
 				.slice(0, this.popupLint)
 				.filter(
 					(box) =>
-						box.lint.context_hash === previous.lint.context_hash &&
 						box.source === previous.source &&
 						box.lint.span.start === previous.lint.span.start &&
 						box.lint.span.end === previous.lint.span.end,
 				).length;
 			const matches = boxes.flatMap((box, index) =>
-				box.lint.context_hash === previous.lint.context_hash &&
 				box.source === previous.source &&
 				box.lint.span.start === previous.lint.span.start &&
 				box.lint.span.end === previous.lint.span.end &&
