@@ -49,9 +49,11 @@ pub enum EditKind {
     Map,
     /// One `REP` replacement.
     Rep,
-    /// A key struck twice: the misspelling repeats a letter the word has once
-    /// (`Worrt` → `Wort`). The likeliest slip of all when typing fast, in any
-    /// language, so it comes before a neighbouring key: `Worrt` is not `Wirrt`.
+    /// A doubled letter typed once, or a single one typed twice: `Worrt` →
+    /// `Wort`, `muste` → `musste`. A key struck twice or once too few is the
+    /// likeliest slip of all when typing fast, in any language, and a doubled
+    /// letter is the likeliest spelling slip, so this comes before a
+    /// neighbouring key: `Worrt` is not `Wirrt`, `muste` is not `miste`.
     DoubledChar,
     /// One character replaced by its neighbour on the keyboard.
     KeyNeighbor,
@@ -215,7 +217,11 @@ impl SuggestionHints {
             };
         }
         if m.len() + 1 == c.len() && is_one_deletion(&c, &m) {
-            return EditKind::MissingChar;
+            return if repeats_a_neighbour(&c, &m) {
+                EditKind::DoubledChar
+            } else {
+                EditKind::MissingChar
+            };
         }
         EditKind::Other
     }
@@ -389,6 +395,8 @@ mod tests {
         assert_eq!(k("worrt", "wort"), EditKind::DoubledChar);
         assert_eq!(k("ddom", "dom"), EditKind::DoubledChar);
         assert_eq!(k("doxm", "dom"), EditKind::ExtraChar);
+        assert_eq!(k("muste", "musste"), EditKind::DoubledChar);
+        assert_eq!(k("dm", "dmm"), EditKind::DoubledChar);
         assert_eq!(k("dm", "dom"), EditKind::MissingChar);
         assert_eq!(k("abcd", "wxyz"), EditKind::Other);
     }
