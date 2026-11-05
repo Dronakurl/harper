@@ -40,8 +40,11 @@ struct AnnotationsSuggestions {
 }
 
 /// Why a candidate could be what the writer meant. Earlier is more plausible.
+///
+/// Public so that a language can filter or regroup the ranked suggestions by
+/// the same classification, without restating its own table in code.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub(crate) enum EditKind {
+pub enum EditKind {
     /// Characters swapped within a `MAP` group (`ťo` → `to`).
     Map,
     /// One `REP` replacement.
@@ -150,7 +153,7 @@ impl SuggestionHints {
 
     /// Classify how `candidate` could have been mistyped as `misspelled`.
     /// Letter case is ignored.
-    pub(crate) fn classify(&self, misspelled: &[char], candidate: &[char]) -> EditKind {
+    pub fn classify(&self, misspelled: &[char], candidate: &[char]) -> EditKind {
         let m: Vec<char> = misspelled.iter().flat_map(|c| c.to_lowercase()).collect();
         let c: Vec<char> = candidate.iter().flat_map(|c| c.to_lowercase()).collect();
 
