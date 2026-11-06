@@ -109,9 +109,6 @@ enum Args {
         #[arg(long)]
         no_parallel: bool,
     },
-    /// Manage language plugins.
-    #[command(subcommand)]
-    Plugin(plugin::PluginCommand),
     /// Parse a provided document and print the detected symbols.
     Parse {
         /// The text or file you wish to parse. If not provided, it will be read from standard
@@ -250,6 +247,9 @@ enum Args {
         /// The word to get the correct capitalization for.
         word: String,
     },
+    /// Manage language plugins.
+    #[command(subcommand)]
+    Plugin(plugin::PluginCommand),
     /// Generate shell completions.
     #[command(hide = true)]
     Completion {
