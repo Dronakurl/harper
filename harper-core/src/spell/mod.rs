@@ -608,6 +608,29 @@ mod tests {
     }
 
     #[test]
+    fn map_hint_finds_word_that_is_also_a_name() {
+        // The dictionary has both the adjective and a form of the surname
+        // Šťastný, so the spelling "šťastní" has two capitalizations.
+        let dict = hinted_dictionary(&["šťastní", "Šťastní", "stati", "stisni"]);
+
+        for (typed, expected) in [("stastni", "šťastní"), ("Stastni", "Šťastní")] {
+            let word: Vec<char> = typed.chars().collect();
+            let hinted = to_strings(suggest_correct_spelling_with_hints(
+                &word,
+                5,
+                2,
+                &dict,
+                &slovak_hints(),
+            ));
+            assert_eq!(
+                hinted.first().map(String::as_str),
+                Some(expected),
+                "{typed}"
+            );
+        }
+    }
+
+    #[test]
     fn normalizes_weve() {
         let word = ['w', 'e', '’', 'v', 'e'];
         let norm = word.normalized();
