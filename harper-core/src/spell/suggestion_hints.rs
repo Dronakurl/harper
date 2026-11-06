@@ -293,9 +293,19 @@ impl SuggestionHints {
             if !dictionary.contains_word(&spelling) {
                 continue;
             }
-            // A spelling with several capitalizations in the dictionary is
-            // left to the edit-distance search.
-            let Some(word) = dictionary.get_correct_capitalization_of(&spelling) else {
+            // A spelling with several capitalizations in the dictionary
+            // ("šťastní" and the name "Šťastní") takes the one that starts like
+            // the misspelled word. The edit-distance search would not find it:
+            // a MAP spelling is often several edits away.
+            let Some(word) = dictionary
+                .get_correct_capitalization_of(&spelling)
+                .or_else(|| {
+                    let upper = misspelled.first().is_some_and(|c| c.is_uppercase());
+                    dictionary
+                        .get_correct_capitalizations_of(&spelling)
+                        .find(|w| w.first().is_some_and(|c| c.is_uppercase()) == upper)
+                })
+            else {
                 continue;
             };
             if out.iter().any(|r| r.word == word) {
