@@ -48,6 +48,8 @@ export const sidebar: Record<string, SidebarEntry[]> = {
 		{
 			title: 'Integrations',
 			items: [
+				{ title: 'Other Languages', to: '/docs/integrations/language-plugins' },
+				{ title: 'Language Plugins', to: '/docs/integrations/available-languages' },
 				{ title: 'Obsidian', to: '/docs/integrations/obsidian' },
 				{ title: 'Chrome Extension', to: '/docs/integrations/chrome-extension' },
 				{ title: 'Firefox Extension', to: '/docs/integrations/firefox-extension' },

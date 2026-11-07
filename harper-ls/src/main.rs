@@ -11,6 +11,7 @@ mod document_state;
 
 mod ignored_lints_io;
 mod io_utils;
+mod plugins;
 mod pos_conv;
 
 use backend::Backend;

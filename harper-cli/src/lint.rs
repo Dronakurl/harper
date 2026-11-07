@@ -24,8 +24,28 @@ use crate::input::{
     single_input::{SingleInput, StdinInput},
 };
 use crate::lint_engine::lint_one_input;
+use crate::plugin::PluginLinter;
 
 /// Sync version of harper_dictionary_wordlist::load_dict.
+/// The dictionary file of a language: English keeps `base`, any other language gets its id before
+/// the extension (`dictionary.txt` becomes `dictionary-de.txt`). The same names harper-ls uses.
+pub fn language_dict_path(base: &Path, language: &str) -> PathBuf {
+    if language == "en" {
+        return base.to_path_buf();
+    }
+    let suffix = format!("-{language}");
+    match base.extension() {
+        Some(ext) => {
+            let stem = base.file_stem().unwrap_or_default().to_string_lossy();
+            base.with_file_name(format!("{stem}{suffix}.{}", ext.to_string_lossy()))
+        }
+        None => {
+            let name = base.file_name().unwrap_or_default().to_string_lossy();
+            base.with_file_name(format!("{name}{suffix}"))
+        }
+    }
+}
+
 pub fn load_dict(path: &Path) -> anyhow::Result<MutableDictionary> {
     let str = fs::read_to_string(path)?;
 
@@ -84,6 +104,36 @@ pub enum OutputFormat {
     Compact,
 }
 
+/// Which rules lint the inputs. `harper-core` knows nothing about plugins, so the CLI decides
+/// here, once, and the lint code matches on it.
+pub enum LanguageChoice {
+    /// The built-in English rules.
+    English,
+    /// A specific plugin should lint every input, in `harper-cli`, this is: `--language <id>` or `--plugin <file>`.
+    Plugin(PluginLinter),
+    /// Detected per input among the installed plugins; English when none of
+    /// them is confident. Kept apart from `Plugin`, so that a single installed plugin is still
+    /// asked whether it recognizes the text instead of linting English with its rules.
+    /// In `harper-cli`, this is `--language auto`.
+    Auto(Vec<PluginLinter>),
+}
+
+impl LanguageChoice {
+    /// The plugins that may lint something, for setting up the user dictionary.
+    pub fn plugins(&self) -> &[PluginLinter] {
+        match self {
+            Self::English => &[],
+            Self::Plugin(plugin) => std::slice::from_ref(plugin),
+            Self::Auto(plugins) => plugins,
+        }
+    }
+
+    /// Whether `--only` and `--ignore` name a plugin's rules rather than the built-in ones.
+    pub fn uses_plugin_rules(&self) -> bool {
+        !self.plugins().is_empty()
+    }
+}
+
 pub struct LintOptions {
     pub count: bool,
     pub ignore: Option<Vec<String>>,
@@ -91,6 +141,7 @@ pub struct LintOptions {
     pub keep_overlapping_lints: bool,
     pub dialect: Dialect,
     pub weirpack_inputs: Vec<SingleInput>,
+    pub language: LanguageChoice,
     pub color: bool,
     pub format: OutputFormat,
     pub quiet: bool,
@@ -205,7 +256,10 @@ pub fn lint(
         }
     }
 
-    if let Some(only) = only {
+    // A plugin has its own rule names, which are checked against its output instead.
+    let is_plugin = lint_options.language.uses_plugin_rules();
+
+    if let Some(only) = only.as_mut().filter(|_| !is_plugin) {
         only.retain(|rule| {
             if !config.has_rule(rule) {
                 eprintln!("Warning: Cannot enable unknown rule '{}'.", rule);
@@ -215,7 +269,7 @@ pub fn lint(
         });
     }
 
-    if let Some(ignore) = ignore {
+    if let Some(ignore) = ignore.as_mut().filter(|_| !is_plugin) {
         ignore.retain(|rule| {
             if !config.has_rule(rule) {
                 eprintln!("Warning: Cannot disable unknown rule '{}'.", rule);
@@ -228,6 +282,18 @@ pub fn lint(
     // Create merged dictionary with base dictionary
     let mut curated_plus_user_dict = MergedDictionary::new();
     curated_plus_user_dict.add_dictionary(Arc::new(curated_dictionary));
+
+    // A plugin is a separate program with its own dictionary, so it cannot share the
+    // `MergedDictionary` built here. Each one is handed the user's words for its own language
+    // (`dictionary-de.txt` for `de`, as in harper-ls), once; it knows them for every file it
+    // lints. The words of a file's own dictionary are added for that file only; see
+    // `lint_one_input`.
+    for plugin in lint_options.language.plugins() {
+        let words = load_dict(&language_dict_path(&user_dict_path, &plugin.id()))
+            .map(|dict| dict.words_iter().map(|w| w.iter().collect()).collect())
+            .unwrap_or_default();
+        plugin.set_user_words(words)?;
+    }
 
     let user_dict_msg = match load_dict(&user_dict_path) {
         Ok(user_dict) => {
@@ -579,4 +645,25 @@ pub fn print_formatted_items(
         first_on_line = false;
     }
     println!();
+}
+
+#[cfg(test)]
+mod language_dict_path_tests {
+    use std::path::Path;
+
+    use super::language_dict_path;
+
+    #[test]
+    fn english_keeps_the_file_and_other_languages_get_their_own() {
+        let base = Path::new("/home/u/.config/harper-ls/dictionary.txt");
+        assert_eq!(language_dict_path(base, "en"), base);
+        assert_eq!(
+            language_dict_path(base, "de"),
+            Path::new("/home/u/.config/harper-ls/dictionary-de.txt")
+        );
+        assert_eq!(
+            language_dict_path(Path::new("/d/dictionary"), "de"),
+            Path::new("/d/dictionary-de")
+        );
+    }
 }

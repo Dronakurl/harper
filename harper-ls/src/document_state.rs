@@ -1,5 +1,6 @@
 use crate::config::{CodeActionConfig, DiagnosticSeverity};
 use crate::diagnostics::{lint_to_code_actions, lints_to_diagnostics};
+use crate::plugins::PluginLinter;
 use crate::pos_conv::range_to_span;
 use harper_core::linting::{Lint, LintGroup, Linter};
 use harper_core::spell::{MergedDictionary, MutableDictionary};
@@ -12,6 +13,10 @@ pub struct DocumentState {
     pub ident_dict: Lrc<MutableDictionary>,
     pub dict: Lrc<MergedDictionary>,
     pub linter: LintGroup,
+    /// Set when the document is in a plugin language; it then replaces `linter`.
+    pub plugin: Option<PluginLinter>,
+    /// `en`, or the id of the language plugin that checks this document.
+    pub language: String,
     pub language_id: Option<String>,
     pub ignored_lints: IgnoredLints,
     pub uri: Uri,
@@ -23,12 +28,18 @@ impl DocumentState {
     }
 
     pub fn generate_diagnostics(&mut self, severity: DiagnosticSeverity) -> Vec<Diagnostic> {
-        let temp = self.linter.config.clone();
-        self.linter.config.fill_with_curated();
+        let mut lints = match &self.plugin {
+            Some(plugin) => plugin.organized_lints(&self.document.get_full_string()),
+            None => {
+                let temp = self.linter.config.clone();
+                self.linter.config.fill_with_curated();
 
-        let mut lints = self.linter.organized_lints(&self.document);
+                let lints = self.linter.organized_lints(&self.document);
 
-        self.linter.config = temp;
+                self.linter.config = temp;
+                lints
+            }
+        };
 
         for value in lints.values_mut() {
             self.ignored_lints.remove_ignored(value, &self.document);
@@ -51,12 +62,22 @@ impl DocumentState {
         range: Range,
         code_action_config: &CodeActionConfig,
     ) -> Vec<CodeActionOrCommand> {
-        let temp = self.linter.config.clone();
-        self.linter.config.fill_with_curated();
+        let mut lints = match &self.plugin {
+            Some(plugin) => plugin
+                .organized_lints(&self.document.get_full_string())
+                .into_values()
+                .flatten()
+                .collect(),
+            None => {
+                let temp = self.linter.config.clone();
+                self.linter.config.fill_with_curated();
 
-        let mut lints = self.linter.lint(&self.document);
+                let lints = self.linter.lint(&self.document);
 
-        self.linter.config = temp;
+                self.linter.config = temp;
+                lints
+            }
+        };
 
         self.ignored_lints
             .remove_ignored(&mut lints, &self.document);
@@ -100,6 +121,8 @@ impl Default for DocumentState {
             ident_dict: Default::default(),
             dict: Default::default(),
             linter: Default::default(),
+            plugin: None,
+            language: "en".to_owned(),
             language_id: Default::default(),
             ignored_lints: Default::default(),
             uri: "https://example.net".parse().unwrap(),
