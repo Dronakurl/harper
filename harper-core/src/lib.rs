@@ -15,8 +15,10 @@ mod ignored_lints;
 mod indefinite_article;
 mod irregular_nouns;
 mod irregular_verbs;
+#[cfg(feature = "language-bits")]
+pub mod language_bits;
 pub mod language_detection;
-mod lexing;
+pub mod lexing;
 pub mod linting;
 mod mask;
 mod number;
@@ -45,8 +47,8 @@ pub use case::{Case, CaseIterExt};
 pub use char_string::{CharString, CharStringExt};
 pub use currency::Currency;
 pub use dict_word_metadata::{
-    AdverbData, ConjunctionData, Degree, DeterminerData, Dialect, DialectFlags, DictWordMetadata,
-    NounData, PronounData, VerbData, VerbForm, VerbFormFlags,
+    AdjectiveData, AdverbData, ConjunctionData, Degree, DeterminerData, Dialect, DialectFlags,
+    DictWordMetadata, NounData, PronounData, VerbData, VerbForm, VerbFormFlags,
 };
 pub use dict_word_metadata_orthography::{OrthFlags, Orthography};
 pub use document::Document;
@@ -55,6 +57,8 @@ pub use ignored_lints::{IgnoredLints, LintContext};
 pub use indefinite_article::{InitialSound, starts_with_vowel};
 pub use irregular_nouns::IrregularNouns;
 pub use irregular_verbs::IrregularVerbs;
+#[cfg(feature = "language-bits")]
+pub use language_bits::LanguageBits;
 use linting::Lint;
 pub use mask::{Mask, Masker, RegexMasker};
 pub use number::{Number, OrdinalSuffix};

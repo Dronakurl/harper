@@ -183,7 +183,7 @@ impl WeirLinter {
         let span = matched_tokens.span()?;
         let orig = span.get_content(source);
 
-        let suggestions = match self.strategy {
+        let suggestions: Vec<Suggestion> = match self.strategy {
             ReplacementStrategy::MatchCase => self
                 .replacements
                 .iter()
@@ -195,6 +195,17 @@ impl WeirLinter {
                 .map(|r| Suggestion::ReplaceWith(r.chars().collect()))
                 .collect(),
         };
+
+        // Matching ignores case, so a rule that only fixes the case also matches
+        // the text it would produce. Text that already reads like every
+        // replacement is not a mistake.
+        let changes_nothing = !suggestions.is_empty()
+            && suggestions
+                .iter()
+                .all(|s| matches!(s, Suggestion::ReplaceWith(with) if with.as_slice() == orig));
+        if changes_nothing {
+            return None;
+        }
 
         Some(Lint {
             span,
@@ -666,6 +677,28 @@ pub mod tests {
         let source = "expr main";
         let res = WeirLinter::new(source);
         assert_eq!(res.err(), Some(Error::ExpectedVariableUndefined))
+    }
+
+    /// Matching ignores case, so a rule that fixes only the case also finds the
+    /// spelling it would write. That spelling is left alone.
+    #[test]
+    fn a_rule_that_only_fixes_case_leaves_the_right_case_alone() {
+        let source = r#"
+ expr main (in github)
+ let message "GitHub is written with a capital H."
+ let description "Capitalizes GitHub."
+ let kind "Capitalization"
+ let becomes "in GitHub"
+ let strategy "Exact"
+
+ test "I put it in github today." "I put it in GitHub today."
+ test "I put it in Github today." "I put it in GitHub today."
+
+ allows "I put it in GitHub today."
+ "#;
+
+        let mut linter = WeirLinter::new(source).unwrap();
+        assert_passes_all(&mut linter);
     }
 
     #[test]
