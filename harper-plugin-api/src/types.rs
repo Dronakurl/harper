@@ -45,8 +45,12 @@ pub struct PluginInfo {
 /// `set_user_words` before the request.
 pub const FEATURE_REQUEST_WORDS: &str = "request_words";
 
+/// The plugin reads [`LintRequest::message_language`] and writes its lint messages in that
+/// language when it has them.
+pub const FEATURE_MESSAGE_LANGUAGE: &str = "message_language";
+
 /// Every feature this version of the API crate gives a plugin built with it.
-pub const FEATURES: &[&str] = &[FEATURE_REQUEST_WORDS];
+pub const FEATURES: &[&str] = &[FEATURE_REQUEST_WORDS, FEATURE_MESSAGE_LANGUAGE];
 
 impl PluginInfo {
     /// Whether the plugin lists `feature`.
@@ -102,6 +106,14 @@ pub struct LintRequest {
     /// the words of the last `set_user_words`.
     #[serde(default)]
     pub user_words: Option<Vec<String>>,
+    /// The language of the host's interface as a BCP 47 tag (`"en-GB"`, `"sk"`, `"de-AT"`), so
+    /// that a lint message does not sit between an interface in one language and text in another.
+    /// A plugin that has its messages in that language (or in its primary subtag, `"en"` for
+    /// `"en-GB"`) writes them in it. Without the field, or for a language it does not have, it
+    /// keeps writing in the language of the text. Hosts send it only to plugins that list
+    /// [`FEATURE_MESSAGE_LANGUAGE`]; older ones ignore it.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub message_language: Option<String>,
 }
 
 fn default_format() -> String {
@@ -117,6 +129,7 @@ impl LintRequest {
             config: None,
             regions: None,
             user_words: None,
+            message_language: None,
         }
     }
 }

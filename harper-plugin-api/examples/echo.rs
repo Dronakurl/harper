@@ -120,7 +120,10 @@ impl Echo {
                     span: (*ps + offset, i + offset),
                     rule: "Repeat".into(),
                     kind: "Repetition".into(),
-                    message: "Repeated word.".into(),
+                    message: match req.message_language.as_deref() {
+                        Some(tag) if tag.starts_with("de") => "Wiederholtes Wort.".into(),
+                        _ => "Repeated word.".into(),
+                    },
                     suggestions: vec![PluginSuggestion::ReplaceWith(word.clone())],
                     priority: 31,
                 });

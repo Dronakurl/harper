@@ -286,6 +286,7 @@ mod imp {
             req.config = config;
             req.user_words = Some(user_words);
             req.dialect = self.dialect.clone();
+            req.message_language = harper_plugin_host::message_language_from_env();
             if let Some(regions) = regions {
                 req.regions = Some(
                     regions

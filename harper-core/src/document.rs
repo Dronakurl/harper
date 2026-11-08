@@ -440,20 +440,28 @@ impl Document {
 
             // Find open quotes first.
             for quote in &quote_indices {
-                let is_open = *quote == 0
-                    || pg[0..*quote].iter_word_likes().next().is_none()
-                    || pg[quote - 1].kind.is_whitespace()
-                    || matches!(
-                        pg[quote - 1].kind.as_punctuation(),
-                        Some(Punctuation::LessThan)
-                            | Some(Punctuation::OpenRound)
-                            | Some(Punctuation::OpenSquare)
-                            | Some(Punctuation::OpenCurly)
-                            | Some(Punctuation::EmDash)
-                            | Some(Punctuation::EnDash)
-                            | Some(Punctuation::Apostrophe)
-                            | Some(Punctuation::OpenSingle)
-                    );
+                // Marks that only ever open or only ever close need no guessing.
+                let direction = match self.source[pg[*quote].span.start] {
+                    '„' | '«' | '‹' => Some(true),
+                    '»' | '›' => Some(false),
+                    _ => None,
+                };
+                let is_open = direction.unwrap_or_else(|| {
+                    *quote == 0
+                        || pg[0..*quote].iter_word_likes().next().is_none()
+                        || pg[quote - 1].kind.is_whitespace()
+                        || matches!(
+                            pg[quote - 1].kind.as_punctuation(),
+                            Some(Punctuation::LessThan)
+                                | Some(Punctuation::OpenRound)
+                                | Some(Punctuation::OpenSquare)
+                                | Some(Punctuation::OpenCurly)
+                                | Some(Punctuation::EmDash)
+                                | Some(Punctuation::EnDash)
+                                | Some(Punctuation::Apostrophe)
+                                | Some(Punctuation::OpenSingle)
+                        )
+                });
 
                 if is_open {
                     open_quote_indices.push(*quote);
@@ -1399,5 +1407,37 @@ This is a final paragraph with a weird "quote and a not-weird "quote".
                 Some(29)
             ]
         )
+    }
+
+    #[test]
+    fn pairs_low_and_guillemet_quotes() {
+        for (text, twins) in [
+            ("Er sagte: „Ich komme morgen.“", vec![Some(4), Some(0)]),
+            ("Il a dit « je viens demain ».", vec![Some(6), Some(0)]),
+            (
+                "Il a dit « je viens », puis « non ».",
+                vec![Some(8), Some(0), Some(14), Some(10)],
+            ),
+        ] {
+            let doc = Document::new_plain_english_curated(text);
+            let found: Vec<_> = doc
+                .iter_quotes()
+                .map(|t| t.kind.as_quote().unwrap().twin_loc)
+                .collect();
+            assert_eq!(found.len(), twins.len(), "{text}");
+            // Twins are token indices; check they pair up with each other.
+            for (i, twin) in found.iter().enumerate() {
+                let twin = twin.unwrap_or_else(|| panic!("unpaired quote in {text}"));
+                let quote_idx: Vec<_> = doc
+                    .tokens()
+                    .enumerate()
+                    .filter(|(_, t)| t.kind.is_quote())
+                    .map(|(n, _)| n)
+                    .collect();
+                assert!(quote_idx.contains(&twin), "{text}");
+                let partner = quote_idx.iter().position(|n| *n == twin).unwrap();
+                assert_eq!(found[partner], Some(quote_idx[i]), "{text}");
+            }
+        }
     }
 }

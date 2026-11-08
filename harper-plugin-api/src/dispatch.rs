@@ -109,7 +109,10 @@ mod tests {
         let mut slot: Option<Counting> = None;
         let out = dispatch(&mut slot, br#"{"method":"info"}"#);
         let v: serde_json::Value = serde_json::from_slice(&out).unwrap();
-        assert_eq!(v["ok"]["features"], serde_json::json!(["request_words"]));
+        assert_eq!(
+            v["ok"]["features"],
+            serde_json::json!(["request_words", "message_language"])
+        );
     }
 
     #[test]

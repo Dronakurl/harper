@@ -330,11 +330,12 @@ pub fn lex_punctuation(source: &[char]) -> Option<FoundToken> {
     })
 }
 
-/// Specifically deals only with double quotes: ASCII and smart/typographic
+/// Quotation marks: ASCII and typographic double quotes, plus the German/Slovak low
+/// opening mark `„` and the guillemets `« » ‹ ›` used by French, Swiss German and others.
 fn lex_quote(source: &[char]) -> Option<FoundToken> {
     let c = *source.first()?;
 
-    if c == '\"' || c == '“' || c == '”' {
+    if matches!(c, '\"' | '“' | '”' | '„' | '«' | '»' | '‹' | '›') {
         Some(FoundToken {
             next_index: 1,
             token: TokenKind::Punctuation(Punctuation::Quote(Quote { twin_loc: None })),

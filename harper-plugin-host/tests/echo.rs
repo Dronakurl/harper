@@ -169,6 +169,25 @@ fn info_lists_the_features_of_the_api_it_was_built_with() {
     );
 }
 
+#[test]
+fn messages_follow_message_language() {
+    let Some(path) = echo() else { return };
+    let plugin = PluginHost::new().unwrap().load_file(&path).unwrap();
+    assert!(
+        plugin
+            .info()
+            .supports(harper_plugin_api::FEATURE_MESSAGE_LANGUAGE)
+    );
+    let message = |tag: Option<&str>| {
+        let mut req = LintRequest::plain("the the");
+        req.message_language = tag.map(str::to_owned);
+        plugin.lint(&req).unwrap()[0].message.clone()
+    };
+    assert_eq!(message(None), "Repeated word.");
+    assert_eq!(message(Some("en-GB")), "Repeated word.");
+    assert_eq!(message(Some("de-AT")), "Wiederholtes Wort.");
+}
+
 /// A plugin that does not read `LintRequest::user_words` still gets the words of a request: the
 /// host sets them first, in the same locked call.
 #[test]

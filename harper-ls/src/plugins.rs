@@ -273,6 +273,7 @@ mod imp {
             req.format = self.format.to_owned();
             req.config = Some(self.config.clone());
             req.dialect = self.dialect.clone();
+            req.message_language = harper_plugin_host::message_language_from_env();
             if let Some(regions) = &self.regions {
                 if regions.is_empty() {
                     return out;
