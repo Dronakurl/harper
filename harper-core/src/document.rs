@@ -101,7 +101,7 @@ impl Document {
         let source: Lrc<_> = text.chars().collect();
         let tokens = parser.parse(&source);
         let mut document = Self { source, tokens };
-        document.apply_fixups();
+        document.apply_fixups(parser.is_english());
         document
     }
 
@@ -153,17 +153,26 @@ impl Document {
         Self::new_markdown(text, MarkdownOptions::default(), dictionary)
     }
 
-    fn apply_fixups(&mut self) {
+    /// `english` is false for a parser of another language, which sees "t. j." and "napr." as
+    /// its own business: the steps that read English abbreviations are skipped (see
+    /// [`condense_abbreviations`](crate::parsers::condense_abbreviations)).
+    fn apply_fixups(&mut self, english: bool) {
         self.condense_spaces();
         self.condense_newlines();
         self.newlines_to_breaks();
-        self.condense_dotted_initialisms();
+        if english {
+            self.condense_dotted_initialisms();
+        }
         self.condense_number_suffixes();
         self.condense_ellipsis();
-        self.condense_dotted_truncations();
+        if english {
+            self.condense_dotted_truncations();
+        }
         self.condense_common_top_level_domains();
         self.condense_filename_extensions();
-        self.condense_tldr();
+        if english {
+            self.condense_tldr();
+        }
         self.condense_ampersand_pairs();
         self.condense_slash_pairs();
         self.match_quotes();
@@ -178,7 +187,7 @@ impl Document {
     /// work here, so text in another language skips them and keeps whatever
     /// `pos_tag` its dictionary supplies. See [`Parser::is_english`].
     fn parse(&mut self, dictionary: &impl Dictionary, english: bool) {
-        self.apply_fixups();
+        self.apply_fixups(english);
 
         if !english {
             self.annotate_from_dictionary(dictionary);

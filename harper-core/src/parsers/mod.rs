@@ -1,6 +1,7 @@
 //! Adds support for parsing various programming and markup languages through a unified trait: [`Parser`].
 
 mod collapse_identifiers;
+mod condense;
 mod isolate_english;
 mod markdown;
 mod mask;
@@ -10,6 +11,7 @@ mod plain_english;
 
 use blanket::blanket;
 pub use collapse_identifiers::CollapseIdentifiers;
+pub use condense::{condense_abbreviations, condense_ordinals};
 pub use isolate_english::IsolateEnglish;
 pub use markdown::{Markdown, MarkdownOptions};
 pub use mask::Mask;
