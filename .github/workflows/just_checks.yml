@@ -12,9 +12,7 @@ env:
 
 jobs:
   just-checks:
-    # Not `ubuntu-latest`: that is Ubuntu 26.04 now, and Playwright (test-harperjs, test-obsidian,
-    # test-chrome-plugin) cannot install chromium there.
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     name: just ${{ matrix.task }}
     strategy:
       matrix:
