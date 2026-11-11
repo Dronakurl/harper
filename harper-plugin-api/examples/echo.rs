@@ -38,6 +38,10 @@ impl LanguagePlugin for Echo {
     }
 
     fn lint(&mut self, req: LintRequest) -> Vec<PluginLint> {
+        // Lets tests see how a host copes with a plugin that crashes.
+        if req.text == "panic" {
+            panic!("asked to panic");
+        }
         match &req.regions {
             None => self.lint_chars(&req, &req.text.chars().collect::<Vec<_>>(), 0),
             Some(regions) => {

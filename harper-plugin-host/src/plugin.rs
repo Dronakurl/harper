@@ -30,7 +30,7 @@ impl PluginHost {
 
     pub fn load_bytes(&self, bytes: &[u8]) -> Result<LoadedPlugin> {
         let module = Module::new(&self.engine, bytes)?;
-        LoadedPlugin::instantiate(&self.engine, &module)
+        LoadedPlugin::new(module)
     }
 
     /// Like [`Self::load_file`], but keeps the compiled module in `cache_dir`, so that the
@@ -44,7 +44,7 @@ impl PluginHost {
         let bytes = std::fs::read(path)?;
         let cache = cache_dir
             .as_ref()
-            .join(format!("{:016x}.cwasm", fingerprint(&bytes)));
+            .join(format!("{:016x}.cwasm", fingerprint(&self.engine, &bytes)));
 
         let module = if cache.exists() {
             // SAFETY: the file was produced by `Module::serialize` of this same wasmtime
@@ -70,7 +70,7 @@ impl PluginHost {
                 m
             }
         };
-        LoadedPlugin::instantiate(&self.engine, &module)
+        LoadedPlugin::new(module)
     }
 }
 
@@ -101,15 +101,13 @@ fn remove_stale_cache_files(cache_dir: &Path, keep: &Path) {
     }
 }
 
-fn fingerprint(bytes: &[u8]) -> u64 {
+fn fingerprint(engine: &Engine, bytes: &[u8]) -> u64 {
     use std::hash::{DefaultHasher, Hash, Hasher};
     let mut h = DefaultHasher::new();
     bytes.hash(&mut h);
     // A different wasmtime build must not reuse the cache.
     env!("CARGO_PKG_VERSION").hash(&mut h);
-    wasmtime::Engine::default()
-        .precompile_compatibility_hash()
-        .hash(&mut h);
+    engine.precompile_compatibility_hash().hash(&mut h);
     h.finish()
 }
 
@@ -146,58 +144,34 @@ impl Guest {
 /// An instantiated plugin. Calls are serialized by an internal lock.
 pub struct LoadedPlugin {
     info: PluginInfo,
+    module: Module,
     guest: Mutex<Guest>,
     /// Whether the plugin reads `LintRequest::user_words`; if not, the words are set first.
     request_words: bool,
 }
 
 impl LoadedPlugin {
-    fn instantiate(engine: &Engine, module: &Module) -> Result<Self> {
-        let mut store = Store::new(engine, ());
-        let mut linker = Linker::new(engine);
-        // A well-behaved plugin has no imports. Some dependencies still drag in unused
-        // `wasm-bindgen` stubs; they are never called, so make them trap instead of refusing
-        // the plugin. The plugin gets no access to anything either way.
-        linker.define_unknown_imports_as_traps(module)?;
-        let instance = linker.instantiate(&mut store, module)?;
-
-        let version = typed::<(), u32>(&instance, &mut store, "harper_plugin_abi_version")?
-            .call(&mut store, ())?;
-        if version != ABI_VERSION {
-            return Err(Error::AbiMismatch {
-                plugin: version,
-                host: ABI_VERSION,
-            });
-        }
-
-        let memory = instance
-            .get_memory(&mut store, "memory")
-            .ok_or(Error::MissingExport("memory"))?;
-        let alloc = typed(&instance, &mut store, "harper_alloc")?;
-        let free = typed(&instance, &mut store, "harper_free")?;
-        let call = typed(&instance, &mut store, "harper_call")?;
-
-        let mut guest = Guest {
-            store,
-            memory,
-            alloc,
-            free,
-            call,
-            words: None,
-        };
-        let info = request::<PluginInfo>(&mut guest, &Request::Info)?;
-        if info.abi != ABI_VERSION {
-            return Err(Error::AbiMismatch {
-                plugin: info.abi,
-                host: ABI_VERSION,
-            });
-        }
-
+    fn new(module: Module) -> Result<Self> {
+        let (guest, info) = instantiate(&module)?;
         Ok(Self {
             request_words: info.supports(FEATURE_REQUEST_WORDS),
             info,
+            module,
             guest: Mutex::new(guest),
         })
+    }
+
+    /// Runs `f` on the plugin. A trap (a panic in the plugin) can leave its memory inconsistent,
+    /// so the plugin is then started afresh for the next call.
+    fn with_guest<T>(&self, f: impl FnOnce(&mut Guest) -> Result<T>) -> Result<T> {
+        let mut guest = self.guest.lock().unwrap_or_else(|e| e.into_inner());
+        let result = f(&mut guest);
+        if matches!(result, Err(Error::Wasm(_)))
+            && let Ok((fresh, _)) = instantiate(&self.module)
+        {
+            *guest = fresh;
+        }
+        result
     }
 
     pub fn info(&self) -> &PluginInfo {
@@ -205,22 +179,22 @@ impl LoadedPlugin {
     }
 
     fn send<T: DeserializeOwned>(&self, req: &Request) -> Result<T> {
-        let mut guest = self.guest.lock().unwrap_or_else(|e| e.into_inner());
-        request(&mut guest, req)
+        self.with_guest(|guest| request(guest, req))
     }
 
     /// A plugin built before `LintRequest::user_words` existed ignores the field. For such a
     /// plugin, [`Self::lint`] sets the words first, in the same locked call so that no other
     /// request comes between.
     pub fn lint(&self, req: &LintRequest) -> Result<Vec<PluginLint>> {
-        let mut guest = self.guest.lock().unwrap_or_else(|e| e.into_inner());
         let mut req = req.clone();
-        if !self.request_words
-            && let Some(words) = req.user_words.take()
-        {
-            set_words(&mut guest, words)?;
-        }
-        request(&mut guest, &Request::Lint(req))
+        self.with_guest(|guest| {
+            if !self.request_words
+                && let Some(words) = req.user_words.take()
+            {
+                set_words(guest, words)?;
+            }
+            request(guest, &Request::Lint(req))
+        })
     }
 
     /// Makes [`Self::lint`] treat this as a plugin that does not read `user_words`, as one built
@@ -248,8 +222,7 @@ impl LoadedPlugin {
     /// into the plugin) when the list is the same as last time, so callers may call this
     /// before every lint.
     pub fn set_user_words(&self, words: Vec<String>) -> Result<()> {
-        let mut guest = self.guest.lock().unwrap_or_else(|e| e.into_inner());
-        set_words(&mut guest, words)
+        self.with_guest(|guest| set_words(guest, words))
     }
 
     /// How sure the plugin is that `text` is in its language (0 to 1). The plugin is told how
@@ -266,6 +239,45 @@ impl LoadedPlugin {
             english_ratio,
         })
     }
+}
+
+fn instantiate(module: &Module) -> Result<(Guest, PluginInfo)> {
+    let engine = module.engine();
+    let mut store = Store::new(engine, ());
+    let mut linker = Linker::new(engine);
+    // A well-behaved plugin has no imports. Some dependencies still drag in unused
+    // `wasm-bindgen` stubs; they are never called, so make them trap instead of refusing
+    // the plugin. The plugin gets no access to anything either way.
+    linker.define_unknown_imports_as_traps(module)?;
+    let instance = linker.instantiate(&mut store, module)?;
+
+    let version = typed::<(), u32>(&instance, &mut store, "harper_plugin_abi_version")?
+        .call(&mut store, ())?;
+    if version != ABI_VERSION {
+        return Err(Error::AbiMismatch {
+            plugin: version,
+            host: ABI_VERSION,
+        });
+    }
+
+    let mut guest = Guest {
+        memory: instance
+            .get_memory(&mut store, "memory")
+            .ok_or(Error::MissingExport("memory"))?,
+        alloc: typed(&instance, &mut store, "harper_alloc")?,
+        free: typed(&instance, &mut store, "harper_free")?,
+        call: typed(&instance, &mut store, "harper_call")?,
+        store,
+        words: None,
+    };
+    let info = request::<PluginInfo>(&mut guest, &Request::Info)?;
+    if info.abi != ABI_VERSION {
+        return Err(Error::AbiMismatch {
+            plugin: info.abi,
+            host: ABI_VERSION,
+        });
+    }
+    Ok((guest, info))
 }
 
 fn typed<P: wasmtime::WasmParams, R: wasmtime::WasmResults>(

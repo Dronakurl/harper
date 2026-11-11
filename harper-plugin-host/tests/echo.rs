@@ -234,3 +234,15 @@ fn old_cache_files_are_removed_when_a_new_module_is_cached() {
     assert!(fresh.exists());
     std::fs::remove_dir_all(&cache).ok();
 }
+
+/// A plugin that panics fails that one call and works again for the next.
+#[test]
+fn a_crashed_plugin_is_restarted() {
+    let Some(path) = echo() else { return };
+    let plugin = PluginHost::new().unwrap().load_file(&path).unwrap();
+    assert!(matches!(
+        plugin.lint(&LintRequest::plain("panic")),
+        Err(Error::Wasm(_))
+    ));
+    assert_eq!(plugin.lint(&LintRequest::plain("teh")).unwrap().len(), 1);
+}
