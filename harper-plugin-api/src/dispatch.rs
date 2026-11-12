@@ -15,36 +15,18 @@ pub fn dispatch<P: LanguagePlugin>(slot: &mut Option<P>, request: &[u8]) -> Vec<
 }
 
 fn handle<P: LanguagePlugin>(slot: &mut Option<P>, req: Request) -> Value {
-    // `info` and `detect` must not trigger the (possibly slow) construction of the plugin.
-    match &req {
-        Request::Info => {
-            let mut info = P::info();
-            for feature in crate::FEATURES {
-                if !info.supports(feature) {
-                    info.features.push((*feature).to_owned());
-                }
-            }
-            return json!({ "ok": info });
-        }
+    match req {
+        Request::Info => json!({ "ok": P::info() }),
         Request::Detect {
             text,
             english_ratio,
-        } => return json!({ "ok": P::detect_with(text, *english_ratio) }),
-        _ => {}
-    }
-
-    // The first request that needs the plugin builds it.
-    let plugin = slot.get_or_insert_with(P::new);
-
-    match req {
-        Request::Info | Request::Detect { .. } => unreachable!(),
-        Request::Lint(r) => json!({ "ok": plugin.lint(r) }),
-        Request::LintDescriptions => json!({ "ok": plugin.lint_descriptions() }),
-        Request::DefaultConfig => json!({ "ok": plugin.default_config() }),
-        Request::SetUserWords { words } => {
-            plugin.set_user_words(words);
-            json!({ "ok": null })
+        } => json!({ "ok": P::detect(&text, english_ratio) }),
+        // The first request that needs the plugin builds it.
+        Request::Lint(r) => json!({ "ok": slot.get_or_insert_with(P::new).lint(r) }),
+        Request::LintDescriptions => {
+            json!({ "ok": slot.get_or_insert_with(P::new).lint_descriptions() })
         }
+        Request::DefaultConfig => json!({ "ok": slot.get_or_insert_with(P::new).default_config() }),
     }
 }
 
@@ -55,9 +37,7 @@ mod tests {
     use super::dispatch;
     use crate::{LanguagePlugin, LintRequest, PluginConfig, PluginInfo, PluginLint};
 
-    struct Counting {
-        created: usize,
-    }
+    struct Counting;
 
     thread_local! { static CREATED: std::cell::Cell<usize> = const { std::cell::Cell::new(0) }; }
 
@@ -72,12 +52,11 @@ mod tests {
                 dialects: vec![],
                 default_dialect: None,
                 aliases: vec![],
-                features: vec![],
             }
         }
         fn new() -> Self {
             CREATED.with(|c| c.set(c.get() + 1));
-            Self { created: 1 }
+            Self
         }
         fn lint(&mut self, _: LintRequest) -> Vec<PluginLint> {
             vec![]
@@ -87,9 +66,6 @@ mod tests {
         }
         fn default_config(&self) -> PluginConfig {
             BTreeMap::new()
-        }
-        fn set_user_words(&mut self, _: Vec<String>) {
-            self.created += 1;
         }
     }
 
@@ -102,17 +78,6 @@ mod tests {
         assert_eq!(v["ok"]["id"], "t");
         assert!(slot.is_none());
         assert_eq!(CREATED.with(|c| c.get()), 0);
-    }
-
-    #[test]
-    fn info_lists_the_features_of_this_api() {
-        let mut slot: Option<Counting> = None;
-        let out = dispatch(&mut slot, br#"{"method":"info"}"#);
-        let v: serde_json::Value = serde_json::from_slice(&out).unwrap();
-        assert_eq!(
-            v["ok"]["features"],
-            serde_json::json!(["request_words", "message_language"])
-        );
     }
 
     #[test]

@@ -33,31 +33,9 @@ pub struct PluginInfo {
     /// language, so it needs no list of languages of its own. Matched ignoring case.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub aliases: Vec<String>,
-    /// What the plugin can do beyond the first version of the messages, such as
-    /// [`FEATURE_REQUEST_WORDS`]. [`dispatch`](crate::dispatch) adds the ones the API crate the
-    /// plugin was built with has, so a plugin leaves this empty. A plugin built before a feature
-    /// existed does not list it, which is how a host knows to do without.
-    #[serde(default, skip_serializing_if = "Vec::is_empty")]
-    pub features: Vec<String>,
 }
 
-/// The plugin reads [`LintRequest::user_words`]. Without it a host has to send the words with
-/// `set_user_words` before the request.
-pub const FEATURE_REQUEST_WORDS: &str = "request_words";
-
-/// The plugin reads [`LintRequest::message_language`] and writes its lint messages in that
-/// language when it has them.
-pub const FEATURE_MESSAGE_LANGUAGE: &str = "message_language";
-
-/// Every feature this version of the API crate gives a plugin built with it.
-pub const FEATURES: &[&str] = &[FEATURE_REQUEST_WORDS, FEATURE_MESSAGE_LANGUAGE];
-
 impl PluginInfo {
-    /// Whether the plugin lists `feature`.
-    pub fn supports(&self, feature: &str) -> bool {
-        self.features.iter().any(|f| f == feature)
-    }
-
     /// Whether `name` names this plugin's language: its id, its name, an alias, or one of its
     /// dialects (ignoring case).
     pub fn answers_to(&self, name: &str) -> bool {
@@ -101,17 +79,14 @@ pub struct LintRequest {
     #[serde(default)]
     pub regions: Option<Vec<Region>>,
     /// The words of the user dictionaries that apply to this text (user, workspace and the
-    /// file's own), for this language only. They belong to the request, so lints of different
-    /// files may run in any order without touching each other. When absent, the plugin keeps
-    /// the words of the last `set_user_words`.
+    /// file's own), for this language only.
     #[serde(default)]
     pub user_words: Option<Vec<String>>,
     /// The language of the host's interface as a BCP 47 tag (`"en-GB"`, `"sk"`, `"de-AT"`), so
     /// that a lint message does not sit between an interface in one language and text in another.
     /// A plugin that has its messages in that language (or in its primary subtag, `"en"` for
     /// `"en-GB"`) writes them in it. Without the field, or for a language it does not have, it
-    /// keeps writing in the language of the text. Hosts send it only to plugins that list
-    /// [`FEATURE_MESSAGE_LANGUAGE`]; older ones ignore it.
+    /// keeps writing in the language of the text.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub message_language: Option<String>,
 }
@@ -165,14 +140,9 @@ pub enum Request {
     Lint(LintRequest),
     LintDescriptions,
     DefaultConfig,
-    SetUserWords {
-        words: Vec<String>,
-    },
     Detect {
         text: String,
-        /// The share of the words of `text` that Harper's English dictionary knows (0 to 1), when
-        /// the host has that dictionary: the best sign that a text is English after all. Hosts
-        /// before it was added leave it out.
+        /// See [`LanguagePlugin::detect`](crate::LanguagePlugin::detect).
         #[serde(default, skip_serializing_if = "Option::is_none")]
         english_ratio: Option<f32>,
     },

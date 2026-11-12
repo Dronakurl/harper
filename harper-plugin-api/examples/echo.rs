@@ -8,9 +8,7 @@ use harper_plugin_api::{
     PluginSuggestion, export_plugin,
 };
 
-struct Echo {
-    user_words: Vec<String>,
-}
+struct Echo;
 
 impl LanguagePlugin for Echo {
     fn info() -> PluginInfo {
@@ -27,20 +25,22 @@ impl LanguagePlugin for Echo {
             }],
             default_dialect: Some("std".into()),
             aliases: vec!["Echolalia".into()],
-            features: vec![],
         }
     }
 
     fn new() -> Self {
-        Self {
-            user_words: Vec::new(),
-        }
+        Self
     }
 
     fn lint(&mut self, req: LintRequest) -> Vec<PluginLint> {
         // Lets tests see how a host copes with a plugin that crashes.
-        if req.text == "panic" {
-            panic!("asked to panic");
+        match req.text.as_str() {
+            "panic" => panic!("asked to panic"),
+            "oom" => drop(std::hint::black_box(vec![1u8; (1 << 31) - 1])),
+            "loop" => loop {
+                std::hint::black_box(());
+            },
+            _ => {}
         }
         match &req.regions {
             None => self.lint_chars(&req, &req.text.chars().collect::<Vec<_>>(), 0),
@@ -67,12 +67,8 @@ impl LanguagePlugin for Echo {
     }
 
     /// Echo "recognizes" any text that has the word "teh" in it, so that tests can exercise detection.
-    fn detect(text: &str) -> Option<f32> {
+    fn detect(text: &str, _english_ratio: Option<f32>) -> Option<f32> {
         text.split_whitespace().any(|w| w == "teh").then_some(0.9)
-    }
-
-    fn set_user_words(&mut self, words: Vec<String>) {
-        self.user_words = words;
     }
 }
 
@@ -101,11 +97,7 @@ impl Echo {
             let lower = word.to_lowercase();
             if enabled("Teh")
                 && lower == "teh"
-                && !req
-                    .user_words
-                    .as_ref()
-                    .unwrap_or(&self.user_words)
-                    .contains(&word)
+                && !req.user_words.iter().flatten().any(|w| *w == word)
             {
                 lints.push(PluginLint {
                     span: (start + offset, i + offset),

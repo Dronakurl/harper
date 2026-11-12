@@ -31,20 +31,12 @@ pub trait LanguagePlugin: Sized + 'static {
     fn lint(&mut self, req: LintRequest) -> Vec<PluginLint>;
     fn lint_descriptions(&self) -> std::collections::BTreeMap<String, String>;
     fn default_config(&self) -> PluginConfig;
-    /// The user's dictionary words for this plugin's language; they replace any earlier ones.
-    /// Hosts that lint several texts at once send the words with each request instead
-    /// ([`LintRequest::user_words`]), which takes precedence, so no request depends on what
-    /// another one set. Only the words of this language are ever sent.
-    fn set_user_words(&mut self, words: Vec<String>);
     /// How confident the plugin is that `text` is in its language (0..1), or `None` if it cannot
-    /// tell. Called without an instance, so that asking does not load the plugin's dictionary.
-    fn detect(_text: &str) -> Option<f32> {
+    /// tell. `english_ratio` is the share of its words that Harper's English dictionary knows,
+    /// when the host has it. Called without an instance, so that asking does not load the
+    /// plugin's dictionary.
+    fn detect(_text: &str, _english_ratio: Option<f32>) -> Option<f32> {
         None
-    }
-    /// [`Self::detect`], told by the host how much of `text` is English: the share of its words
-    /// in Harper's English dictionary, when the host has it. The default ignores it.
-    fn detect_with(text: &str, _english_ratio: Option<f32>) -> Option<f32> {
-        Self::detect(text)
     }
 }
 

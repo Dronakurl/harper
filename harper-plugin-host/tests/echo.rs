@@ -93,8 +93,11 @@ fn spans_are_character_offsets() {
 fn user_words_and_config() {
     let Some(path) = echo() else { return };
     let plugin = PluginHost::new().unwrap().load_file(&path).unwrap();
-    plugin.set_user_words(vec!["teh".into()]).unwrap();
-    assert!(plugin.lint(&LintRequest::plain("teh")).unwrap().is_empty());
+    let mut req = LintRequest::plain("teh");
+    req.user_words = Some(vec!["teh".into()]);
+    assert!(plugin.lint(&req).unwrap().is_empty());
+    // The words belong to that request only.
+    assert_eq!(plugin.lint(&LintRequest::plain("teh")).unwrap().len(), 1);
 
     assert_eq!(
         plugin.default_config().unwrap().get("Teh"),
@@ -159,25 +162,9 @@ fn config_switches_rules_off() {
 }
 
 #[test]
-fn info_lists_the_features_of_the_api_it_was_built_with() {
-    let Some(path) = echo() else { return };
-    let plugin = PluginHost::new().unwrap().load_file(&path).unwrap();
-    assert!(
-        plugin
-            .info()
-            .supports(harper_plugin_api::FEATURE_REQUEST_WORDS)
-    );
-}
-
-#[test]
 fn messages_follow_message_language() {
     let Some(path) = echo() else { return };
     let plugin = PluginHost::new().unwrap().load_file(&path).unwrap();
-    assert!(
-        plugin
-            .info()
-            .supports(harper_plugin_api::FEATURE_MESSAGE_LANGUAGE)
-    );
     let message = |tag: Option<&str>| {
         let mut req = LintRequest::plain("the the");
         req.message_language = tag.map(str::to_owned);
@@ -186,25 +173,6 @@ fn messages_follow_message_language() {
     assert_eq!(message(None), "Repeated word.");
     assert_eq!(message(Some("en-GB")), "Repeated word.");
     assert_eq!(message(Some("de-AT")), "Wiederholtes Wort.");
-}
-
-/// A plugin that does not read `LintRequest::user_words` still gets the words of a request: the
-/// host sets them first, in the same locked call.
-#[test]
-fn an_old_plugin_gets_the_words_of_the_request_through_set_user_words() {
-    let Some(path) = echo() else { return };
-    let plugin = PluginHost::new()
-        .unwrap()
-        .load_file(&path)
-        .unwrap()
-        .assume_old_plugin();
-    let mut with = LintRequest::plain("teh");
-    with.user_words = Some(vec!["teh".into()]);
-    assert!(plugin.lint(&with).unwrap().is_empty());
-    // Words of an earlier request are not kept for a request that brings none of its own.
-    let mut without = LintRequest::plain("teh");
-    without.user_words = Some(vec![]);
-    assert_eq!(plugin.lint(&without).unwrap().len(), 1);
 }
 
 /// Compiled modules nobody has asked for in a month go when a new one is written.
@@ -235,14 +203,17 @@ fn old_cache_files_are_removed_when_a_new_module_is_cached() {
     std::fs::remove_dir_all(&cache).ok();
 }
 
-/// A plugin that panics fails that one call and works again for the next.
+/// A plugin that panics or asks for too much memory fails that one call and works again for the
+/// next.
 #[test]
 fn a_crashed_plugin_is_restarted() {
     let Some(path) = echo() else { return };
     let plugin = PluginHost::new().unwrap().load_file(&path).unwrap();
-    assert!(matches!(
-        plugin.lint(&LintRequest::plain("panic")),
-        Err(Error::Wasm(_))
-    ));
-    assert_eq!(plugin.lint(&LintRequest::plain("teh")).unwrap().len(), 1);
+    for text in ["panic", "oom"] {
+        assert!(matches!(
+            plugin.lint(&LintRequest::plain(text)),
+            Err(Error::Wasm(_))
+        ));
+        assert_eq!(plugin.lint(&LintRequest::plain("teh")).unwrap().len(), 1);
+    }
 }

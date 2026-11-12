@@ -34,7 +34,12 @@ describe('PluginLinter', () => {
 			expect(answersTo(info, name), name).toBe(true);
 		}
 		expect(answersTo(info, 'German')).toBe(false);
-		expect(info.features).toContain('request_words');
+	});
+
+	test('works again after the plugin crashed', async () => {
+		const linter = new PluginLinter({ plugin: bytes });
+		await expect(linter.lint('panic', { language: 'plaintext' })).rejects.toThrow();
+		expect((await linter.lint('teh', { language: 'plaintext' })).length).toBe(1);
 	});
 
 	test('loads from a URL', async () => {

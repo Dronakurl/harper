@@ -39,8 +39,6 @@ export interface PluginInfo {
 	default_dialect: string | null;
 	/** Other names people use for the language, such as `German`. */
 	aliases?: string[];
-	/** What the plugin can do beyond the first version of the messages, such as `request_words`. */
-	features?: string[];
 }
 
 /**
@@ -109,13 +107,23 @@ class PluginRuntime {
 	private readonly decoder = new TextDecoder();
 	readonly info: PluginInfo;
 
-	private constructor(private readonly exports: PluginExports) {
+	private constructor(
+		private readonly module: WebAssembly.Module,
+		private readonly exports: PluginExports,
+	) {
 		this.info = this.call<PluginInfo>('info', undefined);
 	}
 
 	static async load(source: PluginSource): Promise<PluginRuntime> {
-		const module = await compile(source);
+		return PluginRuntime.instantiate(await compile(source));
+	}
 
+	/** A fresh instance of the same plugin, for after a trap left this one unusable. */
+	restart(): Promise<PluginRuntime> {
+		return PluginRuntime.instantiate(this.module);
+	}
+
+	private static async instantiate(module: WebAssembly.Module): Promise<PluginRuntime> {
 		// A plugin has no imports of its own. Dependencies may still drag in unused stubs; they
 		// are never called, so they are filled with functions that throw, and nothing else is
 		// handed to the module: it cannot reach the page, the network or the file system.
@@ -149,7 +157,7 @@ class PluginRuntime {
 		if (abi !== ABI_VERSION) {
 			throw new Error(`Plugin was built for ABI v${abi}, this Harper supports v${ABI_VERSION}`);
 		}
-		return new PluginRuntime(full);
+		return new PluginRuntime(module, full);
 	}
 
 	call<T>(method: string, params: unknown): T {
@@ -324,17 +332,33 @@ export default class PluginLinter implements Linter {
 	/** How sure the plugin is that `text` is written in its language, 0 to 1, or `null` if it
 	 * cannot tell. Cheap: it does not make the plugin build its dictionary. */
 	async detect(text: string): Promise<number | null> {
-		return (await this.runtimePromise).call<number | null>('detect', { text });
+		return this.call<number | null>('detect', { text });
+	}
+
+	/** Calls the plugin. After a trap (a panic in the plugin) the instance is replaced, since its
+	 * memory may be inconsistent; the call that trapped still fails. */
+	private async call<T>(method: string, params: unknown): Promise<T> {
+		const runtime = await this.runtimePromise;
+		try {
+			return runtime.call<T>(method, params);
+		} catch (e) {
+			if (e instanceof WebAssembly.RuntimeError) {
+				this.runtimePromise = runtime.restart();
+				this.runtimePromise.catch(() => {});
+			}
+			throw e;
+		}
 	}
 
 	private async runLint(text: string, options?: LintOptions): Promise<PluginLintObject[]> {
-		const runtime = await this.runtimePromise;
 		const config = this.config ?? (await this.getLintConfig());
 
-		const wire = runtime.call<PluginLintWire[]>('lint', {
+		const wire = await this.call<PluginLintWire[]>('lint', {
 			text,
 			format: toFormat(options?.language),
 			config,
+			user_words: this.words,
+			message_language: globalThis.navigator?.language,
 		});
 
 		// The plugin counts characters (code points); JavaScript strings count UTF-16 units.
@@ -399,7 +423,7 @@ export default class PluginLinter implements Linter {
 	}
 
 	async getDefaultLintConfig(): Promise<LintConfig> {
-		return (await this.runtimePromise).call<LintConfig>('default_config', undefined);
+		return this.call<LintConfig>('default_config', undefined);
 	}
 
 	async getDefaultLintConfigAsJSON(): Promise<string> {
@@ -436,7 +460,7 @@ export default class PluginLinter implements Linter {
 	}
 
 	async getLintDescriptions(): Promise<Record<string, string>> {
-		return (await this.runtimePromise).call<Record<string, string>>('lint_descriptions', undefined);
+		return this.call<Record<string, string>>('lint_descriptions', undefined);
 	}
 
 	async getLintDescriptionsAsJSON(): Promise<string> {
@@ -495,12 +519,10 @@ export default class PluginLinter implements Linter {
 
 	async clearWords(): Promise<void> {
 		this.words = [];
-		(await this.runtimePromise).call('set_user_words', { words: [] });
 	}
 
 	async importWords(words: string[]): Promise<void> {
 		this.words = [...new Set([...this.words, ...words])];
-		(await this.runtimePromise).call('set_user_words', { words: this.words });
 	}
 
 	async exportWords(): Promise<string[]> {

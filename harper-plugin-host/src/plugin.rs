@@ -1,16 +1,26 @@
 use std::collections::BTreeMap;
 use std::path::Path;
 use std::sync::Mutex;
+use std::time::Duration;
 
 use harper_core::linting::Lint;
 use harper_plugin_api::{
-    ABI_VERSION, FEATURE_REQUEST_WORDS, LintRequest, PluginConfig, PluginInfo, PluginLint, Request,
-    Response, plugin_to_lint,
+    ABI_VERSION, LintRequest, PluginConfig, PluginInfo, PluginLint, Request, Response,
+    plugin_to_lint,
 };
 use serde::de::DeserializeOwned;
-use wasmtime::{Engine, Instance, Linker, Memory, Module, Store, TypedFunc};
+use wasmtime::{
+    Config, Engine, Instance, Linker, Memory, Module, Store, StoreLimits, StoreLimitsBuilder,
+    TypedFunc,
+};
 
 use crate::{Error, Result};
+
+/// The most memory a plugin may use.
+const MEMORY_LIMIT: usize = 2 << 30;
+/// How long one call into a plugin may take before it is stopped (and the plugin restarted).
+const CALL_TIMEOUT: Duration = Duration::from_secs(30);
+const TICK: Duration = Duration::from_millis(100);
 
 /// Owns the WebAssembly engine. Cheap to share; create one per process.
 pub struct PluginHost {
@@ -19,9 +29,20 @@ pub struct PluginHost {
 
 impl PluginHost {
     pub fn new() -> Result<Self> {
-        Ok(Self {
-            engine: Engine::default(),
-        })
+        let mut config = Config::new();
+        config.epoch_interruption(true);
+        let engine = Engine::new(&config)?;
+        // Advances the clock that `CALL_TIMEOUT` is counted in. Holds only a weak reference, so
+        // it ends with the engine.
+        let weak = engine.weak();
+        std::thread::spawn(move || {
+            while let Some(engine) = weak.upgrade() {
+                engine.increment_epoch();
+                drop(engine);
+                std::thread::sleep(TICK);
+            }
+        });
+        Ok(Self { engine })
     }
 
     pub fn load_file(&self, path: impl AsRef<Path>) -> Result<LoadedPlugin> {
@@ -112,17 +133,17 @@ fn fingerprint(engine: &Engine, bytes: &[u8]) -> u64 {
 }
 
 struct Guest {
-    store: Store<()>,
+    store: Store<StoreLimits>,
     memory: Memory,
     alloc: TypedFunc<u32, u32>,
     free: TypedFunc<(u32, u32), ()>,
     call: TypedFunc<(u32, u32), u64>,
-    /// The words the plugin was last given with `set_user_words`.
-    words: Option<Vec<String>>,
 }
 
 impl Guest {
     fn roundtrip(&mut self, request: &[u8]) -> Result<Vec<u8>> {
+        self.store
+            .set_epoch_deadline(CALL_TIMEOUT.div_duration_f64(TICK) as u64);
         let len = request.len() as u32;
         let ptr = self.alloc.call(&mut self.store, len)?;
         self.memory
@@ -146,23 +167,20 @@ pub struct LoadedPlugin {
     info: PluginInfo,
     module: Module,
     guest: Mutex<Guest>,
-    /// Whether the plugin reads `LintRequest::user_words`; if not, the words are set first.
-    request_words: bool,
 }
 
 impl LoadedPlugin {
     fn new(module: Module) -> Result<Self> {
         let (guest, info) = instantiate(&module)?;
         Ok(Self {
-            request_words: info.supports(FEATURE_REQUEST_WORDS),
             info,
             module,
             guest: Mutex::new(guest),
         })
     }
 
-    /// Runs `f` on the plugin. A trap (a panic in the plugin) can leave its memory inconsistent,
-    /// so the plugin is then started afresh for the next call.
+    /// Runs `f` on the plugin. A trap (a panic, too much memory, a timeout) can leave its memory
+    /// inconsistent, so the plugin is then started afresh for the next call.
     fn with_guest<T>(&self, f: impl FnOnce(&mut Guest) -> Result<T>) -> Result<T> {
         let mut guest = self.guest.lock().unwrap_or_else(|e| e.into_inner());
         let result = f(&mut guest);
@@ -182,27 +200,8 @@ impl LoadedPlugin {
         self.with_guest(|guest| request(guest, req))
     }
 
-    /// A plugin built before `LintRequest::user_words` existed ignores the field. For such a
-    /// plugin, [`Self::lint`] sets the words first, in the same locked call so that no other
-    /// request comes between.
     pub fn lint(&self, req: &LintRequest) -> Result<Vec<PluginLint>> {
-        let mut req = req.clone();
-        self.with_guest(|guest| {
-            if !self.request_words
-                && let Some(words) = req.user_words.take()
-            {
-                set_words(guest, words)?;
-            }
-            request(guest, &Request::Lint(req))
-        })
-    }
-
-    /// Makes [`Self::lint`] treat this as a plugin that does not read `user_words`, as one built
-    /// with an older API crate. For tests.
-    #[doc(hidden)]
-    pub fn assume_old_plugin(mut self) -> Self {
-        self.request_words = false;
-        self
+        self.send(&Request::Lint(req.clone()))
     }
 
     /// [`Self::lint`], converted into the lint type the rest of Harper uses.
@@ -216,13 +215,6 @@ impl LoadedPlugin {
 
     pub fn default_config(&self) -> Result<PluginConfig> {
         self.send(&Request::DefaultConfig)
-    }
-
-    /// Replaces the plugin's list of user dictionary words. Does nothing (and does not cross
-    /// into the plugin) when the list is the same as last time, so callers may call this
-    /// before every lint.
-    pub fn set_user_words(&self, words: Vec<String>) -> Result<()> {
-        self.with_guest(|guest| set_words(guest, words))
     }
 
     /// How sure the plugin is that `text` is in its language (0 to 1). The plugin is told how
@@ -243,7 +235,12 @@ impl LoadedPlugin {
 
 fn instantiate(module: &Module) -> Result<(Guest, PluginInfo)> {
     let engine = module.engine();
-    let mut store = Store::new(engine, ());
+    let mut store = Store::new(
+        engine,
+        StoreLimitsBuilder::new().memory_size(MEMORY_LIMIT).build(),
+    );
+    store.limiter(|limits| limits);
+    store.set_epoch_deadline(CALL_TIMEOUT.div_duration_f64(TICK) as u64);
     let mut linker = Linker::new(engine);
     // A well-behaved plugin has no imports. Some dependencies still drag in unused
     // `wasm-bindgen` stubs; they are never called, so make them trap instead of refusing
@@ -268,7 +265,6 @@ fn instantiate(module: &Module) -> Result<(Guest, PluginInfo)> {
         free: typed(&instance, &mut store, "harper_free")?,
         call: typed(&instance, &mut store, "harper_call")?,
         store,
-        words: None,
     };
     let info = request::<PluginInfo>(&mut guest, &Request::Info)?;
     if info.abi != ABI_VERSION {
@@ -282,27 +278,12 @@ fn instantiate(module: &Module) -> Result<(Guest, PluginInfo)> {
 
 fn typed<P: wasmtime::WasmParams, R: wasmtime::WasmResults>(
     instance: &Instance,
-    store: &mut Store<()>,
+    store: &mut Store<StoreLimits>,
     name: &'static str,
 ) -> Result<TypedFunc<P, R>> {
     instance
         .get_typed_func(&mut *store, name)
         .map_err(|_| Error::MissingExport(name))
-}
-
-/// Gives the plugin its user words, unless it has them already.
-fn set_words(guest: &mut Guest, words: Vec<String>) -> Result<()> {
-    if guest.words.as_ref() == Some(&words) {
-        return Ok(());
-    }
-    request::<()>(
-        guest,
-        &Request::SetUserWords {
-            words: words.clone(),
-        },
-    )?;
-    guest.words = Some(words);
-    Ok(())
 }
 
 fn request<T: DeserializeOwned>(guest: &mut Guest, req: &Request) -> Result<T> {

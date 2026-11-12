@@ -314,7 +314,7 @@ impl Backend {
     }
 
     /// The words from the user, workspace and file dictionaries (without the built-in English
-    /// ones), which is what plugins get as `set_user_words`.
+    /// ones), which plugins get as `LintRequest::user_words`.
     async fn collect_user_words(&self, uri: &Uri, language: &str) -> Vec<String> {
         let (user, workspace, file) = tokio::join!(
             self.load_user_dictionary(language),
