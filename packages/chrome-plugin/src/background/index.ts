@@ -959,6 +959,7 @@ async function addToDictionary(words: string[]): Promise<void> {
 async function getUserDictionary(): Promise<string[]> {
 	const key = languageKey('userDictionary');
 	const resp = await chrome.storage.local.get({ [key]: [] });
+	// `resetDictionary` stores null, which the default above does not replace.
 	return resp[key] ?? [];
 }
 
