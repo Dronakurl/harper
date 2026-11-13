@@ -3,12 +3,14 @@ import { Button, Card, Input, Select, Textarea } from 'components';
 import {
 	Dialect,
 	type LintConfig,
+	PluginLinter,
 	type StructuredLintConfig,
 	type StructuredLintSetting,
 } from 'harper.js';
 import { tick } from 'svelte';
 import logo from '/logo.png';
 import ProtocolClient from '../ProtocolClient';
+import { type InstalledPlugin, removePlugin, savePlugin } from '../pluginStore';
 import type { Hotkey, Modifier, WeirpackMeta } from '../protocol';
 import { ActivationKey } from '../protocol';
 import StructuredRuleSettings from './StructuredRuleSettings.svelte';
@@ -66,6 +68,76 @@ let weirpackError = $state('');
 let fileInputRef: HTMLInputElement | undefined = $state();
 /** Announced to screen readers through a polite live region. */
 let statusMessage = $state('');
+let language = $state('en');
+let installedLanguages: InstalledPlugin[] = $state([]);
+let languageBusy = $state(false);
+let languageError = $state('');
+
+async function reloadRules() {
+	const [nextLintConfig, nextStructuredConfig, nextLintDescriptions] = await Promise.all([
+		ProtocolClient.getLintConfig(),
+		ProtocolClient.getStructuredLintConfig(),
+		ProtocolClient.getLintDescriptions(),
+	]);
+	lintConfig = nextLintConfig;
+	structuredLintConfig = nextStructuredConfig;
+	lintDescriptions = nextLintDescriptions;
+}
+
+async function changeLanguage(next: string) {
+	languageBusy = true;
+	languageError = '';
+	try {
+		await ProtocolClient.setLanguage(next);
+		const state = await ProtocolClient.getLanguage();
+		language = state.language;
+		installedLanguages = state.installed;
+		await reloadRules();
+	} catch (e) {
+		languageError = e instanceof Error ? e.message : String(e);
+	} finally {
+		languageBusy = false;
+	}
+}
+
+async function addLanguage(e: Event) {
+	const input = e.target as HTMLInputElement;
+	const file = input.files?.[0];
+	if (file == null) return;
+
+	languageBusy = true;
+	languageError = '';
+	try {
+		const bytes = await file.arrayBuffer();
+		// Loading it is the check: it must be a Harper plugin of a version this Harper speaks.
+		const probe = new PluginLinter({ plugin: bytes });
+		const info = await probe.info();
+		await savePlugin({ id: info.id, name: info.name, version: info.plugin_version }, bytes);
+		installedLanguages = (await ProtocolClient.getLanguage()).installed;
+		input.value = '';
+		await changeLanguage(info.id);
+	} catch (err) {
+		languageError = `That is not a usable language plugin: ${err instanceof Error ? err.message : String(err)}`;
+	} finally {
+		languageBusy = false;
+	}
+}
+
+async function deleteLanguage(id: string) {
+	languageBusy = true;
+	try {
+		await removePlugin(id);
+		if (language === id) {
+			await ProtocolClient.setLanguage('en');
+			await reloadRules();
+		}
+		const state = await ProtocolClient.getLanguage();
+		language = state.language;
+		installedLanguages = state.installed;
+	} finally {
+		languageBusy = false;
+	}
+}
 
 $effect(() => {
 	if (!loaded) return;
@@ -116,6 +188,7 @@ Promise.all([
 	ProtocolClient.getHotkey(),
 	ProtocolClient.getUserDictionary(),
 	ProtocolClient.getWeirpacks(),
+	ProtocolClient.getLanguage(),
 ]).then(
 	([
 		nextLintConfig,
@@ -130,6 +203,7 @@ Promise.all([
 		nextHotkey,
 		nextUserDict,
 		nextWeirpacks,
+		nextLanguage,
 	]) => {
 		lintConfig = nextLintConfig;
 		structuredLintConfig = nextStructuredConfig;
@@ -148,6 +222,8 @@ Promise.all([
 		buttonText = `${nextHotkey.modifiers.join('+')} + ${nextHotkey.key.toUpperCase()}`;
 		userDict = dictToString(nextUserDict.toSorted());
 		weirpacks = nextWeirpacks.toSorted((a, b) => b.installedAt.localeCompare(a.installedAt));
+		language = nextLanguage.language;
+		installedLanguages = nextLanguage.installed;
 
 		loaded = true;
 	},
@@ -491,6 +567,62 @@ async function removeWeirpack(id: string) {
 
         <!-- ══ RIGHT COLUMN: General + Weirpacks ══ -->
         <div id="settings" tabindex="-1" aria-label="Extension settings" role="region" class="min-h-0 min-w-0 space-y-6 outline-none! lg:overflow-y-auto lg:pr-1 [scrollbar-width:thin]">
+
+          <!-- ── LANGUAGE ──────────────────────────── -->
+          <Card class="space-y-4 p-6">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-[#d1d5db]!">Language</h2>
+
+            <div class="flex items-center justify-between gap-4">
+              <div class="flex flex-col">
+                <h3 id="language-label" class="text-base font-semibold">Language to check</h3>
+                <p id="language-desc" class="text-xs text-gray-600 dark:text-[#d1d5db]!">English is built in. Other languages are plugins you add below.</p>
+              </div>
+              <Select
+                size="sm"
+                class="h-9 w-48 shrink-0 outline-none! focus:border-primary! focus:ring-0! focus-visible:ring-2! focus-visible:ring-primary!"
+                value={language}
+                disabled={languageBusy}
+                aria-labelledby="language-label" aria-describedby="language-desc"
+                on:change={(e) => changeLanguage((e.detail.target as HTMLSelectElement).value)}
+              >
+                <option value="en">English</option>
+                {#each installedLanguages as plugin}
+                  <option value={plugin.id}>{plugin.name}</option>
+                {/each}
+              </Select>
+            </div>
+
+            {#each installedLanguages as plugin}
+              <div class="flex items-center justify-between text-sm">
+                <span>
+                  {plugin.name} <span class="text-xs text-gray-600 dark:text-[#d1d5db]!">
+                    ({plugin.id}, version {plugin.version}, {(plugin.size / 1_000_000).toFixed(0)} MB)
+                  </span>
+                </span>
+                <Button size="xs" color="white" class="cursor-pointer" disabled={languageBusy} on:click={() => deleteLanguage(plugin.id)}>
+                  Remove
+                </Button>
+              </div>
+            {/each}
+
+            <div class="space-y-1">
+              <label class="text-sm" for="language-plugin-file">Add a language plugin</label>
+              <input
+                id="language-plugin-file"
+                type="file"
+                accept=".wasm"
+                disabled={languageBusy}
+                onchange={addLanguage}
+              />
+              <p class="text-xs text-gray-600 dark:text-[#d1d5db]!">
+                A file <code>harper-&lt;language&gt;.wasm</code>, from a project in the <a class="text-primary hover:underline" href="https://writewithharper.com/docs/integrations/available-languages" target="_blank" rel="noreferrer">list of language plugins</a>. It stays in this browser and runs locally;
+                your text is never sent anywhere.
+              </p>
+              {#if languageError}
+                <p class="text-xs text-red-600">{languageError}</p>
+              {/if}
+            </div>
+          </Card>
 
           <!-- ── GENERAL ───────────────────────────── -->
           <Card class="space-y-6 p-6">

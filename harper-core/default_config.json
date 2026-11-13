@@ -2674,9 +2674,23 @@
 						},
 						{
 							"Bool": {
+								"name": "ComeAcross",
+								"state": true,
+								"label": "Come Across"
+							}
+						},
+						{
+							"Bool": {
 								"name": "Dereference",
 								"state": true,
 								"label": "Dereference"
+							}
+						},
+						{
+							"Bool": {
+								"name": "DoinToDoing",
+								"state": true,
+								"label": "Doin to Doing"
 							}
 						},
 						{
@@ -3146,6 +3160,13 @@
 						},
 						{
 							"Bool": {
+								"name": "BesidesFor",
+								"state": true,
+								"label": "Besides for"
+							}
+						},
+						{
+							"Bool": {
 								"name": "BoringWords",
 								"state": false,
 								"label": "Boring Words"
@@ -3345,6 +3366,13 @@
 								"name": "LongSentences",
 								"state": true,
 								"label": "Long Sentences"
+							}
+						},
+						{
+							"Bool": {
+								"name": "MakeTheMostOf",
+								"state": true,
+								"label": "Make the Most of"
 							}
 						},
 						{
@@ -4816,6 +4844,13 @@
 						},
 						{
 							"Bool": {
+								"name": "ByHand",
+								"state": true,
+								"label": "By Hand"
+							}
+						},
+						{
+							"Bool": {
 								"name": "ByOnesOwn",
 								"state": true,
 								"label": "By One's Own"
@@ -4987,6 +5022,13 @@
 								"name": "DenyOffer",
 								"state": true,
 								"label": "Deny Offer"
+							}
+						},
+						{
+							"Bool": {
+								"name": "DependOf",
+								"state": true,
+								"label": "Depend Of"
 							}
 						},
 						{
@@ -5607,6 +5649,13 @@
 						},
 						{
 							"Bool": {
+								"name": "LittleToNo",
+								"state": true,
+								"label": "Little to No"
+							}
+						},
+						{
+							"Bool": {
 								"name": "LongTimeAgo",
 								"state": true,
 								"label": "Long Time Ago"
@@ -5771,6 +5820,13 @@
 								"name": "OffLimits",
 								"state": true,
 								"label": "Off Limits"
+							}
+						},
+						{
+							"Bool": {
+								"name": "OfOff",
+								"state": true,
+								"label": "Of / Off"
 							}
 						},
 						{
@@ -6069,6 +6125,13 @@
 						},
 						{
 							"Bool": {
+								"name": "ScaredOf",
+								"state": true,
+								"label": "Scared of"
+							}
+						},
+						{
+							"Bool": {
 								"name": "SetABadExample",
 								"state": true,
 								"label": "Set a Bad Example"
@@ -6146,9 +6209,16 @@
 						},
 						{
 							"Bool": {
+								"name": "SpareNoExpense",
+								"state": true,
+								"label": "Spare no Expense"
+							}
+						},
+						{
+							"Bool": {
 								"name": "StatuteOfLimitations",
 								"state": true,
-								"label": "Statute Of Limitations"
+								"label": "Statute of Limitations"
 							}
 						},
 						{
@@ -6324,6 +6394,13 @@
 								"name": "UnderneathOf",
 								"state": true,
 								"label": "Underneath of"
+							}
+						},
+						{
+							"Bool": {
+								"name": "UnderThreat",
+								"state": true,
+								"label": "Under Threat"
 							}
 						},
 						{

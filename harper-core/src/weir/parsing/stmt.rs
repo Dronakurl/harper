@@ -230,14 +230,19 @@ fn parse_quoted_string(tokens: &[Token], source: &[char]) -> Result<FoundNode<St
 
     inc_by_spaces(&mut cursor, tokens);
 
+    // Only the marks a rule file has always delimited strings with count; `„ « » ‹ ›` are text
+    // there (German messages are full of »…«).
+    let is_delimiter =
+        |tok: &Token| tok.kind.is_quote() && matches!(source[tok.span.start], '"' | '“' | '”');
+
     let quote_tok = tokens.get(cursor).ok_or(Error::EndOfInput)?;
-    if !quote_tok.kind.is_quote() {
+    if !is_delimiter(quote_tok) {
         return Err(Error::UnexpectedToken(quote_tok.get_str(source)));
     }
 
     let mut end = None;
     for (i, tok) in tokens.iter().enumerate().skip(cursor + 1) {
-        if tok.kind.is_quote() {
+        if is_delimiter(tok) {
             let qpos = tok.span.start;
             if !is_escaped(qpos, source) {
                 end = Some(i);
@@ -279,6 +284,16 @@ mod tests {
         assert_eq!(
             ast.get_variable_value("test"),
             Some(&AstVariable::create_string("to be this"))
+        );
+    }
+
+    #[test]
+    fn guillemets_and_low_quotes_are_text_in_strings() {
+        let ast = parse_str("let test \"In »Acht geben« und „Wort\"", true).unwrap();
+
+        assert_eq!(
+            ast.get_variable_value("test"),
+            Some(&AstVariable::create_string("In »Acht geben« und „Wort"))
         );
     }
 

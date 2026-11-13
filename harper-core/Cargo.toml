@@ -1,6 +1,6 @@
 [package]
 name = "harper-core"
-version = "3.0.0"
+version = "3.1.0"
 edition = "2024"
 description = "The language checker for developers."
 license = "Apache-2.0"
@@ -58,3 +58,5 @@ harness = false
 default = ["thesaurus", "concurrent"]
 concurrent = ["dep:boxcar"]
 thesaurus = ["dep:harper-thesaurus"]
+# A slot on dictionary entries for the grammatical features of a language plugin.
+language-bits = []
