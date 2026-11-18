@@ -9,6 +9,22 @@ Nothing else needs to be installed, and Harper itself does not change when a lan
 The same file works everywhere Harper runs: `harper-ls` (and so Visual Studio Code, Neovim, Helix, Zed, …), `harper-cli`, Obsidian, the Chrome and Firefox extensions and `harper.js`.
 Several languages can be installed side by side.
 
+## What a Plugin Can Do
+
+A plugin is a WebAssembly module, not native code, and Harper runs it in a sandbox.
+Harper hands it no functions at all: it cannot read or write files, open network connections, read the clock or the environment, start processes or reach the editor.
+It receives the text to check as JSON and answers with lints as JSON; that is everything it can do.
+In `harper-ls` and `harper-cli` a plugin gets at most 2 GiB of memory and 30 seconds per request; a plugin that crashes or runs out of either is stopped and started afresh.
+In the browser, Obsidian and `harper.js` it runs in the browser's WebAssembly sandbox with the same empty set of functions.
+
+What a plugin can still do is give bad advice: its suggestions change your text when you apply them.
+Install plugins from projects you trust, as you would any dictionary.
+
+Harper never downloads a plugin on its own.
+`harper-ls` and `harper-cli` keep the machine code compiled from a plugin in `<cache dir>/harper/plugins` and load it from there on the next start without compiling again, so that directory must only be writable by you, as your home directory is.
+In Visual Studio Code, `harper.pluginDirectory` can only be set in user settings, so a workspace cannot bring its own plugins.
+A build of `harper-ls` or `harper-cli` with `--no-default-features` contains no plugin support at all.
+
 ## Getting a Plugin
 
 The [list of language plugins](./available-languages) says which languages there are and where each one comes from.
@@ -34,7 +50,7 @@ just language-install <owner>/<repo> v1.2.0   # a particular release
 ```
 
 `just language-install` needs `curl`, and `harper-cli` on your `PATH`.
-It checks the download against the release's `.sha256` file when there is one.
+It checks the download against the release's `.sha256` file when there is one; that catches a broken download, not a dishonest publisher.
 
 With a plugin file at hand, `harper-cli` installs it directly.
 It checks that the file is a plugin this Harper can use and names it after its language, so the file name does not matter:
@@ -104,7 +120,7 @@ const lints = await linter.lint(text);
 
 A plugin is a Rust crate compiled to `wasm32-unknown-unknown` that implements `LanguagePlugin` from the `harper-plugin-api` crate and calls `export_plugin!`.
 The plugin says which language it is (its id, a name, other names it answers to and its dialects), lints text and can tell how likely a text is to be in its language, which is what `auto` uses.
-[`harper-plugin-api/examples/echo.rs`](harper-plugin-api/examples/echo.rs) is a complete, tiny plugin, and the projects in the [list of language plugins](./available-languages) are full ones.
+[`harper-plugin-api/examples/echo.rs`](https://github.com/Automattic/harper/blob/master/harper-plugin-api/examples/echo.rs) is a complete, tiny plugin, and the projects in the [list of language plugins](./available-languages) are full ones.
 
 For `just language-install` to find it, publish the plugin as a GitHub release with exactly one asset named `harper-<language>.wasm`, ideally with `harper-<language>.wasm.sha256` (the output of `sha256sum`) next to it.
 Then add the language to the [list](./available-languages).
