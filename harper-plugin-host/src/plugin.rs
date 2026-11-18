@@ -152,10 +152,18 @@ impl Guest {
         let packed = self.call.call(&mut self.store, (ptr, len))?;
         let (out_ptr, out_len) = ((packed >> 32) as u32, (packed & 0xffff_ffff) as u32);
 
-        let mut out = vec![0u8; out_len as usize];
-        self.memory
-            .read(&self.store, out_ptr as usize, &mut out)
-            .map_err(|e| Error::Protocol(e.to_string()))?;
+        // Copy straight out of the plugin's memory. The length comes from the plugin, so it is
+        // checked against that memory before anything is allocated for it.
+        let out = self
+            .memory
+            .data(&self.store)
+            .get(out_ptr as usize..out_ptr as usize + out_len as usize)
+            .ok_or_else(|| {
+                Error::Protocol(format!(
+                    "response of {out_len} bytes at {out_ptr} lies outside the plugin's memory"
+                ))
+            })?
+            .to_vec();
         self.free.call(&mut self.store, (out_ptr, out_len))?;
         self.free.call(&mut self.store, (ptr, len))?;
         Ok(out)

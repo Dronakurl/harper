@@ -217,3 +217,67 @@ fn a_crashed_plugin_is_restarted() {
         assert_eq!(plugin.lint(&LintRequest::plain("teh")).unwrap().len(), 1);
     }
 }
+
+/// A hand-built module with the four exports of a plugin whose `harper_call` claims a response of
+/// 4 GiB at address 0, more than its one page of memory holds.
+fn module_claiming_a_huge_response() -> Vec<u8> {
+    fn section(id: u8, content: &[u8]) -> Vec<u8> {
+        assert!(
+            content.len() < 128,
+            "the length is written as a single byte"
+        );
+        [&[id, content.len() as u8][..], content].concat()
+    }
+    fn export(name: &str, kind: u8, index: u8) -> Vec<u8> {
+        [&[name.len() as u8], name.as_bytes(), &[kind, index]].concat()
+    }
+    let types = [
+        &[4][..],
+        &[0x60, 0, 1, 0x7f],             // () -> i32
+        &[0x60, 1, 0x7f, 1, 0x7f],       // (i32) -> i32
+        &[0x60, 2, 0x7f, 0x7f, 0],       // (i32, i32) -> ()
+        &[0x60, 2, 0x7f, 0x7f, 1, 0x7e], // (i32, i32) -> i64
+    ]
+    .concat();
+    let exports = [
+        vec![5],
+        export("memory", 2, 0),
+        export("harper_plugin_abi_version", 0, 0),
+        export("harper_alloc", 0, 1),
+        export("harper_free", 0, 2),
+        export("harper_call", 0, 3),
+    ]
+    .concat();
+    let code = [
+        &[4][..],
+        &[4, 0, 0x41, 1, 0x0b], // abi version: i32.const 1
+        &[4, 0, 0x41, 0, 0x0b], // alloc: i32.const 0
+        &[2, 0, 0x0b],          // free: nothing
+        // call: i64.const 0xffff_ffff, that is pointer 0 and length 2^32 - 1
+        &[8, 0, 0x42, 0xff, 0xff, 0xff, 0xff, 0x0f, 0x0b],
+    ]
+    .concat();
+    [
+        b"\0asm\x01\0\0\0".to_vec(),
+        section(1, &types),
+        section(3, &[4, 0, 1, 2, 3]),
+        section(5, &[1, 0, 1]), // one memory of one page
+        section(7, &exports),
+        section(10, &code),
+    ]
+    .concat()
+}
+
+/// The response length comes from the plugin. A length beyond its memory is a protocol error,
+/// and the host does not allocate that much for it first.
+#[test]
+fn a_response_outside_the_plugin_memory_is_refused() {
+    let result = PluginHost::new()
+        .unwrap()
+        .load_bytes(&module_claiming_a_huge_response());
+    assert!(
+        matches!(&result, Err(Error::Protocol(message)) if message.contains("outside")),
+        "{:?}",
+        result.err()
+    );
+}
