@@ -1,6 +1,6 @@
 [package]
 name = "harper-plugin-host"
-version = "3.0.0"
+version = "3.2.0"
 edition = "2024"
 description = "Loads Harper language plugins (WebAssembly modules) and runs them."
 license = "Apache-2.0"
