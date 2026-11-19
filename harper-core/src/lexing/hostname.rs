@@ -4,7 +4,12 @@ use super::FoundToken;
 
 /// Lex a hostname token.
 pub fn lex_hostname_token(source: &[char]) -> Option<FoundToken> {
-    let len = lex_hostname(source)?;
+    let mut len = lex_hostname(source)?;
+
+    // A full stop right after the hostname ends the sentence: "Visit example.com."
+    if len > 1 && source.get(len - 1) == Some(&'.') {
+        len -= 1;
+    }
 
     // Might be word, just skip it.
     if len <= 1 {
@@ -20,7 +25,7 @@ pub fn lex_hostname_token(source: &[char]) -> Option<FoundToken> {
     }
 
     // For the sake of semantics and downstream grammar checking.
-    if !ends_with_common_tld(&source[0..len]) {
+    if !ends_with_common_tld(&source[0..len]) && !source.starts_with(&['w', 'w', 'w', '.']) {
         return None;
     }
 
@@ -74,6 +79,24 @@ const COMMON_TLDS: &[&[char]] = &[
     &['c', 'a'],
     &['a', 'u'],
     &['j', 'p'],
+    &['a', 't'],
+    &['c', 'h'],
+    &['e', 'u'],
+    &['f', 'r'],
+    &['n', 'l'],
+    &['i', 'n', 'f', 'o'],
+    // File extensions, which look the same: "report.pdf".
+    &['p', 'd', 'f'],
+    &['d', 'o', 'c', 'x'],
+    &['x', 'l', 's', 'x'],
+    &['p', 'p', 't', 'x'],
+    &['o', 'd', 't'],
+    &['c', 's', 'v'],
+    &['j', 'p', 'g'],
+    &['p', 'n', 'g'],
+    &['z', 'i', 'p'],
+    &['h', 't', 'm', 'l'],
+    &['j', 's', 'o', 'n'],
 ];
 
 fn ends_with_common_tld(input: &[char]) -> bool {
@@ -88,7 +111,35 @@ fn ends_with_common_tld(input: &[char]) -> bool {
 
 #[cfg(test)]
 pub mod tests {
-    use super::lex_hostname;
+    use super::{lex_hostname, lex_hostname_token};
+
+    fn hostname_len(text: &str) -> Option<usize> {
+        let chars: Vec<char> = text.chars().collect();
+        lex_hostname_token(&chars).map(|t| t.next_index)
+    }
+
+    #[test]
+    fn a_full_stop_after_a_hostname_is_not_part_of_it() {
+        assert_eq!(hostname_len("example.com. Next"), Some(11));
+        assert_eq!(hostname_len("www.beispiel.de.\n"), Some(15));
+    }
+
+    #[test]
+    fn www_makes_a_hostname_whatever_its_tld() {
+        assert_eq!(hostname_len("www.example.shop"), Some(16));
+    }
+
+    #[test]
+    fn file_names_with_common_extensions() {
+        assert_eq!(hostname_len("report.pdf"), Some(10));
+        assert_eq!(hostname_len("bericht.docx,"), Some(12));
+    }
+
+    #[test]
+    fn a_missing_space_is_not_a_hostname() {
+        assert_eq!(hostname_len("end.Then"), None);
+        assert_eq!(hostname_len("end.then"), None);
+    }
 
     pub fn example_domain_parts() -> impl Iterator<Item = Vec<char>> {
         [
