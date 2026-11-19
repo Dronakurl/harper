@@ -5,13 +5,25 @@ use serde::{Deserialize, Serialize};
 use super::{Parser, PlainEnglish};
 use crate::{Span, Token, TokenKind, TokenStringExt, VecExt, offsets::build_byte_to_char_map};
 
-/// A parser that wraps the [`PlainEnglish`] parser that allows one to parse
+/// A parser that wraps a plain-text parser and allows one to parse
 /// CommonMark files.
 ///
 /// Will ignore code blocks and tables.
-#[derive(Default, Clone, Debug, Copy)]
+#[derive(Clone, Debug, Copy)]
 pub struct Markdown {
     options: MarkdownOptions,
+    inline_parser: fn(&[char]) -> Vec<Token>,
+    english: bool,
+}
+
+impl Default for Markdown {
+    fn default() -> Self {
+        Self {
+            options: MarkdownOptions::default(),
+            inline_parser: |source| PlainEnglish.parse(source),
+            english: true,
+        }
+    }
 }
 
 #[derive(Copy, Clone, Debug, Serialize, Deserialize)]
@@ -32,7 +44,30 @@ impl Default for MarkdownOptions {
 
 impl Markdown {
     pub fn new(options: MarkdownOptions) -> Self {
-        Self { options }
+        Self {
+            options,
+            inline_parser: |source| PlainEnglish.parse(source),
+            english: true,
+        }
+    }
+
+    pub fn with_inline_parser(
+        options: MarkdownOptions,
+        inline_parser: fn(&[char]) -> Vec<Token>,
+    ) -> Self {
+        Self {
+            options,
+            inline_parser,
+            english: true,
+        }
+    }
+
+    /// Declare that the inline parser produces prose in a language other than
+    /// English. See [`Parser::is_english`].
+    #[must_use]
+    pub fn non_english(mut self) -> Self {
+        self.english = false;
+        self
     }
 
     /// Remove hidden Wikilink target text.
@@ -132,6 +167,10 @@ impl Markdown {
 
         tokens.remove_indices(to_remove);
     }
+
+    fn parse_inline_text(&self, source: &[char]) -> Vec<Token> {
+        (self.inline_parser)(source)
+    }
 }
 
 /// Whether `html` is an HTML tag starting with `prefix` (e.g. `<code` or `</code`),
@@ -143,11 +182,13 @@ fn is_html_tag(html: &str, prefix: &str) -> bool {
 }
 
 impl Parser for Markdown {
+    fn is_english(&self) -> bool {
+        self.english
+    }
+
     /// This implementation is quite gross to look at, but it works.
     /// If any issues arise, it would likely help to refactor this out first.
     fn parse(&self, source: &[char]) -> Vec<Token> {
-        let english_parser = PlainEnglish;
-
         let source_str: String = source.iter().collect();
         let md_parser = pulldown_cmark::Parser::new_ext(
             &source_str,
@@ -274,7 +315,7 @@ impl Parser for Markdown {
                         }
                     }
 
-                    let mut new_tokens = english_parser.parse(&source[span_start..span_end]);
+                    let mut new_tokens = self.parse_inline_text(&source[span_start..span_end]);
 
                     new_tokens
                         .iter_mut()

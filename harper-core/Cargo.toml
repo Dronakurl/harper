@@ -59,3 +59,5 @@ default = ["thesaurus", "concurrent", "context-ranking"]
 concurrent = ["dep:boxcar"]
 thesaurus = ["dep:harper-thesaurus"]
 context-ranking = ["dep:harper-context-ranker"]
+# A slot on dictionary entries for the grammatical features of a language plugin.
+language-bits = []
