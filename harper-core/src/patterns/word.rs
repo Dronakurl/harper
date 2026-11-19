@@ -111,10 +111,11 @@ impl SingleTokenPattern for Word {
                 {
                     return false;
                 }
+                // Not only ASCII: *Über* at the start of a sentence is *über*.
                 chars
                     .iter()
                     .zip(&self.word)
-                    .all(|(a, b)| a.eq_ignore_ascii_case(b))
+                    .all(|(a, b)| a == b || a.to_lowercase().eq(b.to_lowercase()))
             }
         }
     }
@@ -125,6 +126,15 @@ mod tests {
     use crate::{Document, Span, linting::tests::SpanVecExt, patterns::DocPattern};
 
     use super::Word;
+
+    #[test]
+    fn case_is_ignored_beyond_ascii() {
+        let doc = Document::new_plain_english_curated("Über alles.");
+        assert_eq!(
+            Word::new("über").find_all_matches_in_doc(&doc),
+            vec![Span::new(0, 1)]
+        );
+    }
 
     #[test]
     fn fruit() {
