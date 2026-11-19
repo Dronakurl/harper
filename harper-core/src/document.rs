@@ -409,20 +409,30 @@ impl Document {
 
             // Find open quotes first.
             for quote in &quote_indices {
-                let is_open = *quote == 0
-                    || pg[0..*quote].iter_word_likes().next().is_none()
-                    || pg[quote - 1].kind.is_whitespace()
-                    || matches!(
-                        pg[quote - 1].kind.as_punctuation(),
-                        Some(Punctuation::LessThan)
-                            | Some(Punctuation::OpenRound)
-                            | Some(Punctuation::OpenSquare)
-                            | Some(Punctuation::OpenCurly)
-                            | Some(Punctuation::EmDash)
-                            | Some(Punctuation::EnDash)
-                            | Some(Punctuation::Apostrophe)
-                            | Some(Punctuation::OpenSingle)
-                    );
+                // `„` only ever opens. Guillemets point either way: French and Swiss writing
+                // opens with `«`, German and Danish books open with `»`.
+                let at = pg[*quote].span.start;
+                let direction = match self.source[at] {
+                    '„' => Some(true),
+                    '«' | '»' | '‹' | '›' => Some(guillemet_opens(&self.source, at)),
+                    _ => None,
+                };
+                let is_open = direction.unwrap_or_else(|| {
+                    *quote == 0
+                        || pg[0..*quote].iter_word_likes().next().is_none()
+                        || pg[quote - 1].kind.is_whitespace()
+                        || matches!(
+                            pg[quote - 1].kind.as_punctuation(),
+                            Some(Punctuation::LessThan)
+                                | Some(Punctuation::OpenRound)
+                                | Some(Punctuation::OpenSquare)
+                                | Some(Punctuation::OpenCurly)
+                                | Some(Punctuation::EmDash)
+                                | Some(Punctuation::EnDash)
+                                | Some(Punctuation::Apostrophe)
+                                | Some(Punctuation::OpenSingle)
+                        )
+                });
 
                 if is_open {
                     open_quote_indices.push(*quote);
@@ -948,6 +958,30 @@ impl Display for Document {
     }
 }
 
+/// Whether the guillemet at `at` opens a quotation. The text around it decides: a mark that
+/// sits before a word and after a space opens (`»So«`, `«So»`), one that sits after a word and
+/// before a space or punctuation closes. Only when the text cannot tell, as with the spaces of
+/// French typography (`« so »`), does the way the mark points decide.
+fn guillemet_opens(source: &[char], at: usize) -> bool {
+    let before = at.checked_sub(1).map(|i| source[i]);
+    let after = source.get(at + 1).copied();
+
+    let opens_here = before.is_none_or(|c| c.is_whitespace() || "([{-–—/".contains(c))
+        && after.is_some_and(|c| c.is_alphanumeric() || "‹›«»'‚‘\"".contains(c));
+    let closes_here = before.is_some_and(|c| !c.is_whitespace())
+        && after.is_none_or(|c| {
+            c.is_whitespace()
+                || (c.is_ascii_punctuation() && !"([{".contains(c))
+                || "‹›«»".contains(c)
+        });
+
+    match (opens_here, closes_here) {
+        (true, false) => true,
+        (false, true) => false,
+        _ => matches!(source[at], '«' | '‹'),
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use itertools::Itertools;
@@ -1368,5 +1402,45 @@ This is a final paragraph with a weird "quote and a not-weird "quote".
                 Some(29)
             ]
         )
+    }
+
+    #[test]
+    fn pairs_low_and_guillemet_quotes() {
+        for (text, twins) in [
+            ("Er sagte: „Ich komme morgen.“", vec![Some(4), Some(0)]),
+            ("Il a dit « je viens demain ».", vec![Some(6), Some(0)]),
+            (
+                "Il a dit « je viens », puis « non ».",
+                vec![Some(8), Some(0), Some(14), Some(10)],
+            ),
+            // German book typography points the other way.
+            ("Er sagte: »Ich komme morgen.«", vec![Some(10), Some(0)]),
+            (
+                "Sie fragte: »Kommst du?« Er nickte.",
+                vec![Some(6), Some(0)],
+            ),
+            // Swiss German has no spaces inside.
+            ("Er sagte: «Ich komme».", vec![Some(4), Some(0)]),
+        ] {
+            let doc = Document::new_plain_english_curated(text);
+            let found: Vec<_> = doc
+                .iter_quotes()
+                .map(|t| t.kind.as_quote().unwrap().twin_loc)
+                .collect();
+            assert_eq!(found.len(), twins.len(), "{text}");
+            // Twins are token indices; check they pair up with each other.
+            for (i, twin) in found.iter().enumerate() {
+                let twin = twin.unwrap_or_else(|| panic!("unpaired quote in {text}"));
+                let quote_idx: Vec<_> = doc
+                    .tokens()
+                    .enumerate()
+                    .filter(|(_, t)| t.kind.is_quote())
+                    .map(|(n, _)| n)
+                    .collect();
+                assert!(quote_idx.contains(&twin), "{text}");
+                let partner = quote_idx.iter().position(|n| *n == twin).unwrap();
+                assert_eq!(found[partner], Some(quote_idx[i]), "{text}");
+            }
+        }
     }
 }
