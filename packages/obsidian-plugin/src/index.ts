@@ -38,6 +38,7 @@ export default class HarperPlugin extends Plugin {
 				(n) => this.saveData(n),
 				() => this.app.workspace.updateOptions(),
 				editorInfoField,
+				(language) => this.readLanguagePlugin(language),
 			);
 
 			this.registerEditorExtension(this.state.getCMEditorExtensions());
@@ -51,6 +52,38 @@ export default class HarperPlugin extends Plugin {
 		this.registerView('harper-sidebar-view', (leaf) => new SidebarView(leaf, this));
 
 		this.setupCommands();
+	}
+
+	/** Where language plugins (`harper-<language>.wasm`) live: this plugin's own folder. */
+	private languagePluginDir(): string {
+		return `${this.app.vault.configDir}/plugins/${this.manifest.id}/languages`;
+	}
+
+	/** The plugin file for `language`, or `null` if it has not been put in the folder. */
+	private async readLanguagePlugin(language: string): Promise<ArrayBuffer | null> {
+		if (!/^[A-Za-z0-9_-]+$/.test(language)) {
+			return null;
+		}
+		const path = `${this.languagePluginDir()}/harper-${language}.wasm`;
+		const adapter = this.app.vault.adapter;
+		if (!(await adapter.exists(path))) {
+			return null;
+		}
+		return adapter.readBinary(path);
+	}
+
+	/** The ids of the language plugins found in the folder, for the settings. */
+	async listLanguagePlugins(): Promise<string[]> {
+		const adapter = this.app.vault.adapter;
+		const dir = this.languagePluginDir();
+		if (!(await adapter.exists(dir))) {
+			return [];
+		}
+		const { files } = await adapter.list(dir);
+		return files
+			.map((f) => /harper-([A-Za-z0-9_-]+)\.wasm$/.exec(f)?.[1])
+			.filter((id): id is string => id != null)
+			.sort();
 	}
 
 	async activateSidebarView() {
@@ -325,5 +358,11 @@ export default class HarperPlugin extends Plugin {
 				this.dialectSpan.innerHTML = this.getDialectStatus(dialect);
 			}
 		}
+		// A plugin language has no English dialect to show; show which language is on instead.
+		this.state?.getSettings().then(({ language }) => {
+			if (language != null && language !== 'en' && this.dialectSpan != null) {
+				this.dialectSpan.textContent = language.toUpperCase();
+			}
+		});
 	}
 }
