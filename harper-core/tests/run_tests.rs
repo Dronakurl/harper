@@ -50,7 +50,7 @@ macro_rules! create_org_test {
                 );
 
                 let dict = FstDictionary::curated();
-                let document = Document::new(&source, &OrgMode, &dict);
+                let document = Document::new(&source, &OrgMode::default(), &dict);
 
                 let mut linter = LintGroup::new_curated(dict, $dialect);
                 let lints = linter.lint(&document);
@@ -87,6 +87,7 @@ create_test!(hex_basic_dirty.md, 1, Dialect::American);
 create_test!(misc_closed_compound_clean.md, 0, Dialect::American);
 create_test!(statist_localist.md, 0, Dialect::American);
 create_test!(yogurt_british_clean.md, 0, Dialect::British);
+create_test!(british_ise_spellings_clean.md, 0, Dialect::British);
 create_test!(issue_1581.md, 0, Dialect::British);
 create_test!(issue_2054.md, 6, Dialect::British);
 create_test!(issue_1988.md, 0, Dialect::American);

@@ -2,11 +2,14 @@ import {
 	createBinaryModuleFromUrl,
 	type Dialect,
 	type LintConfig,
+	type Linter,
 	LocalLinter,
+	PluginLinter,
 	unpackWeirpackBytes,
 } from 'harper.js';
 import { type UnpackedLintGroups, unpackLint } from 'lint-framework';
 import type { PopupState } from '../PopupState';
+import { getPluginBytes, listPlugins } from '../pluginStore';
 import {
 	ActivationKey,
 	type AddToUserDictionaryRequest,
@@ -16,6 +19,7 @@ import {
 	type GetActivationKeyResponse,
 	type GetConfigRequest,
 	type GetConfigResponse,
+	type GetConfiguredDomainsResponse,
 	type GetDefaultStatusResponse,
 	type GetDelayRequest,
 	type GetDelayResponse,
@@ -28,6 +32,7 @@ import {
 	type GetInstalledOnRequest,
 	type GetInstalledOnResponse,
 	type GetIsolateEnglishResponse,
+	type GetLanguageResponse,
 	type GetLintDescriptionsRequest,
 	type GetLintDescriptionsResponse,
 	type GetReviewedRequest,
@@ -44,15 +49,19 @@ import {
 	type PostFormDataResponse,
 	type RemoveWeirpackRequest,
 	type Request,
+	type ResetDomainRequest,
 	type Response,
 	type SetActivationKeyRequest,
 	type SetConfigRequest,
+	type SetDefaultDomainsStatusRequest,
 	type SetDefaultStatusRequest,
 	type SetDelayRequest,
 	type SetDialectRequest,
 	type SetDomainStatusRequest,
+	type SetDomainStatusResponse,
 	type SetHotkeyRequest,
 	type SetIsolateEnglishRequest,
+	type SetLanguageRequest,
 	type SetReviewedRequest,
 	type SetUserDictionaryRequest,
 	type UnitResponse,
@@ -106,7 +115,9 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo) => {
 	}
 });
 
-let linter: LocalLinter;
+let linter: Linter;
+/** `en`, or the id of the language plugin the linter was built from. */
+let language = 'en';
 const WEIRPACKS_KEY = 'weirpacks';
 const linterStorageKeys = [
 	'dialect',
@@ -180,7 +191,11 @@ const defaultEnabledDomains = [
 ] as const;
 const defaultEnabledDomainSet = new Set<string>(defaultEnabledDomains);
 
-let linterReady = getDialect()
+let linterReady = getLanguage()
+	.then(async (l) => {
+		language = l;
+		return getDialect();
+	})
 	.then(setDialect)
 	.catch((err) => console.error('Failed to initialize linter:', err));
 setInstalledOnIfMissing();
@@ -205,6 +220,19 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
 	}
 });
 
+// With a language plugin installed, a keyboard shortcut (set in the browser's extension shortcuts)
+// goes round English and the installed languages.
+chrome.commands?.onCommand.addListener((command) => {
+	if (command !== 'switch-language') return;
+	linterReady = linterReady
+		.then(async () => {
+			const choices = ['en', ...(await listPlugins()).map((p) => p.id)];
+			const next = choices[(choices.indexOf(language) + 1) % choices.length];
+			if (next !== language) await setLanguage(next);
+		})
+		.catch((err) => console.error('Failed to switch language:', err));
+});
+
 /** Await this function to "wait" for the linter to boot up. */
 async function ensureLinterReady() {
 	await linterReady;
@@ -218,7 +246,9 @@ async function enableDefaultDomains() {
 	}
 }
 
-enableDefaultDomains();
+const defaultDomainsReady = enableDefaultDomains().catch((err) =>
+	console.error('Failed to enable default domains:', err),
+);
 
 function handleRequest(message: Request, sender?: chrome.runtime.MessageSender): Promise<Response> {
 	console.log(`Handling ${message.kind} request`);
@@ -238,6 +268,10 @@ function handleRequest(message: Request, sender?: chrome.runtime.MessageSender):
 			return handleSetDialect(message);
 		case 'getDialect':
 			return handleGetDialect(message);
+		case 'getLanguage':
+			return handleGetLanguage();
+		case 'setLanguage':
+			return handleSetLanguage(message);
 		case 'getIsolateEnglish':
 			return handleGetIsolateEnglish();
 		case 'setIsolateEnglish':
@@ -259,6 +293,12 @@ function handleRequest(message: Request, sender?: chrome.runtime.MessageSender):
 			return handleGetDomainStatus(message);
 		case 'setDomainStatus':
 			return handleSetDomainStatus(message);
+		case 'getConfiguredDomains':
+			return handleGetConfiguredDomains();
+		case 'setDefaultDomainsStatus':
+			return handleSetDefaultDomainsStatus(message);
+		case 'resetDomain':
+			return handleResetDomain(message);
 		case 'addToUserDictionary':
 			return handleAddToUserDictionary(message);
 		case 'clearIgnoredLints':
@@ -406,6 +446,18 @@ async function handleSetConfig(req: SetConfigRequest): Promise<UnitResponse> {
 	return createUnitResponse();
 }
 
+async function handleGetLanguage(): Promise<GetLanguageResponse> {
+	await ensureLinterReady();
+	return { kind: 'getLanguage', language, installed: await listPlugins() };
+}
+
+async function handleSetLanguage(req: SetLanguageRequest): Promise<UnitResponse> {
+	await ensureLinterReady();
+	await setLanguage(req.language);
+
+	return createUnitResponse();
+}
+
 async function handleSetDialect(req: SetDialectRequest): Promise<UnitResponse> {
 	await setDialect(req.dialect);
 
@@ -465,12 +517,14 @@ async function handleGetDefaultStatus(): Promise<GetDefaultStatusResponse> {
 }
 
 async function handleGetEnabledDomains(): Promise<GetEnabledDomainsResponse> {
-	const all = await chrome.storage.local.get(null);
-	const prefix = formatDomainKey(''); // yields 'domainStatus '
-	const domains = Object.entries(all)
-		.filter(([k, v]) => typeof v === 'boolean' && v === true && k.startsWith(prefix))
-		.map(([k]) => k.substring(prefix.length))
-		.sort((a, b) => a.localeCompare(b));
+	await defaultDomainsReady;
+	const domains = [
+		...new Set(
+			(await getStoredDomainStatuses())
+				.filter((domain) => domain.enabled)
+				.map((domain) => stripWww(domain.domain)),
+		),
+	].sort();
 
 	return { kind: 'getEnabledDomains', domains };
 }
@@ -485,8 +539,72 @@ async function handleGetDomainStatus(
 	};
 }
 
-async function handleSetDomainStatus(req: SetDomainStatusRequest): Promise<UnitResponse> {
-	await setDomainEnable(req.domain, req.enabled, req.overrideValue);
+async function handleGetConfiguredDomains(): Promise<GetConfiguredDomainsResponse> {
+	await defaultDomainsReady;
+
+	// Non-default overrides, deduped so a legacy `www.` key can't shadow the canonical one.
+	const stored = await getStoredDomainStatuses();
+	const bareStoredKeys = new Set(
+		stored.map(({ domain }) => domain).filter((domain) => !domain.startsWith('www.')),
+	);
+	const customByDomain = new Map<string, boolean>();
+	for (const { domain, enabled } of stored) {
+		const normalized = stripWww(domain);
+		if (isDefaultDomain(normalized)) {
+			continue;
+		}
+		if (domain.startsWith('www.') && bareStoredKeys.has(normalized)) {
+			continue;
+		}
+		if (!customByDomain.has(normalized)) {
+			customByDomain.set(normalized, enabled);
+		}
+	}
+
+	const defaultDomains = await Promise.all(
+		defaultEnabledDomains.map(async (domain) => ({
+			domain,
+			enabled: await enabledForDomain(domain),
+			isDefault: true,
+		})),
+	);
+
+	const customDomains = [...customByDomain.entries()]
+		.map(([domain, enabled]) => ({ domain, enabled, isDefault: false }))
+		.sort((a, b) => a.domain.localeCompare(b.domain));
+
+	return {
+		kind: 'getConfiguredDomains',
+		domains: [...defaultDomains, ...customDomains],
+	};
+}
+
+async function handleSetDomainStatus(
+	req: SetDomainStatusRequest,
+): Promise<SetDomainStatusResponse> {
+	await defaultDomainsReady;
+	const changed = await setDomainEnable(req.domain, req.enabled, req.overrideValue);
+
+	return { kind: 'setDomainStatus', changed };
+}
+
+async function handleSetDefaultDomainsStatus(
+	req: SetDefaultDomainsStatusRequest,
+): Promise<UnitResponse> {
+	await defaultDomainsReady;
+	await chrome.storage.local.set(
+		Object.fromEntries(
+			defaultEnabledDomains.map((domain) => [formatDomainKey(stripWww(domain)), req.enabled]),
+		),
+	);
+
+	return createUnitResponse();
+}
+
+async function handleResetDomain(req: ResetDomainRequest): Promise<UnitResponse> {
+	await defaultDomainsReady;
+	const domain = stripWww(req.domain);
+	await chrome.storage.local.remove([formatDomainKey(domain), formatDomainKey(`www.${domain}`)]);
 
 	return createUnitResponse();
 }
@@ -672,7 +790,7 @@ async function handleRemoveWeirpack(req: RemoveWeirpackRequest): Promise<UnitRes
 	const next = current.filter((item) => item.id !== req.id);
 	await setStoredWeirpacks(next);
 
-	initializeLinter(await linter.getDialect());
+	initializeLinter(await getDialect());
 	return createUnitResponse();
 }
 
@@ -683,14 +801,15 @@ async function setLintConfig(lintConfig: LintConfig): Promise<void> {
 
 	const json = await linter.getLintConfigAsJSON();
 
-	await chrome.storage.local.set({ lintConfig: json });
+	await chrome.storage.local.set({ [languageKey('lintConfig')]: json });
 }
 
 /** Get the lint configuration from permanent storage. */
 async function getLintConfig(): Promise<LintConfig> {
 	const json = await linter.getLintConfigAsJSON();
-	const resp = await chrome.storage.local.get({ lintConfig: json });
-	return JSON.parse(resp.lintConfig);
+	const key = languageKey('lintConfig');
+	const resp = await chrome.storage.local.get({ [key]: json });
+	return JSON.parse(resp[key]);
 }
 
 /** Update the linter's ignored suggestions and save them to permanent storage. */
@@ -757,19 +876,47 @@ async function initializeLinter(dialect: Dialect) {
 		linter.dispose();
 	}
 
-	linter = new LocalLinter({
-		binary: createBinaryModuleFromUrl(chrome.runtime.getURL('./wasm/harper_wasm_bg.wasm')),
-		dialect,
-	});
+	const pluginBytes = language === 'en' ? null : await getPluginBytes(language);
+	if (language !== 'en' && pluginBytes == null) {
+		console.warn(`Harper: the language plugin '${language}' is not installed; using English.`);
+		language = 'en';
+	}
+
+	if (pluginBytes != null) {
+		linter = new PluginLinter({ plugin: pluginBytes });
+	} else {
+		linter = new LocalLinter({
+			binary: createBinaryModuleFromUrl(chrome.runtime.getURL('./wasm/harper_wasm_bg.wasm')),
+			dialect,
+		});
+	}
 
 	await Promise.all([
 		getIgnoredLints().then((i) => linter.importIgnoredLints(i)),
 		getUserDictionary().then((u) => linter.importWords(u)),
 		getLintConfig().then((c) => linter.setLintConfig(c)),
-		loadStoredWeirpacksIntoLinter(),
+		// Weirpacks are Weir rules for English.
+		language === 'en' ? loadStoredWeirpacksIntoLinter() : Promise.resolve(),
 	]);
 
 	await linter.setup();
+}
+
+/** The storage key for a per-language setting: English keeps the plain name. */
+function languageKey(name: string): string {
+	return language === 'en' ? name : `${name}:${language}`;
+}
+
+async function getLanguage(): Promise<string> {
+	const resp = await chrome.storage.local.get({ language: 'en' });
+	return typeof resp.language === 'string' ? resp.language : 'en';
+}
+
+async function setLanguage(next: string): Promise<void> {
+	linterHasPersistedState = true;
+	await chrome.storage.local.set({ language: next });
+	language = next;
+	await initializeLinter(await getDialect());
 }
 
 async function setDialect(dialect: Dialect) {
@@ -795,9 +942,36 @@ function formatDomainKey(domain: string): string {
 	return `domainStatus ${domain}`;
 }
 
+/** Storage keys use `www.`-stripped hostnames. */
+function stripWww(domain: string): string {
+	return domain.replace(/^www\./, '');
+}
+
+async function getStoredDomainStatuses(): Promise<Array<{ domain: string; enabled: boolean }>> {
+	const all = await chrome.storage.local.get();
+	const prefix = formatDomainKey(''); // yields 'domainStatus '
+
+	return Object.entries(all)
+		.filter(([key, value]) => typeof value === 'boolean' && key.startsWith(prefix))
+		.map(([key, enabled]) => ({
+			domain: key.substring(prefix.length),
+			enabled: enabled as boolean,
+		}))
+		.sort((a, b) => a.domain.localeCompare(b.domain));
+}
+
+/**
+ * Try the canonical key first, then the legacy `www.` key, for either hostname.
+ */
 function getDomainLookupCandidates(domain: string): string[] {
-	const withoutWww = domain.replace(/^www\./, '');
-	return withoutWww === domain ? [domain] : [domain, withoutWww];
+	const bare = stripWww(domain);
+	return [bare, `www.${bare}`];
+}
+
+/** True if the domain is a bundled default or a `www.`-stripped alias of one. */
+function isDefaultDomain(domain: string): boolean {
+	const bare = stripWww(domain);
+	return defaultEnabledDomainSet.has(bare) || defaultEnabledDomainSet.has(`www.${bare}`);
 }
 
 /**
@@ -827,9 +1001,7 @@ async function enabledForDomain(domain: string): Promise<boolean> {
 		return stored;
 	}
 
-	if (
-		getDomainLookupCandidates(domain).some((candidate) => defaultEnabledDomainSet.has(candidate))
-	) {
+	if (isDefaultDomain(domain)) {
 		return true;
 	}
 
@@ -839,17 +1011,27 @@ async function enabledForDomain(domain: string): Promise<boolean> {
 /** Set whether Harper is enabled for a given domain.
  *
  * @param overrideValue dictates whether this should override a previous setting.
+ * @returns whether the effective enable/disable state changed.
  * */
-async function setDomainEnable(domain: string, status: boolean, overrideValue = true) {
+async function setDomainEnable(
+	domain: string,
+	status: boolean,
+	overrideValue = true,
+): Promise<boolean> {
 	let shouldSet = !(await isDomainSet(domain));
 
 	if (overrideValue) {
 		shouldSet = true;
 	}
 
-	if (shouldSet) {
-		await chrome.storage.local.set({ [formatDomainKey(domain)]: status });
+	if (!shouldSet) {
+		return false;
 	}
+
+	const changed = (await enabledForDomain(domain)) !== status;
+	await chrome.storage.local.set({ [formatDomainKey(stripWww(domain))]: status });
+
+	return changed;
 }
 
 /** Set whether Harper is enabled by default. */
@@ -870,27 +1052,28 @@ async function isDomainSet(domain: string): Promise<boolean> {
 
 /** Reset the persistent user dictionary. */
 async function resetDictionary(): Promise<void> {
-	await chrome.storage.local.set({ userDictionary: null });
+	await chrome.storage.local.set({ [languageKey('userDictionary')]: null });
 
-	initializeLinter(await linter.getDialect());
+	initializeLinter(await getDialect());
 }
 
 /** Add words to the persistent user dictionary. */
 async function addToDictionary(words: string[]): Promise<void> {
-	const exported = await linter.exportWords();
-	exported.push(...words);
+	const exported = [...new Set([...(await linter.exportWords()), ...words])];
 	linterHasPersistedState = true;
 
 	await Promise.all([
 		linter.importWords(exported),
-		chrome.storage.local.set({ userDictionary: exported }),
+		chrome.storage.local.set({ [languageKey('userDictionary')]: exported }),
 	]);
 }
 
 /** Grab the user dictionary from persistent storage. */
 async function getUserDictionary(): Promise<string[]> {
-	const resp = await chrome.storage.local.get({ userDictionary: [] });
-	return resp.userDictionary;
+	const key = languageKey('userDictionary');
+	const resp = await chrome.storage.local.get({ [key]: [] });
+	// `resetDictionary` stores null, which the default above does not replace.
+	return resp[key] ?? [];
 }
 
 /** Record the date the extension was installed, if it's missing. */

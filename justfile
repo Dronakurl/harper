@@ -109,8 +109,15 @@ test-harperjs: build-harperjs
   set -eo pipefail
 
   pnpm install
+
+  # A small language plugin that PluginLinter.test.ts loads.
+  cargo build --release -p harper-plugin-api --example echo --target wasm32-unknown-unknown
+  mkdir -p "{{justfile_directory()}}/packages/harper.js/test-fixtures"
+  cp "{{justfile_directory()}}/target/wasm32-unknown-unknown/release/examples/echo.wasm" \
+    "{{justfile_directory()}}/packages/harper.js/test-fixtures/echo.wasm"
+
   cd "{{justfile_directory()}}/packages/harper.js"
-  pnpm playwright install
+  pnpm playwright install chromium firefox
   pnpm test
 
   # Test runnable examples
@@ -122,8 +129,15 @@ test-obsidian: build-obsidian
   set -eo pipefail
 
   pnpm install
+
+  # A small language plugin that State.test.ts loads.
+  cargo build --release -p harper-plugin-api --example echo --target wasm32-unknown-unknown
+  mkdir -p "{{justfile_directory()}}/packages/obsidian-plugin/test-fixtures"
+  cp "{{justfile_directory()}}/target/wasm32-unknown-unknown/release/examples/echo.wasm" \
+    "{{justfile_directory()}}/packages/obsidian-plugin/test-fixtures/echo.wasm"
+
   cd "{{justfile_directory()}}/packages/obsidian-plugin"
-  pnpm playwright install
+  pnpm playwright install chromium
   pnpm test
 
 alias dev-wordpress := dev-wp
@@ -329,8 +343,15 @@ test-chrome-plugin: build-chrome-plugin
   set -eo pipefail
 
   pnpm install
+
+  # A small language plugin that language_plugin_dictionary.spec.ts installs.
+  cargo build --release -p harper-plugin-api --example echo --target wasm32-unknown-unknown
+  mkdir -p "{{justfile_directory()}}/packages/chrome-plugin/tests/plugin-fixtures"
+  cp "{{justfile_directory()}}/target/wasm32-unknown-unknown/release/examples/echo.wasm" \
+    "{{justfile_directory()}}/packages/chrome-plugin/tests/plugin-fixtures/echo.wasm"
+
   cd "{{justfile_directory()}}/packages/chrome-plugin"
-  pnpm playwright install
+  pnpm playwright install chromium
 
   # For environments without displays like CI servers or containers
   if [[ "$(uname)" == "Linux" ]]; then
@@ -349,15 +370,12 @@ test-firefox-plugin: build-firefox-plugin
 
   pnpm install
   cd "{{justfile_directory()}}/packages/chrome-plugin"
-  pnpm playwright install
+  pnpm playwright install firefox
 
-  # For environments without displays like CI servers or containers
-  if [[ "$(uname)" == "Linux" ]]; then
-    env -u WAYLAND_DISPLAY XDG_SESSION_TYPE=x11 \
-    xvfb-run --auto-servernum pnpm test --project firefox 
-  else
-    pnpm test --project firefox 
-  fi
+  # Run Firefox headless: `pnpm test` passes `--headed`, which Chromium needs for extensions
+  # but Firefox doesn't. On a virtual display every headed window opens in the same place,
+  # and Firefox stops drawing frames for windows that are covered, which stalls the tests.
+  pnpm exec playwright test --project firefox
 
 # Run VSCode plugin unit and integration tests.
 alias test-vscode-extension := test-vscode
@@ -521,6 +539,46 @@ precommit: check test build-harperjs build-obsidian build-web build-wp build-fir
 install:
   cargo install --path harper-ls --locked
   cargo install --path harper-cli --locked
+
+# Add a language plugin (a `.wasm` file) to the plugin directory `harper-ls` and `harper-cli` use. Needs `just install` first.
+install-plugin FILE:
+  harper-cli plugin install "{{FILE}}"
+
+# The language plugins there are: https://writewithharper.com/docs/integrations/available-languages
+# TAG picks a release; the default is the latest. Needs `curl` and `just install` first.
+# Download the language plugin `harper-<language>.wasm` from a GitHub release of REPO (OWNER/NAME) and install it.
+language-install REPO TAG="latest":
+  #!/usr/bin/env bash
+  set -euo pipefail
+  if [ "{{TAG}}" = latest ]; then
+    api="https://api.github.com/repos/{{REPO}}/releases/latest"
+  else
+    api="https://api.github.com/repos/{{REPO}}/releases/tags/{{TAG}}"
+  fi
+  release=$(curl -fsSL -H "Accept: application/vnd.github+json" "$api") \
+    || { echo "Could not read $api: no such repository or release, or GitHub refused the request" >&2; exit 1; }
+  urls=$(grep -o '"browser_download_url": *"[^"]*"' <<<"$release" | sed -E 's/.*"(https:[^"]*)"$/\1/' || true)
+  wasm=$(grep -E '/harper-[A-Za-z0-9_-]+\.wasm$' <<<"$urls" || true)
+  if [ "$(grep -c . <<<"$wasm" || true)" != 1 ]; then
+    echo "The release of {{REPO}} should have exactly one asset harper-<language>.wasm; it has:" >&2
+    echo "${urls:-  nothing}" >&2
+    exit 1
+  fi
+  dir=$(mktemp -d)
+  trap 'rm -rf "$dir"' EXIT
+  file="$dir/$(basename "$wasm")"
+  echo "Downloading $wasm"
+  curl -fL --progress-bar -o "$file" "$wasm"
+  if grep -qxF "$wasm.sha256" <<<"$urls"; then
+    expected=$(curl -fsSL "$wasm.sha256" | cut -d' ' -f1)
+    actual=$( (sha256sum "$file" 2>/dev/null || shasum -a 256 "$file") | cut -d' ' -f1)
+    if [ "$expected" != "$actual" ]; then
+      echo "Checksum mismatch: the release says $expected, the download is $actual" >&2
+      exit 1
+    fi
+    echo "Checksum matches."
+  fi
+  harper-cli plugin install "$file"
 
 # Run `harper-cli` on the Harper repository
 dogfood:

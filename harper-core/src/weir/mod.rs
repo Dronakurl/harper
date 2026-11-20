@@ -23,9 +23,9 @@ use crate::linting::{
 };
 use crate::parsers::Markdown;
 use crate::spell::FstDictionary;
-use crate::{Document, Lrc, Token, TokenStringExt};
+use crate::{Document, Lrc, Span, Token, TokenStringExt};
 
-use self::ast::{Ast, AstVariable};
+use self::ast::{Ast, AstExprNode, AstVariable};
 
 pub(crate) fn weir_expr_to_expr(weir_code: &str) -> Result<Box<dyn Expr>, Error> {
     let ast = parse_expr_str(weir_code, true)?;
@@ -149,10 +149,23 @@ impl WeirLinter {
             WeirScope::Chunk
         };
 
+        // Most rules start with one of a few words. Testing the first letter of the token
+        // before the whole expression saves most of the work at every other position.
+        let expr: Lrc<Box<dyn Expr>> = match ast
+            .get_expr(main_expr_name)
+            .and_then(|node| first_letters(node, &ast, 0))
+        {
+            Some(letters) => Lrc::new(Box::new(FirstLetterGate {
+                letters,
+                inner: expr.clone(),
+            })),
+            None => expr.clone(),
+        };
+
         let linter = WeirLinter {
             strategy: replacement_strat,
             ast,
-            expr: expr.clone(),
+            expr,
             lint_kind,
             scope,
             description,
@@ -183,7 +196,7 @@ impl WeirLinter {
         let span = matched_tokens.span()?;
         let orig = span.get_content(source);
 
-        let suggestions = match self.strategy {
+        let suggestions: Vec<Suggestion> = match self.strategy {
             ReplacementStrategy::MatchCase => self
                 .replacements
                 .iter()
@@ -195,6 +208,17 @@ impl WeirLinter {
                 .map(|r| Suggestion::ReplaceWith(r.chars().collect()))
                 .collect(),
         };
+
+        // Matching ignores case, so a rule that only fixes the case also matches
+        // the text it would produce. Text that already reads like every
+        // replacement is not a mistake.
+        let changes_nothing = !suggestions.is_empty()
+            && suggestions
+                .iter()
+                .all(|s| matches!(s, Suggestion::ReplaceWith(with) if with.as_slice() == orig));
+        if changes_nothing {
+            return None;
+        }
 
         Some(Lint {
             span,
@@ -389,6 +413,59 @@ impl ExprLinter for SentenceWeirLinter {
 
     fn description(&self) -> &str {
         &self.0.description
+    }
+}
+
+/// The lowercase letters a match of `node` can begin with, or `None` when it can begin with
+/// anything other than a word (a punctuation mark, a tag, any token).
+fn first_letters(node: &AstExprNode, ast: &Ast, depth: usize) -> Option<Vec<char>> {
+    if depth > 32 {
+        return None;
+    }
+    let mut letters = match node {
+        AstExprNode::Word(word) => word.first()?.to_lowercase().collect(),
+        AstExprNode::Seq(children) | AstExprNode::Filter(children) => {
+            first_letters(children.first()?, ast, depth + 1)?
+        }
+        AstExprNode::Arr(children) => {
+            let mut all = Vec::new();
+            for child in children {
+                all.extend(first_letters(child, ast, depth + 1)?);
+            }
+            all
+        }
+        AstExprNode::ExprRef(name) => first_letters(
+            ast.get_expr(&name.iter().collect::<String>())?,
+            ast,
+            depth + 1,
+        )?,
+        _ => return None,
+    };
+    letters.sort_unstable();
+    letters.dedup();
+    Some(letters)
+}
+
+/// Runs the expression only at a word that begins with one of its possible first letters.
+struct FirstLetterGate {
+    letters: Vec<char>,
+    inner: Lrc<Box<dyn Expr>>,
+}
+
+impl Expr for FirstLetterGate {
+    fn run(&self, cursor: usize, tokens: &[Token], source: &[char]) -> Option<Span<Token>> {
+        let token = tokens.get(cursor)?;
+        if !token.kind.is_word() {
+            return None;
+        }
+        let first = *source.get(token.span.start)?;
+        if !first
+            .to_lowercase()
+            .all(|c| self.letters.binary_search(&c).is_ok())
+        {
+            return None;
+        }
+        self.inner.run(cursor, tokens, source)
     }
 }
 
@@ -603,6 +680,77 @@ pub mod tests {
     }
 
     #[test]
+    fn number_tokens() {
+        let source = r#"
+            expr main NUMBER
+            let message ""
+            let description "Match numeric tokens, not numeral words."
+            let kind "Miscellaneous"
+            let becomes "value"
+            let strategy "Exact"
+
+            test "0" "value"
+            test "42" "value"
+            test "123456" "value"
+            test "3.14" "value"
+            test "0.5" "value"
+            test "1st" "value"
+            test "2nd" "value"
+            test "3rd" "value"
+            test "4th" "value"
+            test "There are 42 items." "There are value items."
+            test "(42)" "(value)"
+            test "12 34" "value value"
+
+            allows ""
+            allows " "
+            allows "!"
+            allows "number"
+            allows "NUMBER"
+            allows "one"
+            allows "two"
+            allows "first"
+            allows "I have two apples."
+        "#;
+
+        let mut linter = WeirLinter::new(source).unwrap();
+        assert_passes_all(&mut linter);
+    }
+
+    #[test]
+    fn number_composes_with_other_expressions() {
+        for (main, input, expected) in [
+            ("NUMBER items", "42 items", "replacement"),
+            ("[NUMBER, several] items", "42 items", "replacement"),
+            ("[NUMBER, several] items", "several items", "replacement"),
+            ("<(NUMBER items), NUMBER>", "42 items", "replacement items"),
+            ("!NUMBER items", "several items", "replacement"),
+            ("!NUMBER items", "42 items", "42 items"),
+            ("@numeric items", "42 items", "replacement"),
+            ("NUM apples", "I have two apples.", "I have replacement."),
+            ("NUMBER apples", "I have two apples.", "I have two apples."),
+            ("number", "NUMBER", "replacement"),
+        ] {
+            let source = format!(
+                r#"
+                expr numeric NUMBER
+                expr main {main}
+                let message ""
+                let description "Test number expression composition."
+                let kind "Miscellaneous"
+                let becomes "replacement"
+                let strategy "Exact"
+
+                test "{input}" "{expected}"
+                "#
+            );
+
+            let mut linter = WeirLinter::new(&source).unwrap();
+            assert_passes_all(&mut linter);
+        }
+    }
+
+    #[test]
     fn wildcard() {
         let source = r#"
             expr main <(NOUN * NOUN), (* NOUN), *>
@@ -666,6 +814,28 @@ pub mod tests {
         let source = "expr main";
         let res = WeirLinter::new(source);
         assert_eq!(res.err(), Some(Error::ExpectedVariableUndefined))
+    }
+
+    /// Matching ignores case, so a rule that fixes only the case also finds the
+    /// spelling it would write. That spelling is left alone.
+    #[test]
+    fn a_rule_that_only_fixes_case_leaves_the_right_case_alone() {
+        let source = r#"
+ expr main (in github)
+ let message "GitHub is written with a capital H."
+ let description "Capitalizes GitHub."
+ let kind "Capitalization"
+ let becomes "in GitHub"
+ let strategy "Exact"
+
+ test "I put it in github today." "I put it in GitHub today."
+ test "I put it in Github today." "I put it in GitHub today."
+
+ allows "I put it in GitHub today."
+ "#;
+
+        let mut linter = WeirLinter::new(source).unwrap();
+        assert_passes_all(&mut linter);
     }
 
     #[test]

@@ -76,11 +76,26 @@ fn parse_stmt(tokens: &[Token], source: &[char]) -> Result<FoundNode<Option<AstS
     let mut cursor = 0;
     inc_by_whitespace(&mut cursor, tokens);
 
+    // Find the end of the statement: newline, but respect nested square brackets only
+    // We don't track parentheses because they're used in array elements like [(a), (b)]
+    let mut brace_depth: i32 = 0;
     let end = tokens
         .iter()
         .enumerate()
         .skip(cursor)
-        .find_map(|(i, t)| t.kind.is_newline().then_some(i))
+        .find_map(|(i, t)| {
+            if t.kind.is_open_square() {
+                brace_depth += 1;
+                None
+            } else if t.kind.is_close_square() {
+                brace_depth = brace_depth.saturating_sub(1);
+                None
+            } else if t.kind.is_newline() && brace_depth == 0 {
+                Some(i)
+            } else {
+                None
+            }
+        })
         .unwrap_or(tokens.len());
 
     let Some(key_token) = tokens.get(cursor) else {
@@ -230,14 +245,19 @@ fn parse_quoted_string(tokens: &[Token], source: &[char]) -> Result<FoundNode<St
 
     inc_by_spaces(&mut cursor, tokens);
 
+    // Only the marks a rule file has always delimited strings with count; `„ « » ‹ ›` are text
+    // there (German messages are full of »…«).
+    let is_delimiter =
+        |tok: &Token| tok.kind.is_quote() && matches!(source[tok.span.start], '"' | '“' | '”');
+
     let quote_tok = tokens.get(cursor).ok_or(Error::EndOfInput)?;
-    if !quote_tok.kind.is_quote() {
+    if !is_delimiter(quote_tok) {
         return Err(Error::UnexpectedToken(quote_tok.get_str(source)));
     }
 
     let mut end = None;
     for (i, tok) in tokens.iter().enumerate().skip(cursor + 1) {
-        if tok.kind.is_quote() {
+        if is_delimiter(tok) {
             let qpos = tok.span.start;
             if !is_escaped(qpos, source) {
                 end = Some(i);
@@ -279,6 +299,16 @@ mod tests {
         assert_eq!(
             ast.get_variable_value("test"),
             Some(&AstVariable::create_string("to be this"))
+        );
+    }
+
+    #[test]
+    fn guillemets_and_low_quotes_are_text_in_strings() {
+        let ast = parse_str("let test \"In »Acht geben« und „Wort\"", true).unwrap();
+
+        assert_eq!(
+            ast.get_variable_value("test"),
+            Some(&AstVariable::create_string("In »Acht geben« und „Wort"))
         );
     }
 
@@ -494,5 +524,22 @@ mod tests {
             let code = format!("allows \"\" {a}");
             assert!(parse_str(code.as_str(), false).is_err())
         }
+    }
+
+    #[test]
+    fn parses_expr_with_newlines() {
+        assert_eq!(
+            parse_str("expr main [\n  a,\n  b,\n  c\n]", true)
+                .unwrap()
+                .stmts,
+            vec![AstStmtNode::create_set_expr(
+                "main",
+                AstExprNode::Arr(vec![
+                    AstExprNode::Word(char_string!("a")),
+                    AstExprNode::Word(char_string!("b")),
+                    AstExprNode::Word(char_string!("c"))
+                ])
+            )]
+        )
     }
 }

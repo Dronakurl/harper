@@ -1,5 +1,6 @@
 import type { Dialect, LintConfig, LintOptions, StructuredLintConfig } from 'harper.js';
 import type { UnpackedLintGroups } from 'lint-framework';
+import type { InstalledPlugin } from './pluginStore';
 
 export type Request =
 	| LintRequest
@@ -9,6 +10,8 @@ export type Request =
 	| GetLintDescriptionsRequest
 	| SetDialectRequest
 	| GetDialectRequest
+	| GetLanguageRequest
+	| SetLanguageRequest
 	| GetIsolateEnglishRequest
 	| SetIsolateEnglishRequest
 	| GetOpenSuggestionsOnHoverRequest
@@ -16,6 +19,9 @@ export type Request =
 	| GetDelayRequest
 	| SetDelayRequest
 	| SetDomainStatusRequest
+	| GetConfiguredDomainsRequest
+	| SetDefaultDomainsStatusRequest
+	| ResetDomainRequest
 	| SetDefaultStatusRequest
 	| GetDomainStatusRequest
 	| GetDefaultStatusRequest
@@ -47,10 +53,13 @@ export type Response =
 	| ClearIgnoredLintsResponse
 	| GetLintDescriptionsResponse
 	| GetDialectResponse
+	| GetLanguageResponse
 	| GetIsolateEnglishResponse
 	| GetOpenSuggestionsOnHoverResponse
 	| GetDelayResponse
 	| GetDomainStatusResponse
+	| SetDomainStatusResponse
+	| GetConfiguredDomainsResponse
 	| GetDefaultStatusResponse
 	| GetEnabledDomainsResponse
 	| GetUserDictionaryResponse
@@ -99,6 +108,23 @@ export type SetConfigRequest = {
 export type SetDialectRequest = {
 	kind: 'setDialect';
 	dialect: Dialect;
+};
+
+export type GetLanguageRequest = {
+	kind: 'getLanguage';
+};
+
+export type GetLanguageResponse = {
+	kind: 'getLanguage';
+	/** The language being checked: `en`, or the id of a language plugin. */
+	language: string;
+	/** The language plugins installed in this browser. */
+	installed: InstalledPlugin[];
+};
+
+export type SetLanguageRequest = {
+	kind: 'setLanguage';
+	language: string;
 };
 
 export type GetOpenSuggestionsOnHoverRequest = {
@@ -172,6 +198,21 @@ export type GetDomainStatusResponse = {
 	enabled: boolean;
 };
 
+export type DomainStatus = {
+	domain: string;
+	enabled: boolean;
+	isDefault: boolean;
+};
+
+export type GetConfiguredDomainsRequest = {
+	kind: 'getConfiguredDomains';
+};
+
+export type GetConfiguredDomainsResponse = {
+	kind: 'getConfiguredDomains';
+	domains: DomainStatus[];
+};
+
 export type GetDefaultStatusRequest = {
 	kind: 'getDefaultStatus';
 };
@@ -196,6 +237,22 @@ export type SetDomainStatusRequest = {
 	enabled: boolean;
 	/** Dictates whether this should override a previous setting. */
 	overrideValue: boolean;
+};
+
+export type SetDomainStatusResponse = {
+	kind: 'setDomainStatus';
+	/** Whether the effective enable/disable state actually changed. */
+	changed: boolean;
+};
+
+export type SetDefaultDomainsStatusRequest = {
+	kind: 'setDefaultDomainsStatus';
+	enabled: boolean;
+};
+
+export type ResetDomainRequest = {
+	kind: 'resetDomain';
+	domain: string;
 };
 
 export type SetDefaultStatusRequest = {
