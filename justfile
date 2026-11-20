@@ -109,6 +109,13 @@ test-harperjs: build-harperjs
   set -eo pipefail
 
   pnpm install
+
+  # A small language plugin that PluginLinter.test.ts loads.
+  cargo build --release -p harper-plugin-api --example echo --target wasm32-unknown-unknown
+  mkdir -p "{{justfile_directory()}}/packages/harper.js/test-fixtures"
+  cp "{{justfile_directory()}}/target/wasm32-unknown-unknown/release/examples/echo.wasm" \
+    "{{justfile_directory()}}/packages/harper.js/test-fixtures/echo.wasm"
+
   cd "{{justfile_directory()}}/packages/harper.js"
   pnpm playwright install chromium firefox
   pnpm test
@@ -122,6 +129,13 @@ test-obsidian: build-obsidian
   set -eo pipefail
 
   pnpm install
+
+  # A small language plugin that State.test.ts loads.
+  cargo build --release -p harper-plugin-api --example echo --target wasm32-unknown-unknown
+  mkdir -p "{{justfile_directory()}}/packages/obsidian-plugin/test-fixtures"
+  cp "{{justfile_directory()}}/target/wasm32-unknown-unknown/release/examples/echo.wasm" \
+    "{{justfile_directory()}}/packages/obsidian-plugin/test-fixtures/echo.wasm"
+
   cd "{{justfile_directory()}}/packages/obsidian-plugin"
   pnpm playwright install chromium
   pnpm test
@@ -329,6 +343,13 @@ test-chrome-plugin: build-chrome-plugin
   set -eo pipefail
 
   pnpm install
+
+  # A small language plugin that language_plugin_dictionary.spec.ts installs.
+  cargo build --release -p harper-plugin-api --example echo --target wasm32-unknown-unknown
+  mkdir -p "{{justfile_directory()}}/packages/chrome-plugin/tests/plugin-fixtures"
+  cp "{{justfile_directory()}}/target/wasm32-unknown-unknown/release/examples/echo.wasm" \
+    "{{justfile_directory()}}/packages/chrome-plugin/tests/plugin-fixtures/echo.wasm"
+
   cd "{{justfile_directory()}}/packages/chrome-plugin"
   pnpm playwright install chromium
 

@@ -1,5 +1,6 @@
 import type { Dialect, LintConfig, LintOptions, StructuredLintConfig } from 'harper.js';
 import type { UnpackedLintGroups } from 'lint-framework';
+import type { InstalledPlugin } from './pluginStore';
 
 export type Request =
 	| LintRequest
@@ -9,6 +10,8 @@ export type Request =
 	| GetLintDescriptionsRequest
 	| SetDialectRequest
 	| GetDialectRequest
+	| GetLanguageRequest
+	| SetLanguageRequest
 	| GetIsolateEnglishRequest
 	| SetIsolateEnglishRequest
 	| GetOpenSuggestionsOnHoverRequest
@@ -50,6 +53,7 @@ export type Response =
 	| ClearIgnoredLintsResponse
 	| GetLintDescriptionsResponse
 	| GetDialectResponse
+	| GetLanguageResponse
 	| GetIsolateEnglishResponse
 	| GetOpenSuggestionsOnHoverResponse
 	| GetDelayResponse
@@ -104,6 +108,23 @@ export type SetConfigRequest = {
 export type SetDialectRequest = {
 	kind: 'setDialect';
 	dialect: Dialect;
+};
+
+export type GetLanguageRequest = {
+	kind: 'getLanguage';
+};
+
+export type GetLanguageResponse = {
+	kind: 'getLanguage';
+	/** The language being checked: `en`, or the id of a language plugin. */
+	language: string;
+	/** The language plugins installed in this browser. */
+	installed: InstalledPlugin[];
+};
+
+export type SetLanguageRequest = {
+	kind: 'setLanguage';
+	language: string;
 };
 
 export type GetOpenSuggestionsOnHoverRequest = {

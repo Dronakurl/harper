@@ -1,6 +1,7 @@
 import type { Dialect, LintConfig, LintOptions, StructuredLintConfig } from 'harper.js';
 import type { UnpackedLintGroups } from 'lint-framework';
 import { LRUCache } from 'lru-cache';
+import type { InstalledPlugin } from './pluginStore';
 import type {
 	ActivationKey,
 	DomainStatus,
@@ -74,6 +75,17 @@ export default class ProtocolClient {
 	public static async setDialect(dialect: Dialect): Promise<void> {
 		this.lintCache.clear();
 		await chrome.runtime.sendMessage({ kind: 'setDialect', dialect });
+	}
+
+	/** The language being checked (`en` or a plugin id) and the language plugins installed. */
+	public static async getLanguage(): Promise<{ language: string; installed: InstalledPlugin[] }> {
+		const { language, installed } = await chrome.runtime.sendMessage({ kind: 'getLanguage' });
+		return { language, installed };
+	}
+
+	public static async setLanguage(language: string): Promise<void> {
+		this.lintCache.clear();
+		await chrome.runtime.sendMessage({ kind: 'setLanguage', language });
 	}
 
 	public static async getIsolateEnglish(): Promise<boolean> {
