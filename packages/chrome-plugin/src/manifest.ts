@@ -90,7 +90,13 @@ export default defineManifest({
 	icons: {
 		'512': 'logo.png',
 	},
-	permissions: ['storage', 'tabs'],
+	// `unlimitedStorage`: a language plugin is tens of megabytes.
+	commands: {
+		'switch-language': {
+			description: 'Switch to the next language',
+		},
+	},
+	permissions: ['storage', 'tabs', 'unlimitedStorage'],
 	content_security_policy: {
 		extension_pages: makeExtensionCSP(isDev),
 	},

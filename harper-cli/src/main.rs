@@ -17,6 +17,8 @@ use hashbrown::HashMap;
 use serde::Serialize;
 use serde_json::Value;
 
+#[cfg(feature = "training")]
+use harper_context_ranker::TrainingOptions;
 use harper_core::{
     CharStringExt, Dialect, DictWordMetadata, OrthFlags, Span, TokenKind, TokenStringExt,
     linting::LintGroup,
@@ -29,10 +31,13 @@ use harper_pos_utils::{BrillChunker, BrillTagger, BurnChunkerCpu};
 use harper_stats::Stats;
 
 mod annotate;
+#[cfg(feature = "training")]
+mod context_ranker_data;
 mod input;
 mod lint;
 mod lint_engine;
 mod lint_reporter;
+mod plugin;
 
 use crate::lint::{OutputFormat, lint};
 
@@ -41,7 +46,7 @@ use input::{
     AnyInput, InputTrait,
     single_input::{SingleInput, SingleInputOptionExt, SingleInputTrait},
 };
-use lint::LintOptions;
+use lint::{LanguageChoice, LintOptions};
 
 /// A debugging tool for the Harper grammar checker.
 #[derive(Parser)]
@@ -86,6 +91,15 @@ enum Args {
         /// Path to the directory for file-local dictionaries.
         #[arg(short, long, default_value = data_local_dir().unwrap().join("harper-ls/file_dictionaries/").into_os_string(), value_hint = ValueHint::FilePath)]
         file_dict_path: PathBuf,
+        /// Check text in another language, using the plugin `harper-<LANGUAGE>.wasm` from the
+        /// plugin directory (see `harper-cli plugin list`). The default, `en`, is built in.
+        /// `auto` picks, for each input, the installed plugin that recognizes its language,
+        /// and English if none does.
+        #[arg(long, value_name = "LANGUAGE")]
+        language: Option<String>,
+        /// Path to a language plugin (`.wasm`) to use instead of looking one up by language.
+        #[arg(long, value_name = "PLUGIN", value_hint = ValueHint::FilePath)]
+        plugin: Option<PathBuf>,
         /// Path to a Weirpack file to load. May be supplied multiple times.
         #[arg(long, value_name = "WEIRPACK")]
         weirpacks: Vec<SingleInput>,
@@ -197,6 +211,46 @@ enum Args {
         #[arg(num_args = 1..)]
         datasets: Vec<PathBuf>,
     },
+    /// Turn the corpus into context ranker examples and a vocabulary.
+    #[cfg(feature = "training")]
+    PrepareRankerData {
+        /// The directory that holds the files in `harper-context-ranker/data/corpus-manifest.json`.
+        #[arg(long, value_hint = ValueHint::DirPath)]
+        corpus: PathBuf,
+        /// The directory to write the examples and the vocabulary to.
+        #[arg(short, long, value_hint = ValueHint::DirPath)]
+        output: PathBuf,
+        /// Multiplies the amount of text drawn from each group.
+        #[arg(long, default_value_t = 1.0)]
+        scale: f64,
+        #[arg(long, default_value_t = 33_000)]
+        vocab_size: usize,
+        #[arg(long, default_value_t = 1)]
+        seed: u64,
+    },
+    /// Train the context ranker on prepared examples.
+    #[cfg(feature = "training")]
+    TrainContextRanker {
+        /// The directory that `prepare-ranker-data` wrote.
+        #[arg(long, value_hint = ValueHint::DirPath)]
+        data: PathBuf,
+        /// The directory to write the table to.
+        #[arg(short, long, value_hint = ValueHint::DirPath)]
+        output: PathBuf,
+        /// The number of values in the vector of each word.
+        #[arg(long, default_value_t = 64)]
+        dimensions: usize,
+        #[arg(short, long, default_value_t = 3)]
+        epochs: usize,
+        #[arg(short, long, default_value_t = 0.002)]
+        lr: f64,
+        #[arg(long, default_value_t = 2048)]
+        batch_size: usize,
+        #[arg(long, default_value_t = 16)]
+        candidates: usize,
+        #[arg(long, default_value_t = 1)]
+        seed: u64,
+    },
     /// Print harper-core version.
     CoreVersion,
     /// Rename a flag in the dictionary and affixes.
@@ -237,6 +291,9 @@ enum Args {
         /// The word to get the correct capitalization for.
         word: String,
     },
+    /// Manage language plugins.
+    #[command(subcommand)]
+    Plugin(plugin::PluginCommand),
     /// Generate shell completions.
     #[command(hide = true)]
     Completion {
@@ -266,13 +323,48 @@ fn main() -> anyhow::Result<()> {
             dialect: dialect_str,
             user_dict_path,
             file_dict_path,
+            language,
+            plugin,
             weirpacks,
             format,
             quiet,
             no_parallel,
         } => {
-            let dialect = parse_dialect(&dialect_str)
-                .map_err(|e| anyhow!("Invalid dialect '{}': {}", dialect_str, e))?;
+            // Not an English dialect: perhaps the name of another language or of one of its
+            // dialects (`--dialect german`, as the multilingual build took it), which a language
+            // plugin answers to.
+            // With a plugin, a dialect that is not English is one of the plugin's
+            // (`--language de --dialect Swiss`).
+            let (dialect, language, plugin_dialect) = match parse_dialect(&dialect_str) {
+                Ok(dialect) => (dialect, language, None),
+                Err(_) if language.is_none() && plugin.is_none() => {
+                    (Dialect::American, Some(dialect_str.clone()), None)
+                }
+                Err(_) if language.as_deref() != Some("en") => {
+                    (Dialect::American, language, Some(dialect_str.clone()))
+                }
+                Err(e) => return Err(anyhow!("Invalid dialect '{}': {}", dialect_str, e)),
+            };
+
+            let language = if language.as_deref() == Some("auto") && plugin.is_none() {
+                // Each plugin that has the dialect lints in it; the others in their default.
+                let plugins = plugin::PluginLinter::load_all()?
+                    .into_iter()
+                    .map(|p| match &plugin_dialect {
+                        Some(d) if p.knows_dialect(d) => p.with_dialect(d),
+                        _ => Ok(p),
+                    })
+                    .collect::<anyhow::Result<Vec<_>>>()?;
+                LanguageChoice::Auto(plugins)
+            } else {
+                match plugin::PluginLinter::load(language.as_deref(), plugin.as_deref())? {
+                    Some(plugin) => LanguageChoice::Plugin(match &plugin_dialect {
+                        Some(d) => plugin.with_dialect(d)?,
+                        None => plugin,
+                    }),
+                    None => LanguageChoice::English,
+                }
+            };
 
             lint(
                 markdown_options,
@@ -285,6 +377,7 @@ fn main() -> anyhow::Result<()> {
                     keep_overlapping_lints,
                     dialect,
                     weirpack_inputs: weirpacks,
+                    language,
                     color,
                     format,
                     quiet,
@@ -295,6 +388,7 @@ fn main() -> anyhow::Result<()> {
                 file_dict_path,
             )
         }
+        Args::Plugin(command) => plugin::run(command),
         Args::Parse { input } => {
             // Try to read from standard input if `input` was not provided.
             let input = input.unwrap_or_read_from_stdin();
@@ -621,6 +715,43 @@ fn main() -> anyhow::Result<()> {
 
             Ok(())
         }
+        #[cfg(feature = "training")]
+        Args::PrepareRankerData {
+            corpus,
+            output,
+            scale,
+            vocab_size,
+            seed,
+        } => Ok(harper_context_ranker::prepare(
+            &corpus,
+            &output,
+            &context_ranker_data::CuratedSpeller::curated(),
+            scale,
+            vocab_size,
+            seed,
+        )?),
+        #[cfg(feature = "training")]
+        Args::TrainContextRanker {
+            data,
+            output,
+            dimensions,
+            epochs,
+            lr,
+            batch_size,
+            candidates,
+            seed,
+        } => Ok(harper_context_ranker::train(
+            &data,
+            &output,
+            dimensions,
+            &TrainingOptions {
+                epochs,
+                learning_rate: lr,
+                batch_size,
+                candidates_per_example: candidates,
+                seed,
+            },
+        )?),
         Args::RenameFlag { old, new, dir } => {
             let dict_path = dir.join("dictionary.dict");
             let affixes_path = dir.join("annotations.json");

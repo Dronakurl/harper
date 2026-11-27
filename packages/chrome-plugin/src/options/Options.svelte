@@ -3,13 +3,15 @@ import { Button, Card, Input, Select, Textarea } from 'components';
 import {
 	Dialect,
 	type LintConfig,
+	PluginLinter,
 	type StructuredLintConfig,
 	type StructuredLintSetting,
 } from 'harper.js';
 import { tick } from 'svelte';
 import logo from '/logo.png';
 import ProtocolClient from '../ProtocolClient';
-import type { Hotkey, Modifier, WeirpackMeta } from '../protocol';
+import { type InstalledPlugin, removePlugin, savePlugin } from '../pluginStore';
+import type { DomainStatus, Hotkey, Modifier, WeirpackMeta } from '../protocol';
 import { ActivationKey } from '../protocol';
 import StructuredRuleSettings from './StructuredRuleSettings.svelte';
 
@@ -51,6 +53,23 @@ let openSuggestionsOnHover = $state(false);
 let delay = $state(0);
 let delayLoaded = $state(false);
 let defaultEnabled = $state(false);
+let configuredDomains: DomainStatus[] = $state([]);
+let siteSearch = $state('');
+let siteSearchLower = $derived(siteSearch.trim().toLowerCase());
+let defaultDomainsBusy = $state(false);
+let filteredConfiguredDomains = $derived(
+	configuredDomains.filter((domain) => domain.domain.includes(siteSearchLower)),
+);
+let anyDefaultDomainsEnabled = $derived(
+	configuredDomains.some((domain) => domain.isDefault && domain.enabled),
+);
+let sitePreferencesOpen = $state(false);
+
+$effect(() => {
+	if (siteSearchLower) {
+		sitePreferencesOpen = true;
+	}
+});
 let activationKey: ActivationKey = $state(ActivationKey.Off);
 let userDict = $state('');
 let hotkey: Hotkey = $state({ modifiers: ['Ctrl'], key: 'E' });
@@ -66,6 +85,76 @@ let weirpackError = $state('');
 let fileInputRef: HTMLInputElement | undefined = $state();
 /** Announced to screen readers through a polite live region. */
 let statusMessage = $state('');
+let language = $state('en');
+let installedLanguages: InstalledPlugin[] = $state([]);
+let languageBusy = $state(false);
+let languageError = $state('');
+
+async function reloadRules() {
+	const [nextLintConfig, nextStructuredConfig, nextLintDescriptions] = await Promise.all([
+		ProtocolClient.getLintConfig(),
+		ProtocolClient.getStructuredLintConfig(),
+		ProtocolClient.getLintDescriptions(),
+	]);
+	lintConfig = nextLintConfig;
+	structuredLintConfig = nextStructuredConfig;
+	lintDescriptions = nextLintDescriptions;
+}
+
+async function changeLanguage(next: string) {
+	languageBusy = true;
+	languageError = '';
+	try {
+		await ProtocolClient.setLanguage(next);
+		const state = await ProtocolClient.getLanguage();
+		language = state.language;
+		installedLanguages = state.installed;
+		await reloadRules();
+	} catch (e) {
+		languageError = e instanceof Error ? e.message : String(e);
+	} finally {
+		languageBusy = false;
+	}
+}
+
+async function addLanguage(e: Event) {
+	const input = e.target as HTMLInputElement;
+	const file = input.files?.[0];
+	if (file == null) return;
+
+	languageBusy = true;
+	languageError = '';
+	try {
+		const bytes = await file.arrayBuffer();
+		// Loading it is the check: it must be a Harper plugin of a version this Harper speaks.
+		const probe = new PluginLinter({ plugin: bytes });
+		const info = await probe.info();
+		await savePlugin({ id: info.id, name: info.name, version: info.plugin_version }, bytes);
+		installedLanguages = (await ProtocolClient.getLanguage()).installed;
+		input.value = '';
+		await changeLanguage(info.id);
+	} catch (err) {
+		languageError = `That is not a usable language plugin: ${err instanceof Error ? err.message : String(err)}`;
+	} finally {
+		languageBusy = false;
+	}
+}
+
+async function deleteLanguage(id: string) {
+	languageBusy = true;
+	try {
+		await removePlugin(id);
+		if (language === id) {
+			await ProtocolClient.setLanguage('en');
+			await reloadRules();
+		}
+		const state = await ProtocolClient.getLanguage();
+		language = state.language;
+		installedLanguages = state.installed;
+	} finally {
+		languageBusy = false;
+	}
+}
 
 $effect(() => {
 	if (!loaded) return;
@@ -116,6 +205,7 @@ Promise.all([
 	ProtocolClient.getHotkey(),
 	ProtocolClient.getUserDictionary(),
 	ProtocolClient.getWeirpacks(),
+	ProtocolClient.getLanguage(),
 ]).then(
 	([
 		nextLintConfig,
@@ -130,6 +220,7 @@ Promise.all([
 		nextHotkey,
 		nextUserDict,
 		nextWeirpacks,
+		nextLanguage,
 	]) => {
 		lintConfig = nextLintConfig;
 		structuredLintConfig = nextStructuredConfig;
@@ -148,10 +239,18 @@ Promise.all([
 		buttonText = `${nextHotkey.modifiers.join('+')} + ${nextHotkey.key.toUpperCase()}`;
 		userDict = dictToString(nextUserDict.toSorted());
 		weirpacks = nextWeirpacks.toSorted((a, b) => b.installedAt.localeCompare(a.installedAt));
+		language = nextLanguage.language;
+		installedLanguages = nextLanguage.installed;
 
 		loaded = true;
 	},
 );
+
+ProtocolClient.getConfiguredDomains()
+	.then((domains) => {
+		configuredDomains = domains;
+	})
+	.catch((error) => console.error('Failed to load site preferences:', error));
 
 /** Converts the content of a text area to viable dictionary values. */
 export function stringToDict(s: string): string[] {
@@ -304,6 +403,75 @@ async function exportEnabledDomainsCSV() {
 		URL.revokeObjectURL(url);
 	} catch (e) {
 		console.error('Failed to export enabled domains JSON:', e);
+	}
+}
+
+async function setDefaultDomainsEnabled(enabled: boolean) {
+	defaultDomainsBusy = true;
+	try {
+		await ProtocolClient.setDefaultDomainsEnabled(enabled);
+		configuredDomains = configuredDomains.map((domain) =>
+			domain.isDefault ? { ...domain, enabled } : domain,
+		);
+	} catch (error) {
+		console.error('Failed to update default sites:', error);
+		configuredDomains = await ProtocolClient.getConfiguredDomains();
+	} finally {
+		defaultDomainsBusy = false;
+	}
+}
+
+async function toggleDefaultDomains(): Promise<void> {
+	await setDefaultDomainsEnabled(!anyDefaultDomainsEnabled);
+}
+
+async function setSiteEnabled(domainName: string, enabled: boolean) {
+	try {
+		await ProtocolClient.setDomainEnabled(domainName, enabled);
+		configuredDomains = configuredDomains.map((domain) =>
+			domain.domain === domainName ? { ...domain, enabled } : domain,
+		);
+	} catch (error) {
+		console.error('Failed to update site preference:', error);
+		configuredDomains = await ProtocolClient.getConfiguredDomains();
+	}
+}
+
+async function resetDomain(domainName: string) {
+	try {
+		await ProtocolClient.resetDomain(domainName);
+		configuredDomains = configuredDomains
+			.map((domain) => {
+				if (domain.domain !== domainName) {
+					return domain;
+				}
+				// Defaults reset to enabled; custom sites leave the list.
+				return domain.isDefault ? { ...domain, enabled: true } : null;
+			})
+			.filter((domain): domain is DomainStatus => domain !== null);
+	} catch (error) {
+		console.error('Failed to reset site preference:', error);
+		configuredDomains = await ProtocolClient.getConfiguredDomains();
+	}
+}
+
+async function resetAllToDefaults(): Promise<void> {
+	if (!confirm('Reset all site preferences to defaults? Custom sites will be removed.')) {
+		return;
+	}
+	defaultDomainsBusy = true;
+	try {
+		await ProtocolClient.setDefaultDomainsEnabled(true);
+		const fresh = await ProtocolClient.getConfiguredDomains();
+		for (const custom of fresh.filter((domain) => !domain.isDefault)) {
+			await ProtocolClient.resetDomain(custom.domain);
+		}
+		configuredDomains = await ProtocolClient.getConfiguredDomains();
+	} catch (error) {
+		console.error('Failed to reset all sites:', error);
+		configuredDomains = await ProtocolClient.getConfiguredDomains();
+	} finally {
+		defaultDomainsBusy = false;
 	}
 }
 
@@ -492,6 +660,62 @@ async function removeWeirpack(id: string) {
         <!-- ══ RIGHT COLUMN: General + Weirpacks ══ -->
         <div id="settings" tabindex="-1" aria-label="Extension settings" role="region" class="min-h-0 min-w-0 space-y-6 outline-none! lg:overflow-y-auto lg:pr-1 [scrollbar-width:thin]">
 
+          <!-- ── LANGUAGE ──────────────────────────── -->
+          <Card class="space-y-4 p-6">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-[#d1d5db]!">Language</h2>
+
+            <div class="flex items-center justify-between gap-4">
+              <div class="flex flex-col">
+                <h3 id="language-label" class="text-base font-semibold">Language to check</h3>
+                <p id="language-desc" class="text-xs text-gray-600 dark:text-[#d1d5db]!">English is built in. Other languages are plugins you add below.</p>
+              </div>
+              <Select
+                size="sm"
+                class="h-9 w-48 shrink-0 outline-none! focus:border-primary! focus:ring-0! focus-visible:ring-2! focus-visible:ring-primary!"
+                value={language}
+                disabled={languageBusy}
+                aria-labelledby="language-label" aria-describedby="language-desc"
+                on:change={(e) => changeLanguage((e.detail.target as HTMLSelectElement).value)}
+              >
+                <option value="en">English</option>
+                {#each installedLanguages as plugin}
+                  <option value={plugin.id}>{plugin.name}</option>
+                {/each}
+              </Select>
+            </div>
+
+            {#each installedLanguages as plugin}
+              <div class="flex items-center justify-between text-sm">
+                <span>
+                  {plugin.name} <span class="text-xs text-gray-600 dark:text-[#d1d5db]!">
+                    ({plugin.id}, version {plugin.version}, {(plugin.size / 1_000_000).toFixed(0)} MB)
+                  </span>
+                </span>
+                <Button size="xs" color="white" class="cursor-pointer" disabled={languageBusy} on:click={() => deleteLanguage(plugin.id)}>
+                  Remove
+                </Button>
+              </div>
+            {/each}
+
+            <div class="space-y-1">
+              <label class="text-sm" for="language-plugin-file">Add a language plugin</label>
+              <input
+                id="language-plugin-file"
+                type="file"
+                accept=".wasm"
+                disabled={languageBusy}
+                onchange={addLanguage}
+              />
+              <p class="text-xs text-gray-600 dark:text-[#d1d5db]!">
+                A file <code>harper-&lt;language&gt;.wasm</code>, from a project in the <a class="text-primary hover:underline" href="https://writewithharper.com/docs/integrations/available-languages" target="_blank" rel="noreferrer">list of language plugins</a>. It stays in this browser and runs locally;
+                your text is never sent anywhere.
+              </p>
+              {#if languageError}
+                <p class="text-xs text-red-600">{languageError}</p>
+              {/if}
+            </div>
+          </Card>
+
           <!-- ── GENERAL ───────────────────────────── -->
           <Card class="space-y-6 p-6">
             <h2 class="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-[#d1d5db]!">General</h2>
@@ -606,6 +830,77 @@ async function removeWeirpack(id: string) {
                   </div>
                 </div>
               </div>
+
+              <section class="py-3.5">
+                <details bind:open={sitePreferencesOpen} class="space-y-4">
+                  <summary class="cursor-pointer text-base font-semibold">
+                    Site Preferences ({filteredConfiguredDomains.length})
+                  </summary>
+                  <p class="text-xs text-gray-600 dark:text-[#d1d5db]!">
+                    Harper starts on the bundled sites by default. Use the checklist to enable or disable
+                    individual sites, or turn the defaults off and enable them from the popup as you visit
+                    each site. Sites marked Default are bundled; anything else is an explicit setting.
+                  </p>
+                  <Input
+                    bind:value={siteSearch}
+                    aria-label="Search site preferences"
+                    placeholder="Search sites"
+                    size="sm"
+                  />
+                  <div class="flex flex-wrap gap-3">
+                    <Button
+                      size="sm"
+                      disabled={defaultDomainsBusy || configuredDomains.length === 0}
+                      on:click={toggleDefaultDomains}
+                    >
+                      {anyDefaultDomainsEnabled ? 'Disable All Default Sites' : 'Enable All Default Sites'}
+                    </Button>
+                    <Button
+                      size="sm"
+                      color="white"
+                      disabled={defaultDomainsBusy || configuredDomains.length === 0}
+                      on:click={resetAllToDefaults}
+                    >
+                      Reset All to Defaults
+                    </Button>
+                  </div>
+                  <div class="grid max-h-72 grid-cols-1 gap-2 overflow-y-auto pr-3 xl:grid-cols-2">
+                    {#each filteredConfiguredDomains as domain}
+                      <div class="flex items-center justify-between gap-2">
+                        <label class="flex min-w-0 items-center gap-2 text-sm">
+                          <input
+                            type="checkbox"
+                            checked={domain.enabled}
+                            disabled={defaultDomainsBusy}
+                            onchange={(event) =>
+                              setSiteEnabled(domain.domain, (event.currentTarget as HTMLInputElement).checked)}
+                            class="h-4 w-4"
+                          />
+                          <span class="truncate">{domain.domain}</span>
+                          {#if domain.isDefault}
+                            <span class="shrink-0 text-xs text-gray-400 dark:text-gray-500">Default</span>
+                          {/if}
+                        </label>
+                        {#if !domain.isDefault}
+                          <Button
+                            size="xs"
+                            color="white"
+                            disabled={defaultDomainsBusy}
+                            aria-label={`Remove ${domain.domain}`}
+                            on:click={() => resetDomain(domain.domain)}
+                          >
+                            Remove
+                          </Button>
+                        {/if}
+                      </div>
+                    {:else}
+                      <p class="text-xs text-gray-600 dark:text-[#d1d5db]!">
+                        No site preferences match your search.
+                      </p>
+                    {/each}
+                  </div>
+                </details>
+              </section>
 
               <!-- Delay -->
               <div class="flex items-center justify-between gap-4 py-3.5">

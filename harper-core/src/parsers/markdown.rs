@@ -5,13 +5,25 @@ use serde::{Deserialize, Serialize};
 use super::{Parser, PlainEnglish};
 use crate::{Span, Token, TokenKind, TokenStringExt, VecExt, offsets::build_byte_to_char_map};
 
-/// A parser that wraps the [`PlainEnglish`] parser that allows one to parse
+/// A parser that wraps a plain-text parser and allows one to parse
 /// CommonMark files.
 ///
 /// Will ignore code blocks and tables.
-#[derive(Default, Clone, Debug, Copy)]
+#[derive(Clone, Debug, Copy)]
 pub struct Markdown {
     options: MarkdownOptions,
+    inline_parser: fn(&[char]) -> Vec<Token>,
+    english: bool,
+}
+
+impl Default for Markdown {
+    fn default() -> Self {
+        Self {
+            options: MarkdownOptions::default(),
+            inline_parser: |source| PlainEnglish.parse(source),
+            english: true,
+        }
+    }
 }
 
 #[derive(Copy, Clone, Debug, Serialize, Deserialize)]
@@ -32,7 +44,30 @@ impl Default for MarkdownOptions {
 
 impl Markdown {
     pub fn new(options: MarkdownOptions) -> Self {
-        Self { options }
+        Self {
+            options,
+            inline_parser: |source| PlainEnglish.parse(source),
+            english: true,
+        }
+    }
+
+    pub fn with_inline_parser(
+        options: MarkdownOptions,
+        inline_parser: fn(&[char]) -> Vec<Token>,
+    ) -> Self {
+        Self {
+            options,
+            inline_parser,
+            english: true,
+        }
+    }
+
+    /// Declare that the inline parser produces prose in a language other than
+    /// English. See [`Parser::is_english`].
+    #[must_use]
+    pub fn non_english(mut self) -> Self {
+        self.english = false;
+        self
     }
 
     /// Remove hidden Wikilink target text.
@@ -132,14 +167,28 @@ impl Markdown {
 
         tokens.remove_indices(to_remove);
     }
+
+    fn parse_inline_text(&self, source: &[char]) -> Vec<Token> {
+        (self.inline_parser)(source)
+    }
+}
+
+/// Whether `html` is an HTML tag starting with `prefix` (e.g. `<code` or `</code`),
+/// ignoring ASCII case. Attributes are allowed.
+fn is_html_tag(html: &str, prefix: &str) -> bool {
+    html.get(..prefix.len())
+        .is_some_and(|start| start.eq_ignore_ascii_case(prefix))
+        && html[prefix.len()..].starts_with(|c: char| c == '>' || c.is_ascii_whitespace())
 }
 
 impl Parser for Markdown {
+    fn is_english(&self) -> bool {
+        self.english
+    }
+
     /// This implementation is quite gross to look at, but it works.
     /// If any issues arise, it would likely help to refactor this out first.
     fn parse(&self, source: &[char]) -> Vec<Token> {
-        let english_parser = PlainEnglish;
-
         let source_str: String = source.iter().collect();
         let md_parser = pulldown_cmark::Parser::new_ext(
             &source_str,
@@ -154,6 +203,9 @@ impl Parser for Markdown {
         let byte_to_char = build_byte_to_char_map(&source_str);
 
         let mut stack = Vec::new();
+
+        // Depth of inline `<code>` HTML elements we are currently inside.
+        let mut html_code_depth = 0usize;
 
         // NOTE: the range spits out __byte__ indices, not char indices.
         // This is why we keep track above.
@@ -206,6 +258,7 @@ impl Parser for Markdown {
                         kind: TokenKind::ParagraphBreak,
                     });
                     stack.pop();
+                    html_code_depth = 0;
                 }
                 pulldown_cmark::Event::End(_) => {
                     stack.pop();
@@ -222,6 +275,14 @@ impl Parser for Markdown {
                 }
                 pulldown_cmark::Event::Text(_text) => {
                     let chunk_len = span_end - span_start;
+
+                    if html_code_depth > 0 {
+                        tokens.push(Token {
+                            span: Span::new_with_len(span_start, chunk_len),
+                            kind: TokenKind::Unlintable,
+                        });
+                        continue;
+                    }
 
                     if let Some(tag) = stack.last() {
                         use pulldown_cmark::Tag;
@@ -254,7 +315,7 @@ impl Parser for Markdown {
                         }
                     }
 
-                    let mut new_tokens = english_parser.parse(&source[span_start..span_end]);
+                    let mut new_tokens = self.parse_inline_text(&source[span_start..span_end]);
 
                     new_tokens
                         .iter_mut()
@@ -263,7 +324,13 @@ impl Parser for Markdown {
                     tokens.append(&mut new_tokens);
                 }
                 // TO-DO: Support via `harper-html`
-                pulldown_cmark::Event::Html(_) | pulldown_cmark::Event::InlineHtml(_) => {
+                pulldown_cmark::Event::Html(html) | pulldown_cmark::Event::InlineHtml(html) => {
+                    if is_html_tag(&html, "<code") {
+                        html_code_depth += 1;
+                    } else if is_html_tag(&html, "</code") {
+                        html_code_depth = html_code_depth.saturating_sub(1);
+                    }
+
                     let size = span_end - span_start;
                     tokens.push(Token {
                         span: Span::new_with_len(span_start, size),
@@ -433,6 +500,35 @@ mod tests {
         let source = r"The range of inputs from <ctrl-g> to ctrl-z";
         let tokens = Markdown::default().parse_str(source);
         assert_eq!(tokens.iter_unlintables().count(), 1);
+    }
+
+    #[test]
+    fn html_code_contents_are_unlintable() {
+        let source = r"Call the <code>teh_functoin</code> helper.";
+        let tokens = Markdown::default().parse_str(source);
+        assert_eq!(tokens.iter_unlintables().count(), 3);
+        assert_eq!(tokens.iter_words().count(), 3);
+    }
+
+    #[test]
+    fn html_code_with_attributes_and_uppercase() {
+        let source = r#"Call <CODE class="x">recieve</CODE> now."#;
+        let tokens = Markdown::default().parse_str(source);
+        assert_eq!(tokens.iter_words().count(), 2);
+    }
+
+    #[test]
+    fn html_code_does_not_match_similar_tags() {
+        let source = r"Some <codex>words</codex> here.";
+        let tokens = Markdown::default().parse_str(source);
+        assert_eq!(tokens.iter_words().count(), 3);
+    }
+
+    #[test]
+    fn unclosed_html_code_ends_at_paragraph() {
+        let source = "Some <code>hidden\n\nVisible words.";
+        let tokens = Markdown::default().parse_str(source);
+        assert_eq!(tokens.iter_words().count(), 3);
     }
 
     #[test]

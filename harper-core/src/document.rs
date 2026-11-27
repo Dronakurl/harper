@@ -75,7 +75,7 @@ impl Document {
         let tokens = parser.parse(&source);
 
         let mut document = Self { source, tokens };
-        document.parse(dictionary);
+        document.parse(dictionary, parser.is_english());
 
         document
     }
@@ -101,7 +101,7 @@ impl Document {
         let source: Lrc<_> = text.chars().collect();
         let tokens = parser.parse(&source);
         let mut document = Self { source, tokens };
-        document.apply_fixups();
+        document.apply_fixups(parser.is_english());
         document
     }
 
@@ -153,17 +153,26 @@ impl Document {
         Self::new_markdown(text, MarkdownOptions::default(), dictionary)
     }
 
-    fn apply_fixups(&mut self) {
+    /// `english` is false for a parser of another language, which sees "t. j." and "napr." as
+    /// its own business: the steps that read English abbreviations are skipped (see
+    /// [`condense_abbreviations`](crate::parsers::condense_abbreviations)).
+    fn apply_fixups(&mut self, english: bool) {
         self.condense_spaces();
         self.condense_newlines();
         self.newlines_to_breaks();
-        self.condense_dotted_initialisms();
+        if english {
+            self.condense_dotted_initialisms();
+        }
         self.condense_number_suffixes();
         self.condense_ellipsis();
-        self.condense_dotted_truncations();
+        if english {
+            self.condense_dotted_truncations();
+        }
         self.condense_common_top_level_domains();
         self.condense_filename_extensions();
-        self.condense_tldr();
+        if english {
+            self.condense_tldr();
+        }
         self.condense_ampersand_pairs();
         self.condense_slash_pairs();
         self.match_quotes();
@@ -172,8 +181,18 @@ impl Document {
     /// Re-parse important language constructs.
     ///
     /// Should be run after every change to the underlying [`Self::source`].
-    fn parse(&mut self, dictionary: &impl Dictionary) {
-        self.apply_fixups();
+    ///
+    /// `english` decides whether the Brill tagger and the neural noun-phrase
+    /// chunker run. Both are English-only models and are the larger half of the
+    /// work here, so text in another language skips them and keeps whatever
+    /// `pos_tag` its dictionary supplies. See [`Parser::is_english`].
+    fn parse(&mut self, dictionary: &impl Dictionary, english: bool) {
+        self.apply_fixups(english);
+
+        if !english {
+            self.annotate_from_dictionary(dictionary);
+            return;
+        }
 
         let chunker = burn_chunker();
         let tagger = brill_tagger();
@@ -215,6 +234,27 @@ impl Document {
                 } else if !token.kind.is_whitespace() {
                     ti += 1;
                 }
+            }
+        }
+    }
+
+    /// Attach dictionary metadata to every word, without consulting the
+    /// English part-of-speech models.
+    fn annotate_from_dictionary(&mut self, dictionary: &impl Dictionary) {
+        let word_sources: Vec<_> = self
+            .tokens
+            .iter()
+            .filter(|t| matches!(t.kind, TokenKind::Word(_)))
+            .map(|t| t.get_ch(&self.source))
+            .collect();
+
+        let mut wi = 0;
+        for token in &mut self.tokens {
+            if let TokenKind::Word(meta) = &mut token.kind {
+                *meta = dictionary
+                    .get_word_metadata(word_sources[wi])
+                    .map(|c| c.into_owned());
+                wi += 1;
             }
         }
     }
@@ -409,20 +449,30 @@ impl Document {
 
             // Find open quotes first.
             for quote in &quote_indices {
-                let is_open = *quote == 0
-                    || pg[0..*quote].iter_word_likes().next().is_none()
-                    || pg[quote - 1].kind.is_whitespace()
-                    || matches!(
-                        pg[quote - 1].kind.as_punctuation(),
-                        Some(Punctuation::LessThan)
-                            | Some(Punctuation::OpenRound)
-                            | Some(Punctuation::OpenSquare)
-                            | Some(Punctuation::OpenCurly)
-                            | Some(Punctuation::EmDash)
-                            | Some(Punctuation::EnDash)
-                            | Some(Punctuation::Apostrophe)
-                            | Some(Punctuation::OpenSingle)
-                    );
+                // `„` only ever opens. Guillemets point either way: French and Swiss writing
+                // opens with `«`, German and Danish books open with `»`.
+                let at = pg[*quote].span.start;
+                let direction = match self.source[at] {
+                    '„' => Some(true),
+                    '«' | '»' | '‹' | '›' => Some(guillemet_opens(&self.source, at)),
+                    _ => None,
+                };
+                let is_open = direction.unwrap_or_else(|| {
+                    *quote == 0
+                        || pg[0..*quote].iter_word_likes().next().is_none()
+                        || pg[quote - 1].kind.is_whitespace()
+                        || matches!(
+                            pg[quote - 1].kind.as_punctuation(),
+                            Some(Punctuation::LessThan)
+                                | Some(Punctuation::OpenRound)
+                                | Some(Punctuation::OpenSquare)
+                                | Some(Punctuation::OpenCurly)
+                                | Some(Punctuation::EmDash)
+                                | Some(Punctuation::EnDash)
+                                | Some(Punctuation::Apostrophe)
+                                | Some(Punctuation::OpenSingle)
+                        )
+                });
 
                 if is_open {
                     open_quote_indices.push(*quote);
@@ -948,6 +998,30 @@ impl Display for Document {
     }
 }
 
+/// Whether the guillemet at `at` opens a quotation. The text around it decides: a mark that
+/// sits before a word and after a space opens (`»So«`, `«So»`), one that sits after a word and
+/// before a space or punctuation closes. Only when the text cannot tell, as with the spaces of
+/// French typography (`« so »`), does the way the mark points decide.
+fn guillemet_opens(source: &[char], at: usize) -> bool {
+    let before = at.checked_sub(1).map(|i| source[i]);
+    let after = source.get(at + 1).copied();
+
+    let opens_here = before.is_none_or(|c| c.is_whitespace() || "([{-–—/".contains(c))
+        && after.is_some_and(|c| c.is_alphanumeric() || "‹›«»'‚‘\"".contains(c));
+    let closes_here = before.is_some_and(|c| !c.is_whitespace())
+        && after.is_none_or(|c| {
+            c.is_whitespace()
+                || (c.is_ascii_punctuation() && !"([{".contains(c))
+                || "‹›«»".contains(c)
+        });
+
+    match (opens_here, closes_here) {
+        (true, false) => true,
+        (false, true) => false,
+        _ => matches!(source[at], '«' | '‹'),
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use itertools::Itertools;
@@ -1368,5 +1442,45 @@ This is a final paragraph with a weird "quote and a not-weird "quote".
                 Some(29)
             ]
         )
+    }
+
+    #[test]
+    fn pairs_low_and_guillemet_quotes() {
+        for (text, twins) in [
+            ("Er sagte: „Ich komme morgen.“", vec![Some(4), Some(0)]),
+            ("Il a dit « je viens demain ».", vec![Some(6), Some(0)]),
+            (
+                "Il a dit « je viens », puis « non ».",
+                vec![Some(8), Some(0), Some(14), Some(10)],
+            ),
+            // German book typography points the other way.
+            ("Er sagte: »Ich komme morgen.«", vec![Some(10), Some(0)]),
+            (
+                "Sie fragte: »Kommst du?« Er nickte.",
+                vec![Some(6), Some(0)],
+            ),
+            // Swiss German has no spaces inside.
+            ("Er sagte: «Ich komme».", vec![Some(4), Some(0)]),
+        ] {
+            let doc = Document::new_plain_english_curated(text);
+            let found: Vec<_> = doc
+                .iter_quotes()
+                .map(|t| t.kind.as_quote().unwrap().twin_loc)
+                .collect();
+            assert_eq!(found.len(), twins.len(), "{text}");
+            // Twins are token indices; check they pair up with each other.
+            for (i, twin) in found.iter().enumerate() {
+                let twin = twin.unwrap_or_else(|| panic!("unpaired quote in {text}"));
+                let quote_idx: Vec<_> = doc
+                    .tokens()
+                    .enumerate()
+                    .filter(|(_, t)| t.kind.is_quote())
+                    .map(|(n, _)| n)
+                    .collect();
+                assert!(quote_idx.contains(&twin), "{text}");
+                let partner = quote_idx.iter().position(|n| *n == twin).unwrap();
+                assert_eq!(found[partner], Some(quote_idx[i]), "{text}");
+            }
+        }
     }
 }
